@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en" prefix="dcterms: http://purl.org/dc/terms/ schema: http://schema.org/" typeof="schema:WebPage">
+    <head>
+        <meta charset="utf-8"/>
+        <title>EPUB Accessibility Conformance and Reporting</title>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+        <link rel="stylesheet" type="text/css" href="css/a11y.css"/>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        
+        <!-- DC metadata --> 
+        <meta property="dcterms:created" content="2017-03-02"/>
+        <meta property="dcterms:description" content="The EPUB Accessibility Conformance and Reporting tool aids in the evaluation of EPUB publication for conformance to the EPUB Accessibility specification."/>
+        <meta property="dcterms:language" content="en"/>
+        
+        <!-- schema.org a11y metadata --> 
+        <meta property="schema:accessibilityFeature" content="structuralNavigation"/>
+        <meta property="schema:accessMode" content="textual"/>
+        <meta property="schema:accessModeSufficient" content="textual"/>
+        <meta property="schema:accessibilityHazard" content="none"/>
+        <meta property="schema:accessibilityAPI" content="ARIA"/>
+        <meta property="schema:accessibilityControl" content="fullMouseControl"/>
+        <meta property="schema:accessibilityControl" content="fullKeyboardControl"/>
+        <meta property="schema:accessibilityControl" content="fullTouchControl"/>
+    </head>
+    
+    <body class="tabs">
+        <header>
+            <div class="logo" property="dcterms:publisher"><a href="http://daisy.org"><img src="images/daisy_logo_sm.png" alt="DAISY Consortium"/></a></div>
+            
+            <h1 property="dcterms:title">EPUB Accessibility Conformance and Reporting</h1>
+            
+            <nav class="menubar">
+                <a>Home</a>
+                <a href="use.html">How to Use</a> 
+                <a href="faq.html">FAQ</a>
+                <!-- <a href="certification.html">Certification</a> --> 
+            </nav>
+            
+            <div id="report-buttons">
+                <span>Report:</span>
+                <input type="button" value="Generate" onclick="report.validateConformanceReport()"/>
+                <input type="button" value="Manage" onclick="manage.open()"/>
+                <input type="button" value="Reset" onclick="manage.clear(false)"/>
+                <input type="button" class="left-button-pad" value="Configure" onclick="config_dialog.dialog('open')"/>
+            </div>
+        </header>
+        
+        <form id="report">
+        <main class="js-tabs">
+            <ul class="js-tablist" data-existing-hx="h3">
+                <!-- <li class="js-tablist__item">
+                    <a href="#auto" id="label_auto" class="js-tablist__link">1. Automation</a>
+                </li> -->
+                <li class="js-tablist__item">
+                    <a href="#verification" id="label_verification" class="js-tablist__link">1. Conformance Verification</a>
+                </li>
+                <li class="js-tablist__item">
+                    <a href="#discovery" id="label_discovery" class="js-tablist__link">2. Discovery Metadata</a>
+                </li>
+                <li class="js-tablist__item">
+                    <a href="#conformance" id="label_conformance" class="js-tablist__link">3. Conformance Metadata</a>
+                </li>
+            </ul>
+            
+            <section id="verification" class="js-tabcontent">
+                <h2>Conformance Verification</h2>
+                
+                <div class="note" id="note-form" hidden="hidden">
+                    <a href="#note-form" onclick="conf.hideElem(this); conf.saveNotePref()"><img src="images/close-icon.png" alt="Close" class="note-close"/></a>
+                    <p><b>Note:</b> <!-- The recommended checks in this section assume that automated testing has already been performed.
+                        Additional conformance testing will be required to pass, if not. See
+                        <a href="https://www.w3.org/TR/WCAG20/">WCAG 2.0</a> for more information.</p>
+                    
+                    <p>-->This form is configured to verify conformance to WCAG Level A by default. Open the
+                        <a href="#note-form" onclick="config_dialog.dialog('open'); return false">configuation options</a> to change
+                        levels and add additional information such as the publication title to the generated report.</p>
+                    
+                    <p class="small"><label><input type="checkbox" id="hide-form-note"/> Check to hide this note on future visits</label></p>
+                </div>
+                
+                <section id="sc-1.1.1" class="a">
+                    <h3><span class="label">1.1.1 Non-text Content</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify the following:</p>
+                    <ul>
+                        <li>For each image:
+                            <ul>
+                                <li>If the image is decorative, ensure that there is an empty <code>alt</code> attribute (<code>alt=""</code>) and that the image is marked as presentational (<code>role="presentation"</code>).</li>
+                                <li>If the image is not decorative and does not have an <code>alt</code> attribute, one of the following must true:
+                                    
+                                    <ul>
+                                        <li>the image is described in the <code>figcaption</code> element or the surrounding text;</li>
+                                        <li>the image is part of a group of images in which only one carries the alternative text.</li>
+                                    </ul>
+                                </li>
+                                <li>Otherwise, ensure that the <code>alt</code> text meaningfully describes the image.</li>
+                            </ul>
+                        </li>
+                        <li>All audio and video clips include a label (<code>aria-label</code> attribute) that describes their purpose or gives their title.</li>
+                        <li>There is no other non-text content without a text equivalent.</li>
+                    </ul>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/text-equiv-all.html" target="_blank">Understanding Success Criterion 1.1.1</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-text-equiv-all" target="_blank">How to meet Success Criterion 1.1.1</a></li>
+                        </ul>
+                    </details>
+                </section>
+            
+                <section id="sc-1.2.1" class="a">
+                    <h3><span class="label">1.2.1 Audio-only and Video-only (Prerecorded)</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>For all audio clips, verify the following:</p>
+                    <ul>
+                        <li>There is a transcript.</li>
+                        <li>The <code>audio</code> element has a label (<code>aria-label</code> attribute) that references where to find the transcript.</li>
+                        <li>The transcript accurately reflects the information contained in the audio clip.</li>
+                    </ul>
+                    
+                    <p>For all video clips without any accompanying audio, verify the following:</p>
+                    <ul>
+                        <li>There is a transcript or audio track.</li>
+                        <li>The <code>video</code> element has a label (<code>aria-label</code> attribute) that references where to find the transcript or indicates that an audio track is available.</li>
+                        <li>The transcript/audio track accurately reflects the information contained in audio/video clip.</li>
+                    </ul>
+                    
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-av-only-alt.html" target="_blank">Understanding Success Criterion 1.2.1</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-av-only-alt" target="_blank">How to meet Success Criterion 1.2.1</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.2.2" class="a">
+                    <h3><span class="label">1.2.2 Captions (Prerecorded)</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>For each video with an audio track, verify the following:</p>
+                    <ul>
+                        <li>Captions are provided via the <code>track</code> element, or open or closed captions are provided as part of the video format.</li>
+                        <li>The captions accurately capture the audio content.</li>
+                    </ul>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-captions.html" target="_blank">Understanding Success Criterion 1.2.2</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-captions" target="_blank">How to meet Success Criterion 1.2.2</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.2.3" class="a">
+                    <h3><span class="label">1.2.3 Audio Description or Media Alternative (Prerecorded)</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Check if there are any video clips whose audio track does not fully describe all the visual information (e.g., actions being carried out). If yes, verify one of the following is true:</p>
+                    
+                    <ul>
+                        <li>An audio description is included via the <code>track</code> element, or descriptions are included in the default audio.</li>
+                        <li>A transcript that includes the descriptions is provided.</li>
+                    </ul>
+                    
+                    <p class="sc-note">Note: This success criteria does not apply to video without audio.</p>
+                    
+                    <p class="sc-note superseded-aa">Note: This success criterion is superseded by <a href="#sc-1.2.5">1.2.5</a> when meeting Level AA conformance. If transcripts are provided instead of descriptions, this criterion will pass but AA conformance will fail. Transcripts may be provided when meeting AA conformance so long as they are only in addition to descriptions.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-audio-desc.html" target="_blank">Understanding Success Criterion 1.2.3</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-audio-err" target="_blank">How to meet Success Criterion 1.2.3</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.2.4" class="aa">
+                    <h3><span class="label">1.2.4 Captions (Live)</span> <span class="aa-label">[Level AA]</span></h3>
+                    
+                    <p>If there are any real-time audio/video broadcasts that can be accessed from the publication, the broadcasts must be live captioned to pass.</p>
+                    
+                    <p class="sc-note">Note: EPUB does not address support for live streaming protocols. Remotely-hosted audio and video files are not live broadcasts.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-real-time-captions.html" target="_blank">Understanding Success Criterion 1.2.4</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-real-time-captions" target="_blank">How to meet Success Criterion 1.2.4</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.2.5" class="aa">
+                    <h3><span class="label">1.2.5 Audio Description (Prerecorded)</span> <span class="aa-label">[Level AA]</span></h3>
+                    
+                    <p>Check if there are any video clips whose audio track does not fully describe all the visual information (e.g., actions being carried out). If yes, verify that audio descriptions are provided for each.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-audio-desc-only.html" target="_blank">Understanding Success Criterion 1.2.5</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-audio-desc-only" target="_blank">How to meet Success Criterion 1.2.5</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.2.6" class="aaa">
+                    <h3><span class="label">1.2.6 Sign Language (Prerecorded)</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that sign language interpretation is provided for all audio that accompanies video content.</p>
+                    <p class="sc-note">Note: Sign language interpretation does not have to be provided for standalone audio content to meet this success criterion.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-sign.html" target="_blank">Understanding Success Criterion 1.2.6</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-sign" target="_blank">How to meet Success Criterion 1.2.6</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.2.7" class="aaa">
+                    <h3><span class="label">1.2.7 Extended Audio Description (Prerecorded)</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that audio descriptions do not overlap the foreground audio. If so, extended descriptions must be provided instead.</p>
+                    
+                    <p class="sc-note">Note: Extended descriptions differ from regular descriptions in that they require the visual presentation to be paused in order to complete.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-extended-ad.html" target="_blank">Understanding Success Criterion 1.2.7</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-extended-ad" target="_blank">How to meet Success Criterion 1.2.7</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.2.8" class="aaa">
+                    <h3><span class="label">1.2.8 Media Alternative (Prerecorded)</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that a transcript is provided for all video content, whether the video has an audio track or not. The transcript must accurately describe all auditory and visual information.</p>
+                    <p class="sc-note">Note: Transcripts that only capture dialogue are not sufficient to meet this success criterion.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-text-doc.html" target="_blank">Understanding Success Criterion 1.2.8</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-text-doc" target="_blank">How to meet Success Criterion 1.2.8</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.2.9" class="aaa">
+                    <h3><span class="label">1.2.9 Audio-only (Prerecorded)</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that a text alternative is provided for all live audio (e.g., through live captioning).</p>
+                    <p class="sc-note">Note: As support for live streaming protocols is not a part of EPUB, this success criterion is typically not applicable.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-live-audio-only.html" target="_blank">Understanding Success Criterion 1.2.9</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-live-audio-only" target="_blank">How to meet Success Criterion 1.2.9</a></li>
+                        </ul>
+                    </details>
+                </section>
+            
+                <section id="sc-1.3.1" class="a">
+                    <h3><span class="label">1.3.1 Info and Relationships</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify that all essential information and relationships are reflected in the markup.</p>
+                    
+                    <p>Some common problems areas to check include:</p>
+                    
+                    <ul>
+                        <li>all section headings are properly identified with HTML heading tags;</li>
+                        <li>section heading depth is correctly reflected in the choice of heading tag;</li>
+                        <li>table headers are logically associated with cells using the <code>scope</code> or <code>headers</code> attribute;</li>
+                        <li>complex tables include a description of their structure;</li>
+                        <li>lists of items are marked up using list tags (i.e., not as styled paragraphs);</li>
+                        <li>semantic markup complements any use of color;</li>
+                        <li>secondary content is identified using appropriate tags (e.g., <code>aside</code>).</li>
+                    </ul>
+                    
+                    <p>For more markup best practices, refer to the <a href="https://idpf.github.io/a11y-guidelines/">EPUB 3 Accessibility Guidelines</a>.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation-programmatic.html" target="_blank">Understanding Success Criterion 1.3.1</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-content-structure-separation-programmatic" target="_blank">How to meet Success Criterion 1.3.1</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.3.2" class="a">
+                    <h3><span class="label">1.3.2 Meaningful Sequence</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Review the spine and verify the following:</p>
+                    <ul>
+                        <li>All content documents are listed in the correct reading order.</li>
+                        <li>All content documents are correctly marked as linear or no-linear.</li>
+                    </ul>
+                    
+                    <p>Review each content document in the spine and verify the following:</p>
+                    <ul>
+                        <li>Content is arranged logically within each content document.</li>
+                        <li>Sidebars and other secondary material are identified using correct tags (e.g., <code>aside</code>).</li>
+                        <li>Secondary material is optimally placed to minimize interruptions (e.g., at the end of sections or where logical pauses in the narrative occur).</li>
+                    </ul>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation-sequence.html" target="_blank">Understanding Success Criterion 1.3.2</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-content-structure-separation-sequence" target="_blank">How to meet Success Criterion 1.3.2</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.3.3" class="a">
+                    <h3><span class="label">1.3.3 Sensory Characteristics</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>If the publication includes instructions for understanding or operating the content, verify the instructions do not depend solely on sensory perception (e.g., selecting an object by its colour, shape, size, position, etc.).</p>
+                    
+                    <p class="sc-note">Note: Content does not fail this success criterion simply because it employs colours, shapes, sizes, etc. A sidebar identifiable by background shading is not a failure unless there are instructions to review only certain coloured sidebars, for example. Requirements for semantic tagging are covered by <a href="#sc-1.3.1">1.3.1</a>.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation-understanding.html" target="_blank">Understanding Success Criterion 1.3.3</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-content-structure-separation-understanding" target="_blank">How to meet Success Criterion 1.3.3</a></li>
+                        </ul>
+                    </details>
+                </section>
+            
+                <section id="sc-1.4.1" class="a">
+                    <h3><span class="label">1.4.1 Use of Color</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify that there are no dependencies on the perception of colour (e.g., in order to understand the different pieces of a chart or to determine what controls to use in a scripted interface).</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-without-color.html" target="_blank">Understanding Success Criterion 1.4.1</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-without-color" target="_blank">How to meet Success Criterion 1.4.1</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.4.2" class="a">
+                    <h3><span class="label">1.4.2 Audio Control</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>If there are any audio clips that initiate playback automatically and run for more than three seconds, verify that one of the following is true:</p>
+                    <ul>
+                        <li>There is a mechanism to pause/stop playback.</li>
+                        <li>The volume of the audio clip can be controlled separately from the volume of the reading system.</li>
+                    </ul>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-dis-audio.html" target="_blank">Understanding Success Criterion 1.4.2</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-dis-audio" target="_blank">How to meet Success Criterion 1.4.2</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.4.3" class="aa">
+                    <h3><span class="label">1.4.3 Contrast (Minimum)</span> <span class="aa-label">[Level AA]</span></h3>
+                    
+                    <p>If the publication contains images of text, verify that the images meet the 4.5:1 contrast requirement.</p>
+                    
+                    <p class="sc-note">Note: An image of text is exempt from this requirement if it is part of an inactive interface, is purely decorational, is not visible, or is part of a brand or logo. If the text in the image is incidental information, it is also exempt (e.g., road or store signs in a landscape picture).</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html" target="_blank">Understanding Success Criterion 1.4.3</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-contrast" target="_blank">How to meet Success Criterion 1.4.3</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.4.4" class="aa">
+                    <h3><span class="label">1.4.4 Resize text</span> <span class="aa-label">[Level AA]</span></h3>
+                    
+                    <p>Verify that font declarations use relative sizes (e.g., <code>%</code>, <code>em</code>, <code>rem</code>) and/or that text container elements resize/reflow with the text.</p>
+                    
+                    <p>Zoom the text to 200% and ensure that the publication remains readable.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-scale.html" target="_blank">Understanding Success Criterion 1.4.4</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-scale" target="_blank">How to meet Success Criterion 1.4.4</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.4.5" class="aa">
+                    <h3><span class="label">1.4.5 Images of Text</span> <span class="aa-label">[Level AA]</span></h3>
+                    
+                    <p>If any images contain text, check if the presentation can be achieved without an image (e.g., through CSS or table markup).</p>
+                    <p>If the presentation cannot be achieved without an image, this success criterion passes.</p>
+                    
+                    <p class="sc-note">Note: This succes crtieria does not apply to images where the presentation is essential (e.g., logos) or where the text can be controlled separately from the image (e.g., SVG). It also does not apply to graphs and diagrams where more than just the text is essential information.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-text-presentation.html" target="_blank">Understanding Success Criterion 1.4.5</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-text-presentation" target="_blank">How to meet Success Criterion 1.4.5</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.4.6" class="aaa">
+                    <h3><span class="label">1.4.6 Contrast (Enhanced)</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>If the publication contains images of text, verify that the images meet the 7:1 contrast requirement.</p>
+                    
+                    <p class="sc-note">Note: An image of text is exempt from this requirement if it is part of an inactive interface, is purely decorational, is not visible, or is part of a brand or logo. If the text in the image is incidental information, it is also exempt (e.g., road or store signs in a landscape picture).</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast7.html" target="_blank">Understanding Success Criterion 1.4.6</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast7" target="_blank">How to meet Success Criterion 1.4.6</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.4.7" class="aaa">
+                    <h3><span class="label">1.4.7 Low or No Background Audio</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify at least one of the following is true for all prerecorded audio-only content:</p>
+                    
+                    <ul>
+                        <li>The audio does not contain background sounds.</li>
+                        <li>The background sounds can be turned off.</li>
+                        <li>The background sounds are at least 20 decibels lower than the foreground speech content, with the exception of occasional sounds that last for only one or two seconds.</li>
+                    </ul>
+                    
+                    <p class="sc-note">Note: This success criterion only applies to audio content that contains primarily speech in the foreground, is not an audio CAPTCHA or audio logo, and is not vocalization intended to be primarily musical expression (e.g., singing or rapping).</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-noaudio.html" target="_blank">Understanding Success Criterion 1.4.7</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-noaudio" target="_blank">How to meet Success Criterion 1.4.7</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.4.8" class="aaa">
+                    <h3><span class="label">1.4.8 Visual Presentation</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify the following are true, or a mechanism is available to achieve them, for the visual presentation of blocks of text:</p>
+                    
+                    <ul>
+                        <li>The use can change the selection of foreground and background colors.</li>
+                        <li>Line length is no more than 80 characters or glyphs (40 if CJK).</li>
+                        <li>Text is not justified.</li>
+                        <li>Line spacing (leading) is at least space-and-a-half within paragraphs, and paragraph spacing at least 1.5 times larger than the line spacing.</li>
+                        <li>Text resizes without assistive technology up to 200 percent in a way that does not require the user to scroll horizontally to read a line of text on a full-screen window.</li>
+                    </ul>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-visual-presentation.html" target="_blank">Understanding Success Criterion 1.4.8</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-visual-presentation" target="_blank">How to meet Success Criterion 1.4.8</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-1.4.9" class="aaa">
+                    <h3><span class="label">1.4.9 Images of Text (No Exception)</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that any images of text are decorative or the presentation is essential (e.g., logos and brand names).</p>
+                    
+                    <p class="sc-note">Note: images of text does not include graphs and diagrams where more than just the text is essential information.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-text-images.html" target="_blank">Understanding Success Criterion 1.4.9</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-text-images" target="_blank">How to meet Success Criterion 1.4.9</a></li>
+                        </ul>
+                    </details>
+                </section>
+        
+                <section id="sc-2.1.1" class="a">
+                    <h3><span class="label">2.1.1 Keyboard</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify that all functionality can be controlled by keyboard unless the full path of movement is essential to its functioning.</p>
+                    
+                    <p>In addition, verify that operation is not be dependent on specific timings of keystrokes (e.g., that keys must be pressed a certain number of times in an interval, or held down for a set period of time).</p>
+                    
+                    <p class="sc-note">Note: An example of an application that requires the full path of movement is a drawing program.
+                        Drag and drop applications are not exempt, as the path to the endpoint is not essential.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/keyboard-operation-keyboard-operable.html" target="_blank">Understanding Success Criterion 2.1.1</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-keyboard-operation-keyboard-operable" target="_blank">How to meet Success Criterion 2.1.1</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.1.2" class="a">
+                    <h3><span class="label">2.1.2 No Keyboard Trap</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify that there are no keyboard traps (i.e., content that can be entered using the keyboard but then cannot be escaped using the the same method).</p>
+                    
+                    <p>If any content cannot be escaped from once entered using the typical escape key (e.g., the tab key is mapped to some other function), there must be instructions on how to escape.</p>
+                    
+                    <p class="sc-note">Note: Plugins are a primary cause of keyboard traps, but any poorly designed scripted interface might have traps. Although use of formats that require a plugin does not typically occur in EPUB 3, some EPUB 2 reading systems supported Flash video.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/keyboard-operation-trapping.html" target="_blank">Understanding Success Criterion 2.1.2</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-keyboard-operation-trapping" target="_blank">How to meet Success Criterion 2.1.2</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.1.3" class="aaa">
+                    <h3><span class="label">2.1.3 Keyboard (No Exception)</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that all functionality is operable from the keyboard.</p>
+                    
+                    <p class="sc-note">Note: The difference between this success criterion and <a href="#sc-2.1.1">2.1.1</a> is that this success criterion does not allow an exception for interfaces that require information about the full path of movement.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/keyboard-operation-all-funcs.html" target="_blank">Understanding Success Criterion 2.1.3</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-keyboard-operation-all-funcs" target="_blank">How to meet Success Criterion 2.1.3</a></li>
+                        </ul>
+                    </details>
+                </section>
+            
+                <section id="sc-2.2.1" class="a">
+                    <h3><span class="label">2.2.1 Timing Adjustable</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>If a time limit is set by any of the content, verify that at least one of the following is true:</p>
+                    
+                    <ul>
+                        <li>The user is allowed to turn off the time limit before encountering it.</li>
+                        <li>The user is allowed to adjust the time limit, before encountering it, over a range that is at least ten times the length of the default.</li>
+                        <li>The user is warned before time expires and given at least 20 seconds to extend the time limit with a simple action (for example, "press the space bar"), and the user is allowed to extend the time limit at least ten times.</li>
+                        <li>The time limit is a required part of a real-time event (for example, an auction), and no alternative to the time limit is possible.</li>
+                        <li>The time limit is essential and extending it would invalidate the activity.</li>
+                        <li>The time limit is longer than 20 hours.</li>
+                    </ul>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-required-behaviors.html" target="_blank">Understanding Success Criterion 2.2.1</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-required-behaviors" target="_blank">How to meet Success Criterion 2.2.1</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.2.2" class="a">
+                    <h3><span class="label">2.2.2 Pause, Stop, Hide</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify both of the following are true:</p>
+                    
+                    <ul>
+                        <li>For any moving, blinking or scrolling information that (1) starts automatically, (2) lasts more than five seconds, and (3) is presented in parallel with other content, there is a mechanism for the user to pause, stop, or hide it unless the movement, blinking, or scrolling is part of an activity where it is essential.</li>
+                        <li>For any auto-updating information that (1) starts automatically and (2) is presented in parallel with other content, there is a mechanism for the user to pause, stop, or hide it or to control the frequency of the update unless the auto-updating is part of an activity where it is essential.</li>
+                    </ul>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-pause.html" target="_blank">Understanding Success Criterion 2.2.2</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-pause" target="_blank">How to meet Success Criterion 2.2.2</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.2.3" class="aaa">
+                    <h3><span class="label">2.2.3 No Timing</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that timing is not essential to the functioning of the content (e.g., it can be disabled, if present, or an alternative untimed version is offered).</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-no-exceptions.html" target="_blank">Understanding Success Criterion 2.2.3</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-no-exceptions" target="_blank">How to meet Success Criterion 2.2.3</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.2.4" class="aaa">
+                    <h3><span class="label">2.2.4 Interruptions</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify there are no interruptions from a remote server (e.g., messages pushed to the content), or any interruptions can be turned off or suppressed by the user, except in the case of emergencies.</p>
+                    <p class="sc-note">Note: Emergency messages can include loss of connectivity, if that is important for the user to know.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-postponed.html" target="_blank">Understanding Success Criterion 2.2.4</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-postponed" target="_blank">How to meet Success Criterion 2.2.4</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.2.5" class="aaa">
+                    <h3><span class="label">2.2.5 Re-authenticating</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that the user is able to re-authenticate and continue a transaction or activity, without loss of any data that has already been entered, if there are circumstances that cause the user to be logged out (e.g., inactivity, security).</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-server-timeout.html" target="_blank">Understanding Success Criterion 2.2.5</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-server-timeout" target="_blank">How to meet Success Criterion 2.2.5</a></li>
+                        </ul>
+                    </details>
+                </section>
+            
+                <section id="sc-2.3.1" class="a">
+                    <h3><span class="label">2.3.1 Three Flashes or Below Threshold</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify that there is no content that flashes more than three times per second (e.g., using <a href="http://trace.umd.edu/peat" target="_blank">PEAT</a>), or that the flashing is below the <a href="https://www.w3.org/TR/WCAG20/#general-thresholddef" target="_blank">general flash and red flash thresholds</a>.</p>
+                    <p class="sc-note">Note: Content that does not occupy more than 25% of 10 degrees of the visual field is exempt. See <a href="https://www.w3.org/TR/WCAG20-TECHS/G176.html" target="_blank">Technique G176</a> for how to calculate.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/seizure-does-not-violate.html" target="_blank">Understanding Success Criterion 2.3.1</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-seizure-does-not-violate" target="_blank">How to meet Success Criterion 2.3.1</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.3.2" class="aaa">
+                    <h3><span class="label">2.3.2 Three Flashes</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that there is no content that flashes more than three times per second.</p>
+                    
+                    <p class="sc-note">Note: This success criterion differs from <a href="#sc-2.3.1">2.3.1</a> in that it makes no exceptions for flashing that is below the general and red flash thresholds.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/seizure-three-times.html" target="_blank">Understanding Success Criterion 2.3.2</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-seizure-three-times" target="_blank">How to meet Success Criterion 2.3.2</a></li>
+                        </ul>
+                    </details>
+                </section>
+            
+                <section id="sc-2.4.1" class="a">
+                    <h3><span class="label">2.4.1 Bypass Blocks</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>If identical content is repeated at the begining of every content document, there must be a way to bypass the duplicate information.</p>
+                    
+                    <p class="sc-note">Note: This success criterion typically is not applicable to EPUB publications. It is intended to allow users to bypass repeated web page headers, navigation bars, etc. that precede the content.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-skip.html" target="_blank">Understanding Success Criterion 2.4.1</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-skip" target="_blank">How to meet Success Criterion 2.4.1</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.4.2" class="a">
+                    <h3><span class="label">2.4.2 Page Titled</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify that the publication has a meaningful title in the EPUB package document.</p>
+                    
+                    <p>Verify that the title of each content document meaningfully describes its content.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-title.html" target="_blank">Understanding Success Criterion 2.4.2</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-title" target="_blank">How to meet Success Criterion 2.4.2</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.4.3" class="a">
+                    <h3><span class="label">2.4.3 Focus Order</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify that there is an intelligible ordering / relationship when tabbing through interactive and form elements.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-focus-order.html" target="_blank">Understanding Success Criterion 2.4.3</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-focus-order" target="_blank">How to meet Success Criterion 2.4.3</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.4.4" class="a">
+                    <h3><span class="label">2.4.4 Link Purpose (In Context)</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify that links have meaningful text, or can be understood from the surrounding text (preferably from the text that precedes the link).</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-refs.html" target="_blank">Understanding Success Criterion 2.4.4</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-refs" target="_blank">How to meet Success Criterion 2.4.4</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.4.5" class="aa">
+                    <h3><span class="label">2.4.5 Multiple Ways</span> <span class="aa-label">[Level AA]</span></h3>
+                    
+                    <p>Verify that all content documents are listed in the spine and there is a conforming navigation document.</p>
+                    
+                    <p class="sc-note">Note: If the publication passes epubcheck, this success criterion can be assumed to pass.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-mult-loc.html" target="_blank">Understanding Success Criterion 2.4.5</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-mult-loc" target="_blank">How to meet Success Criterion 2.4.5</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.4.6" class="aa">
+                    <h3><span class="label">2.4.6 Headings and Labels</span> <span class="aa-label">[Level AA]</span></h3>
+                    
+                    <p>Verify that headings and labels describe the purpose or topic of the content they are associated with.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-descriptive.html" target="_blank">Understanding Success Criterion 2.4.6</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-descriptive" target="_blank">How to meet Success Criterion 2.4.6</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.4.7" class="aa">
+                    <h3><span class="label">2.4.7 Focus Visible</span> <span class="aa-label">[Level AA]</span></h3>
+                    
+                    <p>If there are any keyboard-operable user interfaces, ensure each control shows focus when active.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-focus-visible.html" target="_blank">Understanding Success Criterion 2.4.7</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-focus-visibles" target="_blank">How to meet Success Criterion 2.4.7</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.4.8" class="aaa">
+                    <h3><span class="label">2.4.8 Location</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>This success criterion is not applicable to EPUB publications.</p>
+                    
+                    <p>To improve the ability of users to find their location, however, the inclusion of static page markers and use of running headers and footers, when possible, are recommended.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-location.html" target="_blank">Understanding Success Criterion 2.4.8</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-location" target="_blank">How to meet Success Criterion 2.4.8</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.4.9" class="aaa">
+                    <h3><span class="label">2.4.9 Link Purpose (Link Only)</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that purpose of each link can be understood from their text alone.</p>
+                    
+                    <p class="sc-note">Note: This success criterion differs from <a href="#sc-2.4.4">2.4.4</a> in that all necessary context must be part of the link text. The reader must not have to read the surrounding text to understand the purpose of the link.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-link.html" target="_blank">Understanding Success Criterion 2.4.9</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-link" target="_blank">How to meet Success Criterion 2.4.9</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-2.4.10" class="aaa">
+                    <h3><span class="label">2.4.10 Section Headings</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that each section of the publication is identified with a heading, and the heading numbers currectly identify the position of the heading in the document outline.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-headings.html" target="_blank">Understanding Success Criterion 2.4.10</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-headings" target="_blank">How to meet Success Criterion 2.4.10</a></li>
+                        </ul>
+                    </details>
+                </section>
+        
+                <section id="sc-3.1.1" class="a">
+                    <h3><span class="label">3.1.1 Language of Page</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify the following:</p>
+                    
+                    <ul>
+                        <li>In the package document, the correct language codes are specified on the <code>package</code> element (<code>xml:lang</code> attribute) and in the <code>dc:language</code> elements.</li>
+                        <li>In each content document, the correct language code is specified on the root <code>html</code> element (<code>xml:lang</code> and <code>lang</code> attributes).</li>
+                    </ul>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-doc-lang-id.html" target="_blank">Understanding Success Criterion 3.1.1</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-doc-lang-id" target="_blank">How to meet Success Criterion 3.1.1</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.1.2" class="aa">
+                    <h3><span class="label">3.1.2 Language of Parts</span> <span class="aa-label">[Level AA]</span></h3>
+                    
+                    <p>Verify that all foreign language words and phrases have been identified and that the correct language code has been used in each case.</p>
+                    
+                    <p class="sc-note">Note: This success criterion does not apply to foreign words or phrases that have become part of the native language (e.g., "vis-a-vis" or "faux pas").</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-other-lang-id.html" target="_blank">Understanding Success Criterion 3.1.2</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-other-lang-id" target="_blank">How to meet Success Criterion 3.1.2</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.1.3" class="aaa">
+                    <h3><span class="label">3.1.3 Unusual Words</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify the following:</p>
+                    
+                    <ul>
+                        <li>If the publication contains unique or unusual words, ensure it includes definitions (e.g., in a glossary or definition lists).</li>
+                        <li>If the same word has two different meanings in the same publication, ensure that an inline definition, or link to the applicable definition, is provided.</li>
+                    </ul>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-idioms.html" target="_blank">Understanding Success Criterion 3.1.3</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-idioms" target="_blank">How to meet Success Criterion 3.1.3</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.1.4" class="aaa">
+                    <h3><span class="label">3.1.4 Abbreviations</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that a mechanism for identifying the expanded form or meaning of all acronyms is provided (e.g., including the expansion with the first use of the acronym or linking to a definition).</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-located.html" target="_blank">Understanding Success Criterion 3.1.4</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-located" target="_blank">How to meet Success Criterion 3.1.4</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.1.5" class="aaa">
+                    <h3><span class="label">3.1.5 Reading Level</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that the publication can be read and understood by someone with a lower secondary level reading ability (7-9 years of education), or that supplemental content is provided that allows the content to be understood by such a reader.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-supplements.html" target="_blank">Understanding Success Criterion 3.1.5</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-supplements" target="_blank">How to meet Success Criterion 3.1.5</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.1.6" class="aaa">
+                    <h3><span class="label">3.1.6 Pronunciation</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that the proper pronunciation is provided for words whose meaning cannot be identified from their surrounding context.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-pronunciation.html" target="_blank">Understanding Success Criterion 3.1.6</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-pronunciation" target="_blank">How to meet Success Criterion 3.1.6</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.2.1" class="a">
+                    <h3><span class="label">3.2.1 On Focus</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify that focus changes do not cause a change in context to occur (e.g., a form to submit, a window to open, a change of focused element).</p>
+                    
+                    <p class="sc-note">Note: Changes in content are not forbidden so long as a context change doesn't also occur.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-receive-focus.html" target="_blank">Understanding Success Criterion 3.2.1</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-receive-focus" target="_blank">How to meet Success Criterion 3.2.1</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.2.2" class="a">
+                    <h3><span class="label">3.2.2 On Input</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify that activating or changing a form input does not automatically causes a change of context unless the user is notified what context change(s) will occur before activating.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html" target="_blank">Understanding Success Criterion 3.2.2</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-unpredictable-change" target="_blank">How to meet Success Criterion 3.2.2</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.2.3" class="aa">
+                    <h3><span class="label">3.2.3 Consistent Navigation</span> <span class="aa-label">[Level AA]</span></h3>
+                    
+                    <p>Verify that any repeated navigational aids appear in the same relative location within each content document (e.g., lists of objectives or outcomes).</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-consistent-locations.html" target="_blank">Understanding Success Criterion 3.2.3</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-consistent-locations" target="_blank">How to meet Success Criterion 3.2.3</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.2.4" class="aa">
+                    <h3><span class="label">3.2.4 Consistent Identification</span> <span class="aa-label">[Level AA]</span></h3>
+                    
+                    <p>Verify that any components/features repeated across documents are consistently identified (e.g., exercises, objectives, etc.).</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-consistent-functionality.html" target="_blank">Understanding Success Criterion 3.2.4</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-consistent-functionality" target="_blank">How to meet Success Criterion 3.2.4</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.2.5" class="aaa">
+                    <h3><span class="label">3.2.5 Change on Request</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that the user can control all changes in context.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-no-extreme-changes-context.html" target="_blank">Understanding Success Criterion 3.2.5</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-no-extreme-changes-context" target="_blank">How to meet Success Criterion 3.2.5</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.3.1" class="a">
+                    <h3><span class="label">3.3.1 Error Identification</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify that form input errors are identified and described.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-identified.html" target="_blank">Understanding Success Criterion 3.3.1</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-identified" target="_blank">How to meet Success Criterion 3.3.1</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.3.2" class="a">
+                    <h3><span class="label">3.3.2 Labels or Instructions</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify that form inputs are clearly labelled and all required fields are identifiable.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-cues.html" target="_blank">Understanding Success Criterion 3.3.2</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-cues" target="_blank">How to meet Success Criterion 3.3.2</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.3.3" class="aa">
+                    <h3><span class="label">3.3.3 Error Suggestion</span> <span class="aa-label">[Level AA]</span></h3>
+                    
+                    <p>Verify that any input error messages identify how to fix the problem, unless a message about how to fix would compromise security or defeat the purpose (e.g., undermine quizzes and tests).</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-suggestions.html" target="_blank">Understanding Success Criterion 3.3.3</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-suggestions" target="_blank">How to meet Success Criterion 3.3.3</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.3.4" class="aa">
+                    <h3><span class="label">3.3.4 Error Prevention (Legal, Financial, Data)</span> <span class="aa-label">[Level AA]</span></h3>
+                    
+                    <p>If any form causes legal commitments or financial transactions, modifies or deletes user-controllable data in data storage systems, or submits user test responses, at least one of the following must be true:</p>
+                    
+                    <ul>
+                        <li>The submission is reversible.</li>
+                        <li>Data entered by the user is checked for errors and the user has to opportunity to correct them.</li>
+                        <li>A mechanism is available for reviewing, confirming, and correcting information before finalizing the submission.</li>
+                    </ul>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-reversible.html" target="_blank">Understanding Success Criterion 3.3.4</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-reversible" target="_blank">How to meet Success Criterion 3.3.4</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.3.5" class="aaa">
+                    <h3><span class="label">3.3.5 Help</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>Verify that context-sensitive help is available.</p>
+                    <p class="sc-note">Note: This success criterion only applies to forms and interactive content where the correct input or action cannot be determined from the label or context. Content documents are not required to provide help links.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-context-help.html" target="_blank">Understanding Success Criterion 3.3.5</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-context-help" target="_blank">How to meet Success Criterion 3.3.5</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-3.3.6" class="aaa">
+                    <h3><span class="label">3.3.6 Error Prevention (All)</span> <span class="aaa-label">[Level AAA]</span></h3>
+                    
+                    <p>If the user is required to submit information, verify at least one of the following is true:</p>
+                    <ul>
+                        <li>The submission is reversible.</li>
+                        <li>Data entered by the user is checked for input errors and the user is provided an opportunity to correct them.</li>
+                        <li>A mechanism is available for reviewing, confirming, and correcting information before finalizing the submission.</li>
+                    </ul>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-reversible-all.html" target="_blank">Understanding Success Criterion 3.3.6</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-reversible-all" target="_blank">How to meet Success Criterion 3.3.6</a></li>
+                        </ul>
+                    </details>
+                </section>
+            
+                <section id="sc-4.1.1" class="a">
+                    <h3><span class="label">4.1.1 Parsing</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Verify the publication passes epubcheck without error.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/ensure-compat-parses.html" target="_blank">Understanding Success Criterion 4.1.1</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-ensure-compat-parses" target="_blank">How to meet Success Criterion 4.1.1</a></li>
+                        </ul>
+                    </details>
+                </section>
+                
+                <section id="sc-4.1.2" class="a">
+                    <h3><span class="label">4.1.2 Name, Role, Value</span> <span class="a-label">[Level A]</span></h3>
+                    
+                    <p>Check that all controls have a name and role, and all states and properties necessary to for user interaction are set and function properly.</p>
+                    
+                    <details>
+                        <summary>Supporting Documentation</summary>
+                        <ul>
+                            <li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/ensure-compat-rsv.html" target="_blank">Understanding Success Criterion 4.1.2</a></li>
+                            <li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-ensure-compat-rsv" target="_blank">How to meet Success Criterion 4.1.2</a></li>
+                        </ul>
+                    </details>
+                </section>
+
+                <section id="eg-1" class="epub">
+                    <h3><span class="label">Page Numbers</span></h3>
+                    
+                    <p>If pagination is included included, verify that the source is identified in the package document
+                        (i.e., ensure that if a <code>dc:source</code> element is present, it does not serve another purpose).</p>
+                </section>
+                
+                <section id="eg-2" class="epub">
+                    <h3><span class="label">Media Overlays</span></h3>
+                    
+                    <p class="note">Media Overlay practices are currently only informative. Failure to meet the requirements of the
+                        specification does not fail publications. This exception may change in a future version.</p>
+                    
+                    <p>If the publication includes media overlays, ensure the following are all true:</p>
+                    
+                    <ul>
+                        <li>All skippable structures are identified.</li>
+                        <li>All escapable structures are identified.</li>
+                        <li>A Media Overlay Document is included for the EPUB Navigation Document.</li>
+                    </ul>
+                </section>
+                
+                <div class="pad-top"><a href="#discovery" class="js-link-to-tab">Continue to Discovery Metadata</a></div>
+            </section>
+
+            <section id="discovery" class="js-tabcontent">
+                <h2>Discovery Metadata</h2>
+                
+                <fieldset id="features">
+                    <legend>Accessibility Features<img src="images/asterisk.png" alt="required"/></legend>
+                    <label><input type="checkbox" value="alternativeText"/> alternative text</label>
+                    <label><input type="checkbox" value="annotations"/> annotations</label>
+                    <label><input type="checkbox" value="audioDescription"/> audio descriptions</label>
+                    <label><input type="checkbox" value="bookmarks"/> bookmarks</label>
+                    <label><input type="checkbox" value="braille"/> braille</label>
+                    <label><input type="checkbox" value="captions"/> captions</label>
+                    <label><input type="checkbox" value="ChemML"/> ChemML</label>
+                    <label><input type="checkbox" value="describedMath"/> described math</label>
+                    <label><input type="checkbox" value="displayTransformability"/> display transformability</label>
+                    <label><input type="checkbox" value="highContrastAudio"/> high contrast audio</label>
+                    <label><input type="checkbox" value="highContrastDisplay"/> high contrast display</label>
+                    <label><input type="checkbox" value="index"/> index</label>
+                    <label><input type="checkbox" value="largePrint"/> large print</label>
+                    <label><input type="checkbox" value="latex"/> latex</label>
+                    <label><input type="checkbox" value="longDescription"/> long descriptions</label>
+                    <label><input type="checkbox" value="MathML"/> MathML</label>
+                    <label><input type="checkbox" value="none"/> none</label>
+                    <label><input type="checkbox" value="printPageNumbers"/> print page numbers</label>
+                    <label><input type="checkbox" value="readingOrder"/> reading order</label>
+                    <label><input type="checkbox" value="rubyAnnotations"/> ruby annotations</label>
+                    <label><input type="checkbox" value="signLanguage"/> sign language</label>
+                    <label><input type="checkbox" value="structuralNavigation"/> structural navigation</label>
+                    <label><input type="checkbox" value="synchronizedAudioText"/> synchronized audio text</label>
+                    <label><input type="checkbox" value="tableOfContents"/> table of contents</label>
+                    <label><input type="checkbox" value="tactileGraphic"/> tactile graphic</label>
+                    <label><input type="checkbox" value="tactileObject"/> tactile object</label>
+                    <label><input type="checkbox" value="timingControl"/> timing control</label>
+                    <label><input type="checkbox" value="transcript"/> transcript</label>
+                    <label><input type="checkbox" value="ttsMarkup"/> tts markup</label>
+                    <label><input type="checkbox" value="unlocked"/> unlocked</label>
+                    <div id="add-af" class="pad-top"><a href="#add-af" onclick="disc.addCustomFeature(); return false">Add custom field</a></div>
+                </fieldset>
+                
+                <fieldset id="summary-field">
+                    <legend><label for="summary">Accessibility Summary<img src="images/asterisk.png" alt="required"/></label></legend>
+                    <textarea id="summary" rows="5" aria-required="true"></textarea>
+                </fieldset>
+                
+                <fieldset id="hazards">
+                    <legend>Accessibility Hazards<img src="images/asterisk.png" alt="required"/></legend>
+                    <label><input type="checkbox" value="flashing"/> flashing</label>
+                    <label><input type="checkbox" value="motionSimulation"/> motion simulation</label>
+                    <label><input type="checkbox" value="sound"/> sound</label>
+                    <label><input type="checkbox" value="none"/> none</label>
+                    <label><input type="checkbox" value="unknown"/> unknown</label>
+                </fieldset>
+                
+                <fieldset id="modes">
+                    <legend>Access Modes<img src="images/asterisk.png" alt="required"/></legend>
+                    <label><input type="checkbox" id="auditory" value="auditory"/> auditory</label>
+                    <label><input type="checkbox" id="tactile" value="tactile"/> tactile</label>
+                    <label><input type="checkbox" id="textual" value="textual"/> textual</label>
+                    <label><input type="checkbox" id="visual" value="visual"/> visual</label>
+                </fieldset>
+                
+                <fieldset id="sufficient">
+                    <legend>Sufficient Access Modes</legend>
+                    <fieldset id="set1">
+                        <legend>Set 1</legend>
+                        <label><input type="checkbox" value="auditory"/> auditory</label>
+                        <label><input type="checkbox" value="tactile"/> tactile</label>
+                        <label><input type="checkbox" value="textual"/> textual</label>
+                        <label><input type="checkbox" value="visual"/> visual</label>
+                    </fieldset>
+                    <fieldset id="set2">
+                        <legend>Set 2</legend>
+                        <label><input type="checkbox" value="auditory"/> auditory</label>
+                        <label><input type="checkbox" value="tactile"/> tactile</label>
+                        <label><input type="checkbox" value="textual"/> textual</label>
+                        <label><input type="checkbox" value="visual"/> visual</label>
+                    </fieldset>
+                    <div id="add-ams" class="pad-top"><a href="#add-ams" onclick="disc.addSufficient(); return false">Add another set</a></div>
+                </fieldset>
+                
+                <fieldset id="api">
+                    <legend>Accessibility API</legend>
+                    <label><input type="checkbox" value="ARIA"/> ARIA</label>
+                </fieldset>
+                
+                <fieldset id="control">
+                    <legend>Accessibility Control</legend>
+                    <label><input type="checkbox" value="fullKeyboardControl"/> keyboard</label>
+                    <label><input type="checkbox" value="fullMouseControl"/> mouse</label>
+                    <label><input type="checkbox" value="fullSwitchControl"/> switch</label>
+                    <label><input type="checkbox" value="fullTouchControl"/> touch</label>
+                    <label><input type="checkbox" value="fullVideoControl"/> video</label>
+                    <label><input type="checkbox" value="fullVoiceControl"/> voice</label>
+                </fieldset>
+                
+                <div class="buttons">
+                    <input id="gen" type="button" value="Generate" onclick="disc.validate(false)"/>
+                </div>
+                
+                <p>After generating, copy and paste the output in the following field to the package document metadata.</p>
+                
+                <textarea id="metadata" rows="15" aria-label="discovery metadata"></textarea>
+                
+                <div class="pad-top"><a href="#conformance" class="js-link-to-tab">Continue to Conformance Metadata</a></div>
+            </section>
+            
+            <section id="conformance" class="js-tabcontent">
+                <h2>Conformance Metadata</h2>
+                
+                <fieldset id="conf-result">
+                    <legend>Conformance Result:</legend>
+                    <label><input type="radio" name="conf-result" value="a" checked="checked"/> EPUB + WCAG Level A</label><br/>
+                    <label><input type="radio" name="conf-result" value="aa"/> EPUB + WCAG Level AA</label><br/>
+                    <label><input type="radio" name="conf-result" value="fail"/> Failed</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>Certifier:</legend>
+                    <label class="data"><span>Name:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="certifier" aria-required="true"/></label>
+                    <label class="data"><span>Credential:</span> <input type="text" id="credential"/></label>
+                    <label class="data"><span>Link to report:</span> <input type="text" id="reportLink"/></label>
+                </fieldset>
+                
+                <div class="buttons">
+                    <input type="button" value="Generate" onclick="conf_meta.generateConformanceMeta()"/>
+                </div>
+                
+                <p>After generating, copy and paste the output in the following field to the package document metadata.</p>
+                <textarea id="conf-meta" rows="6" aria-label="conformance metadata"></textarea>
+            </section>
+            
+            <section id="config" aria-label="Report Configuration" title="Report Configuration">
+                
+                <p><small>Note: All changes take effect immediately.</small></p>
+                
+                <!--
+                <div class="data">
+                    <span style="vertical-align: top;">Automated Testing Report:</span>
+                    <textarea id="auto-rep" rows="3" aria-label="automatic testing report" style="vertical-align:bottom;"></textarea>
+                    <input type="button" value="Update"/>
+                </div>
+                -->
+                
+                <div class="data">
+                    <label class="data"><span>Title:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="title" aria-required="true"/></label>
+                    <label class="data"><span>Author(s):</span> <input type="text" id="author"/></label>
+                    <label class="data"><span>Identifier:</span> <input type="text" id="identifier"/></label>
+                    <label class="data"><span>Publisher:</span> <input type="text" id="publisher"/></label>
+                </div>
+                
+                <fieldset>
+                    <legend>Publication Type:</legend>
+                    <div><small>Note: This setting also controls the format of the discovery and conformance metadata.</small></div>
+                    <label><input type="radio" name="epub-format" value="3" onchange="format.setVersion('3')" checked="checked"/> EPUB 3</label>
+                    <label><input type="radio" name="epub-format" value="2" onchange="format.setVersion('2')"/> EPUB 2</label>
+                </fieldset>
+                
+                <fieldset class="data">
+                    <legend>WCAG Conformance:</legend>
+                    <label><input type="radio" name="wcag-level" value="a" onchange="conf.wcag_level='a'; conf.changeConformance(); conf.WCAGOption('show');" checked="checked"/> Level A</label>
+                    <label><input type="radio" name="wcag-level" value="aa" onchange="conf.wcag_level='aa'; conf.changeConformance(); conf.WCAGOption('disable');"/> Level AA</label>
+                    <label class="show-xtra"><input type="checkbox" id="show-aa" onchange="conf.showLevel('aa', (this.checked ? true : false))"/> Show Level AA Criteria</label>
+                    <label class="show-xtra"><input type="checkbox" id="show-aaa" onchange="conf.showLevel('aaa', (this.checked ? true : false))"/> Show Level AAA Criteria</label>
+                </fieldset>
+                
+                <fieldset id="exclusions">
+                    <legend>Include requirements for:</legend>
+                    <label><input type="checkbox" id="img" value="img" onchange="conf.changeContentConformance(this,'img')" checked="checked"/> Images</label>
+                    <label><input type="checkbox" id="audio" value="audio" onchange="conf.changeContentConformance(this,'audio')" checked="checked"/> Audio</label>
+                    <label><input type="checkbox" id="video" value="video" onchange="conf.changeContentConformance(this,'video')" checked="checked"/> Video</label>
+                    <label><input type="checkbox" id="script" value="script" onchange="conf.changeContentConformance(this,'script')" checked="checked"/> Scripting</label>
+                    <label><input type="checkbox" id="forms" value="forms" onchange="conf.changeContentConformance(this,'forms')" checked="checked"/> Form Elements</label>
+                </fieldset>
+                
+                <div class="reporting">
+                    <fieldset id="admin">
+                        <legend>Set all status to:</legend>
+                        <label><input type="radio" name="status" onchange="conf.setStatusAdmin('unverified')" checked="checked"/> Unverified</label>
+                        <label><input type="radio" name="status" onchange="conf.setStatusAdmin('pass')"/> Pass</label>
+                        <label><input type="radio" name="status" onchange="conf.setStatusAdmin('fail')"/> Fail</label>
+                        <label><input type="radio" name="status" onchange="conf.setStatusAdmin('na')"/> N/A</label>
+                    </fieldset>
+                </div>
+                
+                <div class="reporting">
+                    <fieldset id="styling">
+                        <legend>Report styling:</legend>
+                        <label class="block"><input type="checkbox" id="default-styles" checked="checked"/> Include default CSS</label>
+                        <label class="block"><input type="checkbox" id="add-custom-css"/> Add custom style sheet link</label>
+                        <label class="block pad-left">Enter URL to style sheet: <input type="text" id="custom-css-url"/></label>
+                    </fieldset>
+                </div>
+                
+                <!-- disabled as actual usefulness is suspect
+                <fieldset id="fields">
+                    <legend>Reporting:</legend>
+                    <label><input type="radio" name="reporting" onchange="conf.showReporting(true)" checked="checked"/> Show</label>
+                    <label><input type="radio" name="reporting" onchange="conf.showReporting(false)"/> Hide</label>
+                </fieldset>
+                -->
+            </section>
+            
+            <section id="manage" aria-label="Manage Reports" title="Manage Reports">
+                <p id="local-na" hidden="hidden">Note: Your browser does not support local storage.</p>
+                <fieldset>
+                    <legend>Load</legend>
+                    <label><input type="radio" name="load" value="storage" checked="checked"/> from local storage <span id="local-load-na"></span></label>
+                    <label><input type="radio" name="load" id="savedReportOpt" value="saved"/> saved report: <textarea id="savedReport" rows="1" cols="40" onkeydown="manage.setSavedReport();"></textarea></label>
+                    <p><input type="button" value="Load" onclick="manage.loadConformanceReport()"/></p>
+                </fieldset>
+                <fieldset>
+                    <legend>Save</legend>
+                    <label><input type="radio" name="save" aria-describedby="save-desc" value="storage" checked="checked"/> to local storage <span id="local-save-na"></span></label>
+                    <label><input type="radio" name="save" value="saved"/> to file</label>
+                    <p><input type="button" value="Save" onclick="manage.saveConformanceReport()"/></p>
+                    <p id="save-desc">Note: Although the most convenient option is to save to local storage, it can result in lost reports.
+                        Make sure you do not clear local storage when you exit your browser, and that you are not using
+                        a private browsing session.</p>
+                    <div>
+                        <input type="button" value="Clear" aria-describedby="clear-desc" onclick="manage.clearSaved()"/> &#8212; 
+                        <span id="clear-desc">Click to remove saved reports from local storage.</span>
+                    </div>
+                </fieldset>
+            </section>
+        </main>
+        
+        <section id="error-pane">
+            <a href="#error-pane" onclick="error.hide()"><img src="images/close-icon.png" alt="Close" class="error-close"/></a>
+            <h2 id="validation-msg">Validation Messages:</h2>
+            <div role="log" aria-labelledby="validation-msg" class="scroll">
+                <ul id="error-msg"></ul>
+            </div>
+        </section>
+        </form>
+        
+        <footer>
+            <p>Copyright <span property="dcterms:dateCopyrighted">2017</span> <a href="http://daisy.org">DAISY Consortium</a></p>
+            <p><a href="http://www.daisy.org/terms-use">Terms of Use</a> | <a href="http://www.daisy.org/contact">Contact</a></p>
+        </footer>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="js/jquery.details.min.js"></script>
+        
+        <script src="js/a11ytabs.js"></script>
+        <script src="js/reporting.js"></script>
+        <script src="js/manage.js"></script>
+        <script src="js/conformance-tests.js"></script>
+        <script src="js/format.js"></script>
+        <script src="js/discovery.js"></script>
+        <script src="js/conformance-meta.js"></script>
+        <script src="js/error.js"></script>
+        
+        <script src="js/init.js"></script>
+    </body>
+</html>
