@@ -26,9 +26,7 @@
     
     <body class="tabs">
         <header>
-            <div class="logo" property="dcterms:publisher"><a href="http://daisy.org"><img src="images/daisy_logo_sm.png" alt="DAISY Consortium"/></a></div>
-            
-            <h1 property="dcterms:title">EPUB Accessibility Conformance and Reporting</h1>
+            <h1><span property="dcterms:publisher"><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium"/></span> <span property="dcterms:title">EPUB Accessibility Conformance and Reporting</span></h1>
             
             <nav class="menubar">
                 <a>Home</a>
@@ -1241,9 +1239,10 @@
                 
                 <fieldset id="conf-result">
                     <legend>Conformance Result:</legend>
-                    <label><input type="radio" name="conf-result" value="a" checked="checked"/> EPUB + WCAG Level A</label><br/>
-                    <label><input type="radio" name="conf-result" value="aa"/> EPUB + WCAG Level AA</label><br/>
-                    <label><input type="radio" name="conf-result" value="fail"/> Failed</label>
+                    <label><input type="radio" name="conf-result" value="a" checked="checked"/> Passed - EPUB + WCAG Level A</label><br/>
+                    <label><input type="radio" name="conf-result" value="aa"/> Passed - EPUB + WCAG Level AA</label><br/>
+                    <label><input type="radio" name="conf-result" value="fail"/> Failed - Non-Severe</label>
+                    <label><input type="radio" name="conf-result" value="fail"/> Failed - Severe</label>
                 </fieldset>
                 
                 <fieldset>
@@ -1313,7 +1312,7 @@
                         <label><input type="radio" name="status" onchange="conf.setStatusAdmin('na')"/> N/A</label>
                     </fieldset>
                 </div>
-                
+                <!-- User customization of appearance not in scope
                 <div class="reporting">
                     <fieldset id="styling">
                         <legend>Report styling:</legend>
@@ -1322,7 +1321,7 @@
                         <label class="block pad-left">Enter URL to style sheet: <input type="text" id="custom-css-url"/></label>
                     </fieldset>
                 </div>
-                
+                -->
                 <!-- disabled as actual usefulness is suspect
                 <fieldset id="fields">
                     <legend>Reporting:</legend>

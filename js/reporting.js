@@ -2,70 +2,6 @@
 var report = new Report();
 
 function Report() {
-
-    this.HTML_DEFAULT_STYLES = '<style>\
-    body {\
-        font-family: sans-serif;\
-        font-size: 62.5%;\
-        background-color: rgb(251,251,251);\
-    }\
-    h1,h2 {\
-        font-weight: normal;\
-        color: rgb(0,0,180);\
-        padding-left: 0.5rem;\
-    }\
-    h1 {\
-        font-size: 1.6rem;\
-        border-left: 0.3rem solid blue;\
-    }\
-    h2 {\
-        font-size: 1.4rem;\
-        margin-top: 3rem;\
-        border-left: 0.3rem solid red;\
-    }\
-    p,td,th {\
-        font-size: 1rem;\
-    }\
-    .info > p {\
-        padding: 0;\
-        margin: 0.8rem 0 0 1rem;\
-        font-size: 0.9rem;\
-    }\
-    table {\
-        border-collapse: collapse;\
-        width: 85%;\
-    }\
-    td,th {\
-        padding: 0.7rem 0.5rem;\
-        border: 0.1rem solid gray;\
-    }\
-    th {\
-        text-align: left;\
-        background-color: rgb(229,239,250);\
-    }\
-    tbody th {\
-        font-weight: normal;\
-        width: 40%;\
-        background-color: rgb(245,245,245);\
-    }\
-    td.lvl { width: 4rem; }\
-    .pass { background-color: rgb(239,251,245) }\
-    .fail { background-color: rgb(251,239,245) }\
-    .na { background-color: rgb(240,240,240) }\
-    .unverified { background-color: rgb(255,255,240) }\
-    .todo { background-color: rgb(255,255,200) }\
-    .label {\
-        font-weight: bold;\
-        display: inline-block;\
-        width: 12rem;\
-        vertical-align: top;\
-    }\
-    .value {\
-        display: inline-block;\
-        max-width: 40rem;\
-    }\
-</style>';
-
 }
 
 
@@ -93,7 +29,7 @@ Report.prototype.validateConformanceReport = function() {
     }
     
     
-    /* check there is a custom style sheet url */
+    /* check there is a custom style sheet url
     if (document.getElementById('add-custom-css').checked) {
         var url_elem = document.getElementById('custom-css-url');
         if (url_elem.value.trim() == '') {
@@ -108,6 +44,7 @@ Report.prototype.validateConformanceReport = function() {
             url_elem.parentNode.classList.remove(format.BG.ERR);
         }
     }
+    */
 
     /* validate that the stated conformance matches the evaluation results */
     var failed = document.querySelectorAll('input[value="unverified"]:checked, section.a input[value="fail"]:checked, section.aa input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked').length > 0 ? true : false;
@@ -121,7 +58,7 @@ Report.prototype.validateConformanceReport = function() {
     }
     
     else {
-        /* also check that the form configured wcag level matches the stated conformance */
+        /* also check that the form-configured wcag level matches the stated conformance */
         if (conf.wcag_level != wcag_result) {
             if (conf.wcag_level == 'a') {
                 conf_elem.classList.add(format.BG.ERR);
@@ -165,32 +102,77 @@ Report.prototype.generateConformanceReport = function() {
     
     var title = document.getElementById('title').value;
     
-    var reportHeader = '<h1>Accessibility Conformance Report for ' + title + '</h1>\n';
+    var reportHeader = '<header>\n<h1>EPUB Accessibility Conformance Report</h1>\n</header>\n';
     
-    reportHeader += '<div class="info">\n';
+    reportHeader += '<main>\n';
+    reportHeader += '<h2 id="title" property="name">' + document.getElementById('title').value.trim() + '</h2>';
     
     /* add publication info */
     
-    var info = {'title': 'name', 'author': 'author', 'identifier': 'identifier', 'publisher': 'publisher'};
+    reportHeader += '<div class="pubinfo">';
+    
+    var info = {'author': 'author', 'identifier': 'identifier', 'publisher': 'publisher'};
     
     for (var key in info) {
         var value = document.getElementById(key).value.trim();
         if (value != '') {
-            reportHeader += format.pubInfo(key,format.toTitleCase(key),value,info[key]);
+            reportHeader += format.pubSpan(key,value,info[key]);
         }
     }
     
-    reportHeader += format.pubInfo('format','Publication Format', 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value);
+    reportHeader = reportHeader.replace(/ \| $/,'');
     
-    var reportTable = '';
+    reportHeader += '</div>\n';
+    
+    var reportSummary = '<section id="summary">\n'
+        reportSummary += '<div class="summaryTable">\n';
+        reportSummary += '<h3><span>Report Summary</span><span></span></h3>';
+        
+    var wcag_conf = document.querySelector('input[name="conf-result"]:checked').value;
+    
+    var wcag_label = [];
+        wcag_label.a = 'EPUB + WCAG 2.0 Level A';
+        wcag_label.aa = 'EPUB + WCAG 2.0 Level AA';
+        wcag_label.fail = 'Failed';
+        
+    var conf_class = [];
+        conf_class.a = 'pass';
+        conf_class.aa = 'pass';
+        conf_class.fail = 'fail';
+    
+    reportSummary += format.pubInfo('conformance','Conformance',wcag_label[wcag_conf],'dcterms:conformsTo',conf_class[wcag_conf],conf_class[wcag_conf]);
+
+    reportSummary += format.pubInfo('summary','Description',document.getElementById('summary').value,'accessibilitySummary');
+    reportSummary += format.pubInfo('features','Features',this.listDiscoveryMeta('features','accessibilityFeature'));
+    reportSummary += format.pubInfo('hazards','Hazards',this.listDiscoveryMeta('hazards','accessibilityHazard'));
+    reportSummary += format.pubInfo('modes','Access Mode(s)',this.listDiscoveryMeta('modes','accessMode'));
+    
+    var cert = ['certifier','credential'];
+    
+    for (var i = 0; i < cert.length; i++) {
+        var value = document.getElementById(cert[i]).value.trim();
+        if (value != '') {
+            reportSummary += format.pubInfo(cert[i],format.toTitleCase(cert[i]),value);
+        }
+    }
+    
+    reportSummary += '</div>\n</section>\n';
+
+    var reportDetails = '<section id="details">\n<h3>Additional Information</h3>\n';
+        reportDetails += '<details class="info">\n<summary>Publication Information</summary>\n';
+    
+    reportDetails += format.pubInfo('format','Publication Format', 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value);
+    
     var stat = { "pass": 0, "fail": 0, "na": 0, "unverified": 0 };
     
     var showAA = document.getElementById('show-aa').checked;
     var showAAA = document.getElementById('show-aaa').checked;
     
+    var reportTable = '';
+    
     for (var cat in criteria) {
     
-        reportTable += '<h2 id="' + cat + '">' + cat.toUpperCase() + ' Conformance</h2>\n<table>\n<thead>\n<tr><th>Success Criteria</th>\n';
+        reportTable += '<details id="' + cat + '">\n<summary>' + cat.toUpperCase() + ' Conformance Details</summary>\n<table>\n<thead>\n<tr><th>Success Criteria</th>\n';
         reportTable += (cat == 'wcag') ? '<th>Level</th>' : ''; 
         reportTable += '<th>Result</th>\n</thead>\n<tbody>\n';
         
@@ -261,47 +243,32 @@ Report.prototype.generateConformanceReport = function() {
         }
         
         reportTable += '</tbody>\n</table>';
+        reportTable += '</details>\n';
     }
     
     /* add conformance */
     
-    var wcag_conf = document.querySelector('input[name="conf-result"]:checked').value;
-    var wcag_label = (wcag_conf == 'a') ? 'EPUB + WCAG Level A' : (wcag_conf == 'aa' ? 'EPUB + WCAG Level AA' : 'Failed');
-    
-    reportHeader += format.pubInfo('conformance','Conformance',wcag_label);
-    
-    var cert = ['certifier','credential'];
-    
-    for (var i = 0; i < cert.length; i++) {
-        var value = document.getElementById(cert[i]).value.trim();
-        if (value != '') {
-            reportHeader += format.pubInfo(cert[i],format.toTitleCase(cert[i]),value);
-        }
-    }
-    
     var stats = (stat.fail ? stat.fail + ' fail, ' : '') + (stat.unverified ? stat.unverified + ' unverified, ' : '') + stat.pass + ' pass' + (stat.na ? ', ' + stat.na + ' not applicable' : '');
     
-    reportHeader += format.pubInfo('result','Statistics',stats);
+    reportDetails += format.pubInfo('result','Statistics',stats);
     
-    reportHeader += format.pubInfo('timestamp','Report Generated',format.generateTimestamp('at'));
+    reportDetails += '</details>\n';
+    reportDetails += reportTable;
+    reportDetails += '</section>\n</main>\n'
     
-    reportHeader += '</div>\n';
+    var reportFooter = '<footer>\n';
+        reportFooter += '<p id="timestamp">' + 'Report Generated: ' + format.generateTimestamp('at') + '</p>\n';
+        reportFooter += '</footer>\n';
     
-    var discoveryInfo = '<h2 id="discovery">Discovery Information</h2>\n<div class="info">';
-    
-    discoveryInfo += format.pubInfo('summary','Accessibility Summary',document.getElementById('summary').value,'accessibilitySummary');
-    discoveryInfo += format.pubInfo('features','Accessibility Features',this.listDiscoveryMeta('features','accessibilityFeature'));
-    discoveryInfo += format.pubInfo('hazards','Accessibility Hazards',this.listDiscoveryMeta('hazards','accessibilityHazard'));
-    discoveryInfo += format.pubInfo('modes','Access Mode(s)',this.listDiscoveryMeta('modes','accessMode'));
-    discoveryInfo += '</div>';
-    
+    /*
     var cssURL = document.getElementById('add-custom-css').checked ? document.getElementById('custom-css-url').value.trim() : '';
     
     var css = document.getElementById('default-styles').checked ? this.HTML_DEFAULT_STYLES : '';
-        css += (cssURL != '') ? '\n<link rel="stylesheet" type="text/css" href="'+cssURL+'"/>\n' : ''; 
+        css += (cssURL != '') ? '\n<link rel="stylesheet" type="text/css" href="'+cssURL+'"/>\n' : '';
+    */ 
     
     var reportWin = window.open('report.html','reportWin');
-        reportWin.addEventListener('load', function() { reportWin.init('Accessibility Conformance Report for ' + title, css, reportHeader + discoveryInfo + reportTable); });
+        reportWin.addEventListener('load', function() { reportWin.init('EPUB Accessibility Conformance Report for ' + title, reportHeader + reportSummary + reportDetails + reportFooter); });
 }
 
 

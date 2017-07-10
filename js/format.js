@@ -28,8 +28,15 @@ Format.prototype.metaTag = function(isMeta, property, value) {
     return '';
 }
 
-Format.prototype.pubInfo = function(id,label,value,prop) {
-    return '<p id="' + id + '"><span class="label">' + label + ':</span> <span class="value"' + ((prop === undefined || prop == null || prop == '') ? '' : ' property="' + prop + '"') + '>' + value + '</span></p>\n';
+Format.prototype.pubInfo = function(id,label,value,prop,add_label_class,add_value_class) {
+    add_label_class = (add_label_class) ? ' ' + add_label_class : '';
+    add_value_class = (add_value_class) ? ' ' + add_value_class : '';
+    
+    return '<p id="' + id + '"><span class="label' + add_label_class + '">' + label + ':</span> <span class="value' + add_value_class + '"' + ((prop === undefined || prop == null || prop == '') ? '' : ' property="' + prop + '"') + '>' + value + '</span></p>\n';
+}
+
+Format.prototype.pubSpan = function(id,value,prop) {
+    return '<span id="' + id + '" property="' + prop + '">' + value + '</span> | ';
 }
 
 Format.prototype.toTitleCase = function (str) {

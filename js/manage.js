@@ -205,8 +205,8 @@ Manage.prototype.loadConformanceReport = function() {
         reportData = document.getElementById('savedReport').value.trim();
     }
     
-    if (reportData == '') {
-        alert('Load failed. No data provided.');
+    if (reportData === null || reportData == '') {
+        alert('Load failed. No data found.');
         return;
     }
     

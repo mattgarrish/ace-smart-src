@@ -62,7 +62,7 @@ Discovery.prototype.validate = function(quiet) {
     this.setPass('control');
     
     if (quiet) {
-        return (msg.err || msg.warn) ? true : false;
+        return (msg.err || msg.warn) ? false : true;
     }
     
     if (msg.err || msg.warn) {
