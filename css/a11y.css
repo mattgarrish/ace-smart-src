@@ -35,14 +35,17 @@ header {
     z-index: 5;
 }
 
+header > * {
+    padding-left: 3rem !important;
+}
+
 /* title and logo */
 
 h1 {
 	font-family: 'Open Sans Light',Helvetica,Arial,sans-serif;
     font-size: 2rem;
-    text-indent: 0.5rem;
     margin: 0;
-    padding: 0.4rem 0 0.2rem 0;
+    padding: 0.4rem 0 0.2rem 1.5rem !important;
 	background-color: rgb(27,95,161);
     color: rgb(255,255,255);
 	height: 36px;
@@ -185,7 +188,8 @@ div#report-buttons input[type="button"].left-button-pad {
 
 main.js-tabs {
     margin-top: 14rem;
-    padding-left: 1rem;
+    padding-left: 4rem;
+    border-radius: 0.8rem 0.8rem 0 0;
 }
 
 section.js-tabcontent[aria-hidden=true] {
@@ -199,7 +203,7 @@ section.js-tabcontent {
 ul.js-tablist {
     position: relative;
     top: -3.8rem;
-    left: 0;
+    left: -2.5rem;
     padding: 0;
     display: inline;
     margin-left: -1rem;
