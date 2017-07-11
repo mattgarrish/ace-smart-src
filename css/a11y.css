@@ -99,7 +99,7 @@ footer img {
 
 h2 {
     font-family: Raleway;
-    font-size: 2rem;
+    font-size: 2.4rem;
     font-weight: normal;
     color: rgb(0,0,180);
 }
@@ -188,7 +188,7 @@ div#report-buttons input[type="button"].left-button-pad {
 
 main.js-tabs {
     margin-top: 14rem;
-    padding-left: 4rem;
+    padding-left: 3rem;
     border-radius: 0.8rem 0.8rem 0 0;
 }
 
@@ -203,7 +203,7 @@ section.js-tabcontent {
 ul.js-tablist {
     position: relative;
     top: -3.8rem;
-    left: -2.5rem;
+    left: -1.2rem;
     padding: 0;
     display: inline;
     margin-left: -1rem;
