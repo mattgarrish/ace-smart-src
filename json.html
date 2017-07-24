@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Saved Report</title>
-    <meta charset="utf-8"/>
-    <script type="text/javascript">
-        function init(json) {
-            document.getElementById('report').value = JSON.stringify(JSON.parse(json),null,3);
-        }
-    </script>
-    <style>
-        p {
-            font-family: sans-serif;
-            font-weight: bold;
-        }
-        textarea {
-            width: 65%;
-            min-height: 300px;
-        }
-    </style>
+	<title>Saved Report</title>
+	<meta charset="utf-8"/>
+	<script type="text/javascript">
+		function init(json) {
+			document.getElementById('report').value = JSON.stringify(JSON.parse(json),null,3);
+		}
+	</script>
+	<style>
+		p {
+			font-family: sans-serif;
+			font-weight: bold;
+		}
+		textarea {
+			width: 65%;
+			min-height: 300px;
+		}
+	</style>
 </head>
 <body>
-    <p>This page must be saved locally. Do not bookmark.</p>
-    <p>To reload your report, copy and paste the following JSON code when requested:</p>
-    <textarea cols="50" rows="20" id="report"></textarea>
+	<p>This page must be saved locally. Do not bookmark.</p>
+	<p>To reload your report, copy and paste the following JSON code when requested:</p>
+	<textarea cols="50" rows="20" id="report"></textarea>
 </body>
 </html>

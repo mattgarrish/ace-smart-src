@@ -1,318 +1,319 @@
 
 @font-face{
-    font-family: 'Open Sans Light';
-    src: url(../fonts/OpenSans-Light.ttf) format('truetype');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'Open Sans Light';
+	src: url(../fonts/OpenSans-Light.ttf) format('truetype');
+	font-weight: normal;
+	font-style: normal;
 }
 
 
 @font-face{
-    font-family: 'Raleway';
-    src: url(../fonts/Raleway-Regular.ttf) format('truetype');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'Raleway';
+	src: url(../fonts/Raleway-Regular.ttf) format('truetype');
+	font-weight: normal;
+	font-style: normal;
 }
 
 html {
-    font-size: 62.5%;
+	font-size: 62.5%;
 }
 
 body {
-    font-family: sans-serif;
-    font-size: 1.4rem;
-    margin: 0;
-    padding: 0;
-    background-color: rgb(142,189,244);
-    color: rgb(0,0,0);
+	font-family: sans-serif;
+	font-size: 1.4rem;
+	margin: 0;
+	padding: 0;
+	background-color: rgb(142,189,244);
+	color: rgb(0,0,0);
 }
 
 header {
-    position: fixed;
-    left: 0;
-    top: 0;
-    right: 0;
-    z-index: 5;
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	z-index: 5;
 }
 
 header > * {
-    padding-left: 3rem !important;
+	padding-left: 3rem !important;
 }
 
 /* title and logo */
 
 h1 {
 	font-family: 'Open Sans Light',Helvetica,Arial,sans-serif;
-    font-size: 2rem;
-    margin: 0;
-    padding: 0.4rem 0 0.2rem 1.5rem !important;
+	font-weight: normal;
+	font-size: 2rem;
+	margin: 0;
+	padding: 0.4rem 0 0.2rem 1.5rem !important;
 	background-color: rgb(27,95,161);
-    color: rgb(255,255,255);
+	color: rgb(255,255,255);
 	height: 36px;
 }
 
 h1 > span:first-child {
-    padding-right: 0.5rem;
+	padding-right: 0.5rem;
 }
 
 img.logo {
-    vertical-align: bottom;
+	vertical-align: bottom;
 }
 
 /* page content */
 
 main, footer {
-    display: block;
-    margin: 0 0.3rem;
+	display: block;
+	margin: 0 0.3rem;
 }
 
 main {
-    padding-bottom: 2rem;
-    background-color: rgb(251,251,251);
+	padding-bottom: 2rem;
+	background-color: rgb(251,251,251);
 }
 
 body.page main {
-    padding: 0 2rem 2rem 2rem;
-    margin-top: 6.8rem;
+	padding: 0 2rem 2rem 2rem;
+	margin-top: 6.8rem;
 }
 
 main > * {
-    max-width: 76rem;
+	max-width: 76rem;
 }
 
 footer {
-    font-weight: bold;
-    font-size: 90%;
-    text-align: center;
-    background-color: rgb(245,245,245);
-    padding: 0.5rem 1rem;
-    margin-top: 0.3rem;
+	font-weight: bold;
+	font-size: 90%;
+	text-align: center;
+	background-color: rgb(245,245,245);
+	padding: 0.5rem 1rem;
+	margin-top: 0.3rem;
 }
 
 footer img {
-    padding-left: 1rem;
-    vertical-align: middle;
+	padding-left: 1rem;
+	vertical-align: middle;
 }
 
 
 /* headings */
 
 h2 {
-    font-family: Raleway;
-    font-size: 2.4rem;
-    font-weight: normal;
-    color: rgb(0,0,180);
+	font-family: Raleway;
+	font-size: 2.4rem;
+	font-weight: normal;
+	color: rgb(0,0,180);
 }
 
 h3 {
-    color: rgb(0,0,90);
-    font-weight: normal;
-    font-size: 1.6rem;
+	color: rgb(0,0,90);
+	font-weight: normal;
+	font-size: 1.6rem;
 }
 
 body.page h2 {
-    margin-top: 0;
-    padding-top: 2rem;
+	margin-top: 0;
+	padding-top: 2rem;
 }
 
 body.page h3 {
-    font-size: 1.8rem;
-    border-left: 0.4rem solid blue;
-    padding-left: 0.5rem;
-    margin-top: 5rem;
+	font-size: 1.8rem;
+	border-left: 0.4rem solid blue;
+	padding-left: 0.5rem;
+	margin-top: 5rem;
 }
 
 
 /* links */
 
 a {
-    color: rgb(0,0,220);
-    text-decoration: none;
+	color: rgb(0,0,220);
+	text-decoration: none;
 }
 
 a:hover {
-    color: rgb(238,0,0);
-    text-decoration: underline;
+	color: rgb(238,0,0);
+	text-decoration: underline;
 }
 
 
 /* menubar */
 
 nav.menubar {
-    margin: 0 0 0 -1rem;
-    padding: 0.5rem 0.5rem 0.5rem 2rem;
-    border-bottom: 0.1rem solid rgb(0,0,0);
-    background-color: rgb(245,245,245);
+	margin: 0 0 0 -1rem;
+	padding: 0.5rem 0.5rem 0.5rem 2rem;
+	border-bottom: 0.1rem solid rgb(0,0,0);
+	background-color: rgb(245,245,245);
 }
 
 nav.menubar > a {
-    font-size: 90%;
-    padding-right: 2rem;
+	font-size: 90%;
+	padding-right: 2rem;
 }
 
 nav.menubar > a:not([href]) {
-    color: rgb(60,60,60);
-    text-decoration: none;
+	color: rgb(60,60,60);
+	text-decoration: none;
 }
 
 
 /* reporting buttons */
 
 div#report-buttons {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 0 0 0 -1rem;
-    padding: 0.5rem 0.5rem 0.5rem 2rem;
-    border-bottom: 0.1rem solid rgb(0,0,0);
-    background-color: rgb(232,244,248);
-    vertical-align: bottom;
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin: 0 0 0 -1rem;
+	padding: 0.5rem 0.5rem 0.5rem 2rem;
+	border-bottom: 0.1rem solid rgb(0,0,0);
+	background-color: rgb(232,244,248);
+	vertical-align: bottom;
 }
 
 div#report-buttons input[type="button"] {
-    font-size: 1rem;
-    background-color: rgb(251,251,251);
-    color: rgb(0,0,220);
-    border: 0.05rem dotted rgb(0,80,160);
-    padding: 0.2rem;
-    width: 6rem;
-    margin-left: 0.3rem;
-    vertical-align: bottom;
+	font-size: 1rem;
+	background-color: rgb(251,251,251);
+	color: rgb(0,0,220);
+	border: 0.05rem dotted rgb(0,80,160);
+	padding: 0.2rem;
+	width: 6rem;
+	margin-left: 0.3rem;
+	vertical-align: bottom;
 }
 
 div#report-buttons input[type="button"].left-button-pad {
-    margin-left: 2rem;
+	margin-left: 2rem;
 }
 
 
 /* tabs */
 
 main.js-tabs {
-    margin-top: 14rem;
-    padding-left: 3rem;
-    border-radius: 0.8rem 0.8rem 0 0;
+	margin-top: 14rem;
+	padding-left: 3rem;
+	border-radius: 0.8rem 0.8rem 0 0;
 }
 
 section.js-tabcontent[aria-hidden=true] {
-    display: none;
+	display: none;
 }
 
 section.js-tabcontent {
-    margin-top: -4rem;
+	margin-top: -4rem;
 }
 
 ul.js-tablist {
-    position: relative;
-    top: -3.8rem;
-    left: -1.2rem;
-    padding: 0;
-    display: inline;
-    margin-left: -1rem;
+	position: relative;
+	top: -3.6rem;
+	left: -1.2rem;
+	padding: 0;
+	display: inline;
+	margin-left: -1rem;
 }
 
 li.js-tablist__item {
-    width: 16.5rem;
-    display: inline-block;
-    padding: 0.7rem;
-    font-size: 90%;
-    background-color: rgb(235,235,235);
-    border-radius: 0.5rem 0.5rem 0 0;
-    cursor: pointer;
-    margin-right: 0.3rem;
+	width: 16.5rem;
+	display: inline-block;
+	padding: 0.7rem;
+	font-size: 90%;
+	background-color: rgb(235,235,235);
+	border-radius: 0.5rem 0.5rem 0 0;
+	cursor: pointer;
+	margin-right: 0.3rem;
 }
 
 li.active {
-    background-color: rgb(251,251,251);
-    border-top: 0.3rem solid rgb(0,0,220);
+	background-color: rgb(251,251,251);
+	border-top: 0.3rem solid rgb(0,0,220);
 }
 
 li.js-tablist__item a {
-    color: rgb(0,0,160);
+	color: rgb(0,0,160);
 }
 
 li.js-tablist__item a:hover {
-    color: rgb(238,0,0);
+	color: rgb(238,0,0);
 }
 
 
 /* conformance guidelines */
 
 section.guideline {
-    margin-left: 3rem;
+	margin-left: 3rem;
 }
 
 section.a, section.aa, section.aaa, section.epub {
-    margin-left: 1rem;
-    margin-top: 3rem;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 0 0.5rem 0 gray;
+	margin-left: 1rem;
+	margin-top: 3rem;
+	padding: 2rem;
+	border-radius: 1rem;
+	box-shadow: 0 0 0.5rem 0 gray;
 }
 
 section.a {
-    border: 0.1rem solid blue;
+	border: 0.1rem solid blue;
 }
 
 section.aa {
-    border: 0.1rem solid green;
-    display: none;
+	border: 0.1rem solid green;
+	display: none;
 }
 
 section.aaa {
-    border: 0.1rem solid purple;
-    display: none;
+	border: 0.1rem solid purple;
+	display: none;
 }
 
 section.epub {
-    border: 0.1rem solid orange;
+	border: 0.1rem solid orange;
 }
 
 span.a-label, span.aa-label, span.aaa-label {
-    padding-left: 0.5rem;
-    font-size: 1.2rem;
-    color: rgb(0,0,200);
+	padding-left: 0.5rem;
+	font-size: 1.2rem;
+	color: rgb(0,0,200);
 }
 
 span.aa-label {
-    color: rgb(0,90,0);
+	color: rgb(0,90,0);
 }
 
 span.aaa-label {
-    color: rgb(90,0,90);
+	color: rgb(90,0,90);
 }
 
 section.a > h3,
 section.aa > h3,
 section.aaa > h3,
 section.epub > h3 {
-    padding-top: 0;
-    margin-top: 0;
+	padding-top: 0;
+	margin-top: 0;
 }
 
 p.sc-note {
-    font-style: italic;
-    text-indent: -3.6rem;
-    margin: 1rem 2rem 2rem 4.5rem;
+	font-style: italic;
+	text-indent: -3.6rem;
+	margin: 1rem 2rem 2rem 4.5rem;
 }
 
 div.buttons {
-    padding: 2rem 1rem;
+	padding: 2rem 1rem;
 }
 
 input[type="button"] {
-    width: 8rem;
+	width: 8rem;
 }
 
 input[type="checkbox"] {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 label.show-xtra {
-    display: block;
-    margin: 0.5rem 0;
+	display: block;
+	margin: 0.5rem 0;
 }
 
 p.superseded-aa {
-    display: none;
+	display: none;
 }
 
 div.pad-top { margin-top: 2rem; }
@@ -320,67 +321,67 @@ div.pad-top { margin-top: 2rem; }
 /* lists */
 
 ul {
-    list-style-type: square;
-    margin-top: 0.5rem;
+	list-style-type: square;
+	margin-top: 0.5rem;
 }
 
 li {
-    margin-top: 0.7rem;
+	margin-top: 0.7rem;
 }
 
 
 /* fieldsets */
 
 fieldset {
-    max-width: 65rem;
-    margin-top: 2.5rem;
-    border: 1px solid gray;
+	max-width: 65rem;
+	margin-top: 2.5rem;
+	border: 1px solid gray;
 }
 
 legend + fieldset {
-    margin-top: 0.5em;
+	margin-top: 0.5em;
 }
 
 legend {
-    color: rgb(0,0,90);
-    font-weight: bold;
+	color: rgb(0,0,90);
+	font-weight: bold;
 }
 
 /* discovery metadata */
 
 section#discovery div.error {
-    font-style: italic;
-    padding: 0.5rem;
-    display: none;
+	font-style: italic;
+	padding: 0.5rem;
+	display: none;
 }
 
 section#discovery label {
-    display: inline-block;
-    width: 20rem;
+	display: inline-block;
+	width: 20rem;
 }
 
 section#discovery input#gen {
-    margin-left: 1rem;
+	margin-left: 1rem;
 }
 
 div.failure, div.info {
-    display: none;
+	display: none;
 }
 
 div.failure {
-    margin-top: 1.5rem;
+	margin-top: 1.5rem;
 }
 
 /* notes */
 
 div.note,
 div.caution {
-    padding: 0 0.8rem;
-    margin-top: 1rem;
-    border: 0.1rem solid rgb(0,0,0);
-    border-radius: 1rem;
-    width: 80%;
-    margin-left: 5%;
+	padding: 0 0.8rem;
+	margin-top: 1rem;
+	border: 0.1rem solid rgb(0,0,0);
+	border-radius: 1rem;
+	width: 80%;
+	margin-left: 5%;
 }
 
 div.caution {
@@ -400,82 +401,82 @@ div.caution > p {
 }
 
 img.note-close {
-    position: relative;
-    top: 0.2rem;
-    right: -0.5rem; 
-    float: right;
+	position: relative;
+	top: 0.2rem;
+	right: -0.5rem; 
+	float: right;
 }
 
 p.small {
-    font-size: 1.2rem;
+	font-size: 1.2rem;
 }
 
 /* config options */
 
 section#config {
-    z-index: 9;
+	z-index: 9;
 }
 
 details#options {
-    max-width: 65rem;
-    margin-top: 1rem;
-    padding: 0.5rem;
+	max-width: 65rem;
+	margin-top: 1rem;
+	padding: 0.5rem;
 }
 
 details#options > summary {
-    margin-bottom: 1rem;
-    color: rgb(0,0,90);
+	margin-bottom: 1rem;
+	color: rgb(0,0,90);
 }
 
 details#options fieldset {
-    margin-top: 0.7rem;
-    padding-top: 0;
-    border: none;
+	margin-top: 0.7rem;
+	padding-top: 0;
+	border: none;
 }
 
 details#options fieldset > legend {
-    font-weight: normal
+	font-weight: normal
 }
 
 details#options span.label {
-    font-size: 95%;
-    margin-left: 1.5rem;
+	font-size: 95%;
+	margin-left: 1.5rem;
 }
 
 section#config small {
-    font-style: italic;
+	font-style: italic;
 }
 
 textarea {
-    width: 90%;
+	width: 90%;
 }
 
 /* n/a notes */
 
 p.img, p.av, p.forms {
-    font-size: 90%;
-    font-weight: bold;
-    margin-left: 3rem;
+	font-size: 90%;
+	font-weight: bold;
+	margin-left: 3rem;
 }
 
 /* title inputs */
 
 label.data {
-    display: block;
-    margin-top: 0.3rem;
+	display: block;
+	margin-top: 0.3rem;
 }
 
 label.data > span, div.data > span {
-    display: inline-block;
-    width: 20rem;
+	display: inline-block;
+	width: 20rem;
 }
 
 label.data > input {
-    width: 40rem;
+	width: 40rem;
 }
 
 div.data {
-    margin-bottom: 2rem;
+	margin-bottom: 2rem;
 }
 
 
@@ -484,100 +485,100 @@ div.data {
   and (max-device-width: 480px)
   and (orientation: portrait) {
 
-    label.data > input {
-        width: 100%;
-    }
+	label.data > input {
+		width: 100%;
+	}
 
 }
 
 /* faq */
 
 nav#faq {
-    margin-bottom: 3rem;
+	margin-bottom: 3rem;
 }
 
 nav#faq ol {
-    list-style-type: none;
-    margin-left: 0;
-    padding-left: 1.5rem;
+	list-style-type: none;
+	margin-left: 0;
+	padding-left: 1.5rem;
 }
 
 nav#faq > ol {
-    padding-left: 0;
+	padding-left: 0;
 }
 
 div.faq-title {
-    font-size: 1.5rem;
-    color: rgb(0,0,160);
-    margin-top: 1.2rem;
+	font-size: 1.5rem;
+	color: rgb(0,0,160);
+	margin-top: 1.2rem;
 }
 
 dt {
-    font-weight: bold;
-    margin-top: 3rem;
+	font-weight: bold;
+	margin-top: 3rem;
 }
 
 /* ed notes (temp) */
 
 .todo {
-    background-color: rgb(255,255,230);
+	background-color: rgb(255,255,230);
 }
 
 /* error pane */
 
 section#error-pane {
-    background-color: rgb(50,50,50);
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 1;
-    display: none;
+	background-color: rgb(50,50,50);
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 1;
+	display: none;
 }
 
 section#error-pane > h2 {
-    color: rgb(255,255,255);
-    background-color: inherit;
-    font-size: 1.4rem;
-    margin: 0;
-    padding: 0.4rem 0.2rem 0.2rem 0.2rem;
+	color: rgb(255,255,255);
+	background-color: inherit;
+	font-size: 1.4rem;
+	margin: 0;
+	padding: 0.4rem 0.2rem 0.2rem 0.2rem;
 }
 
 section#error-pane img.error-close {
-    position: relative;
-    top: 0rem;
-    right: 0rem; 
-    float: right;
+	position: relative;
+	top: 0rem;
+	right: 0rem; 
+	float: right;
 }
 
 section#error-pane div.scroll {
-    width: 100%;
-    height: 10rem;
-    background-color: rgb(255,255,255);
-    overflow: scroll;
+	width: 100%;
+	height: 10rem;
+	background-color: rgb(255,255,255);
+	overflow: scroll;
 }
 
 section#error-pane ul {
-    padding-left: 2rem;
+	padding-left: 2rem;
 }
 
 section#error-pane a {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 /* config dialog */
 
 .ui-widget-header {
-    background-color: rgb(232,244,248);
+	background-color: rgb(232,244,248);
 }
 
 label.block {
-    display: block;
-    margin-top: 0.3rem;
+	display: block;
+	margin-top: 0.3rem;
 }
 
 label.pad-left {
-    margin-left: 2.4rem;
+	margin-left: 2.4rem;
 }
 
 
@@ -591,30 +592,30 @@ label.pad-left {
 
 /* manage options */
 #manage label {
-    display: block;
+	display: block;
 }
 
 
 /* page tocs */
 
 nav[role="doc-toc"] {
-    border: 0.1rem dotted rgb(180,180,180);
-    padding: 0.8rem;
-    width: 35rem;
-    background-color: rgb(245,245,245);
+	border: 0.1rem dotted rgb(180,180,180);
+	padding: 0.8rem;
+	width: 35rem;
+	background-color: rgb(245,245,245);
 }
 
 nav[role="doc-toc"] > h3 {
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: rgb(0,0,0);
-    padding: 0;
-    margin: 0;
-    border-left: none;
+	font-size: 1.4rem;
+	font-weight: bold;
+	color: rgb(0,0,0);
+	padding: 0;
+	margin: 0;
+	border-left: none;
 }
 
 nav[role="doc-toc"] > ol {
-    list-style-type: disc;
+	list-style-type: disc;
 }
 
 
@@ -633,63 +634,63 @@ figcaption {
   and (max-device-width: 480px)
   and (orientation: portrait) {
   
-    h1 {
-        font-size: 1.2rem;
-    }
-    
-    main.js-tabs {
-        margin-top: 9.5rem;
-    }
-    
-    .js-tabcontent > h2 {
-        border-top: 0.2rem solid black;
-        margin-top: 5rem;
-        padding-top: 1rem;
-    }
-    
-    ul.js-tablist {
-        top: 0rem;
-    }
-    
-    li.js-tablist__item {
-        background-color: rgb(251,251,251);
-        border-radius: 0 0 0 0;
-    }
-    
-    li.active {
-        background-color: rgb(251,251,251);
-        border-left: 0.3rem solid rgb(0,0,220);
-        border-top: none;
-    }
-    
-    fieldset.status span {
-        display: block;
-    }
-    
-    section.a, section.aa, section.aaa, section.epub {
-        margin-left: 0.2rem;
-    }
-    
-    main.js-tabs {
-        padding-left: 0;
-    }
-    
-    ul.js-tablist {
-        margin-left: 0;
-    }
+	h1 {
+		font-size: 1.2rem;
+	}
+	
+	main.js-tabs {
+		margin-top: 9.5rem;
+	}
+	
+	.js-tabcontent > h2 {
+		border-top: 0.2rem solid black;
+		margin-top: 5rem;
+		padding-top: 1rem;
+	}
+	
+	ul.js-tablist {
+		top: 0rem;
+	}
+	
+	li.js-tablist__item {
+		background-color: rgb(251,251,251);
+		border-radius: 0 0 0 0;
+	}
+	
+	li.active {
+		background-color: rgb(251,251,251);
+		border-left: 0.3rem solid rgb(0,0,220);
+		border-top: none;
+	}
+	
+	fieldset.status span {
+		display: block;
+	}
+	
+	section.a, section.aa, section.aaa, section.epub {
+		margin-left: 0.2rem;
+	}
+	
+	main.js-tabs {
+		padding-left: 0;
+	}
+	
+	ul.js-tablist {
+		margin-left: 0;
+	}
 }
 
 @media only screen 
   and (max-device-width: 640px)
   and (orientation: landscape) {
-    section.a, section.aa, section.aaa, section.epub {
-        margin-left: 0.2rem;
-    }
-    main.js-tabs {
-        padding-left: 0;
-    }
-    ul.js-tablist {
-        top: -3.8rem;
-        left: 1rem;
-    }
+	section.a, section.aa, section.aaa, section.epub {
+		margin-left: 0.2rem;
+	}
+	main.js-tabs {
+		padding-left: 0;
+	}
+	ul.js-tablist {
+		top: -3.6rem;
+		left: 1rem;
+	}
 }

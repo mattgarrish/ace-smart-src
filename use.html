@@ -1,214 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
    <head>
-      <meta charset="utf-8" />
-      <title>How to Use - EPUB Accessibility Conformance and Reporting</title>
-      <link rel="stylesheet" type="text/css" href="css/a11y.css" />
+	  <meta charset="utf-8" />
+	  <title>How to Use - EPUB Accessibility Conformance and Reporting</title>
+	  <link rel="stylesheet" type="text/css" href="css/a11y.css" />
    </head>
 
    <body class="page">
-      <header>
-         <div class="logo" property="dcterms:publisher"><a href="http://daisy.org"><img src="images/daisy_logo_sm.png"
-                  alt="DAISY Consortium" /></a></div>
-         <h1>EPUB Accessibility Conformance and Reporting</h1>
-         <nav class="menubar">
-            <a href="conformance.html">Home</a>
-            <a>How to Use</a>
-            <a href="faq.html">FAQ</a>
-            <!-- <a href="certification.html">Certification</a> -->
-         </nav>
-      </header>
-      <main>
-         <section>
-            <h2>How to Use</h2>
-            <nav role="doc-toc">
-               <h3>Topics</h3>
-               <ol>
-                  <li><a href="#eval">Evaluating Publications</a></li>
-                  <li><a href="#discovery">Adding Discovery Metadata</a></li>
-                  <li><a href="#conformance-meta">Adding Conformance Metadata</a></li>
-                  <li><a href="#configure">Configuring Reports</a></li>
-                  <li><a href="#generate">Generating Reports</a></li>
-                  <li><a href="#manage">Managing Reports</a></li>
-                  <li><a href="#adapt">Adapting to Workflows</a></li>
-               </ol>
-            </nav>
-            <section id="eval">
-               <h3>Evaluating Publications</h3>
-               <p>Evaluating publications requires editing software that allows you to review the resources of the
-                  publication, even if you are only reporting issues and not fixing them. The publication does not have to be
-                  zipped to carry out an evaluation, as zipping does not directly affect the accessibility.</p>
-               <p>There are two steps in the evaluation process:</p>
-               <dl>
-                  <dt>1. Automated Verification</dt>
-                  <dd>
-                     <p>Automated verification is done using the <span class="todo">Name TBD</span> tool. This tool checks
-                        accessibility requirements that can be programmatically determined.</p>
-                     <p class="todo">Explain how to run the tool.</p>
-                     <p>Continue to evaluate your publication and fix any reported problems until no more errors are
-                        reported.</p>
-                     <p class="todo">Explain how to load the final report.</p>
-                  </dd>
-                  <dt>2. Manual Verification</dt>
-                  <dd>
-                     <p>Although the automatic verification tool will alert you to some problems that require manual
-                        inspection, there are additional manual checks that need to be completed that a tool cannot verify
-                        (quality of descriptions, scripting and keyboard issues, etc.). These checks must be performed to
-                        ensure conformance with the EPUB Accessibility specification &#8212; a claim of conformance cannot be
-                        made only from automated testing.</p>
-                     <p>The second step in evaluating conformance is therefore to manually check the publication against the
-                        manual requirements. The <a href="conformance.html#verification">Conformance Verification</a> tab
-                        provides a list of requirements that must be passed for each WCAG success criterion and the
-                        additional EPUB requirements.</p>
-                     <p>This tab is configured by default to verify that the publication meets WCAG Level A requirements. To
-                        change to a higher conformance level, or to view additional higher-level success criteria, refer to
-                        the <a href="#configure">configuration section</a> below.</p>
-                     <p>Step through each success criterion and check that it is satisfied by the content. Each criterion
-                        includes a status section to simplify tracking the overall conformance, and to facilitate <a
-                           href="#generate">generating a report</a> at the end of the evaluation.</p>
-                     <figure>
-                        <figcaption>The status section appears after the links to the supporting documentation and includes
-                           pass, fail and not applicable options.</figcaption>
-                        <img src="images/status.png" width="350" alt="" />
-                     </figure>
-                     <p>The following examples explain the available status options.</p>
-                     <figure>
-                        <figcaption>If the publication fails a success criterion, setting the status reveals a field to
-                           describe why it failed.</figcaption>
-                        <img src="images/status_fail.png" width="500" alt="" />
-                     </figure>
-                     <figure>
-                        <figcaption>Set the "N/A" (not applicable) status for any criteria that are not applicable to the
-                           publication. If you leave any status section set to unverified, you will receive an error at the
-                           report generation step.</figcaption>
-                        <img src="images/status_na.png" width="350" alt="" />
-                     </figure>
-                     <figure>
-                        <figcaption>An optional note field is provided after the status section for recording any general
-                           notes you wish to provide. These notes are included in the generated report.</figcaption>
-                        <img src="images/notes.png" width="350" alt="" />
-                     </figure>
-                  </dd>
-               </dl>
-            </section>
-            <section id="discovery">
-               <h3>Adding Discovery Metadata</h3>
-               <div class="note">
-                  <p>Note: If the publication already includes discovery metadata, you can skip this step. If you intend to
-                     generate a report, however, it is recommended that you fill in the form to match the specified metadata
-                     to ensure discovery information is included in the output.</p>
-               </div>
-               <p>After completing the accessibility evaluation, the next step is to add the appropriate discovery metadata
-                  using the <a href="conformance.html#discovery">Discovery Metadata</a> tab.</p>
-               <p>Each of the fields in this tab corresponds to a schema.org accessibility metadata property. For more
-                  information on how to complete these fields, refer to their <a href="https://schema.org/CreativeWork"
-                     >schema.org definitions</a> and to the <a
-                     href="http://www.idpf.org/epub/a11y/techniques/techniques.html#sec-discovery">descriptions in the EPUB
-                     Accessibility Techniques document</a>.</p>
-               <p>After filling out all the relevant metadata, click the "Generate" button at the bottom of the tab to create
-                  metadata tags to paste into your publication's package document.</p>
-               <div class="note">
-                  <p>Note: Include discovery metadata even if the publication fails conformance testing. It is a required
-                     component of the EPUB Accessibility specification.</p>
-               </div>
-            </section>
-            <section id="conformance-meta">
-               <h3>Adding Conformance Metadata</h3>
-               <p>The last step is to report on conformance.</p>
-               <p>Do not skip this step just because a publication has failed its accessibility evaluation. Even if a
-                  publication fails, it is important to note who carried out the evaluation and, if possible, to provide a
-                  link to the detailed report explaining why.</p>
-            </section>
-            <section id="configure">
-               <h3>Configuring Reports</h3>
-               <figure>
-                  <figcaption>The configuration dialog is opened from the fourth button in the reporting navigation bar at
-                     the top of the page.</figcaption>
-                  <img src="images/config_button.png" width="500" alt="" />
-               </figure>
-               <figure>
-                  <figcaption>The WCAG configuration options are found under the "WCAG Conformance" heading.</figcaption>
-                  <img src="images/wcag_config.png" width="450" alt="" />
-               </figure>
-               <p>It is also possible to hide content-specific success criteria if you know that they do not apply to the
-                  publication (e.g., scripting requirements).</p>
-               <figure>
-                  <figcaption>The ability to hide content-specific criteria is found under the "Include requirements for"
-                     heading. Note that deselecting an option only hides the related criteria from view. The criteria will
-                     still appear in the generated report with a "not applicable" status.</figcaption>
-                  <img src="images/criteria_options.png" width="450" alt="" />
-               </figure>
-            </section>
-            <section id="generate">
-               <h3>Generating Reports</h3>
-               <p>After completing all of the evaluation steps, it is possible to generate a report based on your findings.
-                  This report can be included in the EPUB publication or hosted on the web and linked to from the
-                  publication.</p>
-               <p>To create the report, click on the "Generate" button at the top of the page. If any errors are encountered
-                  while compiling the report, you will receive an alert and the errors will be listed in a message panel at
-                  the bottom of the page. Clicking on each message will take you to the location of the error or warning.</p>
-            </section>
-            <section id="manage">
-               <h3>Managing Reports</h3>
-               <p>There are going to be times when you are not able to complete an evaluation on the same day that you
-                  initiate it. At the same time, whenever you close down your browser, any unsaved information is lost. To
-                  avoid having to leave your computer running to work around this dilemna, the reporting tool provides two
-                  options to save and reload in-progress reports:</p>
-               <dl>
-                  <dt>Local storage in the browser</dt>
-                  <dd>
-                     <p>If your browser supports local storage, it is possible to save the report in the browser. Local
-                        storage is the easiest option, as all you have to do is click the Save/Load buttons, but it comes
-                        with one caveat: you need to be carefuly that data in local storage is not cleaned automatically. For
-                        example, if you are using a private browsing session (e.g., Chrome Incognito mode), any information
-                        you store is lost when you close the browser. Similarly, if you run a program to clean up computer
-                        space, the program might delete all information in local storage.</p>
-                     <p>it is recommended to save a copy to file the first few times you use this option until you can be
-                        sure there is no risk of data loss.</p>
-                  </dd>
-                  <dt>Saving to a file</dt>
-                  <dd>
-                     <p>Saving to file is the safest method for storing a report for later, but also requires more steps.
-                        When you select this option, a new window will open with the JSON-encoded report data. You can either
-                        save this entire page to disk or copy the JSON data from the text field and save it using a text
-                        editor. Do not use a word processor, like Microsoft Word, to save the data, as it may reformat the
-                        text and break the JSON encoding.</p>
-                     <div class="caution">
-                        <p>Caution: Do not bookmark the HTML page with the expectation that you can return to it later to
-                           retrieve your data. It is a temporary page. Your report data will no longer be available when you
-                           return to the page.</p>
-                     </div>
-                     <p>When you reload the report, you will be prompted to paste the saved data. <em>Only copy the JSON
-                           data.</em> If you saved the generated HTML page that includes the JSON data, do not copy the HTML
-                        source or any of the surrounding text on the page.</p>
-                  </dd>
-               </dl>
-            </section>
-            <section id="adapt">
-               <h3>Adapting to Workflows</h3>
-               <p>You do not have to use all of the features of this tool in the evaluation of EPUB publications, and might
-                  not use any depending on your specific needs. It is designed as a reference implementation of what has to
-                  be done to properly evaluate and identify accessible publications, but can be adapted in many ways to meet
-                  the reality of your particular workflow.</p>
-               <p>Some of the ways your workflows might differ include:</p>
-               <ul>
-                  <li>you might address accessibility requirements further upstream from the output, in which case automatic
-                     and manual verification could be skipped by the evaluator (e.g., provision of alternative text and long
-                     descriptions for image assets);</li>
-                  <li>the storage and inclusion of metadata might not be a manual process, in which case those steps might be
-                     skipped or the necessary information might be included in the final product some other way;</li>
-                  <li>you might not provide reports for each publication you produce or you might have your own reporting
-                     template, in which case there is no need to fill out the manual conformance fields;</li>
-                  <li>your evaluators may already be sufficiently proficient with WCAG evaluations that they do not need to
-                     cross-check against the tool.</li>
-               </ul>
-            </section>
-         </section>
-      </main>
-      <footer>
-         <p>Copyright 2017 <a href="http://daisy.org">DAISY Consortium</a></p>
-         <p><a href="http://www.daisy.org/terms-use">Terms of Use</a> | <a href="http://www.daisy.org/contact"
-            >Contact</a></p>
-      </footer>
+	  <header>
+		 <div class="logo" property="dcterms:publisher"><a href="http://daisy.org"><img src="images/daisy_logo_sm.png"
+				  alt="DAISY Consortium" /></a></div>
+		 <h1>EPUB Accessibility Conformance and Reporting</h1>
+		 <nav class="menubar">
+			<a href="conformance.html">Home</a>
+			<a>How to Use</a>
+			<a href="faq.html">FAQ</a>
+			<!-- <a href="certification.html">Certification</a> -->
+		 </nav>
+	  </header>
+	  <main>
+		 <section>
+			<h2>How to Use</h2>
+			<nav role="doc-toc">
+			   <h3>Topics</h3>
+			   <ol>
+				  <li><a href="#eval">Evaluating Publications</a></li>
+				  <li><a href="#discovery">Adding Discovery Metadata</a></li>
+				  <li><a href="#conformance-meta">Adding Conformance Metadata</a></li>
+				  <li><a href="#configure">Configuring Reports</a></li>
+				  <li><a href="#generate">Generating Reports</a></li>
+				  <li><a href="#manage">Managing Reports</a></li>
+				  <li><a href="#adapt">Adapting to Workflows</a></li>
+			   </ol>
+			</nav>
+			<section id="eval">
+			   <h3>Evaluating Publications</h3>
+			   <p>Evaluating publications requires editing software that allows you to review the resources of the
+				  publication, even if you are only reporting issues and not fixing them. The publication does not have to be
+				  zipped to carry out an evaluation, as zipping does not directly affect the accessibility.</p>
+			   <p>There are two steps in the evaluation process:</p>
+			   <dl>
+				  <dt>1. Automated Verification</dt>
+				  <dd>
+					 <p>Automated verification is done using the <span class="todo">Name TBD</span> tool. This tool checks
+						accessibility requirements that can be programmatically determined.</p>
+					 <p class="todo">Explain how to run the tool.</p>
+					 <p>Continue to evaluate your publication and fix any reported problems until no more errors are
+						reported.</p>
+					 <p class="todo">Explain how to load the final report.</p>
+				  </dd>
+				  <dt>2. Manual Verification</dt>
+				  <dd>
+					 <p>Although the automatic verification tool will alert you to some problems that require manual
+						inspection, there are additional manual checks that need to be completed that a tool cannot verify
+						(quality of descriptions, scripting and keyboard issues, etc.). These checks must be performed to
+						ensure conformance with the EPUB Accessibility specification &#8212; a claim of conformance cannot be
+						made only from automated testing.</p>
+					 <p>The second step in evaluating conformance is therefore to manually check the publication against the
+						manual requirements. The <a href="conformance.html#verification">Conformance Verification</a> tab
+						provides a list of requirements that must be passed for each WCAG success criterion and the
+						additional EPUB requirements.</p>
+					 <p>This tab is configured by default to verify that the publication meets WCAG Level A requirements. To
+						change to a higher conformance level, or to view additional higher-level success criteria, refer to
+						the <a href="#configure">configuration section</a> below.</p>
+					 <p>Step through each success criterion and check that it is satisfied by the content. Each criterion
+						includes a status section to simplify tracking the overall conformance, and to facilitate <a
+						   href="#generate">generating a report</a> at the end of the evaluation.</p>
+					 <figure>
+						<figcaption>The status section appears after the links to the supporting documentation and includes
+						   pass, fail and not applicable options.</figcaption>
+						<img src="images/status.png" width="350" alt="" />
+					 </figure>
+					 <p>The following examples explain the available status options.</p>
+					 <figure>
+						<figcaption>If the publication fails a success criterion, setting the status reveals a field to
+						   describe why it failed.</figcaption>
+						<img src="images/status_fail.png" width="500" alt="" />
+					 </figure>
+					 <figure>
+						<figcaption>Set the "N/A" (not applicable) status for any criteria that are not applicable to the
+						   publication. If you leave any status section set to unverified, you will receive an error at the
+						   report generation step.</figcaption>
+						<img src="images/status_na.png" width="350" alt="" />
+					 </figure>
+					 <figure>
+						<figcaption>An optional note field is provided after the status section for recording any general
+						   notes you wish to provide. These notes are included in the generated report.</figcaption>
+						<img src="images/notes.png" width="350" alt="" />
+					 </figure>
+				  </dd>
+			   </dl>
+			</section>
+			<section id="discovery">
+			   <h3>Adding Discovery Metadata</h3>
+			   <div class="note">
+				  <p>Note: If the publication already includes discovery metadata, you can skip this step. If you intend to
+					 generate a report, however, it is recommended that you fill in the form to match the specified metadata
+					 to ensure discovery information is included in the output.</p>
+			   </div>
+			   <p>After completing the accessibility evaluation, the next step is to add the appropriate discovery metadata
+				  using the <a href="conformance.html#discovery">Discovery Metadata</a> tab.</p>
+			   <p>Each of the fields in this tab corresponds to a schema.org accessibility metadata property. For more
+				  information on how to complete these fields, refer to their <a href="https://schema.org/CreativeWork"
+					 >schema.org definitions</a> and to the <a
+					 href="http://www.idpf.org/epub/a11y/techniques/techniques.html#sec-discovery">descriptions in the EPUB
+					 Accessibility Techniques document</a>.</p>
+			   <p>After filling out all the relevant metadata, click the "Generate" button at the bottom of the tab to create
+				  metadata tags to paste into your publication's package document.</p>
+			   <div class="note">
+				  <p>Note: Include discovery metadata even if the publication fails conformance testing. It is a required
+					 component of the EPUB Accessibility specification.</p>
+			   </div>
+			</section>
+			<section id="conformance-meta">
+			   <h3>Adding Conformance Metadata</h3>
+			   <p>The last step is to report on conformance.</p>
+			   <p>Do not skip this step just because a publication has failed its accessibility evaluation. Even if a
+				  publication fails, it is important to note who carried out the evaluation and, if possible, to provide a
+				  link to the detailed report explaining why.</p>
+			</section>
+			<section id="configure">
+			   <h3>Configuring Reports</h3>
+			   <figure>
+				  <figcaption>The configuration dialog is opened from the fourth button in the reporting navigation bar at
+					 the top of the page.</figcaption>
+				  <img src="images/config_button.png" width="500" alt="" />
+			   </figure>
+			   <figure>
+				  <figcaption>The WCAG configuration options are found under the "WCAG Conformance" heading.</figcaption>
+				  <img src="images/wcag_config.png" width="450" alt="" />
+			   </figure>
+			   <p>It is also possible to hide content-specific success criteria if you know that they do not apply to the
+				  publication (e.g., scripting requirements).</p>
+			   <figure>
+				  <figcaption>The ability to hide content-specific criteria is found under the "Include requirements for"
+					 heading. Note that deselecting an option only hides the related criteria from view. The criteria will
+					 still appear in the generated report with a "not applicable" status.</figcaption>
+				  <img src="images/criteria_options.png" width="450" alt="" />
+			   </figure>
+			</section>
+			<section id="generate">
+			   <h3>Generating Reports</h3>
+			   <p>After completing all of the evaluation steps, it is possible to generate a report based on your findings.
+				  This report can be included in the EPUB publication or hosted on the web and linked to from the
+				  publication.</p>
+			   <p>To create the report, click on the "Generate" button at the top of the page. If any errors are encountered
+				  while compiling the report, you will receive an alert and the errors will be listed in a message panel at
+				  the bottom of the page. Clicking on each message will take you to the location of the error or warning.</p>
+			</section>
+			<section id="manage">
+			   <h3>Managing Reports</h3>
+			   <p>There are going to be times when you are not able to complete an evaluation on the same day that you
+				  initiate it. At the same time, whenever you close down your browser, any unsaved information is lost. To
+				  avoid having to leave your computer running to work around this dilemna, the reporting tool provides two
+				  options to save and reload in-progress reports:</p>
+			   <dl>
+				  <dt>Local storage in the browser</dt>
+				  <dd>
+					 <p>If your browser supports local storage, it is possible to save the report in the browser. Local
+						storage is the easiest option, as all you have to do is click the Save/Load buttons, but it comes
+						with one caveat: you need to be carefuly that data in local storage is not cleaned automatically. For
+						example, if you are using a private browsing session (e.g., Chrome Incognito mode), any information
+						you store is lost when you close the browser. Similarly, if you run a program to clean up computer
+						space, the program might delete all information in local storage.</p>
+					 <p>it is recommended to save a copy to file the first few times you use this option until you can be
+						sure there is no risk of data loss.</p>
+				  </dd>
+				  <dt>Saving to a file</dt>
+				  <dd>
+					 <p>Saving to file is the safest method for storing a report for later, but also requires more steps.
+						When you select this option, a new window will open with the JSON-encoded report data. You can either
+						save this entire page to disk or copy the JSON data from the text field and save it using a text
+						editor. Do not use a word processor, like Microsoft Word, to save the data, as it may reformat the
+						text and break the JSON encoding.</p>
+					 <div class="caution">
+						<p>Caution: Do not bookmark the HTML page with the expectation that you can return to it later to
+						   retrieve your data. It is a temporary page. Your report data will no longer be available when you
+						   return to the page.</p>
+					 </div>
+					 <p>When you reload the report, you will be prompted to paste the saved data. <em>Only copy the JSON
+						   data.</em> If you saved the generated HTML page that includes the JSON data, do not copy the HTML
+						source or any of the surrounding text on the page.</p>
+				  </dd>
+			   </dl>
+			</section>
+			<section id="adapt">
+			   <h3>Adapting to Workflows</h3>
+			   <p>You do not have to use all of the features of this tool in the evaluation of EPUB publications, and might
+				  not use any depending on your specific needs. It is designed as a reference implementation of what has to
+				  be done to properly evaluate and identify accessible publications, but can be adapted in many ways to meet
+				  the reality of your particular workflow.</p>
+			   <p>Some of the ways your workflows might differ include:</p>
+			   <ul>
+				  <li>you might address accessibility requirements further upstream from the output, in which case automatic
+					 and manual verification could be skipped by the evaluator (e.g., provision of alternative text and long
+					 descriptions for image assets);</li>
+				  <li>the storage and inclusion of metadata might not be a manual process, in which case those steps might be
+					 skipped or the necessary information might be included in the final product some other way;</li>
+				  <li>you might not provide reports for each publication you produce or you might have your own reporting
+					 template, in which case there is no need to fill out the manual conformance fields;</li>
+				  <li>your evaluators may already be sufficiently proficient with WCAG evaluations that they do not need to
+					 cross-check against the tool.</li>
+			   </ul>
+			</section>
+		 </section>
+	  </main>
+	  <footer>
+		 <p>Copyright 2017 <a href="http://daisy.org">DAISY Consortium</a></p>
+		 <p><a href="http://www.daisy.org/terms-use">Terms of Use</a> | <a href="http://www.daisy.org/contact"
+			>Contact</a></p>
+	  </footer>
    </body>
 </html>
