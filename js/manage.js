@@ -103,8 +103,18 @@ Manage.prototype.saveConformanceReport = function() {
 	reportJSON += '"conformanceMeta": {'
 		reportJSON += '"result": ' + JSON.stringify(document.querySelector('input[name="conf-result"]:checked').value) + ',';
 		reportJSON += '"certifier": ' + JSON.stringify(document.getElementById('certifier').value) + ',';
-		reportJSON += '"credential": ' + JSON.stringify(document.getElementById('credential').value) + ',';
+		
+		var cNum = document.querySelectorAll('fieldset.credential').length;
+		
+		for (var i = 1; i <= cNum; i++) {
+			reportJSON += '"credential' + i + '": {';
+				reportJSON += '"name": ' + JSON.stringify(document.getElementById('credentialName'+i).value) + ',';
+				reportJSON += '"link": ' + JSON.stringify(document.getElementById('credentialLink'+i).value);
+			reportJSON += '},';
+		}
+		
 		reportJSON += '"reportLink": ' + JSON.stringify(document.getElementById('reportLink').value);
+
 	reportJSON += '}';
 	
 	/* close object */
@@ -262,7 +272,7 @@ Manage.prototype.loadConformanceReport = function() {
 	
 	/* load conformance and config text fields */
 	
-	var meta = {"conformanceMeta": ['certifier','credential','reportLink'], "config": ['title','author','identifier','publisher']};
+	var meta = {"conformanceMeta": ['certifier','reportLink'], "config": ['title','author','identifier','publisher']};
 	
 	for (var key in meta) {
 		meta[key].forEach(function(id) {
@@ -271,6 +281,21 @@ Manage.prototype.loadConformanceReport = function() {
 	}
 	
 	document.querySelector('input[name=conf-result][value="' + report_obj.conformanceMeta.result + '"]').click();
+	
+	/* load credentials */
+	
+	for (var i = 1; i < 25; i++) {
+		if (report_obj["conformanceMeta"].hasOwnProperty("credential"+i)) {
+			if (i > 1) {
+				conf_meta.addCredential();
+			}
+			document.getElementById('credentialName'+i).value = report_obj['conformanceMeta']['credential'+i]['name'];
+			document.getElementById('credentialLink'+i).value = report_obj['conformanceMeta']['credential'+i]['link'];
+		}
+		else {
+			break;
+		}
+	}
 	
 	/* load config */
 	
