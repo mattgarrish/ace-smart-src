@@ -123,6 +123,10 @@ body.page h3 {
 	margin-top: 5rem;
 }
 
+.no-title {
+	margin-top: 4rem;
+	font-size: 1.8rem;
+}
 
 /* links */
 
@@ -203,7 +207,7 @@ section.js-tabcontent {
 
 ul.js-tablist {
 	position: relative;
-	top: -3.6rem;
+	top: -3.85rem;
 	left: -1.2rem;
 	padding: 0;
 	display: inline;
@@ -347,6 +351,13 @@ legend {
 	font-weight: bold;
 }
 
+fieldset > .note {
+	font-size: 1.1rem;
+	border: none !important;
+	margin: 1rem 0 0 0 !important;
+	padding: 0 !important;
+}
+
 /* discovery metadata */
 
 section#discovery div.error {
@@ -378,14 +389,14 @@ div.note,
 div.caution {
 	padding: 0 0.8rem;
 	margin-top: 1rem;
-	border: 0.1rem solid rgb(0,0,0);
+	border: 0.1rem solid rgb(0,180,0);
 	border-radius: 1rem;
 	width: 80%;
 	margin-left: 5%;
 }
 
 div.caution {
-   border: 0.1rem solid rgb(180,0,0);
+   border-color: rgb(180,0,0);
 }
 
 div.note > p {
@@ -471,7 +482,7 @@ label.data > span, div.data > span {
 	width: 20rem;
 }
 
-label.data > input {
+label.data > input[type='text'] {
 	width: 40rem;
 }
 
@@ -479,6 +490,9 @@ div.data {
 	margin-bottom: 2rem;
 }
 
+div.data > div {
+	margin-bottom: 0.8rem;
+}
 
 /* optimizations for phone screens in portrait orientation */
 @media only screen 
@@ -629,6 +643,29 @@ figcaption {
 }
 
 
+/* pub info fieldsets */
+
+section#start > fieldset {
+	border: none;
+	margin: 0.3rem 0;
+	padding: 0;
+	display: block;
+}
+
+section#start > fieldset > legend {
+	font-weight: normal;
+	color:  rgb(0,0,0);
+	width: 20rem;
+	margin: 0;
+	padding: 0;
+	display: inline-block !important;
+	float: left;
+}
+
+section#start > fieldset > label {
+	display: inline-block !important;
+}
+
 /* optimizations for phone screens */
 @media only screen 
   and (max-device-width: 480px)
@@ -690,7 +727,7 @@ figcaption {
 		padding-left: 0;
 	}
 	ul.js-tablist {
-		top: -3.6rem;
+		top: -3.85rem;
 		left: 1rem;
 	}
 }

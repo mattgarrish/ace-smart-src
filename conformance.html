@@ -32,7 +32,6 @@
 				<a>Home</a>
 				<a href="use.html">How to Use</a> 
 				<a href="faq.html">FAQ</a>
-				<!-- <a href="certification.html">Certification</a> --> 
 			</nav>
 			
 			<div id="report-buttons">
@@ -51,15 +50,49 @@
 					<a href="#auto" id="label_auto" class="js-tablist__link">1. Automation</a>
 				</li> -->
 				<li class="js-tablist__item">
-					<a href="#verification" id="label_verification" class="js-tablist__link">1. Conformance Verification</a>
+					<a href="#start" id="label_start" class="js-tablist__link">1. Start</a>
 				</li>
 				<li class="js-tablist__item">
-					<a href="#discovery" id="label_discovery" class="js-tablist__link">2. Discovery Metadata</a>
+					<a href="#verification" id="label_verification" class="js-tablist__link">2. Conformance Verification</a>
 				</li>
 				<li class="js-tablist__item">
-					<a href="#conformance" id="label_conformance" class="js-tablist__link">3. Conformance Metadata</a>
+					<a href="#discovery" id="label_discovery" class="js-tablist__link">3. Discovery Metadata</a>
+				</li>
+				<li class="js-tablist__item">
+					<a href="#conformance" id="label_conformance" class="js-tablist__link">4. Conformance Metadata</a>
 				</li>
 			</ul>
+			
+			<section id="start" class="js-tabcontent">
+				<p class="no-title">Welcome to the EPUB Accessibility Conformance and Reporting tool.</p>
+				
+				<p>This tool provides manual conformance checks necessary to ensure compliance with EPUB and WCAG requirements, and is intended to be used in conjunction with the <a href="https://github.com/daisy/ace-core/releases">DAISY Ace</a> accessibility checker.</p>
+				
+				<p>To begin, first check that the following metadata about the publication is correct, and input any missing information
+					you would like to include in the final report.</p>
+				
+				<fieldset>
+					<legend>Version:</legend>
+					<!-- <div><small>Note: This setting also controls the format of the discovery and conformance metadata.</small></div> -->
+					<label><input type="radio" name="epub-format" value="3" onchange="format.setVersion('3')" checked="checked"/> EPUB 3</label>
+					<label><input type="radio" name="epub-format" value="2" onchange="format.setVersion('2')"/> EPUB 2</label>
+				</fieldset>
+				
+				<div class="data">
+					<label class="data"><span>Title:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="title" aria-required="true"/></label>
+					<label class="data"><span>Author(s):</span> <input type="text" id="author"/></label>
+					<label class="data"><span>Identifier:</span> <input type="text" id="identifier"/></label>
+					<label class="data"><span>Publisher:</span> <input type="text" id="publisher"/></label>
+				</div>
+				
+				<div class="data">
+					<div>Use the following text box to include additional metadata in the accessibility report. Certain relevant metadata discovered by the Ace tool is automatically populated.</div>
+					<div id="meta-input-desc">Use a colon followed by a space to separate the label from the value. Separate metadata items with a return character.</div>
+					<textarea rows="8" aria-describedby="meta-input-desc" id="optional-meta" placeholder="label: value"></textarea>
+				</div>
+				
+				<div class="pad-top"><a href="#verification" class="js-link-to-tab">Continue to Conformance Verification</a></div>
+			</section>
 			
 			<section id="verification" class="js-tabcontent">
 				<h2>Conformance Verification</h2>
@@ -1250,14 +1283,14 @@
 					<label class="data"><span>Link to report:</span> <input type="text" id="reportLink"/></label>
 				</fieldset>
 				
-				<fieldset class="credential">
+				<fieldset class="credential" aria-describedby="daisy-cred">
 					<legend>Credential:</legend>
-					<div><small><em>Note: DAISY Ace certification credential is automatically generated.</em></small></div>
 					<label class="data"><span>Name:</span> <input type="text" id="credentialName1"/></label>
 					<label class="data"><span>Link:</span> <input type="text" id="credentialLink1"/></label>
+					<div id="daisy-cred" class="note">Note: DAISY certification is automatically included. This field is provided for an additional credential.</div>
 				</fieldset>
 				
-				<div id="add-cred" class="pad-top"><a href="#add-cred" onclick="conf_meta.addCredential(); return false">Add credential</a></div>
+				<!-- <div id="add-cred" class="pad-top"><a href="#add-cred" onclick="conf_meta.addCredential(); return false">Add credential</a></div> -->
 				
 				<div class="buttons">
 					<input type="button" value="Generate" onclick="conf_meta.generateConformanceMeta()"/>
@@ -1278,20 +1311,6 @@
 					<input type="button" value="Update"/>
 				</div>
 				-->
-				
-				<div class="data">
-					<label class="data"><span>Title:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="title" aria-required="true"/></label>
-					<label class="data"><span>Author(s):</span> <input type="text" id="author"/></label>
-					<label class="data"><span>Identifier:</span> <input type="text" id="identifier"/></label>
-					<label class="data"><span>Publisher:</span> <input type="text" id="publisher"/></label>
-				</div>
-				
-				<fieldset>
-					<legend>Publication Type:</legend>
-					<div><small>Note: This setting also controls the format of the discovery and conformance metadata.</small></div>
-					<label><input type="radio" name="epub-format" value="3" onchange="format.setVersion('3')" checked="checked"/> EPUB 3</label>
-					<label><input type="radio" name="epub-format" value="2" onchange="format.setVersion('2')"/> EPUB 2</label>
-				</fieldset>
 				
 				<fieldset class="data">
 					<legend>WCAG Conformance:</legend>

@@ -42,6 +42,7 @@ Manage.prototype.saveConformanceReport = function() {
 		reportJSON += '"author": ' + JSON.stringify(document.getElementById('author').value) + ',';
 		reportJSON += '"identifier": ' + JSON.stringify(document.getElementById('identifier').value) + ',';
 		reportJSON += '"publisher": ' + JSON.stringify(document.getElementById('publisher').value) + ',';
+		reportJSON += '"optional-meta": ' + JSON.stringify(document.getElementById('optional-meta').value) + ',';
 		
 		/* other config info */
 		reportJSON += '"epub_format": ' + JSON.stringify(document.querySelector('input[name="epub-format"]:checked').value);
@@ -272,7 +273,7 @@ Manage.prototype.loadConformanceReport = function() {
 	
 	/* load conformance and config text fields */
 	
-	var meta = {"conformanceMeta": ['certifier','reportLink'], "config": ['title','author','identifier','publisher']};
+	var meta = {"conformanceMeta": ['certifier','reportLink'], "config": ['title','author','identifier','publisher','optional-meta']};
 	
 	for (var key in meta) {
 		meta[key].forEach(function(id) {

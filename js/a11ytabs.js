@@ -60,8 +60,8 @@ $(document).ready(function(){
 					} );
 			} );
 			
-			// highlight current tab -- added MG
-			var hash_tab = '#label_' + ((hash == '') ? 'verification' : hash);
+			// highlight current tab or pubinfo by default -- added MG
+			var hash_tab = '#label_' + ((hash == '') ? 'start' : hash);
 			$(hash_tab).closest( '.js-tablist__item' ).addClass( 'active' );
 
 	 

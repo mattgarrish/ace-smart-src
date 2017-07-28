@@ -62,7 +62,7 @@
 			h3 {
 				font-size: 1.4rem;
 				font-weight: normal;
-				color: rgb(0, 0, 180);
+				color: rgb(0, 0, 150);
 				padding-left: 0.5rem;
 				margin: 3rem 0 1rem 0;
 			}
@@ -83,7 +83,7 @@
 				font-size: 1rem;
 				font-weight: bold;
 				color: rgb(0,0,0);
-				background-color: rgb(237,237,237);
+				background-color: rgb(230,240,255);
 				padding: 0.5rem 0.5rem 0.5rem 0.8rem;
 			}
 			div.summaryTable > p {
@@ -101,17 +101,25 @@
 			div.summaryTable > h3 > span:last-child {
 				border-top-right-radius: 0.5rem;
 			}
+			div.summaryTable > p:last-child > span:first-child {
+				border-bottom-left-radius: 0.5rem;
+			}
+			div.summaryTable > p:last-child > span:last-child {
+				border-bottom-right-radius: 0.5rem;
+			}
 			div.summaryTable > p:nth-child(n+2) > span {
 				border-top: 0.1rem solid rgb(150,150,150);
 			}
-			div.summaryTable span.pass {
-				font-weight: bold;
-				color: rgb(0,0,0);
-				background-color: rgb(220,240,220);
+			div.summaryTable > p > span.label {
+				background-color: rgb(240,240,240);
 			}
-			div.summaryTable span.fail {
+			div.summaryTable > p > span.pass {
+				color: rgb(0,0,0);
+				background-color: rgb(230,240,230);
+			}
+			div.summaryTable > p > span.fail {
 				font-weight: bold;
-				color: rgb(120,0,0);
+				color: rgb(240,230,230);
 				background-color: inherit !important;
 			}
 			.pubinfo {

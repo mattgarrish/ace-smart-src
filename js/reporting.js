@@ -19,7 +19,7 @@ Report.prototype.validateConformanceReport = function() {
 	if (title_elem.value.trim() == '') {
 		title_elem.setAttribute('aria-invalid',true);
 		title_elem.parentNode.classList.add(format.BG.ERR);
-		error.write('config','title','err','Title is a required field.');
+		error.write('start','title','err','Title is a required field.');
 		err = true;
 	}
 	
@@ -28,6 +28,33 @@ Report.prototype.validateConformanceReport = function() {
 		title_elem.parentNode.classList.remove(format.BG.ERR);
 	}
 	
+	/* validate the optional metadata field */
+	
+	var optional_elem = document.getElementById('optional-meta');
+	var opt_meta_value = optional_elem.value.trim();
+	
+	if (opt_meta_value != '') {
+		var meta = opt_meta_value.replace(/\r\n/g,'\n').split('\n');
+		var meta_err = false;
+		for (var i = 0; i < meta.length; i++) {
+			if (!meta[i].match(/: /)) {
+				optional_elem.setAttribute('aria-invalid',true);
+				optional_elem.parentNode.classList.add(format.BG.ERR);
+				error.write('start','optional-meta','err','Missing a colon separator on line ' + (i+1));
+				err = true;
+				meta_err = true;
+			}
+		}
+		if (!meta_err) {
+			optional_elem.setAttribute('aria-invalid',false);
+			optional_elem.parentNode.classList.remove(format.BG.ERR);
+		}
+	}
+	
+	else {
+		optional_elem.setAttribute('aria-invalid',false);
+		optional_elem.parentNode.classList.remove(format.BG.ERR);
+	}
 	
 	/* check there is a custom style sheet url
 	if (document.getElementById('add-custom-css').checked) {
@@ -137,18 +164,18 @@ Report.prototype.generateConformanceReport = function() {
 		conf_class.aa = 'pass';
 		conf_class.fail = 'fail';
 	
-	reportSummary += format.pubInfo('conformance','Conformance',wcag_label[wcag_conf],'dcterms:conformsTo',conf_class[wcag_conf],conf_class[wcag_conf]);
+	reportSummary += format.pubInfo('conformance','Conformance',wcag_label[wcag_conf],'dcterms:conformsTo',conf_class[wcag_conf]);
 
-	reportSummary += format.pubInfo('summary','Description',document.getElementById('summary').value,'accessibilitySummary');
-	reportSummary += format.pubInfo('features','Features',this.listDiscoveryMeta('features','accessibilityFeature'));
-	reportSummary += format.pubInfo('hazards','Hazards',this.listDiscoveryMeta('hazards','accessibilityHazard'));
-	reportSummary += format.pubInfo('modes','Access Mode(s)',this.listDiscoveryMeta('modes','accessMode'));
+	reportSummary += format.pubInfo('summary','Description',document.getElementById('summary').value,'accessibilitySummary','');
+	reportSummary += format.pubInfo('features','Features',this.listDiscoveryMeta('features','accessibilityFeature'),'');
+	reportSummary += format.pubInfo('hazards','Hazards',this.listDiscoveryMeta('hazards','accessibilityHazard'),'');
+	reportSummary += format.pubInfo('modes','Access Mode(s)',this.listDiscoveryMeta('modes','accessMode'),'');
 	
 	
 	var certifier = document.getElementById('certifier').value.trim();
 	
 	if (certifier != '') {
-		reportSummary += format.pubInfo('certifier','Certifier',certifier);
+		reportSummary += format.pubInfo('certifier','Certifier',certifier,'');
 	}
 	
 	reportSummary += '<p id="credential"><span class="label">Credential:</span> <span class="value"><a href="http://www.daisy.org/ace/certified">DAISY Ace Certified</a>';
@@ -177,7 +204,17 @@ Report.prototype.generateConformanceReport = function() {
 	var reportDetails = '<section id="details">\n<h3>Additional Information</h3>\n';
 		reportDetails += '<details class="info">\n<summary>Publication Information</summary>\n';
 	
-	reportDetails += format.pubInfo('format','Publication Format', 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value);
+	reportDetails += format.pubInfo('format','Publication Format', 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value,'');
+	
+	var optional_meta = document.getElementById('optional-meta').value.trim();
+	
+	if (optional_meta != '') {
+		var meta = optional_meta.replace(/\r\n/g,'\n').split('\n');
+		for (var i = 0; i < meta.length; i++) {
+			var part = meta[i].split(': ');
+			reportDetails += format.pubInfo(part[0].toLowerCase().replace(/\s/g,''),part[0],part[1],'');
+		}
+	}
 	
 	var stat = { "pass": 0, "fail": 0, "na": 0, "unverified": 0 };
 	
@@ -266,7 +303,7 @@ Report.prototype.generateConformanceReport = function() {
 	
 	var stats = (stat.fail ? stat.fail + ' fail, ' : '') + (stat.unverified ? stat.unverified + ' unverified, ' : '') + stat.pass + ' pass' + (stat.na ? ', ' + stat.na + ' not applicable' : '');
 	
-	reportDetails += format.pubInfo('result','Statistics',stats);
+	reportDetails += format.pubInfo('result','Statistics',stats,'');
 	
 	reportDetails += '</details>\n';
 	reportDetails += reportTable;
