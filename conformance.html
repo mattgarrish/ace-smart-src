@@ -36,10 +36,10 @@
 			
 			<div id="report-buttons">
 				<span>Report:</span>
-				<input type="button" value="Generate" onclick="report.validateConformanceReport()"/>
 				<input type="button" value="Manage" onclick="manage.open()"/>
 				<input type="button" value="Reset" onclick="manage.clear(false)"/>
-				<input type="button" class="left-button-pad" value="Configure" onclick="config_dialog.dialog('open')"/>
+				<input type="button" value="Configure" onclick="config_dialog.dialog('open')"/>
+				<input type="button" value="Generate" onclick="report.validateConformanceReport()" class="left-button-pad"/>
 			</div>
 		</header>
 		
@@ -68,14 +68,21 @@
 				
 				<p>This tool provides manual conformance checks necessary to ensure compliance with EPUB and WCAG requirements, and is intended to be used in conjunction with the <a href="https://github.com/daisy/ace-core/releases">DAISY Ace</a> accessibility checker.</p>
 				
-				<p>To begin, first check that the following metadata about the publication is correct, and input any missing information
-					you would like to include in the final report.</p>
+				<p>To begin, check that the following information is correct, and input any missing information
+					you would like to include in the final report. Required fields are indicated by an asterisk.</p>
 				
 				<fieldset>
-					<legend>Version:</legend>
+					<legend>Format:<img src="images/asterisk.png" alt="required"/></legend>
 					<!-- <div><small>Note: This setting also controls the format of the discovery and conformance metadata.</small></div> -->
 					<label><input type="radio" name="epub-format" value="3" onchange="format.setVersion('3')" checked="checked"/> EPUB 3</label>
 					<label><input type="radio" name="epub-format" value="2" onchange="format.setVersion('2')"/> EPUB 2</label>
+				</fieldset>
+				
+				<fieldset>
+					<legend>WCAG Conformance:<img src="images/asterisk.png" alt="required"/></legend>
+					<label><input type="radio" name="wcag-level" value="a" onchange="conf.wcag_level='a'; conf.changeConformance(); conf.WCAGOption('show');" checked="checked"/> Level A</label>
+					<label><input type="radio" name="wcag-level" value="aa" onchange="conf.wcag_level='aa'; conf.changeConformance(); conf.WCAGOption('disable');"/> Level AA</label>
+					<span class="wcag-note">(See <a href="#note-form" onclick="config_dialog.dialog('open'); return false">Configuration</a> for additional options.)</span>
 				</fieldset>
 				
 				<div class="data">
@@ -83,12 +90,8 @@
 					<label class="data"><span>Author(s):</span> <input type="text" id="author"/></label>
 					<label class="data"><span>Identifier:</span> <input type="text" id="identifier"/></label>
 					<label class="data"><span>Publisher:</span> <input type="text" id="publisher"/></label>
-				</div>
-				
-				<div class="data">
-					<div>Use the following text box to include additional metadata in the accessibility report. Certain relevant metadata discovered by the Ace tool is automatically populated.</div>
-					<div id="meta-input-desc">Use a colon followed by a space to separate the label from the value. Separate metadata items with a return character.</div>
-					<textarea rows="8" aria-describedby="meta-input-desc" id="optional-meta" placeholder="label: value"></textarea>
+					<label class="data"><span>Additional Metadata:</span> <textarea rows="8" aria-describedby="meta-input-desc" id="optional-meta" placeholder="label: value"></textarea></label>
+					<div id="meta-input-desc" hidden="hidden">Use a colon followed by a space to separate the label from the value. Separate metadata items with a return character.</div>
 				</div>
 				
 				<div class="pad-top"><a href="#verification" class="js-link-to-tab">Continue to Conformance Verification</a></div>
@@ -96,19 +99,6 @@
 			
 			<section id="verification" class="js-tabcontent">
 				<h2>Conformance Verification</h2>
-				
-				<div class="note" id="note-form" hidden="hidden">
-					<a href="#note-form" onclick="conf.hideElem(this); conf.saveNotePref()"><img src="images/close-icon.png" alt="Close" class="note-close"/></a>
-					<p><b>Note:</b> <!-- The recommended checks in this section assume that automated testing has already been performed.
-						Additional conformance testing will be required to pass, if not. See
-						<a href="https://www.w3.org/TR/WCAG20/">WCAG 2.0</a> for more information.</p>
-					
-					<p>-->This form is configured to verify conformance to WCAG Level A by default. Open the
-						<a href="#note-form" onclick="config_dialog.dialog('open'); return false">configuation options</a> to change
-						levels and add additional information such as the publication title to the generated report.</p>
-					
-					<p class="small"><label><input type="checkbox" id="hide-form-note"/> Check to hide this note on future visits</label></p>
-				</div>
 				
 				<section id="sc-1.1.1" class="a">
 					<h3><span class="label">1.1.1 Non-text Content</span> <span class="a-label">[Level A]</span></h3>
@@ -1314,8 +1304,6 @@
 				
 				<fieldset class="data">
 					<legend>WCAG Conformance:</legend>
-					<label><input type="radio" name="wcag-level" value="a" onchange="conf.wcag_level='a'; conf.changeConformance(); conf.WCAGOption('show');" checked="checked"/> Level A</label>
-					<label><input type="radio" name="wcag-level" value="aa" onchange="conf.wcag_level='aa'; conf.changeConformance(); conf.WCAGOption('disable');"/> Level AA</label>
 					<label class="show-xtra"><input type="checkbox" id="show-aa" onchange="conf.showLevel('aa', (this.checked ? true : false))"/> Show Level AA Criteria</label>
 					<label class="show-xtra"><input type="checkbox" id="show-aaa" onchange="conf.showLevel('aaa', (this.checked ? true : false))"/> Show Level AAA Criteria</label>
 				</fieldset>

@@ -185,7 +185,7 @@ div#report-buttons input[type="button"] {
 }
 
 div#report-buttons input[type="button"].left-button-pad {
-	margin-left: 2rem;
+	margin-left: 3rem;
 }
 
 
@@ -422,6 +422,13 @@ p.small {
 	font-size: 1.2rem;
 }
 
+span.wcag-note {
+	font-size: 90%;
+	font-style: italic;
+	display: inline-block;
+	margin-left: 1rem;
+}
+
 /* config options */
 
 section#config {
@@ -462,6 +469,11 @@ textarea {
 	width: 90%;
 }
 
+label.data > textarea {
+	width: 39.8rem;
+	display: inline-block;
+}
+
 /* n/a notes */
 
 p.img, p.av, p.forms {
@@ -474,12 +486,13 @@ p.img, p.av, p.forms {
 
 label.data {
 	display: block;
-	margin-top: 0.3rem;
+	margin-top: 0.8rem;
 }
 
 label.data > span, div.data > span {
 	display: inline-block;
 	width: 20rem;
+	vertical-align: top;
 }
 
 label.data > input[type='text'] {

@@ -5,7 +5,7 @@
 	// initialize dialogs
 	var config_dialog = $("#config").dialog({
 		autoOpen: false,
-		height: 450,
+		height: 410,
 		modal: true,
 		buttons: {
 			Close: function() {
@@ -44,7 +44,4 @@
 	
 	// initial set
 	setDialogWidth();
-	
-	// hide note
-	conf.checkHideFormNote();
 	

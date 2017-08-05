@@ -178,33 +178,39 @@ Report.prototype.generateConformanceReport = function() {
 		reportSummary += format.pubInfo('certifier','Certifier',certifier,'');
 	}
 	
-	reportSummary += '<p id="credential"><span class="label">Credential:</span> <span class="value"><a href="http://www.daisy.org/ace/certified">DAISY Ace Certified</a>';
+	// reportSummary += '<p id="credential"><span class="label">Credential:</span> <span class="value"><a href="http://www.daisy.org/ace/certified">DAISY Ace Certified</a>';
 	
 	var credNum = document.querySelectorAll('fieldset.credential').length;
+	
+	var cred = '';
 	
 	for (var i = 1; i <= credNum; i++) {
 		var name = document.getElementById('credentialName'+i).value.trim();
 		var link = document.getElementById('credentialLink'+i).value.trim();
 		
 		if (name != '' && link != '') {
-			reportSummary += '<br><a href="' + link + '">' + name + '</a>';
+			cred += '<br><a href="' + link + '">' + name + '</a>';
 		}
 		
 		else if (name != '') {
-			reportSummary += '<br>' + name;
+			cred += '<br>' + name;
 		}
 		
 		else if (link != '') {
-			reportSummary += '<br><a href="' + link + '">' + link + '</a>';
+			cred += '<br><a href="' + link + '">' + link + '</a>';
 		}
 	}
 	
-	reportSummary += '</span></p>\n</div>\n</section>\n';
+	if (cred != '') {
+		reportSummary += format.pubInfo('credential','Additional Credential(s)',cred,'');
+	}
+	
+	reportSummary += '\n</div>\n</section>\n';
 
 	var reportDetails = '<section id="details">\n<h3>Additional Information</h3>\n';
 		reportDetails += '<details class="info">\n<summary>Publication Information</summary>\n';
 	
-	reportDetails += format.pubInfo('format','Publication Format', 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value,'');
+	reportDetails += format.pubInfo('format','Format', 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value,'');
 	
 	var optional_meta = document.getElementById('optional-meta').value.trim();
 	

@@ -94,11 +94,6 @@ Conformance.prototype.changeContentConformance = function(elem,type) {
 }
 
 
-Conformance.prototype.showNote = function(obj) {
-	document.getElementById(obj.name).style.display = (obj.checked) ? 'block' : 'none';
-}
-
-
 Conformance.prototype.WCAGOption = function(state) {
 	document.getElementById('show-aa').disabled = (state == 'disable') ? true : false;
 }
@@ -136,36 +131,3 @@ Conformance.prototype.setStatusAdmin = function(stat) {
 		}
 	}
 }
-
-/* currently unused
-Conformance.prototype.showReporting = function(show) {
-	var repList = document.getElementsByClassName('reporting');
-	for (var i = 0; i < repList.length; i++) {
-		repList[i].style.display = (show == true) ? 'block' : 'none';
-	}
-}
- */
-
-
-Conformance.prototype.hideElem = function(elem) {
-	elem.parentNode.style.display='none';
-}
-
-
-Conformance.prototype.saveNotePref = function() {
-	if (document.getElementById('hide-form-note').checked) {
-		var date = new Date();
-			date.setTime(date.getTime() + (3650*24*60*60*1000));
-		document.cookie = 'name=daisychecker';
-		document.cookie = 'formNotePref=hide';
-		document.cookie = 'expires=' + date.toUTCString();
-	}
-}
-
-Conformance.prototype.checkHideFormNote = function() {
-	if (!document.cookie.match(/formNotePref=hide/i)) {
-		document.getElementById('note-form').removeAttribute('hidden');
-	}
-}
-
-
