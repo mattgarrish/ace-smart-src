@@ -14,20 +14,20 @@
 	font-style: normal;
 }
 
-html {
+html{
 	font-size: 62.5%;
 }
 
-body {
+body{
 	font-family: sans-serif;
 	font-size: 1.4rem;
 	margin: 0;
 	padding: 0;
-	background-color: rgb(142,189,244);
-	color: rgb(0,0,0);
+	background-color: rgb(142, 189, 244);
+	color: rgb(0, 0, 0);
 }
 
-header {
+header{
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -35,62 +35,63 @@ header {
 	z-index: 5;
 }
 
-header > * {
+header > *{
 	padding-left: 3rem !important;
 }
 
 /* title and logo */
 
-h1 {
-	font-family: 'Open Sans Light',Helvetica,Arial,sans-serif;
+h1{
+	font-family: 'Open Sans Light', Helvetica, Arial, sans-serif;
 	font-weight: normal;
 	font-size: 2rem;
 	margin: 0;
 	padding: 0.4rem 0 0.2rem 1.5rem !important;
-	background-color: rgb(27,95,161);
-	color: rgb(255,255,255);
+	background-color: rgb(27, 95, 161);
+	color: rgb(255, 255, 255);
 	height: 36px;
 }
 
-h1 > span:first-child {
+h1 > span:first-child{
 	padding-right: 0.5rem;
 }
 
-img.logo {
+img.logo{
 	vertical-align: bottom;
 }
 
 /* page content */
 
-main, footer {
+main,
+footer{
 	display: block;
 	margin: 0 0.3rem;
 }
 
-main {
+main{
 	padding-bottom: 2rem;
-	background-color: rgb(251,251,251);
+	background-color: rgb(251, 251, 251);
 }
 
-body.page main {
+body.page main{
 	padding: 0 2rem 2rem 2rem;
 	margin-top: 6.8rem;
 }
 
-main > * {
+main > *{
 	max-width: 76rem;
 }
 
-footer {
+footer{
 	font-weight: bold;
 	font-size: 90%;
 	text-align: center;
-	background-color: rgb(245,245,245);
+	background-color: rgb(245, 245, 245);
 	padding: 0.5rem 1rem;
 	margin-top: 0.3rem;
 }
 
-footer img {
+footer img{
 	padding-left: 1rem;
 	vertical-align: middle;
 }
@@ -98,114 +99,114 @@ footer img {
 
 /* headings */
 
-h2 {
+h2{
 	font-family: Raleway;
 	font-size: 2.4rem;
 	font-weight: normal;
-	color: rgb(0,0,180);
+	color: rgb(0, 0, 180);
 }
 
-h3 {
-	color: rgb(0,0,90);
+h3{
+	color: rgb(0, 0, 90);
 	font-weight: normal;
 	font-size: 1.6rem;
 }
 
-body.page h2 {
+body.page h2{
 	margin-top: 0;
 	padding-top: 2rem;
 }
 
-body.page h3 {
+body.page h3{
 	font-size: 1.8rem;
 	border-left: 0.4rem solid blue;
 	padding-left: 0.5rem;
 	margin-top: 5rem;
 }
 
-.no-title {
+.no-title{
 	margin-top: 4rem;
 	font-size: 1.8rem;
 }
 
 /* links */
 
-a {
-	color: rgb(0,0,220);
+a{
+	color: rgb(0, 0, 220);
 	text-decoration: none;
 }
 
-a:hover {
-	color: rgb(238,0,0);
+a:hover{
+	color: rgb(238, 0, 0);
 	text-decoration: underline;
 }
 
 
 /* menubar */
 
-nav.menubar {
+nav.menubar{
 	margin: 0 0 0 -1rem;
 	padding: 0.5rem 0.5rem 0.5rem 2rem;
-	border-bottom: 0.1rem solid rgb(0,0,0);
-	background-color: rgb(245,245,245);
+	border-bottom: 0.1rem solid rgb(0, 0, 0);
+	background-color: rgb(245, 245, 245);
 }
 
-nav.menubar > a {
+nav.menubar > a{
 	font-size: 90%;
 	padding-right: 2rem;
 }
 
-nav.menubar > a:not([href]) {
-	color: rgb(60,60,60);
+nav.menubar > a:not([href]){
+	color: rgb(60, 60, 60);
 	text-decoration: none;
 }
 
 
 /* reporting buttons */
 
-div#report-buttons {
+div#report-buttons{
 	font-size: 1.2rem;
 	font-weight: bold;
 	margin: 0 0 0 -1rem;
 	padding: 0.5rem 0.5rem 0.5rem 2rem;
-	border-bottom: 0.1rem solid rgb(0,0,0);
-	background-color: rgb(232,244,248);
+	border-bottom: 0.1rem solid rgb(0, 0, 0);
+	background-color: rgb(232, 244, 248);
 	vertical-align: bottom;
 }
 
-div#report-buttons input[type="button"] {
+div#report-buttons input[type = "button"]{
 	font-size: 1rem;
-	background-color: rgb(251,251,251);
-	color: rgb(0,0,220);
-	border: 0.05rem dotted rgb(0,80,160);
+	background-color: rgb(251, 251, 251);
+	color: rgb(0, 0, 220);
+	border: 0.05rem dotted rgb(0, 80, 160);
 	padding: 0.2rem;
 	width: 6rem;
 	margin-left: 0.3rem;
 	vertical-align: bottom;
 }
 
-div#report-buttons input[type="button"].left-button-pad {
+div#report-buttons input[type = "button"].left-button-pad{
 	margin-left: 3rem;
 }
 
 
 /* tabs */
 
-main.js-tabs {
+main.js-tabs{
 	margin-top: 14rem;
 	padding-left: 3rem;
 	border-radius: 0.8rem 0.8rem 0 0;
 }
 
-section.js-tabcontent[aria-hidden=true] {
+section.js-tabcontent[aria-hidden = true]{
 	display: none;
 }
 
-section.js-tabcontent {
+section.js-tabcontent{
 	margin-top: -4rem;
 }
 
-ul.js-tablist {
+ul.js-tablist{
 	position: relative;
 	top: -3.85rem;
 	left: -1.2rem;
@@ -214,38 +215,41 @@ ul.js-tablist {
 	margin-left: -1rem;
 }
 
-li.js-tablist__item {
+li.js-tablist__item{
 	width: 16.5rem;
 	display: inline-block;
 	padding: 0.7rem;
 	font-size: 90%;
-	background-color: rgb(235,235,235);
+	background-color: rgb(235, 235, 235);
 	border-radius: 0.5rem 0.5rem 0 0;
 	cursor: pointer;
 	margin-right: 0.3rem;
 }
 
-li.active {
-	background-color: rgb(251,251,251);
-	border-top: 0.3rem solid rgb(0,0,220);
+li.active{
+	background-color: rgb(251, 251, 251);
+	border-top: 0.3rem solid rgb(0, 0, 220);
 }
 
-li.js-tablist__item a {
-	color: rgb(0,0,160);
+li.js-tablist__item a{
+	color: rgb(0, 0, 160);
 }
 
-li.js-tablist__item a:hover {
-	color: rgb(238,0,0);
+li.js-tablist__item a:hover{
+	color: rgb(238, 0, 0);
 }
 
 
 /* conformance guidelines */
 
-section.guideline {
+section.guideline{
 	margin-left: 3rem;
 }
 
-section.a, section.aa, section.aaa, section.epub {
+section.a,
+section.aa,
+section.aaa,
+section.epub{
 	margin-left: 1rem;
 	margin-top: 3rem;
 	padding: 2rem;
@@ -253,105 +257,109 @@ section.a, section.aa, section.aaa, section.epub {
 	box-shadow: 0 0 0.5rem 0 gray;
 }
 
-section.a {
+section.a{
 	border: 0.1rem solid blue;
 }
 
-section.aa {
+section.aa{
 	border: 0.1rem solid green;
 	display: none;
 }
 
-section.aaa {
+section.aaa{
 	border: 0.1rem solid purple;
 	display: none;
 }
 
-section.epub {
+section.epub{
 	border: 0.1rem solid orange;
 }
 
-span.a-label, span.aa-label, span.aaa-label {
+span.a-label,
+span.aa-label,
+span.aaa-label{
 	padding-left: 0.5rem;
 	font-size: 1.2rem;
-	color: rgb(0,0,200);
+	color: rgb(0, 0, 200);
 }
 
-span.aa-label {
-	color: rgb(0,90,0);
+span.aa-label{
+	color: rgb(0, 90, 0);
 }
 
-span.aaa-label {
-	color: rgb(90,0,90);
+span.aaa-label{
+	color: rgb(90, 0, 90);
 }
 
 section.a > h3,
 section.aa > h3,
 section.aaa > h3,
-section.epub > h3 {
+section.epub > h3{
 	padding-top: 0;
 	margin-top: 0;
 }
 
-p.sc-note {
+p.sc-note{
 	font-style: italic;
 	text-indent: -3.6rem;
 	margin: 1rem 2rem 2rem 4.5rem;
 }
 
-div.buttons {
+div.buttons{
 	padding: 2rem 1rem;
 }
 
-input[type="button"] {
+input[type = "button"]{
 	width: 8rem;
 }
 
-input[type="checkbox"] {
+input[type = "checkbox"]{
 	cursor: pointer;
 }
 
-label.show-xtra {
+label.show-xtra{
 	display: block;
 	margin: 0.5rem 0;
 }
 
-p.superseded-aa {
+p.superseded-aa{
 	display: none;
 }
 
-div.pad-top { margin-top: 2rem; }
+div.pad-top{
+	margin-top: 2rem;
+}
 
 /* lists */
 
-ul {
+ul{
 	list-style-type: square;
 	margin-top: 0.5rem;
 }
 
-li {
+li{
 	margin-top: 0.7rem;
 }
 
 
 /* fieldsets */
 
-fieldset {
+fieldset{
 	max-width: 65rem;
 	margin-top: 2.5rem;
 	border: 1px solid gray;
 }
 
-legend + fieldset {
+legend + fieldset{
 	margin-top: 0.5em;
 }
 
-legend {
-	color: rgb(0,0,90);
+legend{
+	color: rgb(0, 0, 90);
 	font-weight: bold;
 }
 
-fieldset > .note {
+fieldset > .note{
 	font-size: 1.1rem;
 	border: none !important;
 	margin: 1rem 0 0 0 !important;
@@ -360,69 +368,70 @@ fieldset > .note {
 
 /* discovery metadata */
 
-section#discovery div.error {
+section#discovery div.error{
 	font-style: italic;
 	padding: 0.5rem;
 	display: none;
 }
 
-section#discovery label {
+section#discovery label{
 	display: inline-block;
 	width: 20rem;
 }
 
-section#discovery input#gen {
+section#discovery input#gen{
 	margin-left: 1rem;
 }
 
-div.failure, div.info {
+div.failure,
+div.info{
 	display: none;
 }
 
-div.failure {
+div.failure{
 	margin-top: 1.5rem;
 }
 
 /* notes */
 
 div.note,
-div.caution {
+div.caution{
 	padding: 0 0.8rem;
 	margin-top: 1rem;
-	border: 0.1rem solid rgb(0,180,0);
+	border: 0.1rem solid rgb(0, 180, 0);
 	border-radius: 1rem;
 	width: 80%;
 	margin-left: 5%;
 }
 
-div.caution {
-   border-color: rgb(180,0,0);
+div.caution{
+	border-color: rgb(180, 0, 0);
 }
 
-div.note > p {
-   font-size: 95%;
-   text-indent: -3.6rem;
-   margin-left: 3.6rem;
+div.note > p{
+	font-size: 95%;
+	text-indent: -3.6rem;
+	margin-left: 3.6rem;
 }
 
-div.caution > p {
-   font-size: 95%;
-   text-indent: -5.4rem;
-   margin-left: 5.4rem;
+div.caution > p{
+	font-size: 95%;
+	text-indent: -5.4rem;
+	margin-left: 5.4rem;
 }
 
-img.note-close {
+img.note-close{
 	position: relative;
 	top: 0.2rem;
-	right: -0.5rem; 
+	right: -0.5rem;
 	float: right;
 }
 
-p.small {
+p.small{
 	font-size: 1.2rem;
 }
 
-span.wcag-note {
+span.wcag-note{
 	font-size: 90%;
 	font-style: italic;
 	display: inline-block;
@@ -431,52 +440,54 @@ span.wcag-note {
 
 /* config options */
 
-section#config {
+section#config{
 	z-index: 9;
 }
 
-details#options {
+details#options{
 	max-width: 65rem;
 	margin-top: 1rem;
 	padding: 0.5rem;
 }
 
-details#options > summary {
+details#options > summary{
 	margin-bottom: 1rem;
-	color: rgb(0,0,90);
+	color: rgb(0, 0, 90);
 }
 
-details#options fieldset {
+details#options fieldset{
 	margin-top: 0.7rem;
 	padding-top: 0;
 	border: none;
 }
 
-details#options fieldset > legend {
+details#options fieldset > legend{
 	font-weight: normal
 }
 
-details#options span.label {
+details#options span.label{
 	font-size: 95%;
 	margin-left: 1.5rem;
 }
 
-section#config small {
+section#config small{
 	font-style: italic;
 }
 
-textarea {
+textarea{
 	width: 90%;
 }
 
-label.data > textarea {
+label.data > textarea{
 	width: 39.8rem;
 	display: inline-block;
 }
 
 /* n/a notes */
 
-p.img, p.av, p.forms {
+p.img,
+p.av,
+p.forms{
 	font-size: 90%;
 	font-weight: bold;
 	margin-left: 3rem;
@@ -484,35 +495,36 @@ p.img, p.av, p.forms {
 
 /* title inputs */
 
-label.data {
+label.data{
 	display: block;
 	margin-top: 0.8rem;
 }
 
-label.data > span, div.data > span {
+label.data > span,
+div.data > span{
 	display: inline-block;
 	width: 20rem;
 	vertical-align: top;
 }
 
-label.data > input[type='text'] {
+label.data > input[type = 'text']{
 	width: 40rem;
 }
 
-div.data {
+div.data{
 	margin-bottom: 2rem;
 }
 
-div.data > div {
+div.data > div{
 	margin-bottom: 0.8rem;
 }
 
 /* optimizations for phone screens in portrait orientation */
-@media only screen 
-  and (max-device-width: 480px)
-  and (orientation: portrait) {
+@media only screen
+ and (max-device-width : 480px)
+ and (orientation : portrait){
 
-	label.data > input {
+	label.data > input{
 		width: 100%;
 	}
 
@@ -520,41 +532,41 @@ div.data > div {
 
 /* faq */
 
-nav#faq {
+nav#faq{
 	margin-bottom: 3rem;
 }
 
-nav#faq ol {
+nav#faq ol{
 	list-style-type: none;
 	margin-left: 0;
 	padding-left: 1.5rem;
 }
 
-nav#faq > ol {
+nav#faq > ol{
 	padding-left: 0;
 }
 
-div.faq-title {
+div.faq-title{
 	font-size: 1.5rem;
-	color: rgb(0,0,160);
+	color: rgb(0, 0, 160);
 	margin-top: 1.2rem;
 }
 
-dt {
+dt{
 	font-weight: bold;
 	margin-top: 3rem;
 }
 
 /* ed notes (temp) */
 
-.todo {
-	background-color: rgb(255,255,230);
+.todo{
+	background-color: rgb(255, 255, 230);
 }
 
 /* error pane */
 
-section#error-pane {
-	background-color: rgb(50,50,50);
+section#error-pane{
+	background-color: rgb(50, 50, 50);
 	position: fixed;
 	left: 0;
 	bottom: 0;
@@ -563,111 +575,119 @@ section#error-pane {
 	display: none;
 }
 
-section#error-pane > h2 {
-	color: rgb(255,255,255);
+section#error-pane > h2{
+	color: rgb(255, 255, 255);
 	background-color: inherit;
 	font-size: 1.4rem;
 	margin: 0;
 	padding: 0.4rem 0.2rem 0.2rem 0.2rem;
 }
 
-section#error-pane img.error-close {
+section#error-pane img.error-close{
 	position: relative;
 	top: 0rem;
-	right: 0rem; 
+	right: 0rem;
 	float: right;
 }
 
-section#error-pane div.scroll {
+section#error-pane div.scroll{
 	width: 100%;
 	height: 10rem;
-	background-color: rgb(255,255,255);
+	background-color: rgb(255, 255, 255);
 	overflow: scroll;
 }
 
-section#error-pane ul {
+section#error-pane ul{
 	padding-left: 2rem;
 }
 
-section#error-pane a {
+section#error-pane a{
 	cursor: pointer;
 }
 
 /* config dialog */
 
-.ui-widget-header {
-	background-color: rgb(232,244,248);
+.ui-widget-header{
+	background-color: rgb(232, 244, 248);
 }
 
-label.block {
+label.block{
 	display: block;
 	margin-top: 0.3rem;
 }
 
-label.pad-left {
+label.pad-left{
 	margin-left: 2.4rem;
 }
 
 
 /* status colours */
 
-.err { background-color: rgb(255,245,245); }
-.na { background-color: rgb(240,240,240); }
-.pass { background-color: rgb(245,255,245); }
-.warn { background-color: rgb(255,255,245); }
+.err{
+	background-color: rgb(255, 245, 245);
+}
+.na{
+	background-color: rgb(240, 240, 240);
+}
+.pass{
+	background-color: rgb(245, 255, 245);
+}
+.warn{
+	background-color: rgb(255, 255, 245);
+}
 
 
 /* manage options */
-#manage label {
+#manage label{
 	display: block;
 }
 
 
 /* page tocs */
 
-nav[role="doc-toc"] {
-	border: 0.1rem dotted rgb(180,180,180);
+nav[role = "doc-toc"]{
+	border: 0.1rem dotted rgb(180, 180, 180);
 	padding: 0.8rem;
 	width: 35rem;
-	background-color: rgb(245,245,245);
+	background-color: rgb(245, 245, 245);
 }
 
-nav[role="doc-toc"] > h3 {
+nav[role = "doc-toc"] > h3{
 	font-size: 1.4rem;
 	font-weight: bold;
-	color: rgb(0,0,0);
+	color: rgb(0, 0, 0);
 	padding: 0;
 	margin: 0;
 	border-left: none;
 }
 
-nav[role="doc-toc"] > ol {
+nav[role = "doc-toc"] > ol{
 	list-style-type: disc;
 }
 
 
 /* figures */
 
-figcaption {
-   font-size: 1.3rem;
-   font-style: italic;
-   max-width: 50rem;
-   margin-bottom: 1rem;
+figcaption{
+	font-size: 1.3rem;
+	font-style: italic;
+	max-width: 50rem;
+	margin-bottom: 1rem;
 }
 
 
 /* pub info fieldsets */
 
-section#start > fieldset {
+section#start > fieldset{
 	border: none;
 	margin: 0.3rem 0;
 	padding: 0;
 	display: block;
 }
 
-section#start > fieldset > legend {
+section#start > fieldset > legend{
 	font-weight: normal;
-	color:  rgb(0,0,0);
+	color: rgb(0, 0, 0);
 	width: 20rem;
 	margin: 0;
 	padding: 0;
@@ -675,71 +695,80 @@ section#start > fieldset > legend {
 	float: left;
 }
 
-section#start > fieldset > label {
+section#start > fieldset > label{
 	display: inline-block !important;
 }
 
+
+
+
 /* optimizations for phone screens */
-@media only screen 
-  and (max-device-width: 480px)
-  and (orientation: portrait) {
-  
-	h1 {
+@media only screen
+ and (max-device-width : 480px)
+ and (orientation : portrait){
+
+	h1{
 		font-size: 1.2rem;
 	}
-	
-	main.js-tabs {
+
+	main.js-tabs{
 		margin-top: 9.5rem;
 	}
-	
-	.js-tabcontent > h2 {
+
+	.js-tabcontent > h2{
 		border-top: 0.2rem solid black;
 		margin-top: 5rem;
 		padding-top: 1rem;
 	}
-	
-	ul.js-tablist {
+
+	ul.js-tablist{
 		top: 0rem;
 	}
-	
-	li.js-tablist__item {
-		background-color: rgb(251,251,251);
+
+	li.js-tablist__item{
+		background-color: rgb(251, 251, 251);
 		border-radius: 0 0 0 0;
 	}
-	
-	li.active {
-		background-color: rgb(251,251,251);
-		border-left: 0.3rem solid rgb(0,0,220);
+
+	li.active{
+		background-color: rgb(251, 251, 251);
+		border-left: 0.3rem solid rgb(0, 0, 220);
 		border-top: none;
 	}
-	
-	fieldset.status span {
+
+	fieldset.status span{
 		display: block;
 	}
-	
-	section.a, section.aa, section.aaa, section.epub {
+
+	section.a,
+	section.aa,
+	section.aaa,
+	section.epub{
 		margin-left: 0.2rem;
 	}
-	
-	main.js-tabs {
+
+	main.js-tabs{
 		padding-left: 0;
 	}
-	
-	ul.js-tablist {
+
+	ul.js-tablist{
 		margin-left: 0;
 	}
 }
 
-@media only screen 
-  and (max-device-width: 640px)
-  and (orientation: landscape) {
-	section.a, section.aa, section.aaa, section.epub {
+@media only screen
+ and (max-device-width : 640px)
+ and (orientation : landscape){
+	section.a,
+	section.aa,
+	section.aaa,
+	section.epub{
 		margin-left: 0.2rem;
 	}
-	main.js-tabs {
+	main.js-tabs{
 		padding-left: 0;
 	}
-	ul.js-tablist {
+	ul.js-tablist{
 		top: -3.85rem;
 		left: 1rem;
 	}

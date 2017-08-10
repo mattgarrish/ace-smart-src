@@ -5,6 +5,7 @@
 		<title>EPUB Accessibility Conformance and Reporting</title>
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" href="css/a11y.css"/>
+		<link rel="stylesheet" type="text/css" href="css/drag-drop.css"/>
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		
@@ -22,7 +23,8 @@
 		<meta property="schema:accessibilityControl" content="fullMouseControl"/>
 		<meta property="schema:accessibilityControl" content="fullKeyboardControl"/>
 		<meta property="schema:accessibilityControl" content="fullTouchControl"/>
-	</head>
+		
+		<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>		</head>
 	
 	<body class="tabs">
 		<header>
@@ -43,7 +45,6 @@
 			</div>
 		</header>
 		
-		<form id="report">
 		<main class="js-tabs">
 			<ul class="js-tablist" data-existing-hx="h3">
 				<!-- <li class="js-tablist__item">
@@ -68,9 +69,25 @@
 				
 				<p>This tool provides manual conformance checks necessary to ensure compliance with EPUB and WCAG requirements, and is intended to be used in conjunction with the <a href="https://github.com/daisy/ace-core/releases">DAISY Ace</a> accessibility checker.</p>
 				
-				<p>To begin, check that the following information is correct, and input any missing information
-					you would like to include in the final report. Required fields are indicated by an asterisk.</p>
 				
+				<p>To begin, load an Ace report (the JSON output file) to populate information about the publication:</p>
+				
+				<div class="container js">
+					<form method="post" action="upload.php" enctype="multipart/form-data" novalidate="novalidate" class="box">
+						<div class="box__input">
+							<input type="file" name="ace-report" id="file" class="box__file"/>
+							<label class="dnd" for="file"><strong>Select an Ace report</strong><span class="box__dragndrop"> or drag it here</span>.</label>
+							<button type="submit" class="box__button">Load</button>
+						</div>
+						
+						
+						<div class="box__uploading">Uploading&#8230;</div>
+						<div class="box__success">Done! <a href="" class="box__restart" role="button">Load a different report?</a></div>
+						<div class="box__error">Error! <span></span>. <a href="" class="box__restart" role="button">Try again!</a></div>
+					</form>
+				</div>
+				
+				<form class="report">
 				<fieldset>
 					<legend>Format:<img src="images/asterisk.png" alt="required"/></legend>
 					<!-- <div><small>Note: This setting also controls the format of the discovery and conformance metadata.</small></div> -->
@@ -93,10 +110,12 @@
 					<label class="data"><span>Additional Metadata:</span> <textarea rows="8" aria-describedby="meta-input-desc" id="optional-meta" placeholder="label: value"></textarea></label>
 					<div id="meta-input-desc" hidden="hidden">Use a colon followed by a space to separate the label from the value. Separate metadata items with a return character.</div>
 				</div>
+				</form>
 				
 				<div class="pad-top"><a href="#verification" class="js-link-to-tab">Continue to Conformance Verification</a></div>
 			</section>
 			
+			<form class="report">
 			<section id="verification" class="js-tabcontent">
 				<h2>Conformance Verification</h2>
 				
@@ -1367,8 +1386,10 @@
 					</div>
 				</fieldset>
 			</section>
+			</form>
 		</main>
 		
+		<form class="report">
 		<section id="error-pane">
 			<a href="#error-pane" onclick="error.hide()"><img src="images/close-icon.png" alt="Close" class="error-close"/></a>
 			<h2 id="validation-msg">Validation Messages:</h2>
@@ -1388,6 +1409,8 @@
 		<script src="js/jquery.details.min.js"></script>
 		
 		<script src="js/a11ytabs.js"></script>
+		<script src="js/drag-drop.js"></script>
+		<script src="js/ace.js"></script>
 		<script src="js/reporting.js"></script>
 		<script src="js/manage.js"></script>
 		<script src="js/conformance-tests.js"></script>
@@ -1397,5 +1420,5 @@
 		<script src="js/error.js"></script>
 		
 		<script src="js/init.js"></script>
-	</body>
+</body>
 </html>
