@@ -18,13 +18,16 @@ Ace.prototype.loadReport = function(json) {
 
 Ace.prototype.getMetadata = function(id) {
 	if (this.report['earl:testSubject']['metadata'].hasOwnProperty(id)) {
+		
 		var meta = this.report['earl:testSubject']['metadata'][id];
+		
+		var pickOne = {"dc:title": true, "dc:identifier": true};
 		
 		if (Object.prototype.toString.call(meta) === '[object Array]') {
 			var str = '';
 			
-			if () {
-				
+			if (pickOne.hasOwnProperty(id)) {
+				return meta[0];
 			}
 			
 			else {
