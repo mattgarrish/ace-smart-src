@@ -35,7 +35,7 @@ Error.prototype.clearAll = function(scope) {
 
 
 Error.prototype.clearBGs = function(scope) {
-	var fields = { "discovery": ['features','summary-field','hazards','modes','sufficient','api','control'],
+	var fields = { "discovery": ['accessibilityFeature','summary-field','accessibilityHazard','accessMode','accessModeSufficient','accessibilityAPI','accessibilityControl'],
 				   "conformance": ['certifier']};
 	
 	if (scope != null && scope != '') {

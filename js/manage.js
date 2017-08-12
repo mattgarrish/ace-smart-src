@@ -39,10 +39,14 @@ Manage.prototype.saveConformanceReport = function() {
 		/* store pub info */
 		
 		reportJSON += '"title": ' + JSON.stringify(document.getElementById('title').value) + ',';
-		reportJSON += '"author": ' + JSON.stringify(document.getElementById('author').value) + ',';
+		reportJSON += '"creator": ' + JSON.stringify(document.getElementById('creator').value) + ',';
 		reportJSON += '"identifier": ' + JSON.stringify(document.getElementById('identifier').value) + ',';
 		reportJSON += '"publisher": ' + JSON.stringify(document.getElementById('publisher').value) + ',';
 		reportJSON += '"optional-meta": ' + JSON.stringify(document.getElementById('optional-meta').value) + ',';
+		
+		/* store original report data section */
+		
+		reportJSON += '"report": ' + JSON.stringify(document.getElementById('report').value) + ',';
 		
 		/* other config info */
 		reportJSON += '"epub_format": ' + JSON.stringify(document.querySelector('input[name="epub-format"]:checked').value);
@@ -86,14 +90,14 @@ Manage.prototype.saveConformanceReport = function() {
 	
 	reportJSON += '"discovery": {'
 	
-		var fields = new Array('features','hazards','modes','api','control');
+		var fields = new Array('accessibilityFeature','accessibilityHazard','accessMode','accessibilityAPI','accessibilityControl');
 		
 		fields.forEach( function(id) {
 			reportJSON += manage.saveDiscoveryMeta(id);
 		});
 		
-		reportJSON += '"summary": ' + JSON.stringify(document.getElementById('summary').value) + ',';
-		reportJSON += '"sufficient": {';
+		reportJSON += '"accessibilitySummary": ' + JSON.stringify(document.getElementById('accessibilitySummary').value) + ',';
+		reportJSON += '"accessModeSufficient": {';
 			reportJSON += this.saveSufficientSets();
 		reportJSON += '}';
 	
@@ -167,7 +171,7 @@ Manage.prototype.saveDiscoveryMeta = function(id) {
 Manage.prototype.saveSufficientSets = function(id) {
 	var str = '';
 	
-	var sets = document.getElementById('sufficient').getElementsByTagName('fieldset');
+	var sets = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset');
 	
 	for (var i = 0; i < sets.length; i++) {
 		var modes = sets[i].querySelectorAll('input:checked');
@@ -238,6 +242,13 @@ Manage.prototype.loadConformanceReport = function() {
 		return;
 	}
 	
+	/* save out the original report data and reset the form to match */
+	if (report_obj.hasOwnProperty(report)) {
+		document.getElementById('report').value = JSON.stringify(report_obj['report']);
+		ace.storeReport(report_obj['report']);
+		ace.configureReporting();
+	}
+	
 	/* load SCs */
 	
 	for (var i = 0; i < report_obj.conformance.length; i++) {
@@ -267,13 +278,13 @@ Manage.prototype.loadConformanceReport = function() {
 		document.getElementById('summary').value = report_obj.discovery.summary;
 	}
 	
-	if (report_obj.discovery.hasOwnProperty('sufficient')) {
-		this.loadSufficientModes(report_obj.discovery.sufficient);
+	if (report_obj.discovery.hasOwnProperty('accessModeSufficient')) {
+		this.loadSufficientModes(report_obj.discovery.accessModeSufficient);
 	}
 	
 	/* load conformance and config text fields */
 	
-	var meta = {"conformanceMeta": ['certifier','reportLink'], "config": ['title','author','identifier','publisher','optional-meta']};
+	var meta = {"conformanceMeta": ['certifier','reportLink'], "config": ['title','creator','identifier','publisher','optional-meta']};
 	
 	for (var key in meta) {
 		meta[key].forEach(function(id) {
@@ -351,7 +362,7 @@ Manage.prototype.loadSufficientModes = function(modeSets) {
 		}
 	}
 	
-	var sets = document.querySelectorAll('#sufficient fieldset');
+	var sets = document.querySelectorAll('#accessModeSufficient fieldset');
 	
 	var num = 0;
 	for (var key in modeSets) {
@@ -369,7 +380,12 @@ Manage.prototype.clear = function(quiet) {
 		return;
 	}
 	
-	document.forms['report'].reset();
+	/* clear all forms */
+	var forms = document.forms;
+	
+	for (var x = 0; x < forms.length; x++) {
+		forms[x].reset();
+	}
 	
 	/* clear artefacts from the conformance checks */
 	var sc_elem = document.querySelectorAll('.a, .aa, .aaa, .epub');

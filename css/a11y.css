@@ -233,6 +233,8 @@ li.active{
 
 li.js-tablist__item a{
 	color: rgb(0, 0, 160);
+	display: inline-block;
+	width: 16.5rem;
 }
 
 li.js-tablist__item a:hover{
@@ -512,7 +514,7 @@ label.data > input[type = 'text']{
 }
 
 div.data{
-	margin-bottom: 2rem;
+	margin: 3rem 0 2rem 0;
 }
 
 div.data > div{
@@ -700,6 +702,17 @@ section#start > fieldset > label{
 }
 
 
+
+/* initial hide alt statements for checks */
+
+*[data-alt] {
+	font-style: italic;
+	border: 0.1rem solid green;
+	background-color: rgb(240,255,245);
+	padding: 0.4rem;
+	border-radius: 0.4rem;
+	display: none;
+}
 
 
 /* optimizations for phone screens */

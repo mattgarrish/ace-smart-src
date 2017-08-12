@@ -2,18 +2,7 @@
 var conf = new Conformance();
 
 function Conformance() {
-
 	this.wcag_level = 'a';
-
-	this.SC_TYPE = new Object();
-	this.SC_TYPE.img = ['sc-1.1.1','sc-1.4.9'];
-	this.SC_TYPE.audio = ['sc-1.4.2','sc-1.4.7'];
-	this.SC_TYPE.video = ['sc-1.2.2','sc-1.2.3','sc-1.2.5','sc-1.2.6','sc-1.2.7','sc-1.2.8'];
-	this.SC_TYPE.av = ['sc-1.2.1','sc-1.2.4','sc-1.2.9'];
-	this.SC_TYPE.script = ['sc-2.2.1','sc-2.2.4','sc-2.2.5','sc-3.2.1','sc-3.2.2'];
-	this.SC_TYPE.forms = ['sc-2.4.3','sc-3.3.1','sc-3.3.2','sc-3.3.3','sc-3.3.4'];
-	this.SC_TYPE.sf = ['sc-4.1.2'];
-
 }
 
 Conformance.prototype.changeConformance = function() {
@@ -51,7 +40,13 @@ Conformance.prototype.changeContentConformance = function(elem,type) {
 		wcag_show += this.wcag_level == 'aa' ? ',aa' : (document.getElementById('show-aa').checked ? ',aa' : '');
 		wcag_show += document.getElementById('show-aaa').checked ? ',aaa' : '';
 	
-	// check whether to hide audio+video SC
+	var checks = document.querySelectorAll('*[data-scope="' + type + '"]');
+	
+	for (var i = 0; i < checks.length; i++) {
+		checks[i].style.display = elem.checked ? 'block' : 'none';
+	}
+	
+	/*  check whether to hide audio+video SC
 	if (type=='audio' || type=='video') {
 		var av = (document.getElementById('audio').checked || document.getElementById('video').checked) ? true : false;
 		for (var i = 0; i < this.SC_TYPE.av.length; i++) {
@@ -91,6 +86,12 @@ Conformance.prototype.changeContentConformance = function(elem,type) {
 			document.querySelector('input[name="' + this.SC_TYPE[type][i] + '"][value="' + (elem.checked ? 'unverified' : 'na') + '"]').click();
 		}
 	}
+	*/
+}
+
+
+Conformance.prototype.showNote = function(obj) {
+    document.getElementById(obj.name).style.display = (obj.checked) ? 'block' : 'none';
 }
 
 

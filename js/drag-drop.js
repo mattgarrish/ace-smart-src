@@ -1,3 +1,6 @@
+
+// adapted from https://css-tricks.com/examples/DragAndDropFileUploading/
+
 'use strict';
 
 	;( function ( document, window, index )

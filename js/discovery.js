@@ -3,29 +3,29 @@ var disc = new Discovery();
 
 function Discovery() { 
 
-		this.error = { "features": {}, "hazards": {}, "modes": {}, "summary": {}, "sufficient": {} };
-		this.error.sufficient = { "missing": {}, "none": {}, "dup": {} };
+		this.error = { "accessibilityFeature": {}, "accessibilityHazard": {}, "accessMode": {}, "accessibilitySummary": {}, "accessModeSufficient": {} };
+		this.error.accessModeSufficient = { "missing": {}, "none": {}, "dup": {} };
 			 
-		this.error.features.msg = 'At least one accessibility feature must be specified.';
-		this.error.features.warn = false;
+		this.error.accessibilityFeature.msg = 'At least one accessibility feature must be specified.';
+		this.error.accessibilityFeature.warn = false;
 			 
-		this.error.hazards.msg = 'A hazard indication is required. If uncertain whether there are hazards in the content, select the "unknown" value.';
-		this.error.hazards.warn = false;
+		this.error.accessibilityHazard.msg = 'A hazard indication is required. If uncertain whether there are hazards in the content, select the "unknown" value.';
+		this.error.accessibilityHazard.warn = false;
 			 
-		this.error.modes.msg = 'At least one access mode must be selected.';
-		this.error.modes.warn = false;
+		this.error.accessMode.msg = 'At least one access mode must be selected.';
+		this.error.accessMode.warn = false;
 			 
-		this.error.summary.msg = 'An accessibility summary is required. The summary must not be empty or contain only white space.';
-		this.error.summary.warn = false;
+		this.error.accessibilitySummary.msg = 'An accessibility summary is required. The summary must not be empty or contain only white space.';
+		this.error.accessibilitySummary.warn = false;
 			 
-		this.error.sufficient.missing.msg = 'Sufficient access mode "%%val%%" checked but is not listed as an access mode. It is not common for a publication to have a sufficient access mode that is not also an access mode.';
-		this.error.sufficient.missing.warn = true;
+		this.error.accessModeSufficient.missing.msg = 'Sufficient access mode "%%val%%" checked but is not listed as an access mode. It is not common for a publication to have a sufficient access mode that is not also an access mode.';
+		this.error.accessModeSufficient.missing.warn = true;
 			 
-		this.error.sufficient.none.msg = 'Sufficient access modes for reading the publication not specified.';
-		this.error.sufficient.none.warn = true;
+		this.error.accessModeSufficient.none.msg = 'Sufficient access modes for reading the publication not specified.';
+		this.error.accessModeSufficient.none.warn = true;
  
-		this.error.sufficient.dup.msg = 'Duplicate sets of sufficient access modes specified.';
-		this.error.sufficient.dup.warn = false;
+		this.error.accessModeSufficient.dup.msg = 'Duplicate sets of sufficient access modes specified.';
+		this.error.accessModeSufficient.dup.warn = false;
 }
 
 
@@ -39,11 +39,11 @@ Discovery.prototype.validate = function(quiet) {
 	
 	var msg = { 'err': false, 'warn': false };
 	
-	this.verifyOneCheck('features',msg);
+	this.verifyOneCheck('accessibilityFeature',msg);
 	
-	if (document.getElementById('summary').value.replace(/\s/g,'') == '') {
+	if (document.getElementById('accessibilitySummary').value.replace(/\s/g,'') == '') {
 		error.write('discovery','summary-field','err',this.error['summary'].msg);
-		this.highlightError('summary-field', this.error['summary'].warn);
+		this.highlightError('summary-field', this.error['accessibilitySummary'].warn);
 		msg.err = true;
 	}
 	
@@ -51,15 +51,15 @@ Discovery.prototype.validate = function(quiet) {
 		this.setPass('summary-field');
 	}
 	
-	this.verifyOneCheck('hazards',msg);
+	this.verifyOneCheck('accessibilityHazard',msg);
 	
-	this.verifyOneCheck('modes',msg);
+	this.verifyOneCheck('accessMode',msg);
 	
 	this.verifySufficient(msg);
 	
 	// optional metadata gets an automatic pass
-	this.setPass('api');
-	this.setPass('control');
+	this.setPass('accessibilityAPI');
+	this.setPass('accessibilityControl');
 	
 	if (quiet) {
 		return (msg.err || msg.warn) ? false : true;
@@ -94,13 +94,14 @@ Discovery.prototype.verifyOneCheck = function(id,msg) {
 	
 	msg.err = true;
 	
+	console.log(id);
 	error.write('discovery',id,'err',this.error[id].msg);
 	
 	this.highlightError(id, this.error[id].warn);
 }
 
 Discovery.prototype.verifySufficient = function(msg) {
-	var sets = document.getElementById('sufficient').getElementsByTagName('fieldset');
+	var sets = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset');
 	var modeList = [];
 	
 	// check sufficient modes have been checked
@@ -113,8 +114,8 @@ Discovery.prototype.verifySufficient = function(msg) {
 			
 			if (!document.querySelector('input[type="checkbox"][id="'+modes[j].value+'"]:checked')) {
 				msg.warn = true;
-				error.write('discovery','sufficient','warn',this.error.sufficient.missing.msg.replace('%%val%%', modes[j].value));
-				this.highlightError('sufficient', this.error.sufficient.missing.warn);
+				error.write('discovery','accessModeSufficient','warn',this.error.accessModeSufficient.missing.msg.replace('%%val%%', modes[j].value));
+				this.highlightError('accessModeSufficient', this.error.accessModeSufficient.missing.warn);
 				return;
 			}
 		}
@@ -126,8 +127,8 @@ Discovery.prototype.verifySufficient = function(msg) {
 
 	if (modeList.length == 0) {
 		msg.warn = true;
-		error.write('discovery','sufficient','warn',this.error.sufficient.none.msg);
-		this.highlightError('sufficient', this.error.sufficient.none.warn);
+		error.write('discovery','accessModeSufficient','warn',this.error.accessModeSufficient.none.msg);
+		this.highlightError('accessModeSufficient', this.error.accessModeSufficient.none.warn);
 		return;
 	}
 	
@@ -136,13 +137,13 @@ Discovery.prototype.verifySufficient = function(msg) {
 	for (var k = 1; k < modeList.length; k++) {
 		if (modeList[k] == modeList[k-1]) {
 			msg.err = true;
-			error.write('discovery','sufficient','err',this.error.sufficient.dup.msg);
-			this.highlightError('sufficient', this.error.sufficient.dup.warn);
+			error.write('discovery','accessModeSufficient','err',this.error.accessModeSufficient.dup.msg);
+			this.highlightError('accessModeSufficient', this.error.accessModeSufficient.dup.warn);
 			return;
 		}
 	}
 	
-	this.setPass('sufficient');
+	this.setPass('accessModeSufficient');
 	
 	return;
 }
@@ -155,25 +156,25 @@ Discovery.prototype.generateMetadata = function() {
 	outputBox.value = '';
 	
 	// add accessibility features
-	output += this.addMeta('schema:accessibilityFeature', 'features');
+	output += this.addMeta('schema:accessibilityFeature', 'accessibilityFeature');
 	
 	// add the summary
-	output += this.addSummary('schema:accessibilitySummary', 'summary');
+	output += this.addSummary('schema:accessibilitySummary', 'accessibilitySummary');
 	
 	// add hazards
-	output += this.addMeta('schema:accessibilityHazard', 'hazards');
+	output += this.addMeta('schema:accessibilityHazard', 'accessibilityHazard');
 	
 	// add access modes
-	output += this.addMeta('schema:accessMode', 'modes');
+	output += this.addMeta('schema:accessMode', 'accessMode');
 	
 	// add sufficent access modes
 	output += this.addSufficientSets('schema:accessModeSufficient');
 	
 	// add apis
-	output += this.addMeta('schema:accessibilityAPI', 'api');
+	output += this.addMeta('schema:accessibilityAPI', 'accessibilityAPI');
 	
 	// add controls
-	output += this.addMeta('schema:accessibilityControl', 'control');
+	output += this.addMeta('schema:accessibilityControl', 'accessibilityControl');
 	
 	if (output == '') {
 		alert('No metadata specified. Failed to generate.');
@@ -211,7 +212,7 @@ Discovery.prototype.addSummary = function(property, id) {
 
 Discovery.prototype.addSufficientSets = function(property) {
 	var meta = '';
-	var sets = document.getElementById('sufficient').getElementsByTagName('fieldset');
+	var sets = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset');
 	for (var i = 0; i < sets.length; i++) {
 		var elemList = sets[i].querySelectorAll('input:checked');
 		var modeList = '';
@@ -263,7 +264,7 @@ Discovery.prototype.addCustomFeature = function(fname) {
 
 Discovery.prototype.addSufficient = function() {
 
-	var num = document.getElementById('sufficient').getElementsByTagName('fieldset').length + 1;
+	var num = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset').length + 1;
 	
 	var addLink = document.getElementById('add-ams');
 	var parentField = addLink.parentNode;

@@ -135,7 +135,7 @@ Report.prototype.generateConformanceReport = function() {
 	
 	reportBody += '<div class="pubinfo">';
 	
-	var info = {'author': 'author', 'identifier': 'identifier', 'publisher': 'publisher'};
+	var info = {'creator': 'author', 'identifier': 'identifier', 'publisher': 'publisher'};
 	
 	for (var key in info) {
 		var value = document.getElementById(key).value.trim();
@@ -166,10 +166,10 @@ Report.prototype.generateConformanceReport = function() {
 	
 	reportSummary += format.pubInfo('conformance','Conformance',wcag_label[wcag_conf],'dcterms:conformsTo',conf_class[wcag_conf]);
 
-	reportSummary += format.pubInfo('summary','Description',document.getElementById('summary').value,'accessibilitySummary','');
-	reportSummary += format.pubInfo('features','Features',this.listDiscoveryMeta('features','accessibilityFeature'),'');
-	reportSummary += format.pubInfo('hazards','Hazards',this.listDiscoveryMeta('hazards','accessibilityHazard'),'');
-	reportSummary += format.pubInfo('modes','Access Mode(s)',this.listDiscoveryMeta('modes','accessMode'),'');
+	reportSummary += format.pubInfo('summary','Description',document.getElementById('accessibilitySummary').value,'accessibilitySummary','');
+	reportSummary += format.pubInfo('features','Features',this.listDiscoveryMeta('accessibilityFeature','accessibilityFeature'),'');
+	reportSummary += format.pubInfo('hazards','Hazards',this.listDiscoveryMeta('accessibilityHazard','accessibilityHazard'),'');
+	reportSummary += format.pubInfo('modes','Access Mode(s)',this.listDiscoveryMeta('accessMode','accessMode'),'');
 	
 	
 	var certifier = document.getElementById('certifier').value.trim();

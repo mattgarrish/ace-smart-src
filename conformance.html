@@ -104,12 +104,14 @@
 				
 				<div class="data">
 					<label class="data"><span>Title:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="title" aria-required="true"/></label>
-					<label class="data"><span>Author(s):</span> <input type="text" id="author"/></label>
+					<label class="data"><span>Author(s):</span> <input type="text" id="creator"/></label>
 					<label class="data"><span>Identifier:</span> <input type="text" id="identifier"/></label>
 					<label class="data"><span>Publisher:</span> <input type="text" id="publisher"/></label>
 					<label class="data"><span>Additional Metadata:</span> <textarea rows="8" aria-describedby="meta-input-desc" id="optional-meta" placeholder="label: value"></textarea></label>
 					<div id="meta-input-desc" hidden="hidden">Use a colon followed by a space to separate the label from the value. Separate metadata items with a return character.</div>
 				</div>
+					
+				<input type="hidden" id="report"/>
 				</form>
 				
 				<div class="pad-top"><a href="#verification" class="js-link-to-tab">Continue to Conformance Verification</a></div>
@@ -124,7 +126,7 @@
 					
 					<p>Verify the following:</p>
 					<ul>
-						<li>For each image:
+						<li data-scope="img">For each image:
 							<ul>
 								<li>If the image is decorative, ensure it has an empty <code>alt</code> attribute (<code>alt=""</code>) and/or that the image is marked as presentational (<code>role="presentation"</code>).</li>
 								<li>If the image is not decorative and does not have an <code>alt</code> attribute, one of the following must true:
@@ -136,13 +138,25 @@
 								<li>Otherwise, ensure that the <code>alt</code> text meaningfully describes the image.</li>
 							</ul>
 						</li>
-						<li>All audio and video clips include a label (<code>aria-label</code> attribute) that describes their purpose or gives their title.</li>
+						<li data-scope="audio">All audio clips include a label (<code>aria-label</code> attribute) that describes their purpose or gives their title.</li>
+						<li data-scope="video">All video clips include a label (<code>aria-label</code> attribute) that describes their purpose or gives their title.</li>
 						<li>There is no other non-text content without a text equivalent.</li>
 					</ul>
 					
 					<details>
+						<summary>Elements to review</summary>
+						
+						<ul>
+							
+						</ul>
+					</details>
+					
+					<details>
 						<summary>Supporting Documentation</summary>
 						<ul>
+							<li><a href="https://daisy.github.io/a11y-kb/docs/html/images.html">Images KB article</a></li>
+							<li><a href="https://daisy.github.io/a11y-kb/docs/html/audio.html">Audio KB article</a></li>
+							<li><a href="https://daisy.github.io/a11y-kb/docs/html/video.html">Video KB article</a></li>
 							<li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/text-equiv-all.html" target="_blank">Understanding Success Criterion 1.1.1</a></li>
 							<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-text-equiv-all" target="_blank">How to meet Success Criterion 1.1.1</a></li>
 						</ul>
@@ -152,20 +166,27 @@
 				<section id="sc-1.2.1" class="a">
 					<h3><span class="label">1.2.1 Audio-only and Video-only (Prerecorded)</span> <span class="a-label">[Level A]</span></h3>
 					
-					<p>For all audio clips, verify the following:</p>
-					<ul>
-						<li>There is a transcript.</li>
-						<li>The <code>audio</code> element has a label (<code>aria-label</code> attribute) that references where to find the transcript.</li>
-						<li>The transcript accurately reflects the information contained in the audio clip.</li>
-					</ul>
+					<p data-alt="audio">Note: No audio found or testing not configured. Verification checks omitted.</p>
 					
-					<p>For all video clips without any accompanying audio, verify the following:</p>
-					<ul>
-						<li>There is a transcript or audio track.</li>
-						<li>The <code>video</code> element has a label (<code>aria-label</code> attribute) that references where to find the transcript or indicates that an audio track is available.</li>
-						<li>The transcript/audio track accurately reflects the information contained in audio/video clip.</li>
-					</ul>
+					<div data-scope="audio">
+						<p>For all audio clips, verify the following:</p>
+						<ul>
+							<li>There is a transcript.</li>
+							<li>The <code>audio</code> element has a label (<code>aria-label</code> attribute) that references where to find the transcript.</li>
+							<li>The transcript accurately reflects the information contained in the audio clip.</li>
+						</ul>
+					</div>
 					
+					<p data-alt="video">Note: No video found or testing not configured. Verification checks omitted.</p>
+					
+					<div data-scope="video">
+						<p>For all video clips without any accompanying audio, verify the following:</p>
+						<ul>
+							<li>There is a transcript or audio track.</li>
+							<li>The <code>video</code> element has a label (<code>aria-label</code> attribute) that references where to find the transcript or indicates that an audio track is available.</li>
+							<li>The transcript/audio track accurately reflects the information contained in audio/video clip.</li>
+						</ul>
+					</div>
 					
 					<details>
 						<summary>Supporting Documentation</summary>
@@ -179,11 +200,15 @@
 				<section id="sc-1.2.2" class="a">
 					<h3><span class="label">1.2.2 Captions (Prerecorded)</span> <span class="a-label">[Level A]</span></h3>
 					
-					<p>For each video with an audio track, verify the following:</p>
-					<ul>
-						<li>Captions are provided via the <code>track</code> element, or open or closed captions are provided as part of the video format.</li>
-						<li>The captions accurately capture the audio content.</li>
-					</ul>
+					<p data-alt="video">Note: No video found or testing not configured. Verification checks omitted.</p>
+					
+					<div data-scope="video">
+						<p>For each video with an audio track, verify the following:</p>
+						<ul>
+							<li>Captions are provided via the <code>track</code> element, or open or closed captions are provided as part of the video format.</li>
+							<li>The captions accurately capture the audio content.</li>
+						</ul>
+					</div>
 					
 					<details>
 						<summary>Supporting Documentation</summary>
@@ -1173,7 +1198,7 @@
 			<section id="discovery" class="js-tabcontent">
 				<h2>Discovery Metadata</h2>
 				
-				<fieldset id="features">
+				<fieldset id="accessibilityFeature">
 					<legend>Accessibility Features<img src="images/asterisk.png" alt="required"/></legend>
 					<label><input type="checkbox" value="alternativeText"/> alternative text</label>
 					<label><input type="checkbox" value="annotations"/> annotations</label>
@@ -1210,10 +1235,10 @@
 				
 				<fieldset id="summary-field">
 					<legend><label for="summary">Accessibility Summary<img src="images/asterisk.png" alt="required"/></label></legend>
-					<textarea id="summary" rows="5" aria-required="true"></textarea>
+					<textarea id="accessibilitySummary" rows="5" aria-required="true"></textarea>
 				</fieldset>
 				
-				<fieldset id="hazards">
+				<fieldset id="accessibilityHazard">
 					<legend>Accessibility Hazards<img src="images/asterisk.png" alt="required"/></legend>
 					<label><input type="checkbox" value="flashing"/> flashing</label>
 					<label><input type="checkbox" value="motionSimulation"/> motion simulation</label>
@@ -1222,7 +1247,7 @@
 					<label><input type="checkbox" value="unknown"/> unknown</label>
 				</fieldset>
 				
-				<fieldset id="modes">
+				<fieldset id="accessMode">
 					<legend>Access Modes<img src="images/asterisk.png" alt="required"/></legend>
 					<label><input type="checkbox" id="auditory" value="auditory"/> auditory</label>
 					<label><input type="checkbox" id="tactile" value="tactile"/> tactile</label>
@@ -1230,7 +1255,7 @@
 					<label><input type="checkbox" id="visual" value="visual"/> visual</label>
 				</fieldset>
 				
-				<fieldset id="sufficient">
+				<fieldset id="accessModeSufficient">
 					<legend>Sufficient Access Modes</legend>
 					<fieldset id="set1">
 						<legend>Set 1</legend>
@@ -1249,12 +1274,12 @@
 					<div id="add-ams" class="pad-top"><a href="#add-ams" onclick="disc.addSufficient(); return false">Add another set</a></div>
 				</fieldset>
 				
-				<fieldset id="api">
+				<fieldset id="accessibilityAPI">
 					<legend>Accessibility API</legend>
 					<label><input type="checkbox" value="ARIA"/> ARIA</label>
 				</fieldset>
 				
-				<fieldset id="control">
+				<fieldset id="accessibilityControl">
 					<legend>Accessibility Control</legend>
 					<label><input type="checkbox" value="fullKeyboardControl"/> keyboard</label>
 					<label><input type="checkbox" value="fullMouseControl"/> mouse</label>

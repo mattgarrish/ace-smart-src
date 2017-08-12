@@ -141,7 +141,8 @@ to		{ transform: translateY( -50% ) scale( 1 ); }
 .box__restart:focus,
 .box__restart:hover
 {
-	color: #39bfd3;
+	color: rgb(220,0,0);
+	text-decoration: underline;
 }
 
 .js .box__file
@@ -167,7 +168,8 @@ to		{ transform: translateY( -50% ) scale( 1 ); }
 .box__file:focus + label strong,
 .box__file.has-focus + label strong
 {
-	color: #39bfd3;
+	color: rgb(220,0,0);
+	text-decoration: underline;
 }
 .js .box__file:focus + label,
 .js .box__file.has-focus + label
@@ -202,4 +204,8 @@ to		{ transform: translateY( -50% ) scale( 1 ); }
 .box__button:focus
 {
 	background-color: #0f3c4b;
+}
+
+.dnd strong {
+	color: rgb(0,0,220);
 }
