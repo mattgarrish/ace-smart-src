@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Evaluation Setup - EPUB Accessibility Conformance and Reporting</title>
+		<link rel="stylesheet" type="text/css" href="../css/a11y.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-guide.css" />
+	</head>
+
+	<body class="page">
+		<header>
+			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium"/></span> <span>EPUB Accessibility Conformance and Reporting</span></h1>
+			<nav class="menubar">
+				<a href="../conformance.html">Home</a>
+				<a href="index.html">How to Use</a>
+				<a href="../faq.html">FAQ</a>
+			 </nav>
+		</header>
+		<main>
+			<section id="start">
+				<h2>Evaluation Setup</h2>
+				
+				<p>To prepare this site to evaluate a publication, it is first necessary to load the JSON report output by the Ace 
+					automated tool. This report is in the file called <code>ace.json</code>. It is not the HTML file that you use 
+					to review the issues found by that tool.</p>
+				
+				<p>To load the JSON file, you can drag it from your file system and drop it in the blue box in the Start tab:</p>
+				
+				<figure>
+					<figcaption>The drag and drop area is shaded blue and surrounded by a dashed border.</figcaption>
+					<img src="images/dnd.png" width="550" alt="" />
+				</figure>
+				
+				<p>If you're not able to drag and drop the report, it is also possible to select it from the file system.</p>
+				
+				<figure>
+					<figcaption>Within the drag and drop area is a link to a file selection dialog.</figcaption>
+					<img src="images/json-select.png" width="250" alt="" />
+				</figure>
+				
+				<p>The reporting tool will attempt to load the JSON report and customize itself based on the information
+					it provides. When it completes, an alert will be generated indicating what optimizations have been made,
+					if any.</p>
+				
+				<figure>
+					<figcaption>The alert shows that checks for images, audio and video have been turned off.</figcaption>
+					<img src="images/ace-alert.png" width="400" alt="" />
+				</figure>
+				
+				<p>If automatic detection results in incorrect tests being disabled, they can always be re-enabled by going
+					to the <a href="#configure">configuration tab</a>.</p>
+			</section>
+			
+			<nav class="user-links">
+				<div class="prev-link"><a href="auto.html">Automated Evaluation</a></div>
+				<div class="next-link"><a href="conformance.html">Conformance Verification</a></div>
+			</nav>
+		</main>
+		<footer>
+		 <p>Copyright 2017 <a href="http://daisy.org">DAISY Consortium</a></p>
+		 <p><a href="http://www.daisy.org/terms-use">Terms of Use</a> | <a href="http://www.daisy.org/contact">Contact</a></p>
+		</footer>
+	</body>
+</html>

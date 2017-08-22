@@ -14,13 +14,24 @@
 		}
 	  });
 	
-	var manage_dialog = $("#manage").dialog({
+	var save_dialog = $("#save-report").dialog({
 		autoOpen: false,
-		height: 450,
+		height: 300,
 		modal: true,
 		buttons: {
 			Close: function() {
-			  manage_dialog.dialog( "close" );
+			  save_dialog.dialog( "close" );
+			}
+		}
+	  });
+	
+	var load_dialog = $("#load-report").dialog({
+		autoOpen: false,
+		height: 325,
+		modal: true,
+		buttons: {
+			Close: function() {
+			  load_dialog.dialog( "close" );
 			}
 		}
 	  });
@@ -28,12 +39,14 @@
 	function setDialogWidth() {
 		if (document.body.clientWidth < 550) {
 			config_dialog.dialog("option", "width", 300);
-			manage_dialog.dialog("option", "width", 300);
+			save_dialog.dialog("option", "width", 300);
+			load_dialog.dialog("option", "width", 300);
 		}
 		
 		else {
 			config_dialog.dialog("option", "width", 550);
-			manage_dialog.dialog("option", "width", 550);
+			save_dialog.dialog("option", "width", 550);
+			load_dialog.dialog("option", "width", 550);
 		}
 	}
 	

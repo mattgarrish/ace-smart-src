@@ -183,6 +183,8 @@ Ace.prototype.configureReporting = function() {
 	
 	var alert_list = '';
 	
+	this.setPassFail();
+	
 	if (!this.configureChecks('img','images')) {
 		alert_list += '- images\n';
 	}
@@ -204,6 +206,19 @@ Ace.prototype.configureReporting = function() {
 		alert('The following content types were not reported present in the publication:\n\n' + alert_list + '\nChecks related to them have been turned off. To re-enable these checks, open the form configuration options.');
 	}
 }
+
+
+
+Ace.prototype.setPassFail = function() {
+	
+	var ace_status = this.report['earl:result']['earl:outcome'];
+	
+	if (ace_status == 'pass') {
+		
+	}
+
+}
+
 
 
 Ace.prototype.configureChecks = function(id,prop) {

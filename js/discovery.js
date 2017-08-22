@@ -42,7 +42,7 @@ Discovery.prototype.validate = function(quiet) {
 	this.verifyOneCheck('accessibilityFeature',msg);
 	
 	if (document.getElementById('accessibilitySummary').value.replace(/\s/g,'') == '') {
-		error.write('discovery','summary-field','err',this.error['summary'].msg);
+		error.write('discovery','summary-field','err',this.error['accessibilitySummary'].msg);
 		this.highlightError('summary-field', this.error['accessibilitySummary'].warn);
 		msg.err = true;
 	}

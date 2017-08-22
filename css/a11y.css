@@ -332,6 +332,16 @@ div.pad-top{
 	margin-top: 2rem;
 }
 
+details + details {
+	margin-top: 1rem;
+}
+
+hr {
+	margin: 2rem auto;
+	border-color: rgb(240,245,255);
+	width: 90%;
+}
+
 /* lists */
 
 ul{
@@ -343,6 +353,9 @@ li{
 	margin-top: 0.7rem;
 }
 
+p.instr {
+	margin-top: 4rem;
+}
 
 /* fieldsets */
 
@@ -640,7 +653,8 @@ label.pad-left{
 
 
 /* manage options */
-#manage label{
+#save-report label,
+#load-report label {
 	display: block;
 }
 
@@ -700,7 +714,6 @@ section#start > fieldset > legend{
 section#start > fieldset > label{
 	display: inline-block !important;
 }
-
 
 
 /* initial hide alt statements for checks */

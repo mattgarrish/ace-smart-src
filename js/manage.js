@@ -13,8 +13,13 @@ function Manage() {
 }
 
 
-Manage.prototype.open = function() {
-	manage_dialog.dialog('open');
+Manage.prototype.openSave = function() {
+	save_dialog.dialog('open');
+}
+
+
+Manage.prototype.openLoad = function() {
+	load_dialog.dialog('open');
 }
 
 
@@ -145,7 +150,7 @@ Manage.prototype.saveConformanceReport = function() {
 		this.writeSavedJSON(reportJSON);
 	}
 	
-	manage_dialog.dialog('close');
+	save_dialog.dialog('close');
 }
 
 
@@ -332,7 +337,7 @@ Manage.prototype.loadConformanceReport = function() {
 	
 	alert('Report successfully loaded!');
 	
-	manage_dialog.dialog('close');
+	load_dialog.dialog('close');
 }
 
 

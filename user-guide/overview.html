@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Overview - EPUB Accessibility Conformance and Reporting</title>
+		<link rel="stylesheet" type="text/css" href="../css/a11y.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-guide.css" />
+	</head>
+
+	<body class="page">
+		<header>
+			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium" /></span>
+				<span>EPUB Accessibility Conformance and Reporting</span></h1>
+			<nav class="menubar">
+				<a href="../conformance.html">Home</a>
+				<a href="index.html">How to Use</a>
+				<a href="../faq.html">FAQ</a>
+			</nav>
+		</header>
+		<main>
+			<section id="overview">
+				<h2>Overview</h2>
+				<p>There are two steps in the accessibility evaluation process for EPUB publications:</p>
+				<dl>
+					<dt>1. Automated Verification</dt>
+
+					<dd>
+						<p>The first step is to ensure the publication passes automated testing:</p>
+						<ol>
+							<li>Use the <a href="https://github.com/IDPF/epubcheck/releases">epubcheck</a> validator to check
+								the publication for errors to the EPUB specification. Although this tool does not
+								specifically perform accessibility checks, it ensures the publication is a valid EPUB
+								publication, which is necessary to pass WCAG success criterion 4.1.1.</li>
+
+							<li>Use the <a href="https://github.com/daisy/ace-core/releases">DAISY Ace</a> accessibility tool
+								to check accessibility requirements that can be programmatically determined.</li>
+						</ol>
+					</dd>
+
+					<dt>2. Manual Verification</dt>
+
+					<dd>
+						<p>Although automated validation tools will alert you to problems that can be programmatically
+							determined, ensuring accessibility conformance also requires a number of manual checks. There are
+							many aspects of accessibility that a tool cannot verify (quality of descriptions, scripting
+							accessibility, keyboard issues, etc.). These checks must be performed to ensure conformance with
+							the EPUB Accessibility specification &#8212; a claim of conformance cannot be made only from
+							automated testing.</p>
+						<p>This site is configured to help you perform these manual assessments, sometimes using the output
+							from the Ace tool to simplify verification.</p>
+					</dd>
+				</dl>
+				<p>Note that in order to carry out an evaluation, editing software that allows you to review the resources of
+					the publication is required. This is true even if you are only reporting issues and not fixing them, as
+					you need access to the raw markup of the publication to verify many accessibility requirements.</p>
+				<p>The EPUB publication does not have to be zipped to carry out the manual evaluation steps, as zipping does
+					not directly affect the accessibility. The publication does need to be zipped for the Ace automatic
+					reporting tool to perform its evaluation at this time, however.</p>
+			</section>
+			<nav class="user-links">
+				<div class="prev-link"><a href="index.html">Table of Contents</a></div>
+				<div class="next-link"><a href="auto.html">Automated Evaluation</a></div>
+			</nav>
+		</main>
+		<footer>
+			<p>Copyright 2017 <a href="http://daisy.org">DAISY Consortium</a></p>
+			<p><a href="http://www.daisy.org/terms-use">Terms of Use</a> | <a href="http://www.daisy.org/contact"
+				>Contact</a></p>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,36 @@
+
+/* prev/next nav */
+
+nav.user-links {
+	width: 100%;
+	padding: 2rem 0;
+}
+
+div.prev-link {
+	float: left;
+}
+
+div.prev-link > a:before {
+	content: '<<\00a0\00a0';
+	color: rgb(0,0,220);
+}
+
+div.prev-link > a:hover:before {
+	color: rgb(220,0,0);
+	text-decoration: underline;
+}
+
+div.next-link {
+	float: right;
+}
+
+div.next-link > a:after {
+	content: '\00a0\00a0>>';
+	color: rgb(0,0,220);
+}
+
+div.next-link > a:hover:after {
+	color: rgb(220,0,0);
+	text-decoration: underline;
+}
+
