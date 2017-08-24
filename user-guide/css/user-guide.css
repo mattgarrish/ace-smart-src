@@ -1,9 +1,32 @@
 
+@import '../../css/a11y.css';
+
+main {
+	font-size: 1.6rem;
+}
+
+main > * {
+	line-height: 2.2rem;
+}
+
+section >  section > * {
+	margin-left: 2rem;
+}
+
+section >  section > h3 {
+	margin-left: inherit !important;
+	padding-left: 1rem !important;
+}
+
+footer > * {
+	max-width: 80rem;
+}
+
 /* prev/next nav */
 
 nav.user-links {
 	width: 100%;
-	padding: 2rem 0;
+	padding: 3rem 0 2rem 0;
 }
 
 div.prev-link {
@@ -11,26 +34,24 @@ div.prev-link {
 }
 
 div.prev-link > a:before {
-	content: '<<\00a0\00a0';
-	color: rgb(0,0,220);
-}
-
-div.prev-link > a:hover:before {
-	color: rgb(220,0,0);
-	text-decoration: underline;
+	content: 'Previous:\00a0\00a0';
 }
 
 div.next-link {
 	float: right;
 }
 
-div.next-link > a:after {
-	content: '\00a0\00a0>>';
-	color: rgb(0,0,220);
+div.next-link > a:before {
+	content: 'Next:\00a0\00a0';
 }
 
-div.next-link > a:hover:after {
-	color: rgb(220,0,0);
-	text-decoration: underline;
+div.next-link a,
+div.prev-link a {
+	text-decoration: none;
+	border-bottom: 0.1rem dotted rgb(40,120,255);
 }
 
+div.next-link a:hover,
+div.prev-link a:hover {
+	border-bottom: 0.1rem dotted rgb(255,120,40);
+}

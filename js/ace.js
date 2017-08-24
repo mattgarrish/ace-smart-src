@@ -20,6 +20,9 @@ Ace.prototype.loadReport = function(json) {
 		this.setMetadataString(dc[x],'dc:'+dc[x]);	
 	}
 	
+	// load DCTERMS metadata
+	this.setDate('modified','dcterms:modified');
+	
 	// load accessibility metadata
 	this.setMetadataString('accessibilitySummary','schema:accessibilitySummary');
 	var schema = ['accessibilityFeature', 'accessMode', 'accessibilityHazard', 'accessibilityAPI', 'accessibilityControl'];
@@ -82,6 +85,22 @@ Ace.prototype.setMetadataString = function(id,prop) {
 	document.getElementById(id).value = str;
 }
 
+
+Ace.prototype.setMetadataString = function(id,prop) {
+
+	if (!this.report['earl:testSubject']['metadata'].hasOwnProperty(prop)) {
+		return;
+	}
+	
+	var str = '';
+	
+	var date = this.report['earl:testSubject']['metadata'][prop];
+	
+	var date_options = { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };  
+	
+	return (date == '') ? date : new Date(date).toLocaleDateString("en",date-options);
+
+}
 
 Ace.prototype.formatIdentifier = function(identifier) {
 	if (identifier.match(/urn:isbn:/i)) {

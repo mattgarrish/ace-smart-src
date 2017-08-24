@@ -3,101 +3,106 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>Verifying Conformance - EPUB Accessibility Conformance and Reporting</title>
-		<link rel="stylesheet" type="text/css" href="../css/a11y.css" />
 		<link rel="stylesheet" type="text/css" href="css/user-guide.css" />
 	</head>
 
 	<body class="page">
 		<header>
-			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium"/></span> <span>EPUB Accessibility Conformance and Reporting</span></h1>
+			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium" /></span>
+				<span>EPUB Accessibility Conformance and Reporting</span></h1>
 			<nav class="menubar">
 				<a href="../conformance.html">Home</a>
 				<a href="index.html">How to Use</a>
 				<a href="../faq.html">FAQ</a>
-			 </nav>
+			</nav>
 		</header>
 		<main>
 			<section id="conformance">
 				<h2>Verifying Conformance</h2>
-				
-				<p>The next step in manually evaluating the publication is to check the required conformance requirements. 
-					The <a href="conformance.html#verification">Conformance Verification</a> tab
-					provides a list of requirements that must be passed for each WCAG success criterion and each
-					additional EPUB requirement.</p>
-				
-				<p>This tab is configured by default to verify that the publication meets WCAG Level A requirements. To
-					change to a higher conformance level, or to view additional higher-level success criteria, refer to
-					the <a href="#configure">configuration section</a> below.</p>
-				
-				<p>Step through each success criterion and check that it is satisfied by the content. Each criterion
-					includes a status section to simplify tracking the overall conformance, and to facilitate <a
-						href="#generate">generating a report</a> at the end of the evaluation.</p>
+				<p>The next step in manually evaluating the publication is to check the required conformance requirements.
+					The <a href="conformance.html#verification">Conformance Verification</a> tab provides a list of
+					requirements that must be passed for each WCAG success criterion and each additional EPUB
+					requirement.</p>
+				<p>Step through each success criterion and check that it is satisfied by the content. Each criterion includes
+					a status section to simplify tracking the overall conformance, and to facilitate <a href="#generate"
+						>generating a report</a> at the end of the evaluation.</p>
 				<figure>
-					<figcaption>The status section appears after the links to the supporting documentation and includes
-						pass, fail and not applicable options.</figcaption>
-					<img src="images/status.png" width="350" alt="" />
+					<figcaption>The status section appears after the links to the supporting documentation and includes pass,
+						fail and not applicable options.</figcaption>
+					<img src="images/status_unverified.png" width="330"
+						alt="Status section showing the unverified pass, fail and not applicable options" />
 				</figure>
-				
 				<p>The following list describes each of the available status options.</p>
-				
 				<dl>
 					<dt id="unverified">Unverified</dt>
 					<dd>
-						<p>All success criteria are set to <i>unverified</i> by default, although this status may be 
-							changed when the Ace JSON report is loaded and analyzed (e.g., some criteria might be set
-							to <a href="#na">not applicable</a>).</p>
+						<p>All success criteria are set to <i>unverified</i> by default, although this status may be changed
+							when the Ace JSON report is loaded and analyzed (e.g., some criteria might be set to <a
+								href="#na">not applicable</a>).</p>
+						<figure>
+							<img src="images/status_unverified.png" width="330"
+								alt="Status section showing the unverified option set" />
+						</figure>
+						<p>All success criteria for the conformance level specified in the <a href="setup.html">evaluation
+								setup</a> must be changed to one of the following status options prior to generating the
+							final report. Failure to do so will result in a validation error. Note that Level AAA success
+							criteria may be left unverified, in which case they will not be included in the final report.</p>
 					</dd>
-					
+
 					<dt id="pass">Pass</dt>
 					<dd>
-						<p>After verifying that the requirements of a success criterion are satisfied, set its status 
-							to <i>pass</i>.</p>
-						
-						<p>Do not use the pass setting for success criteria that are not applicable to the content.
-							For example, if the publication does not contain audio or video, do not pass it on
-							success criteria for audio and video content. Doing so suggests that the publication 
-							contains content it does not. Use the <a href="#na">not applicable</a> status in these
-							cases.</p>
+						<p>After verifying that the requirements of a success criterion are satisfied, set its status to
+								<i>pass</i>.</p>
+						<figure>
+							<img src="images/status_pass.png" width="330" alt="Status section showing the pass option set" />
+						</figure>
+						<p>Do not use the pass setting for success criteria that are not applicable to the content. For
+							example, if the publication does not contain audio or video, do not pass it on success criteria
+							for audio and video content. Doing so suggests that the publication contains content it does not.
+							Use the <a href="#na">not applicable</a> status in these cases.</p>
 					</dd>
-					
+
 					<dt id="fail">Fail</dt>
 					<dd>
-						<p>If the publication fails a success criterion, setting the status reveals a field to
-							describe why it failed.</p>
+						<p>If the publication fails a success criterion, setting the status to <i>fail</i> will reveal a
+							field to describe why it failed.</p>
 						<figure>
-							<figcaption>Clicking the fail status reveals the text field where you can note the failure(s)</figcaption>
-							<img src="images/status_fail.png" width="500" alt="" />
+							<figcaption>Clicking the fail status reveals the text field where you can note the
+								failure(s)</figcaption>
+							<img src="images/status_fail.png" width="330" alt="" />
 						</figure>
+						<p>Information added to this field is included in the generated report for the publication.</p>
 					</dd>
-					
+
 					<dt id="na">N/A</dt>
 					<dd>
+						<p>Set the status to "N/A" (not applicable) for any criteria that are not applicable to the
+							publication.</p>
 						<figure>
-							<figcaption>Set the "N/A" (not applicable) status for any criteria that are not applicable to the
-								publication. If you leave any status section set to unverified, you will receive an error at the
-								report generation step.</figcaption>
-							<img src="images/status_na.png" width="350" alt="" />
+							<img src="images/status_na.png" width="330"
+								alt="Status section showing the not applicable option set" />
 						</figure>
+						<p>Do not state that a publication passes criteria that are not applicable to its content, as this
+							practice is misleading to anyone reading the final report.</p>
 					</dd>
 				</dl>
-				
-				<p>An optional note field is provided after the status section for recording any general notes you wish to provide.
-					These notes are included in the generated report.</p>
-				
+				<p>An optional note field is provided after the status section for recording any general notes you wish to
+					provide. These notes are included in the generated report.</p>
 				<figure>
-					<figcaption>Clicking the "Add note" checkbox reveals the text field where you can write the note.</figcaption>
+					<figcaption>Clicking the "Add note" checkbox reveals the text field where you can write the
+						note.</figcaption>
 					<img src="images/notes.png" width="350" alt="" />
 				</figure>
 			</section>
-			
 			<nav class="user-links">
 				<div class="prev-link"><a href="setup.html">Evaluation Setup</a></div>
 				<div class="next-link"><a href="discovery.html">Discovery Metadata</a></div>
 			</nav>
 		</main>
 		<footer>
-		 <p>Copyright 2017 <a href="http://daisy.org">DAISY Consortium</a></p>
-		 <p><a href="http://www.daisy.org/terms-use">Terms of Use</a> | <a href="http://www.daisy.org/contact">Contact</a></p>
+			<p>Copyright 2017 <a href="http://daisy.org">DAISY Consortium</a></p>
+			<p><a href="http://www.daisy.org/terms-use">Terms of Use</a> | <a href="http://www.daisy.org/contact"
+				>Contact</a></p>
 		</footer>
 	</body>
 </html>

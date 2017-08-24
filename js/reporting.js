@@ -2,8 +2,16 @@
 var report = new Report();
 
 function Report() {
+	this.outputLocation = 'win';
 }
 
+
+Report.prototype.setOutputLocation = function(loc) {
+	this.outputLocation = loc;
+	
+	document.getElementById('report-html').style.display = (loc == 'win') ? 'none' : 'block';
+	document.getElementById('popup-instructions').style.display = (loc == 'box') ? 'none' : 'block';
+}
 
 
 Report.prototype.validateConformanceReport = function() {
@@ -13,19 +21,23 @@ Report.prototype.validateConformanceReport = function() {
 	error.clearAll();
 	
 	
-	/* validate the title in the config */
-	var title_elem = document.getElementById('title');
+	/* validate the title/modified date in the config */
+	var req_meta = ['title','identifier'];
 	
-	if (title_elem.value.trim() == '') {
-		title_elem.setAttribute('aria-invalid',true);
-		title_elem.parentNode.classList.add(format.BG.ERR);
-		error.write('start','title','err','Title is a required field.');
-		err = true;
-	}
-	
-	else {
-		title_elem.setAttribute('aria-invalid',false);
-		title_elem.parentNode.classList.remove(format.BG.ERR);
+	for (var i = 0; i < req_meta.length; i++) {
+		var meta_elem = document.getElementById(req_meta[i]);
+		
+		if (meta_elem.value.trim() == '') {
+			meta_elem.setAttribute('aria-invalid',true);
+			meta_elem.parentNode.classList.add(format.BG.ERR);
+			error.write('start','title','err','Title is a required field.');
+			err = true;
+		}
+		
+		else {
+			meta_elem.setAttribute('aria-invalid',false);
+			meta_elem.parentNode.classList.remove(format.BG.ERR);
+		}
 	}
 	
 	/* validate the optional metadata field */
@@ -210,7 +222,9 @@ Report.prototype.generateConformanceReport = function() {
 	var reportDetails = '<section id="details">\n<h3>Additional Information</h3>\n';
 		reportDetails += '<details class="info">\n<summary>Publication Information</summary>\n';
 	
+	// add epub version
 	reportDetails += format.pubInfo('format','Format', 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value,'');
+	reportDetails += format.pubInfo('modified','Last Modified', document.getElementById('modified').value.trim(), '');
 	
 	var optional_meta = document.getElementById('optional-meta').value.trim();
 	
@@ -322,8 +336,34 @@ Report.prototype.generateConformanceReport = function() {
 		css += (cssURL != '') ? '\n<link rel="stylesheet" type="text/css" href="'+cssURL+'"/>\n' : '';
 	*/ 
 	
-	var reportWin = window.open('report.html','reportWin');
-		reportWin.addEventListener('load', function() { reportWin.init('EPUB Accessibility Conformance Report for ' + title, reportBody + reportSummary + reportDetails, format.generateTimestamp('at')); });
+	var report_title = 'EPUB Accessibility Conformance Report for ' + title;
+	var report_body = reportBody + reportSummary + reportDetails;
+	var report_timestamp = format.generateTimestamp('at');
+	
+	if (this.outputLocation == 'win') {
+		var reportWin = window.open('report.html','reportWin');
+			reportWin.addEventListener('load', function() { reportWin.init(report_title, report_body, report_timestamp); });
+	}
+	
+	else {
+		var report_template = '';
+		var xhr = new XMLHttpRequest();
+		
+		xhr.open("GET", 'report.html', true);
+		
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4){
+		    	report_template = xhr.responseText;
+		    	report_template = report_template.replace('<title></title>', '<title>' + report_title + '</title>');
+		    	report_template = report_template.replace('<main></main>', '<main>' + report_body + '</main>');
+		    	report_template = report_template.replace('<span id="date-created"></span>', '<span id="date-created">' + report_timestamp + '</span>');
+		    	report_template = report_template.replace(/<script>.*?<\/script>/i, '');
+		    	document.getElementById('report-html').value = report_template;
+		    }
+		}
+		
+		xhr.send();
+	}
 }
 
 

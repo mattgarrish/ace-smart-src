@@ -46,6 +46,7 @@ Manage.prototype.saveConformanceReport = function() {
 		reportJSON += '"title": ' + JSON.stringify(document.getElementById('title').value) + ',';
 		reportJSON += '"creator": ' + JSON.stringify(document.getElementById('creator').value) + ',';
 		reportJSON += '"identifier": ' + JSON.stringify(document.getElementById('identifier').value) + ',';
+		reportJSON += '"modified": ' + JSON.stringify(document.getElementById('modified').value) + ',';
 		reportJSON += '"publisher": ' + JSON.stringify(document.getElementById('publisher').value) + ',';
 		reportJSON += '"optional-meta": ' + JSON.stringify(document.getElementById('optional-meta').value) + ',';
 		
@@ -289,7 +290,7 @@ Manage.prototype.loadConformanceReport = function() {
 	
 	/* load conformance and config text fields */
 	
-	var meta = {"conformanceMeta": ['certifier','reportLink'], "config": ['title','creator','identifier','publisher','optional-meta']};
+	var meta = {"conformanceMeta": ['certifier','reportLink'], "config": ['title','creator','identifier','modified','publisher','optional-meta']};
 	
 	for (var key in meta) {
 		meta[key].forEach(function(id) {
@@ -418,6 +419,7 @@ Manage.prototype.clear = function(quiet) {
 	
 	/* clear artefacts from config */
 	document.getElementById('title').classList.remove(format.BG.ERR);
+	document.getElementById('modified').classList.remove(format.BG.ERR);
 	
 	error.clearAll();
 	error.hide();
