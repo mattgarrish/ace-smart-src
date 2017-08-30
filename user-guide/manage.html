@@ -11,7 +11,7 @@
 			<h1><span><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium" /></span>
 				<span>EPUB Accessibility Conformance and Reporting</span></h1>
 			<nav class="menubar">
-				<a href="../conformance.html">Home</a>
+				<a href="../index.html">Home</a>
 				<a href="index.html">How to Use</a>
 				<a href="../faq.html">FAQ</a>
 			</nav>
@@ -19,21 +19,31 @@
 		<main>
 			<section id="manage">
 				<h2>Managing Reports</h2>
+				
 				<p>There are going to be times when you are not able to complete an evaluation at the same time that you
 					initiate it. Similarly, any time have to close down your browser during the day, any unsaved information
 					is lost. To avoid having to leave your browser open and computer running to work around this dilemma,
 					the reporting tool provides two options to save and reload in-progress reports:</p>
+				
 				<dl>
 					<dt>Local storage in the browser</dt>
 					<dd>
 						<p>If your browser supports local storage, it is possible to save the report in the browser. Local
-							storage is the easiest option, as all you have to do is click the Save/Load buttons, but it comes
-							with one caveat: you need to be careful that data in local storage is not cleaned automatically.
-							For example, if you are using a private browsing session (e.g., Chrome Incognito mode), any
-							information you store is lost when you close the browser. Similarly, if you run a program to
-							clean up computer space, the program might delete all information in local storage.</p>
-						<p>it is recommended to save a copy to file the first few times you use this option until you can be
-							sure there is no risk of data loss.</p>
+							storage is the easiest option, as is doesn't involve copying and pasting data.</p>
+						
+						<div class="caution">
+							<p><strong>Caution</strong>: Ensure that data in local storage is not cleaned automatically. For '
+								example, if you are using a private browsing session (e.g., Chrome Incognito mode), any 
+								information you store is lost when you close the browser. Similarly, if you run a program to
+								clean up computer space, the program might delete all information in local storage. It is
+								recommended to save a copy to file the first few times you use this option until you can be
+								sure there is no risk of data loss.</p>
+						</div>
+						
+						<div class="note">
+							<p><strong>Note</strong>: It is not currently possible to save more than one active report to local storage. If there is already
+								a saved report, you will be prompted to overwrite it.</p>
+						</div>
 					</dd>
 
 					<dt>Saving to a file</dt>
@@ -43,16 +53,40 @@
 							either save this entire page to disk or copy the JSON data from the text field and save it using
 							a text editor. Do not use a word processor, like Microsoft Word, to save the data, as it may
 							reformat the text and break the JSON encoding.</p>
+						
 						<div class="caution">
-							<p>Caution: Do not bookmark the HTML page with the expectation that you can return to it later to
-								retrieve your data. It is a temporary page. Your report data will no longer be available when
-								you return.</p>
+							<p><strong>Caution</strong>: Do not bookmark the HTML page with the expectation that you can return
+								to it later to retrieve your data. It is a temporary page. Your report data will no longer be
+								available when you return.</p>
 						</div>
+						
 						<p>When you reload the report, you will be prompted to paste the saved data. <em>Only copy the JSON
 								data.</em> If you saved the generated HTML page that includes the JSON data, do not copy the
 							HTML source or any of the surrounding text on the page.</p>
 					</dd>
 				</dl>
+				
+				<p>To save the current report, click the Save button at the top of the page.</p>
+				
+				<figure>
+					<img src="images/save_load.png" width="250" alt="Save and Load buttons are located beside the Configure button and below the main menu bar" />
+				</figure>
+				
+				<p>A new dialog will open with options for saving to local storage or your file system.</p>
+				
+				<figure>
+					<img src="images/save_dialog.png" width="500" alt="The save dialog has radio button options for saving to local storage or file system, a clear button and a save button" />
+				</figure>
+				
+				<p>Choose your preferred storage method (see above), and click the Save button.</p>
+				
+				<p>To remove an old report from local storage. Click the Clear button.</p>
+				
+				<p>The process to load a report is nearly identical to saving. Click the Restore button and a similar dialog will open.</p>
+				
+				<figure>
+					<img src="images/load_dialog.png" width="500" alt="The restore dialog has radio button options for loading from local storage or a saved file, plus a load button" />
+				</figure>
 			</section>
 			<nav class="user-links">
 				<div class="prev-link"><a href="configure.html">Configuring Reports</a></div>

@@ -10,7 +10,7 @@
 		<header>
 			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium"/></span> <span>EPUB Accessibility Conformance and Reporting</span></h1>
 			<nav class="menubar">
-				<a href="../conformance.html">Home</a>
+				<a href="../index.html">Home</a>
 				<a href="index.html">How to Use</a>
 				<a href="../faq.html">FAQ</a>
 			 </nav>
@@ -19,36 +19,40 @@
 			<section id="configure">
 				<h2>Configuring Reports</h2>
 				
-				<p>There are a number of reporting options that can be controlled from the configuration dialog.</p>
+				<p>The configuration dialog is opened from the menu bar at the top of the page.</p>
 				
 				<figure>
-					<figcaption>The configuration dialog is opened from the fourth button in the reporting navigation bar at
-					 the top of the page.</figcaption>
-					<img src="images/config_button.png" width="500" alt="" />
+					<img src="images/config_button.png" width="250" alt="Configure button followed by save and load buttons" />
 				</figure>
 				
-				<p>The first section identifies key metadata </p>
-				
-				<p>The next section of the configuration dialog allows you to specify the level of WCAG conformance
-					you are testing.</p>
+				<p>The first section allows you to WCAG Level AA and AAA success criteria to the conformance verification tab.</p>
 				
 				<figure>
-					<figcaption>The WCAG configuration options are found under the "WCAG Conformance" heading.</figcaption>
-					<img src="images/wcag_config.png" width="450" alt="" />
+					<img src="images/wcag_optional_config.png" width="250" alt="Configure button followed by save and load buttons" />
 				</figure>
 				
-				<p>By default, reporting is set to the lowest WCAG level: Level A. By changing to AA, additional success criteria
-					will automatically be added to the reporting field.</p>
+				<p>Showing these criteria does not change the conformance level being verified, and their status is not checked 
+					when the final report is generated. Showing them allows you to indicate that a publication meets requirements
+					beyond the base level being tested. If any of these criteria are set to pass or fail, they will be included
+					in the final report.</p>
+				
+				<div class="note">
+					<p><strong>Note</strong>: To change the WCAG conformance level the publication has to meet, use the 
+						<a href="setup.html#wcag-config">options on the Start tab</a>.</p>
+				</div>
 				
 				<p>It is also possible to hide content-specific success criteria if you know that they do not apply to the
 					publication (e.g., scripting requirements).</p>
 				
 				<figure>
-					<figcaption>The ability to hide content-specific criteria is found under the "Include requirements for"
-					 heading. Note that deselecting an option only hides the related criteria from view. The criteria will
-					 still appear in the generated report with a "not applicable" status.</figcaption>
-					<img src="images/criteria_options.png" width="450" alt="" />
+					<img src="images/criteria_options.png" width="450" alt="Checkboxes for images, audio, video, scripting, and forms elements" />
 				</figure>
+				
+				<p>These options are automatically updated to reflect the content when the Ace JSON report is loaded in the 
+					<a href="setup.html">setup step</a>.</p>
+				
+				<p>Note that deselecting an option only hides the related criteria from view. The criteria are still included in 
+					the generated report with a "not applicable" status.</p>
 			</section>
 			
 			<nav class="user-links">

@@ -1,11 +1,13 @@
 	
+	var qs = new URLSearchParams(window.location.search);
+	
 	// initialize details polyfill
 	$('details').details();
 	
 	// initialize dialogs
 	var config_dialog = $("#config").dialog({
 		autoOpen: false,
-		height: 410,
+		height: qs.has('admin') ? 410 : 350,
 		modal: true,
 		buttons: {
 			Close: function() {
@@ -58,3 +60,7 @@
 	// initial set
 	setDialogWidth();
 	
+	// hide admin test controls
+	if (!qs.has('admin')) {
+		document.getElementById('set-all').style.display = 'none';
+	}

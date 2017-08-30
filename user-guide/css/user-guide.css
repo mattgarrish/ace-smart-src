@@ -55,3 +55,8 @@ div.next-link a:hover,
 div.prev-link a:hover {
 	border-bottom: 0.1rem dotted rgb(255,120,40);
 }
+
+div.note > p,
+div.caution > p {
+	font-size: 85%;
+}
