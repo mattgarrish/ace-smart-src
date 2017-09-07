@@ -1,14 +1,6 @@
 
 @import '../../css/a11y.css';
 
-main {
-	font-size: 1.6rem;
-}
-
-main > * {
-	line-height: 2.2rem;
-}
-
 section >  section > * {
 	margin-left: 2rem;
 }

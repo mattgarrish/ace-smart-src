@@ -69,6 +69,7 @@ footer{
 }
 
 main{
+	font-size: 1.6rem;
 	padding-bottom: 2rem;
 	background-color: rgb(251, 251, 251);
 }
@@ -80,7 +81,9 @@ body.page main{
 
 main > *{
 	max-width: 76rem;
+	line-height: 2.2rem;
 }
+
 
 footer{
 	font-weight: bold;
@@ -165,8 +168,6 @@ nav.menubar > a:not([href]){
 /* reporting buttons */
 
 div#report-buttons{
-	font-size: 1.2rem;
-	font-weight: bold;
 	margin: 0 0 0 -1rem;
 	padding: 0.5rem 0.5rem 0.5rem 2rem;
 	border-bottom: 0.1rem solid rgb(0, 0, 0);
@@ -175,12 +176,12 @@ div#report-buttons{
 }
 
 div#report-buttons input[type = "button"]{
-	font-size: 1rem;
+	font-size: 1.2rem;
 	background-color: rgb(251, 251, 251);
 	color: rgb(0, 0, 220);
 	border: 0.05rem dotted rgb(0, 80, 160);
 	padding: 0.2rem;
-	width: 6rem;
+	width: 8rem;
 	margin-left: 0.3rem;
 	vertical-align: bottom;
 }
@@ -208,7 +209,7 @@ section.js-tabcontent{
 
 ul.js-tablist{
 	position: relative;
-	top: -3.85rem;
+	top: -3.65rem;
 	left: -1.2rem;
 	padding: 0;
 	display: inline;
@@ -219,7 +220,8 @@ li.js-tablist__item{
 	width: 16.5rem;
 	display: inline-block;
 	padding: 0.7rem;
-	font-size: 90%;
+	font-size: 1.325rem;
+	line-height: 1.325rem;
 	background-color: rgb(235, 235, 235);
 	border-radius: 0.5rem 0.5rem 0 0;
 	cursor: pointer;
@@ -795,7 +797,7 @@ section#start > fieldset > label{
 		padding-left: 0;
 	}
 	ul.js-tablist{
-		top: -3.85rem;
+		top: -3.65rem;
 		left: 1rem;
 	}
 }
