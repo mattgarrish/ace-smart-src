@@ -156,3 +156,11 @@ Conformance.prototype.setStatusAdmin = function(stat) {
 		}
 	}
 }
+
+
+Conformance.prototype.showLinks = function(show) {
+	var details = document.getElementById('verification').querySelectorAll('details');
+	for (var i = 0; i < details.length; i++) {
+		details[i].open = show;
+	}
+}

@@ -80,7 +80,7 @@ body.page main{
 }
 
 main > *{
-	max-width: 76rem;
+	max-width: 80rem;
 	line-height: 2.2rem;
 }
 

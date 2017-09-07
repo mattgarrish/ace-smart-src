@@ -22,15 +22,15 @@ Report.prototype.validateConformanceReport = function() {
 	
 	
 	/* validate the title/modified date in the config */
-	var req_meta = ['title','identifier'];
+	var req_meta = {'title': 'title', 'modified': 'last modified date'};
 	
-	for (var i = 0; i < req_meta.length; i++) {
-		var meta_elem = document.getElementById(req_meta[i]);
+	for (var key in req_meta) {
+		var meta_elem = document.getElementById(key);
 		
 		if (meta_elem.value.trim() == '') {
 			meta_elem.setAttribute('aria-invalid',true);
 			meta_elem.parentNode.classList.add(format.BG.ERR);
-			error.write('start','title','err','Title is a required field.');
+			error.write('start',key,'err','The ' + req_meta[key] + ' is a required field.');
 			err = true;
 		}
 		

@@ -7,6 +7,8 @@
 	
 	<p>Set the status of each section to Pass, Fail or Not Applicable (N/A) as you go. Note fields are provided at the bottom of each success criterion to include additional information in the final report.</p>
 	
+	<p><label><input type="radio" name="link-exp" onchange="conf.showLinks(false)" checked="checked"/> Collapse all help links</label> <label><input type="radio" name="link-exp" onchange="conf.showLinks(true)"/> Expand all help links</label></p>
+	
 	<section id="sc-1.1.1" class="a">
 		<h3><span class="label">1.1.1 Non-text Content</span> <span class="a-label">[Level A]</span></h3>
 		
@@ -308,16 +310,46 @@
 		<div class="sc-body">
 			<p>Verify that all essential information and relationships are reflected in the markup.</p>
 			
+			<p>The markup of each content document has to be inspected to verify this success criterion, as its purpose 
+				is to ensures that the markup matches the visual presentation of the content.</p>
+			
 			<p>Some common problems areas to check include:</p>
 			
 			<ul>
-				<li>all section headings are properly identified with HTML heading tags;</li>
-				<li>section heading depth is correctly reflected in the choice of heading tag;</li>
-				<li>table headers are logically associated with cells using the <code>scope</code> or <code>headers</code> attribute;</li>
-				<li>complex tables include a description of their structure;</li>
-				<li>lists of items are marked up using list tags (i.e., not as styled paragraphs);</li>
-				<li>semantic markup complements any use of color;</li>
-				<li>secondary content is identified using appropriate tags (e.g., <code>aside</code>).</li>
+				<li><a href="https://daisy.github.io/a11y-kb/docs/html/headings.html" target="_blank">Headings</a>
+					<ul>
+						<li>all section headings are properly identified with HTML heading tags;</li>
+						<li>subtitles do not follow a heading in a new heading element;</li>
+						<li>section heading depth is correctly reflected in the choice of heading tag;</li>
+						<li>headings are not used to format non-heading text;</li>
+					</ul>
+				</li>
+				
+				<li><a href="https://daisy.github.io/a11y-kb/docs/html/tables.html" target="_blank">Tables</a>
+					<ul>
+						<li>table headers are logically associated with cells using the <code>scope</code> or <code>headers</code> attribute;</li>
+						<li>complex tables include a description of their structure;</li>
+					</ul>
+				</li>
+				<li><a href="https://daisy.github.io/a11y-kb/docs/html/tables.html" target="_blank">Lists</a>
+					<ul>
+						<li>the correct type of list is used (ordered or unordered);</li>
+						<li>lists of items are marked up using list tags (i.e., not as styled paragraphs);</li>
+					</ul>
+				</li>
+				
+				<li><a href="https://daisy.github.io/a11y-kb/docs/css/color.html" target="_blank">Color</a>
+					<ul>
+						<li>content offset from the main narrative by shading or colored borders also uses semantic markup (e.g., <code>aside</code>);</li>
+					</ul>
+				</li>
+				
+				<li><a href="https://daisy.github.io/a11y-kb/docs/html/notes.html" target="_blank">Footnotes</a>
+					<ul>
+						<li>footnotes within the text are wrapped in <code>aside</code> elements;</li>
+						<li>footnotes and their references are identifiable by their <code>role</code> attribute value;</li>
+					</ul>
+				</li>
 			</ul>
 			
 			<p>For more markup best practices, refer to the <a href="https://daisy.github.io/a11y-kb/">DAISY Accessible Publishing Knowledge Base</a>.</p>
@@ -356,9 +388,9 @@
 			<details>
 				<summary>Knowledge Base and Techniques</summary>
 				<ul>
-					<li><a href="http://www.idpf.org/epub/a11y/techniques/#access-001" target="_blank">ACCESS-001: Ensure Linear Reading Order</a></li>
 					<li><a href="https://daisy.github.io/a11y-kb/docs/html/order.html" target="_blank">Logical Reading Order</a></li>
 					<li><a href="https://daisy.github.io/a11y-kb/docs/html/section.html" target="_blank">Sections</a></li>
+					<li><a href="http://www.idpf.org/epub/a11y/techniques/#access-001" target="_blank">ACCESS-001: Ensure Linear Reading Order</a></li>
 				</ul>
 			</details>
 			
@@ -881,6 +913,14 @@
 			<hr/>
 			
 			<details>
+				<summary>Knowledge Base and Techniques</summary>
+				<ul>
+					<li><a href="https://daisy.github.io/a11y-kb/docs/html/title.html" target="_blank">Page Title</a></li>
+					<li><a href="http://www.idpf.org/epub/a11y/techniques/#titles-001" target="_blank">TITLES-001: Include publication and document titles</a></li>
+				</ul>
+			</details>
+			
+			<details>
 				<summary>WCAG Documentation</summary>
 				<ul>
 					<li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-title.html" target="_blank">Understanding Success Criterion 2.4.2</a></li>
@@ -935,6 +975,16 @@
 			<p class="sc-note">Note: If the publication passes epubcheck, this success criterion can be assumed to pass.</p>
 			
 			<hr/>
+			
+			<details>
+				<summary>Knowledge Base and Techniques</summary>
+				<ul>
+					<li><a href="https://daisy.github.io/a11y-kb/docs/navigation/toc.html" target="_blank">Table of Contents</a></li>
+					<li><a href="https://daisy.github.io/a11y-kb/docs/navigation/pagelist.html" target="_blank">Page Navigation</a></li>
+					<li><a href="https://daisy.github.io/a11y-kb/docs/navigation/landmarks.html" target="_blank">Landmarks</a></li>
+					<li><a href="http://www.idpf.org/epub/a11y/techniques/#access-002" target="_blank">ACCESS-002: Provide multiple ways to access the content</a></li>
+				</ul>
+			</details>
 			
 			<details>
 				<summary>WCAG Documentation</summary>
