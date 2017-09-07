@@ -1,7 +1,14 @@
 
 var conf_meta = new ConformanceMeta();
 
-function ConformanceMeta() {}
+function ConformanceMeta() {
+	this.addDaisyCredential = false;
+}
+
+
+ConformanceMeta.prototype.setDaisyCredential = function() {
+	this.addDaisyCredential = true;
+}
 
 ConformanceMeta.prototype.validate = function(quiet) {
 	
@@ -51,7 +58,9 @@ ConformanceMeta.prototype.generateConformanceMeta = function() {
 	meta += format.metaTag(true,'a11y:certifiedBy',document.getElementById('certifier').value.trim());
 	meta += format.metaTag(false,'a11y:certifierReport',document.getElementById('reportLink').value);
 	
-	meta += format.metaTag(true,'a11y:certifierCredential','http://www.daisy.org/ace/certified');
+	if (this.addDaisyCredential) {
+		meta += format.metaTag(true,'a11y:certifierCredential','http://www.daisy.org/ace/certified');
+	}
 	
 	var credNum = document.querySelectorAll('fieldset.credential').length;
 	

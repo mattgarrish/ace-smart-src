@@ -64,3 +64,9 @@
 	if (!qs.has('admin')) {
 		document.getElementById('set-all').style.display = 'none';
 	}
+	
+	// reenable generation after includes
+	conf_meta.setDaisyCredential();
+	
+	// set error elements
+	error.init();

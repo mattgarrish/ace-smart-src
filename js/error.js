@@ -1,19 +1,26 @@
 var error = new Error();
 
 function Error() {
-	this.err_pane = document.getElementById('error-pane');
-	this.err_msg = document.getElementById('error-msg');
+	this.err_pane = '';
+	this.err_msg = '';
 	
 	this.severity = {'err': 'ERROR', 'warn': 'WARNING'};
 	
 	this.visible = false;
 }
 
+Error.prototype.init = function() {
+	this.err_pane = document.getElementById('error-pane');
+	this.err_msg = document.getElementById('error-msg');
+}
+
 Error.prototype.clearMessages = function() {
 	/* clear the message panel */
-	while (this.err_msg.firstChild) {
-		this.err_msg.removeChild(this.err_msg.firstChild);
-	};
+	if (this.err_msg != '') {
+		while (this.err_msg.firstChild) {
+			this.err_msg.removeChild(this.err_msg.firstChild);
+		};
+	}
 }
 
 
@@ -55,6 +62,10 @@ Error.prototype.clearBGs = function(scope) {
 
 
 Error.prototype.write = function(page,id,level,msg) {
+	if (this.err_msg == '') {
+		return;
+	}
+	
 	if (!this.visible) {
 		this.show();
 	}

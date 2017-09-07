@@ -20,22 +20,22 @@
 			<section id="conformance">
 				<h2>Verifying Conformance</h2>
 				
-				<p>The next step in manually evaluating the publication is to check the required conformance requirements.
-					The <a href="index.html#verification">Conformance Verification</a> tab provides a list of
+				<p>The next, and primary, step in manually evaluating the publication is to check the required conformance
+					requirements. The <a href="index.html#verification">Conformance Verification</a> tab provides a list of
 					requirements that must be passed for each WCAG success criterion and each additional EPUB
 					requirement.</p>
 				
-				<p>Step through each success criterion and check that it is satisfied by the content. Each criterion includes
-					a status section to simplify tracking the overall conformance, and to facilitate <a href="#generate"
+				<p>You will need to step through each success criterion and check that it is satisfied by the content. Each 
+					criterion includes a status section to simplify tracking the overall conformance, and to facilitate <a href="#generate"
 						>generating a report</a> at the end of the evaluation.</p>
+				
 				<figure>
 					<figcaption>The status section appears after the links to the supporting documentation and includes pass,
 						fail and not applicable options.</figcaption>
-					<img src="images/status_unverified.png" width="330"
-						alt="Status section showing the unverified pass, fail and not applicable options" />
+					<img src="images/status_unverified.png" width="330" alt="" />
 				</figure>
 				
-				<p>The following list describes each of the available status options.</p>
+				<p>The following list describes each of the status options.</p>
 				
 				<dl>
 					<dt id="unverified">Unverified</dt>
@@ -99,6 +99,20 @@
 						note.</figcaption>
 					<img src="images/notes.png" width="350" alt="" />
 				</figure>
+				
+				<p>When checking each criterion, ensure that the publication meets all the specified requirements. Whenever
+					possible, you will be directed where to look for potential problems so that you do not have to review
+					the entire publication. This process typically involves referencing content lists in the Ace HTML report,
+					such as the list of all images.</p>
+				
+				<p>In many cases, it will not be possible to help pinpoint potential error locations &#8212; you will have
+					to inspect the source markup of the publication for errors. This is especially true for WCAG success criterion
+					1.3.1, for example, which requires that information and relationships be expressed in the markup. Automatic 
+					testing tools have limited capabilities for determining when a structure has been mistagged.</p>
+				
+				<p>Additional links are also provided to help you understand the various success criteria. These include direct
+					links to the WCAG documentation, as well as links to markup best practices. If you are unsure about any aspect
+					of a requirement, take the time to review these documents first.</p>
 			</section>
 			<nav class="user-links">
 				<div class="prev-link"><a href="setup.html">Evaluation Setup</a></div>

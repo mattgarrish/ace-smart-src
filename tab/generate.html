@@ -1,0 +1,23 @@
+<section id="generate" class="js-tabcontent">
+	<h2>Generate Report</h2>
+	
+	<p id="gen">If there are errors validating the report, you will be receive a warning before it is generated. Errors will be listed in a message panel at the bottom of the page. Clicking on an error will take you to the location.</p>
+	
+	<fieldset>
+		<legend>Options</legend>
+		<label class="data"><input type="radio" name="report-loc" onchange="report.setOutputLocation('win')" checked="checked"/> Open in new window</label>
+		<label class="data"><input type="radio" name="report-loc" onchange="report.setOutputLocation('box')"/> Output to text box</label>
+	</fieldset>
+	
+	<p><input type="button" value="Create" onclick="report.validateConformanceReport()" aria-describedby="gen"/></p>
+	
+	<div id="popup-instructions">
+		<p>Ensure that you do not have a pop-up blocker enabled.</p>
+		<p>Do not bookmark the generated page, as the report is lost once the browser is closed. Do not refresh the report page, or it will be lost.</p>
+	</div>
+	
+	<textarea hidden="hidden" id="report-html" rows="10"></textarea>
+	
+	<p><strong>The report must be saved locally after it is generated.</strong></p>
+	
+</section>

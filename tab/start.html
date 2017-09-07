@@ -1,0 +1,57 @@
+
+<section id="start" class="js-tabcontent">
+	<p class="no-title">Welcome to the EPUB Accessibility Conformance and Reporting tool</p>
+	
+	<p>This tool provides manual conformance checks necessary to ensure compliance with EPUB and WCAG requirements, and is intended to be used in conjunction with the <a href="https://github.com/daisy/ace-core/releases">DAISY Ace</a> accessibility checker.</p>
+	
+	<p>The first step is to load the JSON report file output by the Ace tool (not the HTML page):</p>
+	
+	<div class="container js">
+		<form method="post" action="upload.php" enctype="multipart/form-data" novalidate="novalidate" class="box">
+			<div class="box__input">
+				<input type="file" name="ace-report" id="file" class="box__file"/>
+				<label class="dnd" for="file"><strong>Select an Ace JSON report</strong><span class="box__dragndrop"> or drag it here</span>.</label>
+				<button type="submit" class="box__button">Load</button>
+			</div>
+			
+			
+			<div class="box__uploading">Uploading&#8230;</div>
+			<div class="box__success">Done! <a href="" class="box__restart" role="button">Load a different report?</a></div>
+			<div class="box__error">Error! <span></span>. <a href="" class="box__restart" role="button">Try again!</a></div>
+		</form>
+	</div>
+	
+	<p class="instr">Next, verify the EPUB version of the publication and the WCAG conformance level you want to check:</p>
+	
+	<form class="report">
+		<fieldset>
+			<legend>Format:</legend>
+			<!-- <div><small>Note: This setting also controls the format of the discovery and conformance metadata.</small></div> -->
+			<label><input type="radio" name="epub-format" value="3" onchange="format.setVersion('3')" checked="checked"/> EPUB 3</label>
+			<label><input type="radio" name="epub-format" value="2" onchange="format.setVersion('2')"/> EPUB 2</label>
+		</fieldset>
+		
+		<fieldset>
+			<legend>WCAG Conformance:</legend>
+			<label><input type="radio" name="wcag-level" value="a" onchange="conf.wcag_level='a'; conf.changeConformance(); conf.WCAGOption('show');" checked="checked"/> Level A</label>
+			<label><input type="radio" name="wcag-level" value="aa" onchange="conf.wcag_level='aa'; conf.changeConformance(); conf.WCAGOption('disable');"/> Level AA</label>
+			<span class="wcag-note">(See <a href="#note-form" onclick="config_dialog.dialog('open'); return false">Configuration</a> for additional options.)</span>
+		</fieldset>
+		
+		<p class="instr">Finally, if you plan to generate a report, ensure the following metadata is complete and accurate. Required fields are denoted by an asterisk.</p>
+			
+		<div class="data">
+			<label class="data"><span>Title:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="title" aria-required="true"/></label>
+			<label class="data"><span>Last Modified:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="modified"/></label>
+			<label class="data"><span>Author(s):</span> <input type="text" id="creator"/></label>
+			<label class="data"><span>Identifier:</span> <input type="text" id="identifier"/></label>
+			<label class="data"><span>Publisher:</span> <input type="text" id="publisher"/></label>
+			<label class="data"><span>Additional Metadata:</span> <textarea rows="8" aria-describedby="meta-input-desc" id="optional-meta" placeholder="label: value"></textarea></label>
+			<div id="meta-input-desc" hidden="hidden">Use a colon followed by a space to separate the label from the value. Separate metadata items with a return character.</div>
+		</div>
+			
+		<input type="hidden" id="report"/>
+	</form>
+	
+	<div class="pad-top"><a href="#verification" class="js-link-to-tab">Continue to Conformance Verification</a></div>
+</section>
