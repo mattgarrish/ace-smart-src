@@ -86,7 +86,7 @@ Ace.prototype.setMetadataString = function(id,prop) {
 }
 
 
-Ace.prototype.setMetadataString = function(id,prop) {
+Ace.prototype.setDate = function(id,prop) {
 
 	if (!this.report['earl:testSubject']['metadata'].hasOwnProperty(prop)) {
 		return;
@@ -98,7 +98,7 @@ Ace.prototype.setMetadataString = function(id,prop) {
 	
 	var date_options = { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };  
 	
-	return (date == '') ? date : new Date(date).toLocaleDateString("en",date-options);
+	return (date == '') ? date : new Date(date).toLocaleDateString("en",date_options);
 
 }
 
