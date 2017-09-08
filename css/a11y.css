@@ -266,12 +266,11 @@ section.a{
 }
 
 section.aa{
-	border: 0.1rem solid green;
-	display: none;
+	border: 0.1rem solid purple;
 }
 
 section.aaa{
-	border: 0.1rem solid purple;
+	border: 0.1rem solid yellow;
 	display: none;
 }
 

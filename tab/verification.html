@@ -65,8 +65,6 @@
 				</ul>
 			</div>
 			
-			<p data-alt="video">Note: No video found or testing not configured. Verification checks omitted.</p>
-			
 			<div data-scope="video">
 				<p>For all video clips without any accompanying audio, verify the following:</p>
 				<ul>
@@ -129,7 +127,9 @@
 		<h3><span class="label">1.2.3 Audio Description or Media Alternative (Prerecorded)</span> <span class="a-label">[Level A]</span></h3>
 		
 		<div class="sc-body">
-			<p>Check if there are any video clips whose audio track does not fully describe all the visual information (e.g., actions being carried out). If yes, verify one of the following is true:</p>
+			<p>Check if there are any video clips whose audio track does not fully describe all the visual information (e.g., omits actions being carried out by a presenter).</p>
+			
+			<p>If yes, verify one of the following is true for each:</p>
 			
 			<ul>
 				<li>An audio description is included via the <code>track</code> element, or descriptions are included in the default audio.</li>
@@ -163,9 +163,11 @@
 		<h3><span class="label">1.2.4 Captions (Live)</span> <span class="aa-label">[Level AA]</span></h3>
 		
 		<div class="sc-body">
-			<p>If there are any real-time audio/video broadcasts that can be accessed from the publication, the broadcasts must be live captioned to pass.</p>
+			<p>Check if there are any real-time audio/video broadcasts that can be accessed from the publication (i.e., that are only available at a specific date and time).</p>
 			
-			<p class="sc-note">Note: EPUB does not address support for live streaming protocols. Remotely-hosted audio and video files are not live broadcasts. This success criteria can normally be set to not applicable without further verification.</p>
+			<p>If so, the broadcasts must be live captioned to pass.</p>
+			
+			<p class="sc-note">Note: Remotely-hosted audio and video files are not live broadcasts, as they can be accessed at any time and in at any point in their timeline.</p>
 			
 			<hr/>
 			
@@ -183,7 +185,9 @@
 		<h3><span class="label">1.2.5 Audio Description (Prerecorded)</span> <span class="aa-label">[Level AA]</span></h3>
 		
 		<div class="sc-body">
-			<p>Check if there are any video clips whose audio track does not fully describe all the visual information (e.g., actions being carried out). If yes, verify that audio descriptions are provided for each.</p>
+			<p>Check if there are any video clips whose audio track does not fully describe all the visual information (e.g., actions being carried out).</p>
+			
+			<p>If yes, verify that audio descriptions are provided for each.</p>
 			
 			<hr/>
 			
@@ -209,16 +213,10 @@
 		
 		<div class="sc-body">
 			<p>Verify that sign language interpretation is provided for all audio that accompanies video content.</p>
+			
 			<p class="sc-note">Note: Sign language interpretation does not have to be provided for standalone audio content to meet this success criterion.</p>
 			
 			<hr/>
-			
-			<details>
-				<summary>Knowledge Base and Techniques</summary>
-				<ul>
-					<li><a href="https://daisy.github.io/a11y-kb/docs/html/video.html" target="_blank">Video</a></li>
-				</ul>
-			</details>
 			
 			<details>
 				<summary>WCAG Documentation</summary>
@@ -239,13 +237,6 @@
 			<p>If overlaps are found, extended descriptions must be provided whereby the video and audio are paused until the description completes.</p>
 			
 			<hr/>
-			
-			<details>
-				<summary>Knowledge Base and Techniques</summary>
-				<ul>
-					<li><a href="https://daisy.github.io/a11y-kb/docs/html/video.html" target="_blank">Video</a></li>
-				</ul>
-			</details>
 			
 			<details>
 				<summary>WCAG Documentation</summary>
@@ -355,6 +346,14 @@
 			<p>For more markup best practices, refer to the <a href="https://daisy.github.io/a11y-kb/">DAISY Accessible Publishing Knowledge Base</a>.</p>
 			
 			<hr/>
+			
+			<details>
+				<summary>Knowledge Base and Techniques</summary>
+				<ul>
+					<li><a href="http://www.idpf.org/epub/a11y/techniques/#sem-001" target="_blank">SEM-001: Include ARIA and EPUB semantics</a></li>
+					<li><a href="http://www.idpf.org/epub/a11y/techniques/#titles-002" target="_blank">TITLES-002: Ensure numbered headings reflect publication hierarchy</a></li>
+				</ul>
+			</details>
 			
 			<details>
 				<summary>WCAG Documentation</summary>
@@ -544,6 +543,13 @@
 			<hr/>
 			
 			<details>
+				<summary>Knowledge Base and Techniques</summary>
+				<ul>
+					<li><a href="http://www.idpf.org/epub/a11y/techniques/#text-001" target="_blank">TEXT-001 - Use Unicode for text content</a></li>
+				</ul>
+			</details>
+			
+			<details>
 				<summary>WCAG Documentation</summary>
 				<ul>
 					<li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-text-presentation.html" target="_blank">Understanding Success Criterion 1.4.5</a></li>
@@ -597,13 +603,6 @@
 			<hr/>
 			
 			<details>
-				<summary>Knowledge Base and Techniques</summary>
-				<ul>
-					<li><a href="https://daisy.github.io/a11y-kb/docs/html/audio.html" target="_blank">Audio</a></li>
-				</ul>
-			</details>
-			
-			<details>
 				<summary>WCAG Documentation</summary>
 				<ul>
 					<li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-noaudio.html" target="_blank">Understanding Success Criterion 1.4.7</a></li>
@@ -648,6 +647,13 @@
 			<p class="sc-note">Note: images of text does not include graphs and diagrams where more than just the text is essential information.</p>
 			
 			<hr/>
+			
+			<details>
+				<summary>Knowledge Base and Techniques</summary>
+				<ul>
+					<li><a href="http://www.idpf.org/epub/a11y/techniques/#text-001" target="_blank">TEXT-001 - Use Unicode for text content</a></li>
+				</ul>
+			</details>
 			
 			<details>
 				<summary>WCAG Documentation</summary>
@@ -970,9 +976,11 @@
 		<h3><span class="label">2.4.5 Multiple Ways</span> <span class="aa-label">[Level AA]</span></h3>
 		
 		<div class="sc-body">
-			<p>Verify that all content documents are listed in the spine and there is a conforming navigation document.</p>
+			<p>An EPUB publication minimally meets this requirement if all content documents are listed in the spine and there is a navigation document.</p>
 			
-			<p class="sc-note">Note: If the publication passes epubcheck, this success criterion can be assumed to pass.</p>
+			<p>If either of the above is missing or incomplete, a publication does not automatically fail. Hypelinks to all documents in the reading order is equivalent to a complete spine, for example, as the user will still be able to follow the primary narrative. The addition of a page list or index can also be counted in meeting this criterion.</p>
+			
+			<p>The inclusion of landmarks should not be considered when evaluating this criterion, although they are important to include. Users only have access to these landmarks through the functionality provided by a given reading system; there isn't broad support for users to access the links directly.</p>
 			
 			<hr/>
 			
@@ -983,6 +991,8 @@
 					<li><a href="https://daisy.github.io/a11y-kb/docs/navigation/pagelist.html" target="_blank">Page Navigation</a></li>
 					<li><a href="https://daisy.github.io/a11y-kb/docs/navigation/landmarks.html" target="_blank">Landmarks</a></li>
 					<li><a href="http://www.idpf.org/epub/a11y/techniques/#access-002" target="_blank">ACCESS-002: Provide multiple ways to access the content</a></li>
+					<li><a href="http://www.idpf.org/epub/a11y/techniques/#sem-003" target="_blank">SEM-003: Include EPUB landmarks</a></li>
+					<li><a href="http://www.idpf.org/epub/a11y/techniques/#page-003" target="_blank">PAGE-003: Provide a page list</a></li>
 				</ul>
 			</details>
 			
@@ -1104,6 +1114,13 @@
 			<hr/>
 			
 			<details>
+				<summary>Knowledge Base and Techniques</summary>
+				<ul>
+					<li><a href="https://daisy.github.io/a11y-kb/docs/html/lang.html" target="_blank">Language</a></li>
+				</ul>
+			</details>
+			
+			<details>
 				<summary>WCAG Documentation</summary>
 				<ul>
 					<li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-doc-lang-id.html" target="_blank">Understanding Success Criterion 3.1.1</a></li>
@@ -1122,6 +1139,13 @@
 			<p class="sc-note">Note: This success criterion does not apply to foreign words or phrases that have become part of the native language (e.g., "vis-a-vis" or "faux pas").</p>
 			
 			<hr/>
+			
+			<details>
+				<summary>Knowledge Base and Techniques</summary>
+				<ul>
+					<li><a href="https://daisy.github.io/a11y-kb/docs/html/lang.html" target="_blank">Language</a></li>
+				</ul>
+			</details>
 			
 			<details>
 				<summary>WCAG Documentation</summary>
@@ -1311,6 +1335,13 @@
 			<hr/>
 			
 			<details>
+				<summary>Knowledge Base and Techniques</summary>
+				<ul>
+					<li><a href="https://daisy.github.io/a11y-kb/docs/html/forms.html" target="_blank">Forms</a></li>
+				</ul>
+			</details>
+			
+			<details>
 				<summary>WCAG Documentation</summary>
 				<ul>
 					<li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-identified.html" target="_blank">Understanding Success Criterion 3.3.1</a></li>
@@ -1329,6 +1360,13 @@
 			<hr/>
 			
 			<details>
+				<summary>Knowledge Base and Techniques</summary>
+				<ul>
+					<li><a href="https://daisy.github.io/a11y-kb/docs/html/forms.html" target="_blank">Forms</a></li>
+				</ul>
+			</details>
+			
+			<details>
 				<summary>WCAG Documentation</summary>
 				<ul>
 					<li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-cues.html" target="_blank">Understanding Success Criterion 3.3.2</a></li>
@@ -1345,6 +1383,13 @@
 			<p>Verify that any input error messages identify how to fix the problem, unless a message about how to fix would compromise security or defeat the purpose (e.g., undermine quizzes and tests).</p>
 			
 			<hr/>
+			
+			<details>
+				<summary>Knowledge Base and Techniques</summary>
+				<ul>
+					<li><a href="https://daisy.github.io/a11y-kb/docs/html/forms.html" target="_blank">Forms</a></li>
+				</ul>
+			</details>
 			
 			<details>
 				<summary>WCAG Documentation</summary>
@@ -1450,6 +1495,13 @@
 			<hr/>
 			
 			<details>
+				<summary>Knowledge Bse and Techniques</summary>
+				<ul>
+					<li><a href="https://daisy.github.io/a11y-kb/docs/script/aria.html" target="_blank">ARIA</a></li>
+				</ul>
+			</details>
+			
+			<details>
 				<summary>WCAG Documentation</summary>
 				<ul>
 					<li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/ensure-compat-rsv.html" target="_blank">Understanding Success Criterion 4.1.2</a></li>
@@ -1463,8 +1515,22 @@
 		<h3><span class="label">Page Numbers</span></h3>
 		
 		<div class="sc-body">
-			<p>If pagination is included included, verify that the source is identified in the package document
-				(i.e., ensure that if a <code>dc:source</code> element is present, it does not serve another purpose).</p>
+			<p>If the publication includes pagination, ensure the following are true:</p>
+			
+			<ul>
+				<li>a means of accessing all the page break locations is included.</li>
+				<li>if page breaks are included in the text, they are identifiable by the <code>role</code> attribute value <code>doc-pagebreak</code>.</li>
+				<li>the source is identified in the package document.</li>
+			</ul>
+			
+			<hr/>
+			
+			<details>
+				<summary>Knowledge Bse and Techniques</summary>
+				<ul>
+					<li><a href="https://daisy.github.io/a11y-kb/docs/navigation/pagelist.html" target="_blank">Page Navigation</a></li>
+				</ul>
+			</details>
 		</div>
 	</section>
 	
@@ -1473,7 +1539,7 @@
 		
 		<div class="sc-body">
 			<p class="note">Media Overlay practices are currently only informative. Failure to meet the requirements of the
-				specification does not fail publications. This exception may change in a future version.</p>
+				specification does not fail publications. This exemption may change in a future version.</p>
 			
 			<p>If the publication includes media overlays, ensure the following are all true:</p>
 			

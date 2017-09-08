@@ -89,7 +89,7 @@
 					
 					<fieldset class="data">
 						<legend>WCAG Conformance:</legend>
-						<label class="show-xtra"><input type="checkbox" id="show-aa" onchange="conf.showLevel('aa', (this.checked ? true : false))"/> Show Level AA Criteria</label>
+						<label class="show-xtra"><input type="checkbox" id="show-aa" onchange="conf.showLevel('aa', (this.checked ? true : false))" disabled="disabled"/> Show Level AA Criteria</label>
 						<label class="show-xtra"><input type="checkbox" id="show-aaa" onchange="conf.showLevel('aaa', (this.checked ? true : false))"/> Show Level AAA Criteria</label>
 					</fieldset>
 					
