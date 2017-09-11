@@ -13,14 +13,15 @@ function Manage() {
 }
 
 
+/*
 Manage.prototype.openSave = function() {
 	save_dialog.dialog('open');
 }
 
-
 Manage.prototype.openLoad = function() {
 	load_dialog.dialog('open');
 }
+*/
 
 
 Manage.prototype.saveConformanceReport = function() {
@@ -29,8 +30,9 @@ Manage.prototype.saveConformanceReport = function() {
 	
 	var reportJSON = '{';
 	
-	reportJSON += '"version": "1.0",'
-	reportJSON += '"created": "' + format.generateTimestamp('dash') + '",'
+	reportJSON += '"version": "1.0",';
+	reportJSON += '"aceFlag": "savedReport",';
+	reportJSON += '"created": "' + format.generateTimestamp('dash') + '",';
 	
 	/* store configuration info */
 	
@@ -134,6 +136,7 @@ Manage.prototype.saveConformanceReport = function() {
 	/* close object */
 	reportJSON += '}';
 	
+	/* 
 	if (document.querySelector('input[name="save"][value="storage"]:checked')) {
    		try {
 			if (localStorage.getItem('epubA11YReport')) {
@@ -153,8 +156,11 @@ Manage.prototype.saveConformanceReport = function() {
 	else {
 		this.writeSavedJSON(reportJSON);
 	}
+	 */
 	
-	save_dialog.dialog('close');
+	this.writeSavedJSON(reportJSON);
+	
+	//save_dialog.dialog('close');
 }
 
 
@@ -217,18 +223,8 @@ Manage.prototype.clearSaved = function() {
 
 
 
-Manage.prototype.loadConformanceReport = function() {
+Manage.prototype.loadConformanceReport = function(reportData) {
 
-	var reportData = '';
-	
-	if (document.querySelector('input[name="load"][value="storage"]:checked')) {
-		reportData = localStorage.getItem('epubA11YReport');
-	}
-	
-	else {
-		reportData = document.getElementById('savedReport').value.trim();
-	}
-	
 	if (reportData === null || reportData == '') {
 		alert('Load failed. No data found.');
 		return;
@@ -341,7 +337,7 @@ Manage.prototype.loadConformanceReport = function() {
 	
 	alert('Report successfully loaded!');
 	
-	load_dialog.dialog('close');
+	//load_dialog.dialog('close');
 }
 
 

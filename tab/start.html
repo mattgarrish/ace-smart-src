@@ -1,16 +1,17 @@
 
-<section id="start" class="js-tabcontent">
+<section id="start" class="js-tabcontent" aria-label="Start">
+	
 	<p class="no-title">Welcome to the EPUB Accessibility Conformance and Reporting tool</p>
 	
 	<p>This tool provides manual conformance checks necessary to ensure compliance with EPUB and WCAG requirements, and is intended to be used in conjunction with the <a href="https://github.com/daisy/ace-core/releases">DAISY Ace</a> accessibility checker.</p>
 	
-	<p>The first step is to load the JSON report file output by the Ace tool (not the HTML page):</p>
+	<p>The first step is to load an Ace JSON report (<code>ace.json</code>) or a previously saved report:</p>
 	
 	<div class="container js">
 		<form method="post" action="upload.php" enctype="multipart/form-data" novalidate="novalidate" class="box">
 			<div class="box__input">
 				<input type="file" name="ace-report" id="file" class="box__file"/>
-				<label class="dnd" for="file"><strong>Select an Ace JSON report</strong><span class="box__dragndrop"> or drag it here</span>.</label>
+				<label class="dnd" for="file"><strong>Select report</strong><span class="box__dragndrop"> or drag it here</span>.</label>
 				<button type="submit" class="box__button">Load</button>
 			</div>
 			
@@ -35,7 +36,18 @@
 			<legend>WCAG Conformance:</legend>
 			<label><input type="radio" name="wcag-level" value="a" onchange="conf.wcag_level='a'; conf.changeConformance(); conf.WCAGOption('show');"/> Level A</label>
 			<label><input type="radio" name="wcag-level" value="aa" onchange="conf.wcag_level='aa'; conf.changeConformance(); conf.WCAGOption('disable');" checked="checked"/> Level AA</label>
-			<span class="wcag-note">(See <a href="#note-form" onclick="config_dialog.dialog('open'); return false">Configuration</a> for additional options.)</span>
+			
+			<label class="show-xtra"><input type="checkbox" id="show-aa" onchange="conf.showLevel('aa', (this.checked ? true : false))" disabled="disabled"/> Show Level AA Criteria</label>
+			<label class="show-xtra"><input type="checkbox" id="show-aaa" onchange="conf.showLevel('aaa', (this.checked ? true : false))"/> Show Level AAA Criteria</label>
+		</fieldset>
+		
+		<fieldset id="exclusions">
+			<legend>Include Requirements For:</legend>
+			<label><input type="checkbox" id="img" value="img" onchange="conf.changeContentConformance(this,'img')" checked="checked"/> Images</label>
+			<label><input type="checkbox" id="audio" value="audio" onchange="conf.changeContentConformance(this,'audio')" checked="checked"/> Audio</label>
+			<label><input type="checkbox" id="video" value="video" onchange="conf.changeContentConformance(this,'video')" checked="checked"/> Video</label>
+			<label><input type="checkbox" id="script" value="script" onchange="conf.changeContentConformance(this,'script')" checked="checked"/> Scripting</label>
+			<label><input type="checkbox" id="forms" value="forms" onchange="conf.changeContentConformance(this,'forms')" checked="checked"/> Form Elements</label>
 		</fieldset>
 		
 		<p class="instr">Finally, if you plan to generate a report, ensure the following publication information is complete and accurate. Required fields are denoted by an asterisk.</p>

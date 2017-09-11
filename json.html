@@ -6,6 +6,7 @@
 	<script type="text/javascript">
 		function init(json) {
 			document.getElementById('report').value = JSON.stringify(JSON.parse(json),null,3);
+			document.getElementById('json').value = JSON.stringify(JSON.parse(json));
 		}
 	</script>
 	<style>
@@ -21,7 +22,9 @@
 </head>
 <body>
 	<p>This page must be saved locally. Do not bookmark.</p>
-	<p>To reload your report, copy and paste the following JSON code when requested:</p>
-	<textarea cols="50" rows="20" id="report"></textarea>
+	<p>Save either the entire page or just the JSON data in the following text box.</p>
+	<textarea id="report" cols="50" rows="20"></textarea>
+	<input id="json" type="hidden"/>
+	<p>To reload this report, select or drag and drop it on the start tab.</p>
 </body>
 </html>

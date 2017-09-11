@@ -435,11 +435,8 @@ Report.prototype.addReporting = function() {
 				status_input.setAttribute('checked','checked');
 			}
 			
-			var status_span = document.createElement('span');
-				status_span.appendChild(status_input);
-				status_span.appendChild(document.createTextNode(' ' + stats[stat]));
-			
-			status_label.appendChild(status_span);
+			status_label.appendChild(status_input);
+			status_label.appendChild(document.createTextNode(' ' + stats[stat]));
 			status.appendChild(status_label);
 			status.appendChild(document.createTextNode(' '));
 		}

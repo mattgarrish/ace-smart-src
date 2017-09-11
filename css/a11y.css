@@ -164,37 +164,24 @@ nav.menubar > a:not([href]){
 	text-decoration: none;
 }
 
-
-/* reporting buttons */
-
-div#report-buttons{
-	margin: 0 0 0 -1rem;
-	padding: 0.5rem 0.5rem 0.5rem 2rem;
-	border-bottom: 0.1rem solid rgb(0, 0, 0);
-	background-color: rgb(232, 244, 248);
-	vertical-align: bottom;
-}
-
-div#report-buttons input[type = "button"]{
+input.save-button{
+	position:fixed;
+	right: 6rem;
 	font-size: 1.2rem;
-	background-color: rgb(251, 251, 251);
-	color: rgb(0, 0, 220);
-	border: 0.05rem dotted rgb(0, 80, 160);
+	background-color: rgb(240, 250, 255);
+	color: rgb(0, 0, 0);
+	border: 0.1rem solid rgb(80, 160, 255);
 	padding: 0.2rem;
 	width: 8rem;
-	margin-left: 0.3rem;
+	margin-top: 2rem;
 	vertical-align: bottom;
-}
-
-div#report-buttons input[type = "button"].left-button-pad{
-	margin-left: 3rem;
 }
 
 
 /* tabs */
 
 main.js-tabs{
-	margin-top: 14rem;
+	margin-top: 11.5rem;
 	padding-left: 3rem;
 	border-radius: 0.8rem 0.8rem 0 0;
 }
@@ -209,7 +196,7 @@ section.js-tabcontent{
 
 ul.js-tablist{
 	position: relative;
-	top: -3.65rem;
+	top: -3.6rem;
 	left: -1.2rem;
 	padding: 0;
 	display: inline;
@@ -445,13 +432,6 @@ img.note-close{
 
 p.small{
 	font-size: 1.2rem;
-}
-
-span.wcag-note{
-	font-size: 90%;
-	font-style: italic;
-	display: inline-block;
-	margin-left: 1rem;
 }
 
 div.instr {
@@ -801,7 +781,7 @@ section#start > fieldset > label{
 		padding-left: 0;
 	}
 	ul.js-tablist{
-		top: -3.65rem;
+		top: -3.6rem;
 		left: 1rem;
 	}
 }

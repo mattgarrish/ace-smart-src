@@ -116,11 +116,9 @@
 						if( ajax.status >= 200 && ajax.status < 400 )
 						{
 							try {
-								var data = JSON.parse( ajax.responseText );
+								var data = ajax.responseText;
 								
-								var ace = new Ace();
-								ace.storeJSON(data);
-								ace.loadReport();
+								loadAceReportJSON(data);
 								
 								form.classList.add('is-success');
 							}
@@ -157,13 +155,11 @@
 					iframe.addEventListener( 'load', function()
 					{
 						try {
-							var data = JSON.parse( iframe.contentDocument.body.innerHTML );
+							var data = iframe.contentDocument.body.innerHTML;
 							form.classList.remove( 'is-uploading' );
 							iframe.parentNode.removeChild( iframe );
 							
-							var ace = new Ace();
-							ace.storeJSON(data);
-							ace.loadReport();
+							loadAceReportJSON(data);
 							
 							form.classList.add('is-success');
 							form.removeAttribute( 'target' );
@@ -196,4 +192,29 @@
 			input.addEventListener( 'blur', function(){ input.classList.remove( 'has-focus' ); });
 
 		});
+		
 	}( document, window, 0 ));
+
+
+function loadAceReportJSON(data) {
+	
+	var input = data.match(/(<input id="json".*?>)/i);
+	
+	if (input !== null) {
+		var html = document.createElement('div');
+			html.innerHTML = input[0];
+		data = html.querySelector('input#json').value;
+	}
+	
+	data = JSON.parse(data);
+		
+	if (data.hasOwnProperty('aceFlag') && data.aceFlag == 'savedReport') {
+		manage.loadConformanceReport(JSON.stringify(data));
+	}
+	
+	else {
+		var ace = new Ace();
+			ace.storeJSON(data);
+			ace.loadReport();
+	}
+}

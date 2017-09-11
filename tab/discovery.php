@@ -45,7 +45,7 @@
 	</fieldset>
 	
 	<fieldset id="summary-field">
-		<legend><label for="summary"><a href="http://www.idpf.org/epub/a11y/techniques/#meta-005" target="_blank">Accessibility Summary</a> <img src="<?= $DEFAULT_URL ?>/images/asterisk.png" alt="required"/></label></legend>
+		<legend><label for="accessibilitySummary"><a href="http://www.idpf.org/epub/a11y/techniques/#meta-005" target="_blank">Accessibility Summary</a> <img src="<?= $DEFAULT_URL ?>/images/asterisk.png" alt="required"/></label></legend>
 		<textarea id="accessibilitySummary" rows="5" aria-required="true"></textarea>
 	</fieldset>
 	
@@ -101,7 +101,7 @@
 	</fieldset>
 	
 	<div class="buttons">
-		<input id="gen" type="button" value="Generate" onclick="disc.validate(false)"/>
+		<input type="button" value="Generate" onclick="disc.validate(false)"/>
 	</div>
 	
 	<p>After generating, copy and paste the output in the following field to the package document metadata.</p>
