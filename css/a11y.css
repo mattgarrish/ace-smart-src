@@ -454,6 +454,11 @@ span.wcag-note{
 	margin-left: 1rem;
 }
 
+div.instr {
+	font-size: 85%;
+	margin-bottom: 0.8rem;
+}
+
 /* config options */
 
 section#config{

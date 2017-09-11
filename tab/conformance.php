@@ -9,13 +9,13 @@
 	
 	<fieldset id="conf-result">
 		<legend>Conformance Result:</legend>
-		<label><input type="radio" name="conf-result" value="a" checked="checked"/> Passed - EPUB + WCAG Level A</label><br/>
-		<label><input type="radio" name="conf-result" value="aa"/> Passed - EPUB + WCAG Level AA</label><br/>
+		<label><input type="radio" name="conf-result" value="a"/> Passed - EPUB + WCAG Level A</label><br/>
+		<label><input type="radio" name="conf-result" value="aa" checked="checked"/> Passed - EPUB + WCAG Level AA</label><br/>
 		<label><input type="radio" name="conf-result" value="fail"/> Failed</label>
 	</fieldset>
 	
 	<fieldset>
-		<legend>Certifier:</legend>
+		<legend>Evaluated By:</legend>
 		<label class="data"><span>Name:<img src="<?= $DEFAULT_URL ?>/images/asterisk.png" alt="required"/></span> <input type="text" id="certifier" aria-required="true"/></label>
 		<label class="data"><span>Link to report:</span> <input type="text" id="reportLink"/></label>
 	</fieldset>
@@ -24,7 +24,7 @@
 		<legend>Credential:</legend>
 		<label class="data"><span>Name:</span> <input type="text" id="credentialName1"/></label>
 		<label class="data"><span>Link:</span> <input type="text" id="credentialLink1"/></label>
-		<div id="daisy-cred" class="note">Note: DAISY certification is automatically included. This field is provided for an additional credential.</div>
+		<div id="daisy-cred" class="note">Note: A DAISY credential is automatically included. This field is provided for an additional credential.</div>
 	</fieldset>
 	
 	<!-- <div id="add-cred" class="pad-top"><a href="#add-cred" onclick="conf_meta.addCredential(); return false">Add credential</a></div> -->

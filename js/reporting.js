@@ -3,6 +3,7 @@ var report = new Report();
 
 function Report() {
 	this.outputLocation = 'win';
+	this.displayNotes = 1; // 1 - show all; 2 - show only failures; 3 - show only general; 0 - hide all 
 }
 
 
@@ -11,6 +12,11 @@ Report.prototype.setOutputLocation = function(loc) {
 	
 	document.getElementById('report-html').style.display = (loc == 'win') ? 'none' : 'block';
 	document.getElementById('popup-instructions').style.display = (loc == 'box') ? 'none' : 'block';
+}
+
+
+Report.prototype.setNoteDisplay = function(code) {
+	this.displayNotes = code;
 }
 
 
@@ -149,9 +155,21 @@ Report.prototype.generateConformanceReport = function() {
 	
 	var info = {'creator': 'author', 'identifier': 'identifier', 'publisher': 'publisher'};
 	
+	// used to determine whether to add ID to pub info below
+	var delayID = false;
+	
 	for (var key in info) {
 		var value = document.getElementById(key).value.trim();
 		if (value != '') {
+			if (key == 'identifier' && !value.match(/^(ISBN|ISSN|DOI)/i)) {
+				if (value.match(/^97[89]/)) {
+					value = 'ISBN ' + value;
+				}
+				else {
+					delayID = true;
+					continue;
+				}
+			}
 			reportBody += format.pubSpan(key,value,info[key]);
 		}
 	}
@@ -162,7 +180,7 @@ Report.prototype.generateConformanceReport = function() {
 	
 	var reportSummary = '<section id="summary">\n'
 		reportSummary += '<div class="summaryTable">\n';
-		reportSummary += '<h3><span>Report Summary</span><span></span></h3>';
+		reportSummary += '<h3><span>Synopsis</span><span></span></h3>';
 		
 	var wcag_conf = document.querySelector('input[name="conf-result"]:checked').value;
 	
@@ -178,7 +196,7 @@ Report.prototype.generateConformanceReport = function() {
 	
 	reportSummary += format.pubInfo('conformance','Conformance',wcag_label[wcag_conf],'dcterms:conformsTo',conf_class[wcag_conf]);
 
-	reportSummary += format.pubInfo('summary','Description',document.getElementById('accessibilitySummary').value,'accessibilitySummary','');
+	reportSummary += format.pubInfo('summary','Summary',document.getElementById('accessibilitySummary').value,'accessibilitySummary','');
 	reportSummary += format.pubInfo('features','Features',this.listDiscoveryMeta('accessibilityFeature','accessibilityFeature'),'');
 	reportSummary += format.pubInfo('hazards','Hazards',this.listDiscoveryMeta('accessibilityHazard','accessibilityHazard'),'');
 	reportSummary += format.pubInfo('modes','Access Mode(s)',this.listDiscoveryMeta('accessMode','accessMode'),'');
@@ -187,7 +205,7 @@ Report.prototype.generateConformanceReport = function() {
 	var certifier = document.getElementById('certifier').value.trim();
 	
 	if (certifier != '') {
-		reportSummary += format.pubInfo('certifier','Certifier',certifier,'');
+		reportSummary += format.pubInfo('certifier','Evaluated by',certifier,'');
 	}
 	
 	// reportSummary += '<p id="credential"><span class="label">Credential:</span> <span class="value"><a href="http://www.daisy.org/ace/certified">DAISY Ace Certified</a>';
@@ -219,12 +237,20 @@ Report.prototype.generateConformanceReport = function() {
 	
 	reportSummary += '\n</div>\n</section>\n';
 
-	var reportDetails = '<section id="details">\n<h3>Additional Information</h3>\n';
-		reportDetails += '<details class="info">\n<summary>Publication Information</summary>\n';
+	var reportDetails = '<section id="details" aria-label="Additional Information">\n';
+		reportDetails += '<details class="info">\n<summary>Additional Details</summary>\n';
 	
 	// add epub version
 	reportDetails += format.pubInfo('format','Format', 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value,'');
+	
+	if (delayID) {
+		reportDetails += format.pubInfo('identifier','Identifier', document.getElementById('modified').value.trim(), '');
+	}
+	
 	reportDetails += format.pubInfo('modified','Last Modified', document.getElementById('modified').value.trim(), '');
+	reportDetails += format.pubInfo('date','Published', document.getElementById('date').value.trim(), '');
+	reportDetails += format.pubInfo('description','Description', document.getElementById('description').value.trim(), '');
+	reportDetails += format.pubInfo('subject','Subject', document.getElementById('subject').value.trim(), '');
 	
 	var optional_meta = document.getElementById('optional-meta').value.trim();
 	
@@ -245,7 +271,7 @@ Report.prototype.generateConformanceReport = function() {
 	
 	for (var cat in criteria) {
 	
-		reportTable += '<details id="' + cat + '">\n<summary>' + cat.toUpperCase() + ' Conformance Details</summary>\n<table>\n<thead>\n<tr><th>Success Criteria</th>\n';
+		reportTable += '<details id="' + cat + '">\n<summary>' + cat.toUpperCase() + ' Conformance Results</summary>\n<table>\n<thead>\n<tr><th>Success Criteria</th>\n';
 		reportTable += (cat == 'wcag') ? '<th>Level</th>' : ''; 
 		reportTable += '<th>Result</th>\n</thead>\n<tbody>\n';
 		
@@ -286,7 +312,13 @@ Report.prototype.generateConformanceReport = function() {
 			
 			else if (status == 'fail') {
 				var err = document.getElementById(criteria[cat][i].id+'-err').value;
-				reportTable += 'Fail:</span> ' + ((err == '') ? 'No reason provided.' : err);
+				reportTable += 'Fail</span>'
+				
+				// add the reason 
+				if ((err != '') && (this.displayNotes == 1 || this.displayNotes == 2)) {
+					reportTable += ': ' + err;
+				}
+				
 				if ((criteria[cat]['name'] != 'EPUB') || ((criteria[cat]['name'] == 'EPUB') && (criteria[cat][i].id != 'eg-2'))) {
 					if (log) {
 						stat.fail += 1;
@@ -308,8 +340,10 @@ Report.prototype.generateConformanceReport = function() {
 				}
 			}
 			
-			if ((document.getElementsByName(criteria[cat][i].id+'-note'))[0].checked) {
-				reportTable += '\n<p><span class="label">Additional info:</span> <span class="value">' + document.getElementById(criteria[cat][i].id+'-info').value + '</span></p>\n';
+			if (this.displayNotes == 1 || this.displayNotes == 3) {
+				if ((document.getElementsByName(criteria[cat][i].id+'-note'))[0].checked) {
+					reportTable += '\n<p><span class="label">Additional info:</span> <span class="value">' + document.getElementById(criteria[cat][i].id+'-info').value + '</span></p>\n';
+				}
 			}
 			
 			reportTable += '</td>\n</tr>\n';

@@ -2,7 +2,7 @@
 var conf = new Conformance();
 
 function Conformance() {
-	this.wcag_level = 'a';
+	this.wcag_level = 'aa';
 	
 	this.SC_TYPE = new Object();
 	this.SC_TYPE.img = ['sc-1.4.9'];

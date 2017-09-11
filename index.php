@@ -1,3 +1,4 @@
+<?php require "login/loginheader.php"; ?>
 <!DOCTYPE html>
 <html lang="en" prefix="dcterms: http://purl.org/dc/terms/ schema: http://schema.org/" typeof="schema:WebPage">
 	<head>

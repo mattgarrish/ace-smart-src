@@ -14,7 +14,7 @@ Ace.prototype.loadReport = function(json) {
 	// add metadata
 	
 	// load DC metadata
-	var dc = ['title', 'identifier', 'creator', 'publisher'];
+	var dc = ['title', 'identifier', 'creator', 'publisher', 'date', 'description', 'subject'];
 	
 	for (var x = 0; x < dc.length; x++) {
 		this.setMetadataString(dc[x],'dc:'+dc[x]);	
@@ -91,8 +91,8 @@ Ace.prototype.setDate = function(id,prop) {
 	if (!this.report['earl:testSubject']['metadata'].hasOwnProperty(prop)) {
 		console.log('Did not find date property ' + prop);
 		return;
-	}
-	
+	}	
+
 	var str = '';
 	
 	var date = this.report['earl:testSubject']['metadata'][prop];

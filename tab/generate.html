@@ -4,7 +4,16 @@
 	<p id="gen">If there are errors validating the report, you will be receive a warning before it is generated. Errors will be listed in a message panel at the bottom of the page. Clicking on an error will take you to the location.</p>
 	
 	<fieldset>
-		<legend>Options</legend>
+		<legend>Notes</legend>
+		<div class="instr">Select what notes to include in the report.</div>
+		<label><input type="radio" name="show-notes" onchange="report.setNoteDisplay('1')" checked="checked"/> All</label>
+		<label><input type="radio" name="show-notes" onchange="report.setNoteDisplay('2')"/> Only failure notes</label>
+		<label><input type="radio" name="show-notes" onchange="report.setNoteDisplay('3')"/> Only general notes</label>
+		<label><input type="radio" name="show-notes" onchange="report.setNoteDisplay('0')"/> None</label>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Output Location</legend>
 		<label class="data"><input type="radio" name="report-loc" onchange="report.setOutputLocation('win')" checked="checked"/> Open in new window</label>
 		<label class="data"><input type="radio" name="report-loc" onchange="report.setOutputLocation('box')"/> Output to text box</label>
 	</fieldset>

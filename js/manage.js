@@ -48,6 +48,9 @@ Manage.prototype.saveConformanceReport = function() {
 		reportJSON += '"identifier": ' + JSON.stringify(document.getElementById('identifier').value) + ',';
 		reportJSON += '"modified": ' + JSON.stringify(document.getElementById('modified').value) + ',';
 		reportJSON += '"publisher": ' + JSON.stringify(document.getElementById('publisher').value) + ',';
+		reportJSON += '"date": ' + JSON.stringify(document.getElementById('date').value) + ',';
+		reportJSON += '"description": ' + JSON.stringify(document.getElementById('description').value) + ',';
+		reportJSON += '"subject": ' + JSON.stringify(document.getElementById('subject').value) + ',';
 		reportJSON += '"optional-meta": ' + JSON.stringify(document.getElementById('optional-meta').value) + ',';
 		
 		/* store original report data section */
@@ -272,7 +275,7 @@ Manage.prototype.loadConformanceReport = function() {
 	
 	/* load discovery metadata */
 	
-	var disc_chk = ['features','hazards','modes','api','control'];
+	var disc_chk = ['accessibilityFeature','accessibilityHazard','accessMode','accessibilityAPI','accessibilityControl'];
 	
 	disc_chk.forEach(function(id) {
 		if (report_obj.discovery.hasOwnProperty(id)) {
@@ -280,8 +283,8 @@ Manage.prototype.loadConformanceReport = function() {
 		}
 	})
 	
-	if (report_obj.discovery.hasOwnProperty('summary')) {
-		document.getElementById('summary').value = report_obj.discovery.summary;
+	if (report_obj.discovery.hasOwnProperty('accessibilitySummary')) {
+		document.getElementById('accessibilitySummary').value = report_obj.discovery.accessibilitySummary;
 	}
 	
 	if (report_obj.discovery.hasOwnProperty('accessModeSufficient')) {
@@ -290,7 +293,7 @@ Manage.prototype.loadConformanceReport = function() {
 	
 	/* load conformance and config text fields */
 	
-	var meta = {"conformanceMeta": ['certifier','reportLink'], "config": ['title','creator','identifier','modified','publisher','optional-meta']};
+	var meta = {"conformanceMeta": ['certifier','reportLink'], "config": ['title','creator','identifier','modified','publisher','description','date','subject','optional-meta']};
 	
 	for (var key in meta) {
 		meta[key].forEach(function(id) {

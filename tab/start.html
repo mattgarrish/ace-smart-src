@@ -38,14 +38,17 @@
 			<span class="wcag-note">(See <a href="#note-form" onclick="config_dialog.dialog('open'); return false">Configuration</a> for additional options.)</span>
 		</fieldset>
 		
-		<p class="instr">Finally, if you plan to generate a report, ensure the following metadata is complete and accurate. Required fields are denoted by an asterisk.</p>
+		<p class="instr">Finally, if you plan to generate a report, ensure the following publication information is complete and accurate. Required fields are denoted by an asterisk.</p>
 			
 		<div class="data">
 			<label class="data"><span>Title:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="title" aria-required="true"/></label>
-			<label class="data"><span>Last Modified:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="modified"/></label>
 			<label class="data"><span>Author(s):</span> <input type="text" id="creator"/></label>
 			<label class="data"><span>Identifier:</span> <input type="text" id="identifier"/></label>
 			<label class="data"><span>Publisher:</span> <input type="text" id="publisher"/></label>
+			<label class="data"><span>Date Published:</span> <input type="text" id="date"/></label>
+			<label class="data"><span>Last Modified:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="modified"/></label>
+			<label class="data"><span>Subject:</span> <input type="text" id="subject"/></label>
+			<label class="data"><span>Description:</span> <input type="text" id="description"/></label>
 			<label class="data"><span>Additional Metadata:</span> <textarea rows="8" aria-describedby="meta-input-desc" id="optional-meta" placeholder="label: value"></textarea></label>
 			<div id="meta-input-desc" hidden="hidden">Use a colon followed by a space to separate the label from the value. Separate metadata items with a return character.</div>
 		</div>
