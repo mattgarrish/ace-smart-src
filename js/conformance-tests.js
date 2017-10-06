@@ -3,6 +3,7 @@ var conf = new Conformance();
 
 function Conformance() {
 	this.wcag_level = 'aa';
+	this.wcag_show = '|a|aa|';
 	
 	this.SC_TYPE = new Object();
 	this.SC_TYPE.img = ['sc-1.4.9'];
@@ -13,6 +14,14 @@ function Conformance() {
 	this.SC_TYPE.forms = ['sc-2.4.3','sc-3.3.1','sc-3.3.2','sc-3.3.3','sc-3.3.4'];
 	this.SC_TYPE.sf = ['sc-4.1.2'];
 
+}
+
+Conformance.prototype.setWCAGShow = function() {
+	// used to ensure that a sc should be displayed based on what the user has selected for reporting
+	var new_wcag_show = '|a|';
+		new_wcag_show += this.wcag_level == 'aa' ? 'aa|' : (document.getElementById('show-aa').checked ? 'aa|' : '');
+		new_wcag_show += document.getElementById('show-aaa').checked ? 'aaa|' : '';
+	this.wcag_show = new_wcag_show;
 }
 
 Conformance.prototype.changeConformance = function() {
@@ -31,6 +40,8 @@ Conformance.prototype.changeConformance = function() {
 	
 	// switch the conformance result to match new configuration
 	document.querySelector('input[name="conf-result"][value="' + this.wcag_level + '"]').click();
+	
+	this.setWCAGShow();
 }
 
 
@@ -40,16 +51,13 @@ Conformance.prototype.showLevel = function(level,show) {
 	for (var i = 0; i < elem_list.length; i++) { 
 		elem_list[i].style.display = show ? 'block' : 'none';
 	};
+	
+	this.setWCAGShow();
 }
 
 
 Conformance.prototype.changeContentConformance = function(elem,type) {
 
-	// used to ensure that a sc should be displayed based on what the user has selected for reporting
-	var wcag_show = '|a|';
-		wcag_show += this.wcag_level == 'aa' ? 'aa|' : (document.getElementById('show-aa').checked ? 'aa|' : '');
-		wcag_show += document.getElementById('show-aaa').checked ? 'aaa|' : '';
-	
 	// hide partial sc checks
 	var checks = document.querySelectorAll('*[data-scope="' + type + '"]');
 	
@@ -65,7 +73,7 @@ Conformance.prototype.changeContentConformance = function(elem,type) {
 		for (var i = 0; i < this.SC_TYPE.av.length; i++) {
 			var sc_section = document.getElementById(this.SC_TYPE.av[i]);
 			var sc_req = sc_section.querySelector('div.sc-body');
-			if (wcag_show.indexOf('|'+sc_section.className+'|') !== -1) {
+			if (this.wcag_show.indexOf('|'+sc_section.className+'|') !== -1) {
 				//console.log(this.SC_TYPE.av[i]);
 				if (sc_req !== null) {
 					sc_req.style.display = elem.checked ? 'none' : 'block';
@@ -85,7 +93,7 @@ Conformance.prototype.changeContentConformance = function(elem,type) {
 		for (var i = 0; i < this.SC_TYPE.sf.length; i++) {
 			var sc_section = document.getElementById(this.SC_TYPE.sf[i]);
 			var sc_req = sc_section.querySelector('div.sc-body');
-			if (wcag_show.indexOf('|'+sc_section.className+'|') !== -1) {
+			if (this.wcag_show.indexOf('|'+sc_section.className+'|') !== -1) {
 				//console.log(this.SC_TYPE.sf[i]);
 				if (sc_req !== null) {
 					sc_req.style.display = elem.checked ? 'none' : 'block';
@@ -103,7 +111,7 @@ Conformance.prototype.changeContentConformance = function(elem,type) {
 	for (var i = 0; i < this.SC_TYPE[type].length; i++) {
 		var sc_section = document.getElementById(this.SC_TYPE[type][i]);
 		var sc_req = sc_section.querySelector('div.sc-body');
-		if (wcag_show.indexOf('|'+sc_section.className+'|') !== -1) {
+		if (this.wcag_show.indexOf('|'+sc_section.className+'|') !== -1) {
 			//console.log(this.SC_TYPE[type][i]);
 			if (sc_req !== null) {
 				sc_req.style.display = elem.checked ? 'none' : 'block';
@@ -162,5 +170,22 @@ Conformance.prototype.showLinks = function(show) {
 	var details = document.getElementById('verification').querySelectorAll('details');
 	for (var i = 0; i < details.length; i++) {
 		details[i].open = show;
+	}
+}
+
+
+Conformance.prototype.showSC = function(elem,status) {
+	var sc = document.querySelectorAll('input[value="' + status + '"]:checked');
+	for (var i = 0; i < sc.length; i++) {
+		var sc_id = sc[i].name;
+		if (elem.checked) {
+			document.getElementById(sc_id).style.display = 'none';
+		}
+		else {
+			var sc_section = document.getElementById(sc_id);
+			if (this.wcag_show.indexOf('|'+sc_section.className+'|') !== -1) {
+				sc_section.style.display = 'block';
+			}
+		}
 	}
 }
