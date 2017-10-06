@@ -11,6 +11,8 @@ Ace.prototype.storeJSON = function(json) {
 
 Ace.prototype.loadReport = function(json) {
 
+	manage.clear(true);
+	
 	// add metadata
 	
 	// load DC metadata
@@ -184,7 +186,7 @@ Ace.prototype.setSufficientSets = function() {
 	}
 	
 	else {
-		var mode = meta[i].split(/[\s,]+/);
+		var mode = meta.split(/[\s,]+/);
 		
 		for (var i = 0; i < mode.length; i++) {
 			//console.log('#set' + (i+1) + ' input[value="' + mode[i] + '"]');
@@ -222,8 +224,10 @@ Ace.prototype.configureReporting = function() {
 		alert_list += '- video\n';
 	}
 	
+	this.setEPUBFeatureWarnings();
+	
 	if (alert_list) {
-		alert('The following content types were not reported present in the publication:\n\n' + alert_list + '\nChecks related to them have been turned off. To re-enable these checks, open the form configuration options.');
+		alert('The following content types were not reported present in the publication:\n\n' + alert_list + '\nChecks related to them have been turned off. To re-enable these checks, refer to the WCAG configuration options.');
 	}
 }
 
@@ -249,14 +253,14 @@ Ace.prototype.configureChecks = function(id,prop) {
 	
 	if (!this.report['data'].hasOwnProperty(prop)) {
 		// uncheck since not present
-		if (checkElem.checked) {
+		if (!checkElem.checked) {
 			checkElem.click();
 		}
 		return false;
 	}
 	
 	else {
-		if (!checkElem.checked) {
+		if (checkElem.checked) {
 			checkElem.click();
 		}
 		return true;
@@ -275,16 +279,42 @@ Ace.prototype.parseChecks = function(id,str) {
 	var re = new RegExp('\\b'+str, 'i');
 	
 	if (!toc.match(re)) {
-		if (checkElem.checked) {
+		if (!checkElem.checked) {
 			checkElem.click();
 		}
 		return false;
 	}
 	
 	else {
-		if (!checkElem.checked) {
+		if (checkElem.checked) {
 			checkElem.click();
 		}
 		return true;
+	}
+}
+
+
+Ace.prototype.setEPUBFeatureWarnings = function() {
+	
+	var feature = {'manifest': 'manifest fallback', 'bindings': 'bindings', 'epub-trigger': 'epub:trigger', 'epub-switch': 'epub:switch'};
+	var toc = this.report['outlines']['toc'];
+	var showWarning = true;
+	
+	for (var key in feature) {
+		
+		var re = new RegExp('\\b'+feature[key], 'i');
+		
+		if  (toc.match(re)) {
+			var elem = document.getElementsByClassName(key);
+			
+			for (var i = 0; i < elem.length; i++) {
+				elem[i].style.display = 'list-item';
+			}
+			
+			if (showWarning) {
+				document.getElementById('fallbacks').style.display = 'block';
+				showWarning = false;
+			}
+		}
 	}
 }

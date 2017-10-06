@@ -3,7 +3,12 @@ var report = new Report();
 
 function Report() {
 	this.outputLocation = 'win';
-	this.displayNotes = 1; // 1 - show all; 2 - show only failures; 3 - show only general; 0 - hide all 
+	this.displayNotes = 1; // 1 - show all; 2 - show only failures; 3 - show only general; 0 - hide all
+	
+	// array values = credential image url, alt text, link to credential info
+	this.LOGOS = {
+		'benetech': ['http://benetech.org', 'Benetech certified', 'http://benetech.org']
+	}
 }
 
 
@@ -210,13 +215,13 @@ Report.prototype.generateConformanceReport = function() {
 	
 	// reportSummary += '<p id="credential"><span class="label">Credential:</span> <span class="value"><a href="http://www.daisy.org/ace/certified">DAISY Ace Certified</a>';
 	
-	var credNum = document.querySelectorAll('fieldset.credential').length;
+	//var credNum = document.querySelectorAll('fieldset.credential').length;
 	
 	var cred = '';
 	
-	for (var i = 1; i <= credNum; i++) {
-		var name = document.getElementById('credentialName'+i).value.trim();
-		var link = document.getElementById('credentialLink'+i).value.trim();
+	//for (var i = 1; i <= credNum; i++) {
+		var name = document.getElementById('credentialName').value.trim();
+		var link = document.getElementById('credentialLink').value.trim();
 		
 		if (name != '' && link != '') {
 			cred += '<br><a href="' + link + '">' + name + '</a>';
@@ -229,7 +234,7 @@ Report.prototype.generateConformanceReport = function() {
 		else if (link != '') {
 			cred += '<br><a href="' + link + '">' + link + '</a>';
 		}
-	}
+	//}
 	
 	if (cred != '') {
 		reportSummary += format.pubInfo('credential','Additional Credential(s)',cred,'');
@@ -374,9 +379,11 @@ Report.prototype.generateConformanceReport = function() {
 	var report_body = reportBody + reportSummary + reportDetails;
 	var report_timestamp = format.generateTimestamp('at');
 	
+	var logo = this.LOGOS.hasOwnProperty(ACE_USER) ? '<a href="' + this.LOGOS[ACE_USER][2] + '"><img src="' + this.LOGOS[ACE_USER][0] + '" alt="' + this.LOGOS[ACE_USER][1] + '"/>' : '';
+	
 	if (this.outputLocation == 'win') {
 		var reportWin = window.open('report.html','reportWin');
-			reportWin.addEventListener('load', function() { reportWin.init(report_title, report_body, report_timestamp); });
+			reportWin.addEventListener('load', function() { reportWin.init(report_title, logo, report_body, report_timestamp); });
 	}
 	
 	else {
@@ -389,9 +396,10 @@ Report.prototype.generateConformanceReport = function() {
 			if (xhr.readyState == 4){
 		    	report_template = xhr.responseText;
 		    	report_template = report_template.replace('<title></title>', '<title>' + report_title + '</title>');
+		    	//report_template = report_template.replace('<div id="add-id"></div>', '<div id="add-id">' + logo + '</div>');
 		    	report_template = report_template.replace('<main></main>', '<main>' + report_body + '</main>');
 		    	report_template = report_template.replace('<span id="date-created"></span>', '<span id="date-created">' + report_timestamp + '</span>');
-		    	report_template = report_template.replace(/<script>.*?<\/script>/i, '');
+		    	report_template = report_template.replace(/<script type="text\/javascript">[\s\S]+?<\/script>\s*/i, '');
 		    	document.getElementById('report-html').value = report_template;
 		    }
 		}

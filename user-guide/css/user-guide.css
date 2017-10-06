@@ -52,3 +52,7 @@ div.note > p,
 div.caution > p {
 	font-size: 85%;
 }
+
+figure {
+	margin-left: 6rem !important;
+}

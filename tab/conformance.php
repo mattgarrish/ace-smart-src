@@ -22,8 +22,8 @@
 	
 	<fieldset class="credential" aria-describedby="daisy-cred">
 		<legend>Credential:</legend>
-		<label class="data"><span>Name:</span> <input type="text" id="credentialName1"/></label>
-		<label class="data"><span>Link:</span> <input type="text" id="credentialLink1"/></label>
+		<label class="data"><span>Name:</span> <input type="text" id="credentialName"/></label>
+		<label class="data"><span>Link:</span> <input type="text" id="credentialLink"/></label>
 		<div id="daisy-cred" class="note">Note: A DAISY credential is automatically included. This field is provided for an additional credential.</div>
 	</fieldset>
 	

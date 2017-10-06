@@ -46,33 +46,33 @@ Conformance.prototype.showLevel = function(level,show) {
 Conformance.prototype.changeContentConformance = function(elem,type) {
 
 	// used to ensure that a sc should be displayed based on what the user has selected for reporting
-	var wcag_show = 'a';
-		wcag_show += this.wcag_level == 'aa' ? ',aa' : (document.getElementById('show-aa').checked ? ',aa' : '');
-		wcag_show += document.getElementById('show-aaa').checked ? ',aaa' : '';
+	var wcag_show = '|a|';
+		wcag_show += this.wcag_level == 'aa' ? 'aa|' : (document.getElementById('show-aa').checked ? 'aa|' : '');
+		wcag_show += document.getElementById('show-aaa').checked ? 'aaa|' : '';
 	
 	// hide partial sc checks
 	var checks = document.querySelectorAll('*[data-scope="' + type + '"]');
 	
 	for (var i = 0; i < checks.length; i++) {
-		checks[i].style.display = elem.checked ? 'block' : 'none';
+		checks[i].style.display = elem.checked ? 'none' : 'block';
 	}
 	
 	// set completely inapplicable sc to n/a
 	
 	//  check set audio+video SC
 	if (type=='audio' || type=='video') {
-		var av = (document.getElementById('audio').checked || document.getElementById('video').checked) ? true : false;
+		var av = (document.getElementById('audio').checked || document.getElementById('video').checked) ? false : true;
 		for (var i = 0; i < this.SC_TYPE.av.length; i++) {
 			var sc_section = document.getElementById(this.SC_TYPE.av[i]);
 			var sc_req = sc_section.querySelector('div.sc-body');
-			if (sc_section.classList.contains(wcag_show)) {
+			if (wcag_show.indexOf('|'+sc_section.className+'|') !== -1) {
 				//console.log(this.SC_TYPE.av[i]);
 				if (sc_req !== null) {
-					sc_req.style.display = elem.checked ? 'block' : 'none';
+					sc_req.style.display = elem.checked ? 'none' : 'block';
 				}
 				// don't flip the status unless av is true or the status is currently 'na' (avoids overriding legit status when loading a saved report)
 				var sc_status = document.querySelector('input[name="' + this.SC_TYPE.av[i] + '"]:checked').value;
-				if (!av || sc_status == 'unverified') {
+				if (av || sc_status == 'unverified') {
 					document.querySelector('input[name="' + this.SC_TYPE.av[i] + '"][value="' + (av ? 'unverified' : 'na') + '"]').click();
 				}
 			}
@@ -81,18 +81,18 @@ Conformance.prototype.changeContentConformance = function(elem,type) {
 	
 	// check whether to hide forms+scripting SC
 	if (type=='forms' || type=='script') {
-		var sf = (document.getElementById('forms').checked || document.getElementById('script').checked) ? true : false;
+		var sf = (document.getElementById('forms').checked || document.getElementById('script').checked) ? false : true;
 		for (var i = 0; i < this.SC_TYPE.sf.length; i++) {
 			var sc_section = document.getElementById(this.SC_TYPE.sf[i]);
 			var sc_req = sc_section.querySelector('div.sc-body');
-			if (sc_section.classList.contains(wcag_show)) {
+			if (wcag_show.indexOf('|'+sc_section.className+'|') !== -1) {
 				//console.log(this.SC_TYPE.sf[i]);
 				if (sc_req !== null) {
-					sc_req.style.display = elem.checked ? 'block' : 'none';
+					sc_req.style.display = elem.checked ? 'none' : 'block';
 				}
 				// don't flip the status unless av is true or the status is currently 'na' (avoids overriding legit status when loading a saved report)
 				var sc_status = document.querySelector('input[name="' + this.SC_TYPE.sf[i] + '"]:checked').value;
-				if (!sf || sc_status == 'na') {
+				if (sf || sc_status == 'na') {
 					document.querySelector('input[name="' + this.SC_TYPE.sf[i] + '"][value="' + (sf ? 'unverified' : 'na') + '"]').click();
 				}
 			}
@@ -103,12 +103,12 @@ Conformance.prototype.changeContentConformance = function(elem,type) {
 	for (var i = 0; i < this.SC_TYPE[type].length; i++) {
 		var sc_section = document.getElementById(this.SC_TYPE[type][i]);
 		var sc_req = sc_section.querySelector('div.sc-body');
-		if (sc_section.classList.contains(wcag_show)) {
+		if (wcag_show.indexOf('|'+sc_section.className+'|') !== -1) {
 			//console.log(this.SC_TYPE[type][i]);
 			if (sc_req !== null) {
-				sc_req.style.display = elem.checked ? 'block' : 'none';
+				sc_req.style.display = elem.checked ? 'none' : 'block';
 			}
-			document.querySelector('input[name="' + this.SC_TYPE[type][i] + '"][value="' + (elem.checked ? 'unverified' : 'na') + '"]').click();
+			document.querySelector('input[name="' + this.SC_TYPE[type][i] + '"][value="' + (elem.checked ? 'na' : 'unverified') + '"]').click();
 		}
 	}
 }

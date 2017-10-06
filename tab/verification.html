@@ -7,7 +7,38 @@
 	
 	<p>Set the status of each section to Pass, Fail or Not Applicable (N/A) as you go. Note fields are provided at the bottom of each success criterion to include additional information in the final report.</p>
 	
-	<p><label><input type="radio" name="link-exp" onchange="conf.showLinks(false)" checked="checked"/> Collapse all help links</label> <label><input type="radio" name="link-exp" onchange="conf.showLinks(true)"/> Expand all help links</label></p>
+	<fieldset class="flat">
+		<legend>Help links:</legend>
+		<label><input type="radio" name="link-exp" onchange="conf.showLinks(false)" checked="checked"/> Collapse all</label>
+		<label><input type="radio" name="link-exp" onchange="conf.showLinks(true)"/> Expand all</label>
+	</fieldset>
+	
+	<section id="fallbacks" class="warning">
+		<h3>Warning</h3>
+		
+		<p>The following EPUB-specific features were detected in the publication:</p>
+		
+		<ul>
+			<li class="manifest">The use of the <code>fallback</code> attribute in the package document (manifest fallbacks)</li>
+			<li class="bindings">The use of the <code>bindings</code> element for media type-specific fallbacks in the package document</li>
+			<li class="epub-switch">The use of the <code>epub:switch</code> element to provide fallbacks in content documents</li>
+			<li class="epub-trigger">The use of the <code>epub:trigger</code> element for audio/video control</li>
+		</ul>
+		
+		<p>These features are not broadly supported and do not meet the WCAG requirements for an accessible technology. You must verify
+			that the accessibility of the publication is not dependent on support for these. If so, fail the pubication on any success
+			criteria that are breached.</p>
+		
+		<p>Examples of how these features are used in inaccessible ways include:</p>
+		
+		<ul>
+			<li class="manifest">Including images in the spine and using manifest fallbacks to provide an XHTML alternative (fails SC 1.1.1)</li>
+			<li class="manifest">Including an inaccessible scripted XHTML document in the spine and using a manifest fallback to provide an accessible version (fails SC 2.1.1, 4.1.2 and potentialy others depending on what makes the default document inaccessible)</li>
+			<li class="bindings">Adding an unsupported file type and using bindings to provide an accessible fallback (fails SC 1.1.1)</li>
+			<li class="epub-switch">Replacing images with MathML markup using the <code>epub:switch</code> element (fails SC 1.1.1 if the image doesn't provide alt text or a description for the math in the image)</li>
+			<li class="epub-trigger">Disabling the native controls on the audio and video elements by default to use triggers (fails SC 2.1.1. for lack of keyboard access)</li>
+		</ul>
+	</section>
 	
 	<section id="sc-1.1.1" class="a">
 		<h3><span class="label">1.1.1 Non-text Content</span> <span class="a-label">[Level A]</span></h3>

@@ -39,6 +39,33 @@ header > *{
 	padding-left: 3rem !important;
 }
 
+/* user identification */
+
+div.id {
+	color: rgb(255,255,255);
+	margin: 1.3rem 5rem 0 0;
+	float: right;
+}
+
+div.id code {
+	color: rgb(240,245,0);
+	font-size: 1.6rem;
+}
+
+div.id a {
+	font-size: 1.1rem;
+	margin-left: 1rem;
+	color: rgb(255,255,255);
+	border: 0.1rem solid rgb(255,255,255);
+	padding: 0.4rem 1rem;
+}
+
+div.id a:hover {
+	text-decoration: none;
+	color: rgb(120,240,255);
+	border: 0.1rem solid rgb(120,240,255);
+}
+
 /* title and logo */
 
 h1{
@@ -147,36 +174,45 @@ a:hover{
 
 /* menubar */
 
-nav.menubar{
+nav.menubar {
 	margin: 0 0 0 -1rem;
 	padding: 0.5rem 0.5rem 0.5rem 2rem;
 	border-bottom: 0.1rem solid rgb(0, 0, 0);
 	background-color: rgb(245, 245, 245);
 }
 
-nav.menubar > a{
+nav.menubar > a {
 	font-size: 90%;
 	padding-right: 2rem;
 }
 
-nav.menubar > a:not([href]){
+nav.menubar > a:not([href]) {
 	color: rgb(60, 60, 60);
 	text-decoration: none;
 }
 
-input.save-button{
-	position:fixed;
-	right: 6rem;
-	font-size: 1.2rem;
-	background-color: rgb(240, 250, 255);
-	color: rgb(0, 0, 0);
-	border: 0.1rem solid rgb(80, 160, 255);
-	padding: 0.2rem;
-	width: 8rem;
-	margin-top: 2rem;
-	vertical-align: bottom;
+a.save-button,
+a.clear-button {
+	font-size: 1.1rem !important;
+	float: right;
+	background-color: ghostwhite;
+	color: rgb(0,0,220);
+	border: 0.1rem solid rgb(0,0,220);
+	padding: 0.2rem 1.6rem !important;
+	margin-top: -0.2rem;
+	margin-right: 4.5rem;
 }
 
+a.clear-button {
+	margin-right: 1rem;
+}
+
+a.save-button:hover,
+a.clear-button:hover {
+	color: rgb(220,0,0);
+	border-color: rgb(220,0,0);
+	text-decoration: none;
+}
 
 /* tabs */
 
@@ -284,7 +320,8 @@ span.aaa-label{
 section.a > h3,
 section.aa > h3,
 section.aaa > h3,
-section.epub > h3{
+section.epub > h3,
+section.warning > h3 {
 	padding-top: 0;
 	margin-top: 0;
 }
@@ -345,6 +382,30 @@ p.instr {
 	margin-top: 4rem;
 }
 
+section.warning {
+	font-size: 90%;
+	margin-left: 1rem;
+	margin-top: 3rem;
+	padding: 2rem;
+	border-radius: 1rem;
+	box-shadow: 0 0 0.5rem 0 gray;
+	border: 0.1rem solid red;
+	background-color: rgb(255,250,245);
+}
+
+section.warning h3 {
+	color: rgb(190,0,0);
+	font-weight: bold;
+}
+
+section.warning,
+li.manifest,
+li.bindings,
+li.epub-switch,
+li.epub-trigger {
+	display: none;
+}
+
 /* fieldsets */
 
 fieldset{
@@ -367,6 +428,20 @@ fieldset > .note{
 	border: none !important;
 	margin: 1rem 0 0 0 !important;
 	padding: 0 !important;
+}
+
+fieldset.flat {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+fieldset.flat > legend {
+	font-weight: normal;
+	float: left;
+	display: inline !important;
+	margin: 0;
+	padding: 0;
 }
 
 /* discovery metadata */

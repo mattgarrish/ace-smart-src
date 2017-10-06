@@ -1,4 +1,6 @@
 	
+	var qs = new URLSearchParams(window.location.search);
+	
 	// initialize details polyfill
 	$('details').details();
 	

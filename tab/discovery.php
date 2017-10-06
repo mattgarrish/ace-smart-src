@@ -40,7 +40,6 @@
 		<label><input type="checkbox" value="timingControl"/> timing control</label>
 		<label><input type="checkbox" value="transcript"/> transcript</label>
 		<label><input type="checkbox" value="ttsMarkup"/> tts markup</label>
-		<label><input type="checkbox" value="unlocked"/> unlocked</label>
 		<div id="add-af" class="pad-top"><a href="#add-af" onclick="disc.addCustomFeature(); return false">Add custom field</a></div>
 	</fieldset>
 	

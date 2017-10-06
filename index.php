@@ -1,4 +1,6 @@
-<?php require "login/loginheader.php"; ?>
+<?php require_once 'users/init.php' ?>
+<?php if (!securePage($_SERVER['PHP_SELF'])) { die(); } ?>
+
 <!DOCTYPE html>
 <html lang="en" prefix="dcterms: http://purl.org/dc/terms/ schema: http://schema.org/" typeof="schema:WebPage">
 	<head>
@@ -26,22 +28,25 @@
 		<meta property="schema:accessibilityControl" content="fullTouchControl"/>
 		
 		<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
+		<?php echo "<script>var ACE_USER = '" . $user->data()->username . "';</script>"; ?>
 	</head>
 	
 	<body class="tabs">
 		<header>
+			<div class="id">You are logged in as <code><?php echo $user->data()->username; ?></code> <a href="users/logout.php">Log out</a></div>
+			
 			<h1><span property="dcterms:publisher"><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium"/></span> <span property="dcterms:title">EPUB Accessibility Conformance and Reporting</span></h1>
 			
 			<nav class="menubar">
 				<a>Home</a>
 				<a href="user-guide/">How to Use</a> 
 				<a href="faq.html">FAQ</a>
+				<a href="#" onclick="manage.saveConformanceReport(); return false" class="save-button">Save</a>
+				<a href="#" onclick="manage.clear(); return false" class="clear-button">Clear</a>
 			</nav>
 		</header>
 		
 		<main class="js-tabs">
-			<input type="button" value="Save" onclick="manage.saveConformanceReport()" class="save-button"/>
-	
 			<ul class="js-tablist" data-existing-hx="h3">
 				<li class="js-tablist__item">
 					<a href="#start" id="label_start" class="js-tablist__link">1. Start</a>

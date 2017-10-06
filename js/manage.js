@@ -62,7 +62,7 @@ Manage.prototype.saveConformanceReport = function() {
 		/* other config info */
 		reportJSON += '"epub_format": ' + JSON.stringify(document.querySelector('input[name="epub-format"]:checked').value);
 		
-		var excl = document.querySelectorAll('#exclusions input[type="checkbox"]:not(:checked)');
+		var excl = document.querySelectorAll('#exclusions input[type="checkbox"]:checked');
 		if (excl.length > 0) {
 			reportJSON += ',"exclusions": [';
 				for (var k = 0; k < excl.length; k++) {
@@ -120,14 +120,15 @@ Manage.prototype.saveConformanceReport = function() {
 		reportJSON += '"result": ' + JSON.stringify(document.querySelector('input[name="conf-result"]:checked').value) + ',';
 		reportJSON += '"certifier": ' + JSON.stringify(document.getElementById('certifier').value) + ',';
 		
-		var cNum = document.querySelectorAll('fieldset.credential').length;
+		// multiple credentials disabled until shown to be needed
+		// var cNum = document.querySelectorAll('fieldset.credential').length;
 		
-		for (var i = 1; i <= cNum; i++) {
-			reportJSON += '"credential' + i + '": {';
-				reportJSON += '"name": ' + JSON.stringify(document.getElementById('credentialName'+i).value) + ',';
-				reportJSON += '"link": ' + JSON.stringify(document.getElementById('credentialLink'+i).value);
+		//for (var i = 1; i <= cNum; i++) {
+			reportJSON += '"credential": {';
+				reportJSON += '"name": ' + JSON.stringify(document.getElementById('credentialName').value) + ',';
+				reportJSON += '"link": ' + JSON.stringify(document.getElementById('credentialLink').value);
 			reportJSON += '},';
-		}
+		//}
 		
 		reportJSON += '"reportLink": ' + JSON.stringify(document.getElementById('reportLink').value);
 
@@ -299,20 +300,20 @@ Manage.prototype.loadConformanceReport = function(reportData) {
 	
 	document.querySelector('input[name=conf-result][value="' + report_obj.conformanceMeta.result + '"]').click();
 	
-	/* load credentials */
+	/* load credentials - multiple credentials currently disabled */
 	
-	for (var i = 1; i < 25; i++) {
-		if (report_obj["conformanceMeta"].hasOwnProperty("credential"+i)) {
-			if (i > 1) {
-				conf_meta.addCredential();
-			}
-			document.getElementById('credentialName'+i).value = report_obj['conformanceMeta']['credential'+i]['name'];
-			document.getElementById('credentialLink'+i).value = report_obj['conformanceMeta']['credential'+i]['link'];
+	//for (var i = 1; i < 25; i++) {
+		if (report_obj["conformanceMeta"].hasOwnProperty("credential")) {
+			//if (i > 1) {
+			//	conf_meta.addCredential();
+			//}
+			document.getElementById('credentialName').value = report_obj['conformanceMeta']['credential']['name'];
+			document.getElementById('credentialLink').value = report_obj['conformanceMeta']['credential']['link'];
 		}
-		else {
-			break;
-		}
-	}
+		//else {
+		//	break;
+		//}
+	//}
 	
 	/* load config */
 	
@@ -390,6 +391,14 @@ Manage.prototype.clear = function(quiet) {
 	
 	for (var x = 0; x < forms.length; x++) {
 		forms[x].reset();
+	}
+	
+	/* hide epub feature warnings */
+	
+	var warn_elem = document.querySelectorAll('section.warning, li.manifest, li.bindings, li.epub-switch, li.epub-trigger');
+	
+	for (var i = 0; i < warn_elem.length; i++) {
+		warn_elem[i].style.display = 'none';
 	}
 	
 	/* clear artefacts from the conformance checks */

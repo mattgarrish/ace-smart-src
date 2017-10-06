@@ -38,6 +38,22 @@ ConformanceMeta.prototype.validate = function(quiet) {
 		cert_elem.parentNode.classList.remove(format.BG.ERR);
 	}
 	
+	var links = { 'reportLink': 'Report link', 'credentialLink': 'Credential link' }
+	
+	for (var id in links) {
+		var link_elem = document.getElementById(id);
+		var linkText = link_elem.value.trim();
+		
+		if (linkText != '' && !linkText.match(/^http[s]:\/\//i)) {
+			error.write('conformance',id,'err',links[id]+' must begin with http:// or https://');
+			link_elem.setAttribute('aria-invalid',true);
+			link_elem.parentNode.classList.add(format.BG.ERR);
+		}
+		else {
+			link_elem.parentNode.classList.remove(format.BG.ERR);
+		}
+	}
+	
 	return true;
 }
 
@@ -64,10 +80,10 @@ ConformanceMeta.prototype.generateConformanceMeta = function() {
 	
 	var credNum = document.querySelectorAll('fieldset.credential').length;
 	
-	for (var i = 1; i <= credNum; i++) {
-		meta += format.metaTag(true,'a11y:certifierCredential',document.getElementById('credentialName'+i).value);
-		meta += format.metaTag(false,'a11y:certifierCredential',document.getElementById('credentialLink'+i).value);
-	}
+	//for (var i = 1; i <= credNum; i++) {
+		meta += format.metaTag(true,'a11y:certifierCredential',document.getElementById('credentialName').value);
+		meta += format.metaTag(false,'a11y:certifierCredential',document.getElementById('credentialLink').value);
+	//}
 	
 	document.getElementById('conf-meta').value = meta;
 }
