@@ -212,15 +212,15 @@ Ace.prototype.configureReporting = function() {
 	}
 	
 	// these should be automatable through configureChecks in the future
-	if (!this.parseChecks('script', 'Scripted')) {
+	if (!this.configureChecks('script', 'scripts')) {
 		alert_list += '- scripting\n';
 	}
 	
-	if (!this.parseChecks('audio', 'Audio sources')) {
+	if (!this.configureChecks('audio', 'audios')) {
 		alert_list += '- audio\n';
 	}
 	
-	if (!this.parseChecks('video', 'Video sources')) {
+	if (!this.configureChecks('video', 'videos')) {
 		alert_list += '- video\n';
 	}
 	
@@ -229,18 +229,6 @@ Ace.prototype.configureReporting = function() {
 	if (alert_list) {
 		alert('The following content types were not reported present in the publication:\n\n' + alert_list + '\nChecks related to them have been turned off. To re-enable these checks, refer to the WCAG configuration options.');
 	}
-}
-
-
-
-Ace.prototype.setPassFail = function() {
-	
-	var ace_status = this.report['earl:result']['earl:outcome'];
-	
-	if (ace_status == 'pass') {
-		
-	}
-
 }
 
 
@@ -268,6 +256,7 @@ Ace.prototype.configureChecks = function(id,prop) {
 	
 }
 
+/*
 Ace.prototype.parseChecks = function(id,str) {
 
 	// mimics configureChecks except have to use regexes to parse the toc outline for keywords
@@ -291,6 +280,107 @@ Ace.prototype.parseChecks = function(id,str) {
 		}
 		return true;
 	}
+}
+*/
+
+
+
+Ace.prototype.setPassFail = function() {
+	
+	var ace_status = this.report['earl:result']['earl:outcome'];
+	
+	if (ace_status == 'pass') {
+		this.setSCStatus('sc-3.1.1','pass'); // lang
+	}
+	
+	else {
+		if (!this.report.hasOwnProperty('assertions')) {
+			// problem with ace?
+			console.log('Report did not pass but contains no failure assertions.');
+			return;
+		}
+		
+		var assert = this.compileAssertions();
+		
+		if (assert['accesskeys']) { this.setSCStatus('sc-2.1.1', 'fail'); }
+		if (assert['area-alt']) { this.setSCStatus('sc-1.1.1', 'fail'); }
+		if (assert['aria-allowed-attr']) { this.setSCStatus('sc-4.1.1', 'fail'); this.setSCStatus('sc-4.1.2', 'fail'); }
+		if (assert['aria-hidden-body']) { this.setSCStatus('sc-4.1.2', 'fail'); }
+		if (assert['aria-required-attr']) { this.setSCStatus('sc-4.1.1', 'fail'); this.setSCStatus('sc-4.1.2', 'fail'); }
+		if (assert['aria-required-children']) { this.setSCStatus('sc-1.3.1', 'fail'); }
+		if (assert['aria-required-parent']) { this.setSCStatus('sc-1.3.1', 'fail'); }
+		if (assert['aria-roles']) { this.setSCStatus('sc-1.3.1', 'fail'); this.setSCStatus('sc-4.1.1', 'fail'); this.setSCStatus('sc-4.1.2', 'fail'); }
+		if (assert['aria-valid-attr-value']) { this.setSCStatus('sc-1.3.1', 'fail'); this.setSCStatus('sc-4.1.1', 'fail'); this.setSCStatus('sc-4.1.2', 'fail'); }
+		if (assert['aria-valid-attr']) { this.setSCStatus('sc-4.1.1', 'fail'); }
+		if (assert['audio-caption']) { this.setSCStatus('sc-1.2.2', 'fail'); }
+		if (assert['blink']) { this.setSCStatus('sc-2.2.2', 'fail'); }
+		if (assert['button-name']) { this.setSCStatus('sc-4.1.2', 'fail'); }
+		if (assert['bypass']) { this.setSCStatus('sc-2.4.1', 'fail'); }
+		if (assert['color-contrast']) { this.setSCStatus('sc-1.4.3', 'fail'); }
+		if (assert['definition-list']) { this.setSCStatus('sc-1.3.1', 'fail'); }
+		if (assert['dlitem']) { this.setSCStatus('sc-1.3.1', 'fail'); }
+		if (assert['document-title']) { this.setSCStatus('sc-2.4.2', 'fail'); }
+		if (assert['duplicate-id']) { this.setSCStatus('sc-4.1.1', 'fail'); }
+		if (assert['frame-title']) { this.setSCStatus('sc-2.4.1', 'fail'); }
+		
+		this.setSCStatus('sc-3.1.1', ((assert['html-has-lang'] || assert['html-lang-valid']) ? 'fail' : 'pass'));
+		
+		if (assert['image-alt']) { this.setSCStatus('sc-1.1.1', 'fail'); }
+		if (assert['input-image-alt']) { this.setSCStatus('sc-1.1.1', 'fail'); }
+		if (assert['label']) { this.setSCStatus('sc-1.3.1', 'fail'); this.setSCStatus('sc-3.3.2', 'fail'); }
+		if (assert['layout-table']) { this.setSCStatus('sc-1.3.1', 'fail'); }
+		if (assert['link-in-text-block']) { this.setSCStatus('sc-1.4.1', 'fail'); }
+		if (assert['link-name']) { this.setSCStatus('sc-1.1.1', 'fail'); this.setSCStatus('sc-2.4.4', 'fail'); this.setSCStatus('sc-4.1.2', 'fail'); }
+		if (assert['list']) { this.setSCStatus('sc-1.3.1', 'fail'); }
+		if (assert['listitem']) { this.setSCStatus('sc-1.3.1', 'fail'); }
+		if (assert['marquee']) { this.setSCStatus('sc-2.2.2', 'fail'); }
+		if (assert['meta-refresh']) { this.setSCStatus('sc-2.2.1', 'fail'); this.setSCStatus('sc-2.2.4', 'fail'); this.setSCStatus('sc-3.2.5', 'fail'); }
+		if (assert['meta-viewport']) { this.setSCStatus('sc-1.4.4', 'fail'); }
+		if (assert['object-alt']) { this.setSCStatus('sc-1.1.1', 'fail'); }
+		if (assert['p-as-heading']) { this.setSCStatus('sc-1.3.1', 'fail'); }
+		if (assert['server-side-image-map']) { this.setSCStatus('sc-2.1.1', 'fail'); }
+		if (assert['table-fake-caption']) { this.setSCStatus('sc-1.3.1', 'fail'); }
+		if (assert['td-has-header']) { this.setSCStatus('sc-1.3.1', 'fail'); }
+		if (assert['td-headers-attr']) { this.setSCStatus('sc-1.3.1', 'fail'); }
+		if (assert['th-has-data-cells']) { this.setSCStatus('sc-1.3.1', 'fail'); }
+		if (assert['valid-lang']) { this.setSCStatus('sc-3.1.2', 'fail'); }
+		if (assert['video-caption']) { this.setSCStatus('sc-1.2.2', 'fail'); this.setSCStatus('sc-1.2.3', 'fail'); }
+		if (assert['video-description']) { this.setSCStatus('sc-1.2.5', 'fail'); }
+	}
+}
+
+
+Ace.prototype.setSCStatus = function(id, status) {
+	document.querySelector('input[name="'+id+'"][value="' + status + '"]').click();
+}
+
+
+
+Ace.prototype.compileAssertions = function() {
+	var failure = {};
+	for (var i = 0; i < this.report['assertions'].length; i++) {
+		
+		if (!this.report['assertions'][i].hasOwnProperty('assertions')) { 
+			console.log('Document assertions has no sub-assertions');
+			continue;
+		}
+		
+		for (var j = 0; j <  this.report['assertions'][i]['assertions'].length; j++) {
+			
+			if (!this.report['assertions'][i]['assertions'][j].hasOwnProperty('earl:test')) {
+				console.log('Document assertions does not have an earl:test section');
+				continue;
+			}
+			
+			if (!this.report['assertions'][i]['assertions'][j]['earl:test'].hasOwnProperty('dct:title')) {
+				console.log('Assertion test has no title');
+				continue;
+			}
+			
+			failure[this.report['assertions'][i]['assertions'][j]['earl:test']['dct:title']] = true;
+		}
+	}
+	return failure;
 }
 
 
