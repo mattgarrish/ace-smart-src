@@ -333,11 +333,16 @@ p.sc-note{
 }
 
 div.buttons{
-	padding: 2rem 1rem;
+	padding: 4rem 1rem 2rem 1rem;
 }
 
-input[type = "button"]{
-	width: 8rem;
+input[type = "button"] {
+	font-weight: bold;
+	padding: 0.8rem 0.4rem;
+	width: 10rem;
+	border-style: outset;
+	background-color: rgb(240,245,255);
+	color: rgb(0,0,0);
 }
 
 input[type = "checkbox"]{

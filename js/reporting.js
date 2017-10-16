@@ -4,11 +4,6 @@ var report = new Report();
 function Report() {
 	this.outputLocation = 'win';
 	this.displayNotes = 1; // 1 - show all; 2 - show only failures; 3 - show only general; 0 - hide all
-	
-	// array values = credential image url, alt text, link to credential info
-	this.LOGOS = {
-		'benetech': ['http://benetech.org', 'Benetech certified', 'http://benetech.org']
-	}
 }
 
 
@@ -125,12 +120,13 @@ Report.prototype.validateConformanceReport = function() {
 		}
 	}
 	
-	if (!conf_meta.validate(true)) {
-		err = true;
-	}
+	err = conf_meta.validate(true) ? err : true;
 	
-	if (!disc.validate(true)) {
-		err = true;
+	err = disc.validate(true) ? err : true;
+	
+	// validate user extensions
+	if (user_ext != '') {
+		err = user_ext.validate() ? err : true;
 	}
 	
 	if (err) {
@@ -306,10 +302,10 @@ Report.prototype.generateConformanceReport = function() {
 				reportTable += '<td class="lvl">' + conf_level.toUpperCase() + '</td>\n';
 			}
 			
-			reportTable += '<td class="' + status + '"><span class="label">';
+			reportTable += '<td class="' + status + '"><p class="label">';
 			
 			if (status == 'pass') {
-				reportTable += 'Pass</span>'
+				reportTable += 'Pass</p>'
 				if (log) {
 					stat.pass += 1;
 				}
@@ -317,11 +313,11 @@ Report.prototype.generateConformanceReport = function() {
 			
 			else if (status == 'fail') {
 				var err = document.getElementById(criteria[cat][i].id+'-err').value;
-				reportTable += 'Fail</span>'
+				reportTable += 'Fail</p>'
 				
 				// add the reason 
 				if ((err != '') && (this.displayNotes == 1 || this.displayNotes == 2)) {
-					reportTable += ': ' + err;
+					reportTable += '<p>' + err.replace(/</g,'&lt;').replace(/\r?\n/g, '</p><p>') + '</p>';
 				}
 				
 				if ((criteria[cat]['name'] != 'EPUB') || ((criteria[cat]['name'] == 'EPUB') && (criteria[cat][i].id != 'eg-2'))) {
@@ -332,14 +328,14 @@ Report.prototype.generateConformanceReport = function() {
 			}
 			
 			else if (status == 'na') {
-				reportTable += 'Not Applicable</span>';
+				reportTable += 'Not Applicable</p>';
 				if (log) {
 					stat.na += 1;
 				}
 			}
 			
 			else {
-				reportTable += 'Not checked</span>';
+				reportTable += 'Not checked</p>';
 				if (log) {
 					stat.unverified += 1;
 				}
@@ -347,7 +343,7 @@ Report.prototype.generateConformanceReport = function() {
 			
 			if (this.displayNotes == 1 || this.displayNotes == 3) {
 				if ((document.getElementsByName(criteria[cat][i].id+'-note'))[0].checked) {
-					reportTable += '\n<p><span class="label">Additional info:</span> <span class="value">' + document.getElementById(criteria[cat][i].id+'-info').value + '</span></p>\n';
+					reportTable += '\n<p class="label">Additional info:</p><p class="value">' + document.getElementById(criteria[cat][i].id+'-info').value + '</p>\n';
 				}
 			}
 			
@@ -379,7 +375,11 @@ Report.prototype.generateConformanceReport = function() {
 	var report_body = reportBody + reportSummary + reportDetails;
 	var report_timestamp = format.generateTimestamp('at');
 	
-	var logo = this.LOGOS.hasOwnProperty(ACE_USER) ? '<a href="' + this.LOGOS[ACE_USER][2] + '"><img src="' + this.LOGOS[ACE_USER][0] + '" alt="' + this.LOGOS[ACE_USER][1] + '"/>' : '';
+	var logo = '';
+	
+	if (user_ext != '') {
+		user_ext.LOGOS.hasOwnProperty(ACE_USER) ? '<a href="' + user_ext.LOGOS[ACE_USER][2] + '"><img src="' + user_ext.LOGOS[ACE_USER][0] + '" alt="' + user_ext.LOGOS[ACE_USER][1] + '"/>' : '';
+	}
 	
 	if (this.outputLocation == 'win') {
 		var reportWin = window.open('report.html','reportWin');

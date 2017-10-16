@@ -1,4 +1,5 @@
 <?php require_once 'users/init.php' ?>
+<?php require_once 'extensions/config.php' ?>
 <?php if (!securePage($_SERVER['PHP_SELF'])) { die(); } ?>
 
 <!DOCTYPE html>
@@ -8,6 +9,11 @@
 		<title>EPUB Accessibility Conformance and Reporting</title>
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" href="css/a11y.css"/>
+		<?php
+			if ($ace_users[$user->data()->username]) {
+				echo '<link rel="stylesheet" type="text/css" href="extensions/' . $user->data()->username . '/css/custom.css"/>';
+			}
+		?>
 		<link rel="stylesheet" type="text/css" href="css/drag-drop.css"/>
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -28,7 +34,7 @@
 		<meta property="schema:accessibilityControl" content="fullTouchControl"/>
 		
 		<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
-		<?php echo "<script>var ACE_USER = '" . $user->data()->username . "';</script>"; ?>
+		<?php echo "<script>var user_ext = ''; var ACE_USER = '" . $user->data()->username . "';</script>"; ?>
 	</head>
 	
 	<body class="tabs">
@@ -49,19 +55,19 @@
 		<main class="js-tabs">
 			<ul class="js-tablist" data-existing-hx="h3">
 				<li class="js-tablist__item">
-					<a href="#start" id="label_start" class="js-tablist__link">1. Start</a>
+					<a href="#start" id="label_start" class="js-tablist__link">Start</a>
 				</li>
 				<li class="js-tablist__item">
-					<a href="#verification" id="label_verification" class="js-tablist__link">2. Conformance Verification</a>
+					<a href="#verification" id="label_verification" class="js-tablist__link">Conformance Verification</a>
 				</li>
 				<li class="js-tablist__item">
-					<a href="#discovery" id="label_discovery" class="js-tablist__link">3. Discovery Metadata</a>
+					<a href="#discovery" id="label_discovery" class="js-tablist__link">Discovery Metadata</a>
 				</li>
 				<li class="js-tablist__item">
-					<a href="#conformance" id="label_conformance" class="js-tablist__link">4. Conformance Metadata</a>
+					<a href="#conformance" id="label_conformance" class="js-tablist__link">Conformance Metadata</a>
 				</li>
 				<li class="js-tablist__item">
-					<a href="#generate" id="label_generate" class="js-tablist__link">5. Generate Report</a>
+					<a href="#generate" id="label_generate" class="js-tablist__link">Generate Report</a>
 				</li>
 			</ul>
 	
@@ -91,6 +97,7 @@
 		
 		<footer>
 			<p>Copyright <span property="dcterms:dateCopyrighted">2017</span> <a href="http://daisy.org">DAISY Consortium</a></p>
+			<p>All Rights Reserved</p>
 			<p><a href="http://www.daisy.org/terms-use">Terms of Use</a> | <a href="http://www.daisy.org/contact">Contact</a></p>
 		</footer>
 		
@@ -99,6 +106,11 @@
 		<script src="js/jquery.details.min.js"></script>
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 		
+		<?php
+			if ($ace_users[$user->data()->username]) {
+				echo '<script src="extensions/' . $user->data()->username . '/js/custom.js"></script>';
+			}
+		?>
 		<script src="js/a11ytabs.js"></script>
 		<script src="js/drag-drop.js"></script>
 		<script src="js/ace.js"></script>

@@ -2,14 +2,6 @@
 var manage = new Manage();
 
 function Manage() {
-	this.LOCAL_STORAGE = hasLocalStorage();
-	if (!this.LOCAL_STORAGE) {
-		document.getElementById('local-na').removeAttribute('hidden');
-		document.querySelector('input[name="save"][value="saved"]').click();
-		document.querySelector('input[name="save"][value="storage"]').disabled = true;
-		document.querySelector('input[name="load"][value="saved"]').click();
-		document.querySelector('input[name="load"][value="storage"]').disabled = true;
-	}
 }
 
 
@@ -133,6 +125,12 @@ Manage.prototype.saveConformanceReport = function() {
 		reportJSON += '"reportLink": ' + JSON.stringify(document.getElementById('reportLink').value);
 
 	reportJSON += '}';
+	
+	/* store extension data */
+	
+	if (user_ext != '') {
+		reportJSON += user_ext.saveData();
+	}
 	
 	/* close object */
 	reportJSON += '}';
@@ -336,6 +334,11 @@ Manage.prototype.loadConformanceReport = function(reportData) {
 		});
 	}
 	
+	/* load extensions */
+	if (user_ext != '') {
+		user_ext.loadData(report_obj);
+	}
+	
 	alert('Report successfully loaded!');
 	
 	//load_dialog.dialog('close');
@@ -429,6 +432,11 @@ Manage.prototype.clear = function(quiet) {
 	document.getElementById('title').classList.remove(format.BG.ERR);
 	document.getElementById('modified').classList.remove(format.BG.ERR);
 	
+	/* clear extensions */
+	if (user_ext != '') {
+		user_ext.clear();
+	}
+	
 	error.clearAll();
 	error.hide();
 }
@@ -439,18 +447,5 @@ Manage.prototype.setSavedReport = function () {
 	var data_elem = document.getElementById('savedReportOpt');
 	if (!data_elem.checked) {
 		data_elem.click();
-	}
-}
-
-
-
-function hasLocalStorage() {
-	try {
-		localStorage.setItem('test','1');
-		localStorage.removeItem('test');
-		return true;
-	}
-	catch(e) {
-		return false;
 	}
 }

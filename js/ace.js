@@ -302,56 +302,65 @@ Ace.prototype.setPassFail = function() {
 		
 		var assert = this.compileAssertions();
 		
-		if (assert['accesskeys']) { this.setSCStatus('sc-2.1.1', 'fail'); }
-		if (assert['area-alt']) { this.setSCStatus('sc-1.1.1', 'fail'); }
-		if (assert['aria-allowed-attr']) { this.setSCStatus('sc-4.1.1', 'fail'); this.setSCStatus('sc-4.1.2', 'fail'); }
-		if (assert['aria-hidden-body']) { this.setSCStatus('sc-4.1.2', 'fail'); }
-		if (assert['aria-required-attr']) { this.setSCStatus('sc-4.1.1', 'fail'); this.setSCStatus('sc-4.1.2', 'fail'); }
-		if (assert['aria-required-children']) { this.setSCStatus('sc-1.3.1', 'fail'); }
-		if (assert['aria-required-parent']) { this.setSCStatus('sc-1.3.1', 'fail'); }
-		if (assert['aria-roles']) { this.setSCStatus('sc-1.3.1', 'fail'); this.setSCStatus('sc-4.1.1', 'fail'); this.setSCStatus('sc-4.1.2', 'fail'); }
-		if (assert['aria-valid-attr-value']) { this.setSCStatus('sc-1.3.1', 'fail'); this.setSCStatus('sc-4.1.1', 'fail'); this.setSCStatus('sc-4.1.2', 'fail'); }
-		if (assert['aria-valid-attr']) { this.setSCStatus('sc-4.1.1', 'fail'); }
-		if (assert['audio-caption']) { this.setSCStatus('sc-1.2.2', 'fail'); }
-		if (assert['blink']) { this.setSCStatus('sc-2.2.2', 'fail'); }
-		if (assert['button-name']) { this.setSCStatus('sc-4.1.2', 'fail'); }
-		if (assert['bypass']) { this.setSCStatus('sc-2.4.1', 'fail'); }
-		if (assert['color-contrast']) { this.setSCStatus('sc-1.4.3', 'fail'); }
-		if (assert['definition-list']) { this.setSCStatus('sc-1.3.1', 'fail'); }
-		if (assert['dlitem']) { this.setSCStatus('sc-1.3.1', 'fail'); }
-		if (assert['document-title']) { this.setSCStatus('sc-2.4.2', 'fail'); }
-		if (assert['duplicate-id']) { this.setSCStatus('sc-4.1.1', 'fail'); }
-		if (assert['frame-title']) { this.setSCStatus('sc-2.4.1', 'fail'); }
+		if (assert['accesskeys']) { this.setSCStatus('sc-2.1.1', 'fail', assert['accesskeys']); }
+		if (assert['area-alt']) { this.setSCStatus('sc-1.1.1', 'fail', assert['area-alt']); }
+		if (assert['aria-allowed-attr']) { this.setSCStatus('sc-4.1.1', 'fail', assert['aria-allowed-attr']); this.setSCStatus('sc-4.1.2', 'fail', assert['aria-allowed-attr']); }
+		if (assert['aria-hidden-body']) { this.setSCStatus('sc-4.1.2', 'fail', assert['aria-hidden-body']); }
+		if (assert['aria-required-attr']) { this.setSCStatus('sc-4.1.1', 'fail', assert['aria-required-attr']); this.setSCStatus('sc-4.1.2', 'fail', assert['aria-required-attr']); }
+		if (assert['aria-required-children']) { this.setSCStatus('sc-1.3.1', 'fail', assert['aria-required-children']); }
+		if (assert['aria-required-parent']) { this.setSCStatus('sc-1.3.1', 'fail', assert['aria-required-parent']); }
+		if (assert['aria-roles']) { this.setSCStatus('sc-1.3.1', 'fail', assert['aria-roles']); this.setSCStatus('sc-4.1.1', 'fail', assert['aria-roles']); this.setSCStatus('sc-4.1.2', 'fail', assert['aria-roles']); }
+		if (assert['aria-valid-attr-value']) { this.setSCStatus('sc-1.3.1', 'fail', assert['aria-valid-attr-value']); this.setSCStatus('sc-4.1.1', 'fail', assert['aria-valid-attr-value']); this.setSCStatus('sc-4.1.2', 'fail', assert['aria-valid-attr-value']); }
+		if (assert['aria-valid-attr']) { this.setSCStatus('sc-4.1.1', 'fail', assert['aria-valid-attr']); }
+		if (assert['audio-caption']) { this.setSCStatus('sc-1.2.2', 'fail', assert['audio-caption']); }
+		if (assert['blink']) { this.setSCStatus('sc-2.2.2', 'fail', assert['blink']); }
+		if (assert['button-name']) { this.setSCStatus('sc-4.1.2', 'fail', assert['button-name']); }
+		if (assert['bypass']) { this.setSCStatus('sc-2.4.1', 'fail', assert['bypass']); }
+		if (assert['color-contrast']) { this.setSCStatus('sc-1.4.3', 'fail', assert['color-contrast']); }
+		if (assert['definition-list']) { this.setSCStatus('sc-1.3.1', 'fail', assert['definition-list']); }
+		if (assert['dlitem']) { this.setSCStatus('sc-1.3.1', 'fail', assert['dlitem']); }
+		if (assert['document-title']) { this.setSCStatus('sc-2.4.2', 'fail', assert['document-title']); }
+		if (assert['duplicate-id']) { this.setSCStatus('sc-4.1.1', 'fail', assert['duplicate-id']); }
+		if (assert['frame-title']) { this.setSCStatus('sc-2.4.1', 'fail', assert['frame-title']); }
 		
-		this.setSCStatus('sc-3.1.1', ((assert['html-has-lang'] || assert['html-lang-valid']) ? 'fail' : 'pass'));
+		if (!assert['html-has-lang'] && !assert['html-lang-valid']) {
+			this.setSCStatus('sc-3.1.1', 'pass', '');
+		}
+		else {
+			if (assert['html-has-lang']) { this.setSCStatus('sc-3.1.1', 'fail', assert['html-has-lang']); }
+			if (assert['html-lang-valid']) { this.setSCStatus('sc-3.1.1', 'fail', assert['html-lang-valid']); }
+		}
 		
-		if (assert['image-alt']) { this.setSCStatus('sc-1.1.1', 'fail'); }
-		if (assert['input-image-alt']) { this.setSCStatus('sc-1.1.1', 'fail'); }
-		if (assert['label']) { this.setSCStatus('sc-1.3.1', 'fail'); this.setSCStatus('sc-3.3.2', 'fail'); }
-		if (assert['layout-table']) { this.setSCStatus('sc-1.3.1', 'fail'); }
-		if (assert['link-in-text-block']) { this.setSCStatus('sc-1.4.1', 'fail'); }
-		if (assert['link-name']) { this.setSCStatus('sc-1.1.1', 'fail'); this.setSCStatus('sc-2.4.4', 'fail'); this.setSCStatus('sc-4.1.2', 'fail'); }
-		if (assert['list']) { this.setSCStatus('sc-1.3.1', 'fail'); }
-		if (assert['listitem']) { this.setSCStatus('sc-1.3.1', 'fail'); }
-		if (assert['marquee']) { this.setSCStatus('sc-2.2.2', 'fail'); }
-		if (assert['meta-refresh']) { this.setSCStatus('sc-2.2.1', 'fail'); this.setSCStatus('sc-2.2.4', 'fail'); this.setSCStatus('sc-3.2.5', 'fail'); }
-		if (assert['meta-viewport']) { this.setSCStatus('sc-1.4.4', 'fail'); }
-		if (assert['object-alt']) { this.setSCStatus('sc-1.1.1', 'fail'); }
-		if (assert['p-as-heading']) { this.setSCStatus('sc-1.3.1', 'fail'); }
-		if (assert['server-side-image-map']) { this.setSCStatus('sc-2.1.1', 'fail'); }
-		if (assert['table-fake-caption']) { this.setSCStatus('sc-1.3.1', 'fail'); }
-		if (assert['td-has-header']) { this.setSCStatus('sc-1.3.1', 'fail'); }
-		if (assert['td-headers-attr']) { this.setSCStatus('sc-1.3.1', 'fail'); }
-		if (assert['th-has-data-cells']) { this.setSCStatus('sc-1.3.1', 'fail'); }
-		if (assert['valid-lang']) { this.setSCStatus('sc-3.1.2', 'fail'); }
-		if (assert['video-caption']) { this.setSCStatus('sc-1.2.2', 'fail'); this.setSCStatus('sc-1.2.3', 'fail'); }
-		if (assert['video-description']) { this.setSCStatus('sc-1.2.5', 'fail'); }
+		if (assert['image-alt']) { this.setSCStatus('sc-1.1.1', 'fail', assert['image-alt']); }
+		if (assert['input-image-alt']) { this.setSCStatus('sc-1.1.1', 'fail', assert['input-image-alt']); }
+		if (assert['label']) { this.setSCStatus('sc-1.3.1', 'fail'); this.setSCStatus('sc-3.3.2', 'fail', assert['label']); }
+		if (assert['layout-table']) { this.setSCStatus('sc-1.3.1', 'fail', assert['layout-table']); }
+		if (assert['link-in-text-block']) { this.setSCStatus('sc-1.4.1', 'fail', assert['link-in-text-block']); }
+		if (assert['link-name']) { this.setSCStatus('sc-1.1.1', 'fail', assert['link-name']); this.setSCStatus('sc-2.4.4', 'fail', assert['link-name']); this.setSCStatus('sc-4.1.2', 'fail', assert['link-name']); }
+		if (assert['list']) { this.setSCStatus('sc-1.3.1', 'fail', assert['list']); }
+		if (assert['listitem']) { this.setSCStatus('sc-1.3.1', 'fail', assert['list-item']); }
+		if (assert['marquee']) { this.setSCStatus('sc-2.2.2', 'fail', assert['marquee']); }
+		if (assert['meta-refresh']) { this.setSCStatus('sc-2.2.1', 'fail', assert['meta-refresh']); this.setSCStatus('sc-2.2.4', 'fail', assert['meta-refresh']); this.setSCStatus('sc-3.2.5', 'fail', assert['meta-refresh']); }
+		if (assert['meta-viewport']) { this.setSCStatus('sc-1.4.4', 'fail', assert['meta-viewport']); }
+		if (assert['object-alt']) { this.setSCStatus('sc-1.1.1', 'fail', assert['object-alt']); }
+		if (assert['p-as-heading']) { this.setSCStatus('sc-1.3.1', 'fail', assert['p-as-heading']); }
+		if (assert['server-side-image-map']) { this.setSCStatus('sc-2.1.1', 'fail', assert['server-side-image-map']); }
+		if (assert['table-fake-caption']) { this.setSCStatus('sc-1.3.1', 'fail', assert['table-has-header']); }
+		if (assert['td-has-header']) { this.setSCStatus('sc-1.3.1', 'fail', assert['td-has-header']); }
+		if (assert['td-headers-attr']) { this.setSCStatus('sc-1.3.1', 'fail', assert['td-headers-attr']); }
+		if (assert['th-has-data-cells']) { this.setSCStatus('sc-1.3.1', 'fail', assert['td-has-data-cells']); }
+		if (assert['valid-lang']) { this.setSCStatus('sc-3.1.2', 'fail', assert['valid-lang']); }
+		if (assert['video-caption']) { this.setSCStatus('sc-1.2.2', 'fail', assert['video-caption']); this.setSCStatus('sc-1.2.3', 'fail', assert['video-caption']); }
+		if (assert['video-description']) { this.setSCStatus('sc-1.2.5', 'fail', assert['video-description']); }
 	}
 }
 
 
-Ace.prototype.setSCStatus = function(id, status) {
+Ace.prototype.setSCStatus = function(id, status, msg) {
 	document.querySelector('input[name="'+id+'"][value="' + status + '"]').click();
+	if (status == 'fail') {
+		document.querySelector('textarea[id="'+id+'-err"]').value += msg + '\n';
+	}
 }
 
 
@@ -377,7 +386,11 @@ Ace.prototype.compileAssertions = function() {
 				continue;
 			}
 			
-			failure[this.report['assertions'][i]['assertions'][j]['earl:test']['dct:title']] = true;
+			if (!failure.hasOwnProperty(this.report['assertions'][i]['assertions'][j]['earl:test']['dct:title'])) {
+				failure[this.report['assertions'][i]['assertions'][j]['earl:test']['dct:title']] = '';
+			}
+			
+			failure[this.report['assertions'][i]['assertions'][j]['earl:test']['dct:title']] += this.report['assertions'][i]['assertions'][j]['earl:result']['dct:description'].replace(/Fix (any|all) of the following:\s+/i,'') + ' (' + this.report['assertions'][i]['earl:testSubject']['url'] + ').\n';
 		}
 	}
 	return failure;
