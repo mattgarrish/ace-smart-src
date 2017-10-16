@@ -63,6 +63,13 @@
 				<li class="js-tablist__item">
 					<a href="#discovery" id="label_discovery" class="js-tablist__link">Discovery Metadata</a>
 				</li>
+				<?php
+					if ($ace_users[$user->data()->username]['tabs']) {
+						foreach ($ace_users[$user->data()->username]['tabs'] as $key => $value) {
+							echo '<li class="js-tablist__item"><a href="#' . $key . '" id="label_' . $key . '" class="js-tablist__link">' . $value . '</a>';
+						}
+					}
+				?>
 				<li class="js-tablist__item">
 					<a href="#conformance" id="label_conformance" class="js-tablist__link">Conformance Metadata</a>
 				</li>
@@ -78,6 +85,14 @@
 				<?php include 'tab/verification.html' ?>
 				
 				<?php include 'tab/discovery.php' ?>
+				
+				<?php
+					if ($ace_users[$user->data()->username]['tabs']) {
+						foreach ($ace_users[$user->data()->username]['tabs'] as $key => $value) {
+							include 'extensions/' . $user->data()->username . '/tab/' . $key . '.php';
+						}
+					}
+				?>
 				
 				<?php include 'tab/conformance.php' ?>
 				

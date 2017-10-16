@@ -2,7 +2,11 @@
 <?php
 
 	$ace_users = [
-		'benetech' => ['tab' => ['test']]
+		'foobar' => [
+			'tabs' => [
+				'test' => 'Test tab'
+			]
+		]
 	];
 
 ?>
