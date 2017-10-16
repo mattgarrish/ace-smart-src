@@ -96,8 +96,7 @@
 		</form>
 		
 		<footer>
-			<p>Copyright <span property="dcterms:dateCopyrighted">2017</span> <a href="http://daisy.org">DAISY Consortium</a></p>
-			<p>All Rights Reserved</p>
+			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2017</span> <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
 			<p><a href="http://www.daisy.org/terms-use">Terms of Use</a> | <a href="http://www.daisy.org/contact">Contact</a></p>
 		</footer>
 		
