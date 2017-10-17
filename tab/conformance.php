@@ -9,9 +9,9 @@
 	
 	<fieldset id="conf-result">
 		<legend>Conformance Result:</legend>
-		<label><input type="radio" name="conf-result" value="a"/> Passed - EPUB + WCAG Level A</label><br/>
-		<label><input type="radio" name="conf-result" value="aa" checked="checked"/> Passed - EPUB + WCAG Level AA</label><br/>
-		<label><input type="radio" name="conf-result" value="fail"/> Failed</label>
+		<label><input type="radio" name="conf-result" value="a"/> Pass - EPUB + WCAG Level A</label><br/>
+		<label><input type="radio" name="conf-result" value="aa"/> Pass - EPUB + WCAG Level AA</label><br/>
+		<label><input type="radio" name="conf-result" value="fail"/> Fail</label>
 	</fieldset>
 	
 	<fieldset>

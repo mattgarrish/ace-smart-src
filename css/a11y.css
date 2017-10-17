@@ -280,41 +280,31 @@ section.epub{
 	margin-left: 1rem;
 	margin-top: 3rem;
 	padding: 2rem;
-	border-radius: 1rem;
-	box-shadow: 0 0 0.5rem 0 gray;
-}
-
-section.a{
-	border: 0.1rem solid blue;
-}
-
-section.aa{
-	border: 0.1rem solid purple;
+	border-radius: 0.5rem;
+	box-shadow: 0 0 0.2rem 0 gray;
+	border-left: 0.5rem solid rgb(255,255,120);
+	background-color: rgb(255,255,250);
 }
 
 section.aaa{
-	border: 0.1rem solid yellow;
 	display: none;
-}
-
-section.epub{
-	border: 0.1rem solid orange;
 }
 
 span.a-label,
 span.aa-label,
 span.aaa-label{
 	padding-left: 0.5rem;
-	font-size: 1.2rem;
-	color: rgb(0, 0, 200);
+	font-size: 1.3rem;
+	font-weight: bold;
+	color: rgb(0,0,180);
 }
 
-span.aa-label{
-	color: rgb(0, 90, 0);
+span.aa-label {
+	color: purple;
 }
 
-span.aaa-label{
-	color: rgb(90, 0, 90);
+span.aaa-label {
+	color: orange;
 }
 
 section.a > h3,
@@ -338,9 +328,10 @@ div.buttons{
 
 input[type = "button"] {
 	font-weight: bold;
-	padding: 0.8rem 0.4rem;
+	padding: 0.6rem 0.2rem;
 	width: 10rem;
-	border-style: outset;
+	border-style: ridge;
+	border-color: rgb(27, 95, 161);
 	background-color: rgb(240,245,255);
 	color: rgb(0,0,0);
 }
@@ -455,6 +446,15 @@ section#discovery div.error{
 	font-style: italic;
 	padding: 0.5rem;
 	display: none;
+}
+
+section#discovery div.cols {
+	column-count: 3;
+	column-fill: balance;
+}
+
+section#discovery div.cols.two {
+	column-count: 2;
 }
 
 section#discovery label{
@@ -705,16 +705,30 @@ label.pad-left{
 /* status colours */
 
 .err{
-	background-color: rgb(255, 245, 245);
+	background-color: rgb(255, 245, 245) !important;
+	border-color: rgb(255, 200, 200) !important;
 }
 .na{
-	background-color: rgb(240, 240, 240);
+	background-color: rgb(240, 240, 240) !important;
+	border-color: rgb(200, 200, 200) !important;
 }
 .pass{
-	background-color: rgb(245, 255, 245);
+	background-color: rgb(245, 255, 245) !important;
+	border-color: rgb(150, 255, 150) !important;
 }
 .warn{
-	background-color: rgb(255, 255, 245);
+	background-color: rgb(255, 255, 245) !important;
+	border-color: rgb(255, 255, 180) !important;
+}
+
+.na .sc-body {
+	display: none;
+}
+
+.pass .sc-body,
+.err .sc-body,
+.unverified .sc-body {
+	display: block;
 }
 
 

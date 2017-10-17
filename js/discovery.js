@@ -239,7 +239,7 @@ Discovery.prototype.addCustomFeature = function(fname) {
 		}
 		else {
 			var addLink = document.getElementById('add-af');
-			var parentField = addLink.parentNode;
+			var colDiv = addLink.parentNode.getElementsByClassName('cols')[0];
 			
 			var newEntry = document.createElement("label");
 				newEntry.setAttribute("class", "custom");
@@ -253,7 +253,7 @@ Discovery.prototype.addCustomFeature = function(fname) {
 			
 			newEntry.appendChild(document.createTextNode(" "+fname));
 			
-			parentField.insertBefore(newEntry, addLink);
+			colDiv.appendChild(newEntry, addLink);
 		}
 	}
 	
@@ -270,27 +270,36 @@ Discovery.prototype.addSufficient = function() {
 	var parentField = addLink.parentNode;
 	
 	var newField = document.createElement("fieldset");
-	newField.setAttribute("id", "set"+num);
-	newField.setAttribute("class", "custom");
+		newField.setAttribute("id", "set"+num);
+		newField.setAttribute("class", "custom");
 	
 	var legend = document.createElement("legend");
-	legend.appendChild(document.createTextNode("Set "+num));
+		legend.appendChild(document.createTextNode("Set "+num));
+	
 	newField.appendChild(legend);
+	
+	var colDiv = document.createElement('div');
+		colDiv.setAttribute('class','cols two');
 	
 	var fields = ['auditory','tactile','textual','visual'];
 	
 	for (var i = 0; i < fields.length; i++) {
 		var newLabel = document.createElement("label");
+		
 		var newCheckbox = document.createElement("input");
-		newCheckbox.setAttribute("type", "checkbox");
-		newCheckbox.setAttribute("value",fields[i]);
+			newCheckbox.setAttribute("type", "checkbox");
+			newCheckbox.setAttribute("value",fields[i]);
+		
 		newLabel.appendChild(newCheckbox);
 		
 		var labelText = document.createTextNode(" "+fields[i]);
+		
 		newLabel.appendChild(labelText);
 		
-		newField.appendChild(newLabel);
+		colDiv.appendChild(newLabel);
 	}
+	
+	newField.appendChild(colDiv);
 	
 	parentField.insertBefore(newField, addLink);
 }

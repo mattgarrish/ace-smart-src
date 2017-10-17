@@ -109,7 +109,12 @@ Manage.prototype.saveConformanceReport = function() {
 	/* store conformance metadata */
 	
 	reportJSON += '"conformanceMeta": {'
-		reportJSON += '"result": ' + JSON.stringify(document.querySelector('input[name="conf-result"]:checked').value) + ',';
+	
+		var conf_res = document.querySelector('input[name="conf-result"]:checked');
+		if (conf_res) {
+			reportJSON += '"result": ' + JSON.stringify(conf_res.value) + ',';
+		}
+		
 		reportJSON += '"certifier": ' + JSON.stringify(document.getElementById('certifier').value) + ',';
 		
 		// multiple credentials disabled until shown to be needed
@@ -296,7 +301,9 @@ Manage.prototype.loadConformanceReport = function(reportData) {
 		})
 	}
 	
-	document.querySelector('input[name=conf-result][value="' + report_obj.conformanceMeta.result + '"]').click();
+	if (report_obj.conformanceMeta.hasOwnProperty('result')) {
+		document.querySelector('input[name=conf-result][value="' + report_obj.conformanceMeta.result + '"]').click();
+	}
 	
 	/* load credentials - multiple credentials currently disabled */
 	

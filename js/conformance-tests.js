@@ -39,7 +39,7 @@ Conformance.prototype.changeConformance = function() {
 	}
 	
 	// switch the conformance result to match new configuration
-	document.querySelector('input[name="conf-result"][value="' + this.wcag_level + '"]').click();
+	// document.querySelector('input[name="conf-result"][value="' + this.wcag_level + '"]').click();
 	
 	this.setWCAGShow();
 }
@@ -133,19 +133,19 @@ Conformance.prototype.WCAGOption = function(state) {
 
 
 Conformance.prototype.setStatus = function(obj) {
-	var parentSection = document.getElementById(obj.name); 
+	var sc_section = document.getElementById(obj.name); 
 	
 	/* clear off any existing classes */
-	parentSection.classList.remove(format.BG.PASS,format.BG.ERR,format.BG.NA);
+	sc_section.classList.remove(format.BG.PASS,format.BG.ERR,format.BG.NA);
 
 	if (obj.value == 'pass') {
-		parentSection.classList.add(format.BG.PASS);
+		sc_section.classList.add(format.BG.PASS);
 	}
 	else if (obj.value == 'fail') {
-		parentSection.classList.add(format.BG.ERR);
+		sc_section.classList.add(format.BG.ERR);
 	}
 	else if (obj.value == 'na') {
-		parentSection.classList.add(format.BG.NA);
+		sc_section.classList.add(format.BG.NA);
 	}
 	else {
 		// leave with body bg
@@ -186,6 +186,19 @@ Conformance.prototype.showSC = function(elem,status) {
 			if (this.wcag_show.indexOf('|'+sc_section.className+'|') !== -1) {
 				sc_section.style.display = 'block';
 			}
+		}
+	}
+}
+
+
+Conformance.prototype.showSCBody = function(show) {
+	var sc = document.querySelectorAll('.sc-body');
+	for (var i = 0; i < sc.length; i++) {
+		if (show) {
+			sc[i].removeAttribute('style');
+		}
+		else {
+			sc[i].style.display = 'none';
 		}
 	}
 }

@@ -11,35 +11,37 @@
 	
 	<fieldset id="accessibilityFeature">
 		<legend><a href="http://www.idpf.org/epub/a11y/techniques/#meta-003" target="_blank">Accessibility Features</a> <img src="<?= $DEFAULT_URL ?>/images/asterisk.png" alt="required"/></legend>
-		<label><input type="checkbox" value="alternativeText"/> alternative text</label>
-		<label><input type="checkbox" value="annotations"/> annotations</label>
-		<label><input type="checkbox" value="audioDescription"/> audio descriptions</label>
-		<label><input type="checkbox" value="bookmarks"/> bookmarks</label>
-		<label><input type="checkbox" value="braille"/> braille</label>
-		<label><input type="checkbox" value="captions"/> captions</label>
-		<label><input type="checkbox" value="ChemML"/> ChemML</label>
-		<label><input type="checkbox" value="describedMath"/> described math</label>
-		<label><input type="checkbox" value="displayTransformability"/> display transformability</label>
-		<label><input type="checkbox" value="highContrastAudio"/> high contrast audio</label>
-		<label><input type="checkbox" value="highContrastDisplay"/> high contrast display</label>
-		<label><input type="checkbox" value="index"/> index</label>
-		<label><input type="checkbox" value="largePrint"/> large print</label>
-		<label><input type="checkbox" value="latex"/> latex</label>
-		<label><input type="checkbox" value="longDescription"/> long descriptions</label>
-		<label><input type="checkbox" value="MathML"/> MathML</label>
-		<label><input type="checkbox" value="none"/> none</label>
-		<label><input type="checkbox" value="printPageNumbers"/> print page numbers</label>
-		<label><input type="checkbox" value="readingOrder"/> reading order</label>
-		<label><input type="checkbox" value="rubyAnnotations"/> ruby annotations</label>
-		<label><input type="checkbox" value="signLanguage"/> sign language</label>
-		<label><input type="checkbox" value="structuralNavigation"/> structural navigation</label>
-		<label><input type="checkbox" value="synchronizedAudioText"/> synchronized audio text</label>
-		<label><input type="checkbox" value="tableOfContents"/> table of contents</label>
-		<label><input type="checkbox" value="tactileGraphic"/> tactile graphic</label>
-		<label><input type="checkbox" value="tactileObject"/> tactile object</label>
-		<label><input type="checkbox" value="timingControl"/> timing control</label>
-		<label><input type="checkbox" value="transcript"/> transcript</label>
-		<label><input type="checkbox" value="ttsMarkup"/> tts markup</label>
+		<div class="cols">
+			<label><input type="checkbox" value="alternativeText"/> alternative text</label>
+			<label><input type="checkbox" value="annotations"/> annotations</label>
+			<label><input type="checkbox" value="audioDescription"/> audio descriptions</label>
+			<label><input type="checkbox" value="bookmarks"/> bookmarks</label>
+			<label><input type="checkbox" value="braille"/> braille</label>
+			<label><input type="checkbox" value="captions"/> captions</label>
+			<label><input type="checkbox" value="ChemML"/> ChemML</label>
+			<label><input type="checkbox" value="describedMath"/> described math</label>
+			<label><input type="checkbox" value="displayTransformability"/> display transformability</label>
+			<label><input type="checkbox" value="highContrastAudio"/> high contrast audio</label>
+			<label><input type="checkbox" value="highContrastDisplay"/> high contrast display</label>
+			<label><input type="checkbox" value="index"/> index</label>
+			<label><input type="checkbox" value="largePrint"/> large print</label>
+			<label><input type="checkbox" value="latex"/> latex</label>
+			<label><input type="checkbox" value="longDescription"/> long descriptions</label>
+			<label><input type="checkbox" value="MathML"/> MathML</label>
+			<label><input type="checkbox" value="none"/> none</label>
+			<label><input type="checkbox" value="printPageNumbers"/> print page numbers</label>
+			<label><input type="checkbox" value="readingOrder"/> reading order</label>
+			<label><input type="checkbox" value="rubyAnnotations"/> ruby annotations</label>
+			<label><input type="checkbox" value="signLanguage"/> sign language</label>
+			<label><input type="checkbox" value="structuralNavigation"/> structural navigation</label>
+			<label><input type="checkbox" value="synchronizedAudioText"/> synchronized audio text</label>
+			<label><input type="checkbox" value="tableOfContents"/> table of contents</label>
+			<label><input type="checkbox" value="tactileGraphic"/> tactile graphic</label>
+			<label><input type="checkbox" value="tactileObject"/> tactile object</label>
+			<label><input type="checkbox" value="timingControl"/> timing control</label>
+			<label><input type="checkbox" value="transcript"/> transcript</label>
+			<label><input type="checkbox" value="ttsMarkup"/> tts markup</label>
+		</div>
 		<div id="add-af" class="pad-top"><a href="#add-af" onclick="disc.addCustomFeature(); return false">Add custom field</a></div>
 	</fieldset>
 	
@@ -50,36 +52,44 @@
 	
 	<fieldset id="accessibilityHazard">
 		<legend><a href="http://www.idpf.org/epub/a11y/techniques/#meta-004" target="_blank">Accessibility Hazards</a> <img src="<?= $DEFAULT_URL ?>/images/asterisk.png" alt="required"/></legend>
-		<label><input type="checkbox" value="flashing"/> flashing</label>
-		<label><input type="checkbox" value="motionSimulation"/> motion simulation</label>
-		<label><input type="checkbox" value="sound"/> sound</label>
-		<label><input type="checkbox" value="none"/> none</label>
-		<label><input type="checkbox" value="unknown"/> unknown</label>
+		<div class="cols two">
+			<label><input type="checkbox" value="flashing"/> flashing</label>
+			<label><input type="checkbox" value="motionSimulation"/> motion simulation</label>
+			<label><input type="checkbox" value="sound"/> sound</label>
+			<label><input type="checkbox" value="none"/> none</label>
+			<label><input type="checkbox" value="unknown"/> unknown</label>
+		</div>
 	</fieldset>
 	
 	<fieldset id="accessMode">
 		<legend><a href="http://www.idpf.org/epub/a11y/techniques/#meta-001" target="_blank">Access Modes</a> <img src="<?= $DEFAULT_URL ?>/images/asterisk.png" alt="required"/></legend>
-		<label><input type="checkbox" id="auditory" value="auditory"/> auditory</label>
-		<label><input type="checkbox" id="tactile" value="tactile"/> tactile</label>
-		<label><input type="checkbox" id="textual" value="textual"/> textual</label>
-		<label><input type="checkbox" id="visual" value="visual"/> visual</label>
+		<div class="cols two">
+			<label><input type="checkbox" id="auditory" value="auditory"/> auditory</label>
+			<label><input type="checkbox" id="tactile" value="tactile"/> tactile</label>
+			<label><input type="checkbox" id="textual" value="textual"/> textual</label>
+			<label><input type="checkbox" id="visual" value="visual"/> visual</label>
+		</div>
 	</fieldset>
 	
 	<fieldset id="accessModeSufficient">
 		<legend><a href="http://www.idpf.org/epub/a11y/techniques/#meta-002" target="_blank">Sufficient Access Modes</a></legend>
 		<fieldset id="set1">
 			<legend>Set 1</legend>
-			<label><input type="checkbox" value="auditory"/> auditory</label>
-			<label><input type="checkbox" value="tactile"/> tactile</label>
-			<label><input type="checkbox" value="textual"/> textual</label>
-			<label><input type="checkbox" value="visual"/> visual</label>
+			<div class="cols two">
+				<label><input type="checkbox" value="auditory"/> auditory</label>
+				<label><input type="checkbox" value="tactile"/> tactile</label>
+				<label><input type="checkbox" value="textual"/> textual</label>
+				<label><input type="checkbox" value="visual"/> visual</label>
+			</div>
 		</fieldset>
 		<fieldset id="set2">
 			<legend>Set 2</legend>
-			<label><input type="checkbox" value="auditory"/> auditory</label>
-			<label><input type="checkbox" value="tactile"/> tactile</label>
-			<label><input type="checkbox" value="textual"/> textual</label>
-			<label><input type="checkbox" value="visual"/> visual</label>
+			<div class="cols two">
+				<label><input type="checkbox" value="auditory"/> auditory</label>
+				<label><input type="checkbox" value="tactile"/> tactile</label>
+				<label><input type="checkbox" value="textual"/> textual</label>
+				<label><input type="checkbox" value="visual"/> visual</label>
+			</div>
 		</fieldset>
 		<div id="add-ams" class="pad-top"><a href="#add-ams" onclick="disc.addSufficient(); return false">Add another set</a></div>
 	</fieldset>
@@ -91,12 +101,14 @@
 	
 	<fieldset id="accessibilityControl">
 		<legend><a href="http://www.idpf.org/epub/a11y/techniques/#meta-007" target="_blank">Accessibility Control</a></legend>
-		<label><input type="checkbox" value="fullKeyboardControl"/> keyboard</label>
-		<label><input type="checkbox" value="fullMouseControl"/> mouse</label>
-		<label><input type="checkbox" value="fullSwitchControl"/> switch</label>
-		<label><input type="checkbox" value="fullTouchControl"/> touch</label>
-		<label><input type="checkbox" value="fullVideoControl"/> video</label>
-		<label><input type="checkbox" value="fullVoiceControl"/> voice</label>
+		<div class="cols two">
+			<label><input type="checkbox" value="fullKeyboardControl"/> keyboard</label>
+			<label><input type="checkbox" value="fullMouseControl"/> mouse</label>
+			<label><input type="checkbox" value="fullSwitchControl"/> switch</label>
+			<label><input type="checkbox" value="fullTouchControl"/> touch</label>
+			<label><input type="checkbox" value="fullVideoControl"/> video</label>
+			<label><input type="checkbox" value="fullVoiceControl"/> voice</label>
+		</div>
 	</fieldset>
 	
 	<div class="buttons">
