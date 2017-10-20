@@ -3,29 +3,54 @@
 <section id="verification" class="js-tabcontent">
 	<h2>Conformance Verification</h2>
 	
-	<p>This section contains the list of success criteria the publication must meet to conform to the EPUB Accessibility specification.</p>
+	<p>This section contains the list of success criteria the publication must meet to conform to the EPUB Accessibility specification. Use the following fields to configure the testing criteria:</p>
 	
+	<fieldset class="flat">
+		<legend>WCAG Conformance:</legend>
+		<label><input type="radio" name="wcag-level" value="a" onchange="conf.wcag_level='a'; conf.changeConformance(); conf.WCAGOption('show');"/> Level A</label>
+		<label><input type="radio" name="wcag-level" value="aa" onchange="conf.wcag_level='aa'; conf.changeConformance(); conf.WCAGOption('disable');" checked="checked"/> Level AA</label>
+	</fieldset>
+	
+	<fieldset class="flat">
+		<legend>Show Optional Criteria:</legend>
+		<label><input type="checkbox" id="show-aa" onchange="conf.showLevel('aa', (this.checked ? true : false))" disabled="disabled"/> Level AA</label>
+		<label><input type="checkbox" id="show-aaa" onchange="conf.showLevel('aaa', (this.checked ? true : false))"/> Level AAA</label>
+	</fieldset>
+	
+	<fieldset id="exclusions" class="flat">
+		<legend>Exclude Tests For:</legend>
+		<label><input type="checkbox" id="img" value="img" onchange="conf.changeContentConformance(this,'img')"/> Images</label>
+		<label><input type="checkbox" id="audio" value="audio" onchange="conf.changeContentConformance(this,'audio')"/> Audio</label>
+		<label><input type="checkbox" id="video" value="video" onchange="conf.changeContentConformance(this,'video')"/> Video</label>
+		<label><input type="checkbox" id="script" value="script" onchange="conf.changeContentConformance(this,'script')"/> Scripting</label>
+		<!-- <label><input type="checkbox" id="forms" value="forms" onchange="conf.changeContentConformance(this,'forms')"/> Form Elements</label> -->
+	</fieldset>
+		
 	<p>Set the status of each section to Pass, Fail or Not Applicable (N/A) as you go. Note fields are provided at the bottom of each success criterion to include additional information in the final report.</p>
 	
-	<fieldset class="flat">
-		<legend>Hide success criteria with status:</legend>
-		<label><input type="checkbox" onchange="conf.showSC(this,'unverified')"/> Unverified</label>
-		<label><input type="checkbox" onchange="conf.showSC(this,'pass')"/> Pass</label>
-		<label><input type="checkbox" onchange="conf.showSC(this,'fail')"/> Fail</label>
-		<label><input type="checkbox" onchange="conf.showSC(this,'na')"/> N/A</label>
-	</fieldset>
-	
-	<fieldset class="flat">
-		<legend>Success criteria descriptions:</legend>
-		<label><input type="radio" name="sc-body" onchange="conf.showSCBody(true)" checked="checked"/> Expand all</label>
-		<label><input type="radio" name="sc-body" onchange="conf.showSCBody(false)"/> Collapse all</label>
-	</fieldset>
-	
-	<fieldset class="flat">
-		<legend>Help links:</legend>
-		<label><input type="radio" name="link-exp" onchange="conf.showLinks(false)" checked="checked"/> Collapse all</label>
-		<label><input type="radio" name="link-exp" onchange="conf.showLinks(true)"/> Expand all</label>
-	</fieldset>
+	<details id="view-opt">
+		<summary>Additional View Options</summary>
+		
+		<fieldset class="flat">
+			<legend>Hide success criteria with status:</legend>
+			<label><input type="checkbox" onchange="conf.showSC(this,'unverified')"/> Unverified</label>
+			<label><input type="checkbox" onchange="conf.showSC(this,'pass')"/> Pass</label>
+			<label><input type="checkbox" onchange="conf.showSC(this,'fail')"/> Fail</label>
+			<label><input type="checkbox" onchange="conf.showSC(this,'na')"/> N/A</label>
+		</fieldset>
+		
+		<fieldset class="flat">
+			<legend>Success criteria descriptions:</legend>
+			<label><input type="radio" name="sc-body" onchange="conf.showSCBody(true)" checked="checked"/> Expand all</label>
+			<label><input type="radio" name="sc-body" onchange="conf.showSCBody(false)"/> Collapse all</label>
+		</fieldset>
+		
+		<fieldset class="flat">
+			<legend>Help links:</legend>
+			<label><input type="radio" name="link-exp" onchange="conf.showLinks(false)" checked="checked"/> Collapse all</label>
+			<label><input type="radio" name="link-exp" onchange="conf.showLinks(true)"/> Expand all</label>
+		</fieldset>
+	</details>
 	
 	<section id="fallbacks" class="warning">
 		<h3>Warning</h3>
@@ -96,6 +121,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-text-equiv-all" target="_blank">How to meet Success Criterion 1.1.1</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 
@@ -138,6 +164,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-av-only-alt" target="_blank">How to meet Success Criterion 1.2.1</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -167,6 +194,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-captions" target="_blank">How to meet Success Criterion 1.2.2</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -203,6 +231,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-audio-err" target="_blank">How to meet Success Criterion 1.2.3</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -225,6 +254,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-real-time-captions" target="_blank">How to meet Success Criterion 1.2.4</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -252,6 +282,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-audio-desc-only" target="_blank">How to meet Success Criterion 1.2.5</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -272,6 +303,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-sign" target="_blank">How to meet Success Criterion 1.2.6</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -292,6 +324,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-extended-ad" target="_blank">How to meet Success Criterion 1.2.7</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -319,6 +352,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-text-doc" target="_blank">How to meet Success Criterion 1.2.8</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -339,6 +373,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-live-audio-only" target="_blank">How to meet Success Criterion 1.2.9</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 
@@ -409,6 +444,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-content-structure-separation-programmatic" target="_blank">How to meet Success Criterion 1.3.1</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -447,6 +483,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-content-structure-separation-sequence" target="_blank">How to meet Success Criterion 1.3.2</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -474,6 +511,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-content-structure-separation-understanding" target="_blank">How to meet Success Criterion 1.3.3</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 
@@ -499,6 +537,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-without-color" target="_blank">How to meet Success Criterion 1.4.1</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -528,6 +567,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-dis-audio" target="_blank">How to meet Success Criterion 1.4.2</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -555,6 +595,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-contrast" target="_blank">How to meet Success Criterion 1.4.3</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -575,6 +616,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-scale" target="_blank">How to meet Success Criterion 1.4.4</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -603,6 +645,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-text-presentation" target="_blank">How to meet Success Criterion 1.4.5</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -630,6 +673,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast7" target="_blank">How to meet Success Criterion 1.4.6</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -656,6 +700,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-noaudio" target="_blank">How to meet Success Criterion 1.4.7</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -682,6 +727,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-visual-presentation" target="_blank">How to meet Success Criterion 1.4.8</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -709,6 +755,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-text-images" target="_blank">How to meet Success Criterion 1.4.9</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 
@@ -739,6 +786,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-keyboard-operation-keyboard-operable" target="_blank">How to meet Success Criterion 2.1.1</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -761,6 +809,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-keyboard-operation-trapping" target="_blank">How to meet Success Criterion 2.1.2</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -788,6 +837,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-keyboard-operation-all-funcs" target="_blank">How to meet Success Criterion 2.1.3</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 
@@ -815,6 +865,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-required-behaviors" target="_blank">How to meet Success Criterion 2.2.1</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -838,6 +889,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-pause" target="_blank">How to meet Success Criterion 2.2.2</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -856,6 +908,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-no-exceptions" target="_blank">How to meet Success Criterion 2.2.3</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -875,6 +928,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-postponed" target="_blank">How to meet Success Criterion 2.2.4</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -893,6 +947,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-server-timeout" target="_blank">How to meet Success Criterion 2.2.5</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 
@@ -912,6 +967,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-seizure-does-not-violate" target="_blank">How to meet Success Criterion 2.3.1</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -932,6 +988,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-seizure-three-times" target="_blank">How to meet Success Criterion 2.3.2</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 
@@ -952,6 +1009,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-skip" target="_blank">How to meet Success Criterion 2.4.1</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -980,6 +1038,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-title" target="_blank">How to meet Success Criterion 2.4.2</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -998,6 +1057,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-focus-order" target="_blank">How to meet Success Criterion 2.4.3</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1016,6 +1076,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-refs" target="_blank">How to meet Success Criterion 2.4.4</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1050,6 +1111,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-mult-loc" target="_blank">How to meet Success Criterion 2.4.5</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1068,6 +1130,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-descriptive" target="_blank">How to meet Success Criterion 2.4.6</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1086,6 +1149,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-focus-visibles" target="_blank">How to meet Success Criterion 2.4.7</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1106,6 +1170,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-location" target="_blank">How to meet Success Criterion 2.4.8</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1126,6 +1191,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-link" target="_blank">How to meet Success Criterion 2.4.9</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1144,6 +1210,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-headings" target="_blank">How to meet Success Criterion 2.4.10</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 
@@ -1174,6 +1241,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-doc-lang-id" target="_blank">How to meet Success Criterion 3.1.1</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1201,6 +1269,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-other-lang-id" target="_blank">How to meet Success Criterion 3.1.2</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1224,6 +1293,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-idioms" target="_blank">How to meet Success Criterion 3.1.3</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1242,6 +1312,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-located" target="_blank">How to meet Success Criterion 3.1.4</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1260,6 +1331,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-supplements" target="_blank">How to meet Success Criterion 3.1.5</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1278,6 +1350,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-pronunciation" target="_blank">How to meet Success Criterion 3.1.6</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1298,6 +1371,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-receive-focus" target="_blank">How to meet Success Criterion 3.2.1</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1316,6 +1390,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-unpredictable-change" target="_blank">How to meet Success Criterion 3.2.2</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1334,6 +1409,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-consistent-locations" target="_blank">How to meet Success Criterion 3.2.3</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1352,6 +1428,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-consistent-functionality" target="_blank">How to meet Success Criterion 3.2.4</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1370,6 +1447,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-no-extreme-changes-context" target="_blank">How to meet Success Criterion 3.2.5</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1395,6 +1473,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-identified" target="_blank">How to meet Success Criterion 3.3.1</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1420,6 +1499,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-cues" target="_blank">How to meet Success Criterion 3.3.2</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1445,6 +1525,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-suggestions" target="_blank">How to meet Success Criterion 3.3.3</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1469,6 +1550,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-reversible" target="_blank">How to meet Success Criterion 3.3.4</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1488,6 +1570,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-context-help" target="_blank">How to meet Success Criterion 3.3.5</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1512,6 +1595,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-reversible-all" target="_blank">How to meet Success Criterion 3.3.6</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 
@@ -1530,6 +1614,7 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-ensure-compat-parses" target="_blank">How to meet Success Criterion 4.1.1</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
@@ -1555,11 +1640,12 @@
 					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-ensure-compat-rsv" target="_blank">How to meet Success Criterion 4.1.2</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 
 	<section id="eg-1" class="epub">
-		<h3><span class="label">Page Numbers</span></h3>
+		<h3><span class="label">Page Numbers</span> <span class="epub-label">[ EPUB ]</span></h3>
 		
 		<div class="sc-body">
 			<p>If the publication includes pagination, ensure the following are true:</p>
@@ -1578,11 +1664,12 @@
 					<li><a href="http://kb.daisy.org/publishing/docs/navigation/pagelist.html" target="_blank">Page Navigation</a></li>
 				</ul>
 			</details>
+			<hr/>
 		</div>
 	</section>
 	
 	<section id="eg-2" class="epub">
-		<h3><span class="label">Media Overlays</span></h3>
+		<h3><span class="label">Media Overlays</span> <span class="epub-label">[ EPUB ]</span></h3>
 		
 		<div class="sc-body">
 			<p class="note">Media Overlay practices are currently only informative. Failure to meet the requirements of the

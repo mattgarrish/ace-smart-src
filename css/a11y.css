@@ -292,7 +292,8 @@ section.aaa{
 
 span.a-label,
 span.aa-label,
-span.aaa-label{
+span.aaa-label,
+span.epub-label {
 	padding-left: 0.5rem;
 	font-size: 1.3rem;
 	font-weight: bold;
@@ -305,6 +306,10 @@ span.aa-label {
 
 span.aaa-label {
 	color: orange;
+}
+
+span.epub-label {
+	color: brown;
 }
 
 section.a > h3,
@@ -360,7 +365,6 @@ details + details {
 hr {
 	margin: 2rem auto;
 	border-color: rgb(240,245,255);
-	width: 90%;
 }
 
 /* lists */
@@ -438,6 +442,27 @@ fieldset.flat > legend {
 	display: inline !important;
 	margin: 0;
 	padding: 0;
+}
+
+fieldset.status > label {
+	margin-left: 2rem; 
+}
+
+section#verification > fieldset,
+details#view-opt > fieldset {
+	margin: 1rem;
+}
+
+section#verification > fieldset > legend {
+	width: 18rem;
+}
+
+section#verification > fieldset > label {
+	width: 7rem;
+}
+
+details#view-opt > fieldset > legend {
+	width: 25rem;
 }
 
 /* discovery metadata */
@@ -774,27 +799,10 @@ figcaption{
 
 /* pub info fieldsets */
 
-section#start > fieldset{
-	border: none;
-	margin: 0.3rem 0;
-	padding: 0;
-	display: block;
-}
-
-section#start > fieldset > legend{
-	font-weight: normal;
-	color: rgb(0, 0, 0);
+div.data > fieldset.flat > legend {
+	color: rgb(0,0,0) !important;
 	width: 20rem;
-	margin: 0;
-	padding: 0;
-	display: inline-block !important;
-	float: left;
 }
-
-section#start > fieldset > label{
-	display: inline-block !important;
-}
-
 
 /* initial hide alt statements for checks */
 

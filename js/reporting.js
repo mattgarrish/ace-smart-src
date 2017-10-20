@@ -442,7 +442,7 @@ Report.prototype.addReporting = function() {
 		
 		/*  add the status radio buttons */
 		var status = document.createElement('fieldset');
-			status.setAttribute('class','status');
+			status.setAttribute('class','flat status');
 		
 		var status_legend = document.createElement('legend');
 			status_legend.appendChild(document.createTextNode('Status:'));

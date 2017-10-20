@@ -71,18 +71,10 @@ Conformance.prototype.changeContentConformance = function(elem,type) {
 	if (type=='audio' || type=='video') {
 		var av = (document.getElementById('audio').checked || document.getElementById('video').checked) ? false : true;
 		for (var i = 0; i < this.SC_TYPE.av.length; i++) {
-			var sc_section = document.getElementById(this.SC_TYPE.av[i]);
-			var sc_req = sc_section.querySelector('div.sc-body');
-			if (this.wcag_show.indexOf('|'+sc_section.className+'|') !== -1) {
-				//console.log(this.SC_TYPE.av[i]);
-				if (sc_req !== null) {
-					sc_req.style.display = elem.checked ? 'none' : 'block';
-				}
-				// don't flip the status unless av is true or the status is currently 'na' (avoids overriding legit status when loading a saved report)
-				var sc_status = document.querySelector('input[name="' + this.SC_TYPE.av[i] + '"]:checked').value;
-				if (av || sc_status == 'unverified') {
-					document.querySelector('input[name="' + this.SC_TYPE.av[i] + '"][value="' + (av ? 'unverified' : 'na') + '"]').click();
-				}
+			// don't flip the status unless av is true or the status is currently 'na' (avoids overriding legit status when loading a saved report)
+			var sc_status = document.querySelector('input[name="' + this.SC_TYPE.av[i] + '"]:checked').value;
+			if (av || sc_status == 'unverified') {
+				document.querySelector('input[name="' + this.SC_TYPE.av[i] + '"][value="' + (av ? 'unverified' : 'na') + '"]').click();
 			}
 		}
 	}
@@ -91,33 +83,17 @@ Conformance.prototype.changeContentConformance = function(elem,type) {
 	if (type=='forms' || type=='script') {
 		var sf = (document.getElementById('forms').checked || document.getElementById('script').checked) ? false : true;
 		for (var i = 0; i < this.SC_TYPE.sf.length; i++) {
-			var sc_section = document.getElementById(this.SC_TYPE.sf[i]);
-			var sc_req = sc_section.querySelector('div.sc-body');
-			if (this.wcag_show.indexOf('|'+sc_section.className+'|') !== -1) {
-				//console.log(this.SC_TYPE.sf[i]);
-				if (sc_req !== null) {
-					sc_req.style.display = elem.checked ? 'none' : 'block';
-				}
-				// don't flip the status unless av is true or the status is currently 'na' (avoids overriding legit status when loading a saved report)
-				var sc_status = document.querySelector('input[name="' + this.SC_TYPE.sf[i] + '"]:checked').value;
-				if (sf || sc_status == 'na') {
-					document.querySelector('input[name="' + this.SC_TYPE.sf[i] + '"][value="' + (sf ? 'unverified' : 'na') + '"]').click();
-				}
+			// don't flip the status unless av is true or the status is currently 'na' (avoids overriding legit status when loading a saved report)
+			var sc_status = document.querySelector('input[name="' + this.SC_TYPE.sf[i] + '"]:checked').value;
+			if (sf || sc_status == 'na') {
+				document.querySelector('input[name="' + this.SC_TYPE.sf[i] + '"][value="' + (sf ? 'unverified' : 'na') + '"]').click();
 			}
 		}
 	}
 	
 	// hide/show all individual SC for the checked content type
 	for (var i = 0; i < this.SC_TYPE[type].length; i++) {
-		var sc_section = document.getElementById(this.SC_TYPE[type][i]);
-		var sc_req = sc_section.querySelector('div.sc-body');
-		if (this.wcag_show.indexOf('|'+sc_section.className+'|') !== -1) {
-			//console.log(this.SC_TYPE[type][i]);
-			if (sc_req !== null) {
-				sc_req.style.display = elem.checked ? 'none' : 'block';
-			}
-			document.querySelector('input[name="' + this.SC_TYPE[type][i] + '"][value="' + (elem.checked ? 'na' : 'unverified') + '"]').click();
-		}
+		document.querySelector('input[name="' + this.SC_TYPE[type][i] + '"][value="' + (elem.checked ? 'na' : 'unverified') + '"]').click();
 	}
 }
 

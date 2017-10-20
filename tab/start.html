@@ -3,7 +3,7 @@
 	
 	<p class="no-title">Welcome to the EPUB Accessibility Conformance and Reporting tool</p>
 	
-	<p>This tool provides manual conformance checks necessary to ensure compliance with EPUB and WCAG requirements, and is intended to be used in conjunction with the <a href="https://github.com/daisy/ace-core/releases">DAISY Ace</a> accessibility checker.</p>
+	<p>This tool provides manual conformance checks necessary to ensure compliance with EPUB and WCAG requirements. It is designed to be used in conjunction with the <a href="https://github.com/daisy/ace-core/releases">DAISY Ace</a> accessibility checker.</p>
 	
 	<p>The first step is to load an Ace JSON report (<code>ace.json</code>) or a previously saved report:</p>
 	
@@ -21,43 +21,17 @@
 		</form>
 	</div>
 	
-	<p class="instr">Next, verify the EPUB version of the publication and the WCAG conformance level you want to check:</p>
-	
 	<form class="report">
-		<fieldset>
-			<legend>Format:</legend>
-			<!-- <div><small>Note: This setting also controls the format of the discovery and conformance metadata.</small></div> -->
-			<label><input type="radio" name="epub-format" value="3" onchange="format.setVersion('3')" checked="checked"/> EPUB 3</label>
-			<label><input type="radio" name="epub-format" value="2" onchange="format.setVersion('2')"/> EPUB 2</label>
-		</fieldset>
-		
-		<fieldset>
-			<legend>WCAG Conformance:</legend>
-			<label><input type="radio" name="wcag-level" value="a" onchange="conf.wcag_level='a'; conf.changeConformance(); conf.WCAGOption('show');"/> Level A</label>
-			<label><input type="radio" name="wcag-level" value="aa" onchange="conf.wcag_level='aa'; conf.changeConformance(); conf.WCAGOption('disable');" checked="checked"/> Level AA</label>
-		</fieldset>
-		
-		<fieldset id="exclusions">
-			<legend>Exclude Tests For:</legend>
-			<div class="instr">Check the following only if you are sure the publication does not contain the specified content.</div>
-			<label><input type="checkbox" id="img" value="img" onchange="conf.changeContentConformance(this,'img')"/> Images</label>
-			<label><input type="checkbox" id="audio" value="audio" onchange="conf.changeContentConformance(this,'audio')"/> Audio</label>
-			<label><input type="checkbox" id="video" value="video" onchange="conf.changeContentConformance(this,'video')"/> Video</label>
-			<label><input type="checkbox" id="script" value="script" onchange="conf.changeContentConformance(this,'script')"/> Scripting</label>
-			<!-- <label><input type="checkbox" id="forms" value="forms" onchange="conf.changeContentConformance(this,'forms')"/> Form Elements</label> -->
-		</fieldset>
-		
-		<fieldset>
-			<legend>Optional Criteria</legend>
-			<div class="instr">Select to show additional success criteria in the verification tab above the level being tested.</div>
-			
-			<label class="show-xtra"><input type="checkbox" id="show-aa" onchange="conf.showLevel('aa', (this.checked ? true : false))" disabled="disabled"/> Level AA</label>
-			<label class="show-xtra"><input type="checkbox" id="show-aaa" onchange="conf.showLevel('aaa', (this.checked ? true : false))"/> Level AAA</label>
-		</fieldset>
-		
-		<p class="instr">Finally, if you plan to generate a report, ensure the following publication information is complete and accurate. Required fields are denoted by an asterisk.</p>
+		<p class="instr">If you intend to generate a conformance report, ensure the following publication information is complete and accurate. Required fields are denoted by an asterisk.</p>
 			
 		<div class="data">
+			<fieldset class="flat">
+				<legend>Format:</legend>
+				<!-- <div><small>Note: This setting also controls the format of the discovery and conformance metadata.</small></div> -->
+				<label><input type="radio" name="epub-format" value="3" onchange="format.setVersion('3')" checked="checked"/> EPUB 3</label>
+				<label><input type="radio" name="epub-format" value="2" onchange="format.setVersion('2')"/> EPUB 2</label>
+			</fieldset>
+			
 			<label class="data"><span>Title:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="title" aria-required="true"/></label>
 			<label class="data"><span>Author(s):</span> <input type="text" id="creator"/></label>
 			<label class="data"><span>Identifier:</span> <input type="text" id="identifier"/></label>
