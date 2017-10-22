@@ -1,4 +1,6 @@
-# DAISY EPUB Accessibility Conformance and Reporting
+# Accessibility Standards Testing and Reporting (Star) Tool
+
+This repository hosts the source code for the DAISY Accessibility Star tool. To view the site, go to ...
 
 ## User Admin
 
