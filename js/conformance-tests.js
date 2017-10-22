@@ -10,8 +10,8 @@ function Conformance() {
 	this.SC_TYPE.audio = ['sc-1.4.2','sc-1.4.7'];
 	this.SC_TYPE.video = ['sc-1.2.2','sc-1.2.3','sc-1.2.5','sc-1.2.6','sc-1.2.7','sc-1.2.8'];
 	this.SC_TYPE.av = ['sc-1.2.1','sc-1.2.4','sc-1.2.9'];
-	this.SC_TYPE.script = ['sc-2.2.1','sc-2.2.4','sc-2.2.5','sc-3.2.1','sc-3.2.2'];
-	this.SC_TYPE.forms = ['sc-2.4.3','sc-3.3.1','sc-3.3.2','sc-3.3.3','sc-3.3.4'];
+	this.SC_TYPE.script = ['sc-2.2.1','sc-2.2.4','sc-2.2.5','sc-3.2.1','sc-3.2.2','sc-3.3.1','sc-3.3.2','sc-3.3.3','sc-3.3.4','sc-3.3.5','sc-3.3.6'];
+	this.SC_TYPE.forms = ['sc-2.4.3'];
 	this.SC_TYPE.sf = ['sc-4.1.2'];
 
 }

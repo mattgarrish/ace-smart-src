@@ -3,30 +3,32 @@
 <section id="verification" class="js-tabcontent">
 	<h2>Conformance Verification</h2>
 	
-	<p>This section contains the list of success criteria the publication must meet to conform to the EPUB Accessibility specification. Use the following fields to configure the testing criteria:</p>
+	<p>This section contains the list of success criteria the publication must meet to conform to the EPUB Accessibility specification.</p>
 	
-	<fieldset class="flat">
-		<legend>WCAG Conformance:</legend>
-		<label><input type="radio" name="wcag-level" value="a" onchange="conf.wcag_level='a'; conf.changeConformance(); conf.WCAGOption('show');"/> Level A</label>
-		<label><input type="radio" name="wcag-level" value="aa" onchange="conf.wcag_level='aa'; conf.changeConformance(); conf.WCAGOption('disable');" checked="checked"/> Level AA</label>
-	</fieldset>
+	<p>Use the following fields to configure the testing criteria:</p>
 	
-	<fieldset class="flat">
-		<legend>Show Optional Criteria:</legend>
-		<label><input type="checkbox" id="show-aa" onchange="conf.showLevel('aa', (this.checked ? true : false))" disabled="disabled"/> Level AA</label>
-		<label><input type="checkbox" id="show-aaa" onchange="conf.showLevel('aaa', (this.checked ? true : false))"/> Level AAA</label>
-	</fieldset>
-	
-	<fieldset id="exclusions" class="flat">
-		<legend>Exclude Tests For:</legend>
-		<label><input type="checkbox" id="img" value="img" onchange="conf.changeContentConformance(this,'img')"/> Images</label>
-		<label><input type="checkbox" id="audio" value="audio" onchange="conf.changeContentConformance(this,'audio')"/> Audio</label>
-		<label><input type="checkbox" id="video" value="video" onchange="conf.changeContentConformance(this,'video')"/> Video</label>
-		<label><input type="checkbox" id="script" value="script" onchange="conf.changeContentConformance(this,'script')"/> Scripting</label>
-		<!-- <label><input type="checkbox" id="forms" value="forms" onchange="conf.changeContentConformance(this,'forms')"/> Form Elements</label> -->
-	</fieldset>
+	<div class="form-data">
+		<fieldset class="flat">
+			<legend>WCAG Conformance:</legend>
+			<label><input type="radio" name="wcag-level" value="a" onchange="conf.wcag_level='a'; conf.changeConformance(); conf.WCAGOption('show');"/> Level A</label>
+			<label><input type="radio" name="wcag-level" value="aa" onchange="conf.wcag_level='aa'; conf.changeConformance(); conf.WCAGOption('disable');" checked="checked"/> Level AA</label>
+		</fieldset>
 		
-	<p>Set the status of each section to Pass, Fail or Not Applicable (N/A) as you go. Note fields are provided at the bottom of each success criterion to include additional information in the final report.</p>
+		<fieldset class="flat">
+			<legend>Show Optional Criteria:</legend>
+			<label><input type="checkbox" id="show-aa" onchange="conf.showLevel('aa', (this.checked ? true : false))" disabled="disabled"/> Level AA</label>
+			<label><input type="checkbox" id="show-aaa" onchange="conf.showLevel('aaa', (this.checked ? true : false))"/> Level AAA</label>
+		</fieldset>
+		
+		<fieldset id="exclusions" class="flat">
+			<legend>Exclude Tests For:</legend>
+			<label><input type="checkbox" id="img" value="img" onchange="conf.changeContentConformance(this,'img')"/> Images</label>
+			<label><input type="checkbox" id="audio" value="audio" onchange="conf.changeContentConformance(this,'audio')"/> Audio</label>
+			<label><input type="checkbox" id="video" value="video" onchange="conf.changeContentConformance(this,'video')"/> Video</label>
+			<label><input type="checkbox" id="script" value="script" onchange="conf.changeContentConformance(this,'script')"/> Scripting</label>
+			<!-- <label><input type="checkbox" id="forms" value="forms" onchange="conf.changeContentConformance(this,'forms')"/> Form Elements</label> -->
+		</fieldset>
+	</div>
 	
 	<details id="view-opt">
 		<summary>Additional View Options</summary>
@@ -51,6 +53,8 @@
 			<label><input type="radio" name="link-exp" onchange="conf.showLinks(true)"/> Expand all</label>
 		</fieldset>
 	</details>
+	
+	<p>Set the status of each section to Pass, Fail or Not Applicable (N/A) as you go. Note fields are provided at the bottom of each success criterion to include additional information in the final report.</p>
 	
 	<section id="fallbacks" class="warning">
 		<h3>Warning</h3>
@@ -228,7 +232,7 @@
 				<summary>WCAG Documentation</summary>
 				<ul>
 					<li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-audio-desc.html" target="_blank">Understanding Success Criterion 1.2.3</a></li>
-					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-audio-err" target="_blank">How to meet Success Criterion 1.2.3</a></li>
+					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-audio-desc" target="_blank">How to meet Success Criterion 1.2.3</a></li>
 				</ul>
 			</details>
 			<hr/>
@@ -471,7 +475,7 @@
 				<summary>Knowledge Base and Techniques</summary>
 				<ul>
 					<li><a href="http://kb.daisy.org/publishing/docs/html/order.html" target="_blank">Logical Reading Order</a></li>
-					<li><a href="http://kb.daisy.org/publishing/docs/html/section.html" target="_blank">Sections</a></li>
+					<li><a href="http://kb.daisy.org/publishing/docs/html/sections.html" target="_blank">Sections</a></li>
 					<li><a href="http://www.idpf.org/epub/a11y/techniques/#access-001" target="_blank">ACCESS-001: Ensure Linear Reading Order</a></li>
 				</ul>
 			</details>
@@ -1146,7 +1150,7 @@
 				<summary>WCAG Documentation</summary>
 				<ul>
 					<li><a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-focus-visible.html" target="_blank">Understanding Success Criterion 2.4.7</a></li>
-					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-focus-visibles" target="_blank">How to meet Success Criterion 2.4.7</a></li>
+					<li><a href="https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-focus-visible" target="_blank">How to meet Success Criterion 2.4.7</a></li>
 				</ul>
 			</details>
 			<hr/>

@@ -195,7 +195,7 @@ a.save-button,
 a.clear-button {
 	font-size: 1.1rem !important;
 	float: right;
-	background-color: ghostwhite;
+	background-color: rgb(‎248, 248, 255);
 	color: rgb(0,0,220);
 	border: 0.1rem solid rgb(0,0,220);
 	padding: 0.2rem 1.6rem !important;
@@ -301,15 +301,15 @@ span.epub-label {
 }
 
 span.aa-label {
-	color: purple;
+	color: rgb(128,0,128);
 }
 
 span.aaa-label {
-	color: orange;
+	color: rgb(255,165,0);
 }
 
 span.epub-label {
-	color: brown;
+	color: rgb(165,42,42);
 }
 
 section.a > h3,
@@ -331,7 +331,7 @@ div.buttons{
 	padding: 4rem 1rem 2rem 1rem;
 }
 
-input[type = "button"] {
+input[type="button"] {
 	font-weight: bold;
 	padding: 0.6rem 0.2rem;
 	width: 10rem;
@@ -339,6 +339,11 @@ input[type = "button"] {
 	border-color: rgb(27, 95, 161);
 	background-color: rgb(240,245,255);
 	color: rgb(0,0,0);
+	box-shadow: 0 0 1rem 0 skyblue;
+}
+
+input[type="button"]:hover {
+	box-shadow: 0 0 1rem 0 cadetblue;
 }
 
 input[type = "checkbox"]{
@@ -410,17 +415,31 @@ li.epub-trigger {
 
 fieldset{
 	max-width: 65rem;
-	margin-top: 2.5rem;
-	border: 1px solid gray;
+	border: none;
+	border-left: 0.6rem double cornflowerblue;
+	background-color: rgb(240,248,255);
+	border-radius: 0.5rem;
+	box-shadow: 0 0 0.2rem 0 grey;
 }
 
-legend + fieldset{
+fieldset fieldset {
+	box-shadow: none !important;
+	border: none !important;
+	background-color: inherit !important;
+}
+
+fieldset fieldset > legend {
+	padding-top: 0 !important;
+}
+
+legend + fieldset {
 	margin-top: 0.5em;
 }
 
 legend{
 	color: rgb(0, 0, 90);
 	font-weight: bold;
+	padding-top: 4rem;
 }
 
 fieldset > .note{
@@ -444,25 +463,58 @@ fieldset.flat > legend {
 	padding: 0;
 }
 
+fieldset.status {
+	box-shadow: none !important;
+	background-color: inherit !important;
+}
+
 fieldset.status > label {
 	margin-left: 2rem; 
 }
 
-section#verification > fieldset,
-details#view-opt > fieldset {
+section#verification > div.form-data > fieldset,
+div.form-data > fieldset,
+div.form-data > label {
 	margin: 1rem;
 }
 
-section#verification > fieldset > legend {
+section#verification > div.form-data > fieldset > legend {
 	width: 18rem;
 }
 
-section#verification > fieldset > label {
+section#verification > div.form-data > fieldset > label {
 	width: 7rem;
+}
+
+div.form-data {
+	border-left: 0.6rem double cornflowerblue;
+	padding-left: 1rem;
+	background-color: rgb(240,248,255);
+	padding: 0.3rem 0;
+	border-radius: 0.5rem;
+	box-shadow: 0 0 0.2rem 0 grey;
+}
+
+div.form-data > fieldset {
+	box-shadow: none !important;
+}
+
+details#view-opt {
+	margin-top: 2rem;
+}
+
+details#view-opt > fieldset {
+	margin: 1rem;
+	padding: 1rem;
 }
 
 details#view-opt > fieldset > legend {
 	width: 25rem;
+}
+
+h2 + fieldset,
+p + fieldset {
+	margin-top: -2.5rem;
 }
 
 /* discovery metadata */
@@ -815,6 +867,41 @@ div.data > fieldset.flat > legend {
 	display: none;
 }
 
+
+/* fieldset/details hacks for IE 10+ */
+
+details {
+	display: block;
+}
+
+_:-ms-lang(x), _:-webkit-full-screen, legend {
+		padding-top: 0rem;
+	}
+	
+_:-ms-lang(x), _:-webkit-full-screen, fieldset {
+		margin-top: 2rem;
+	}
+	
+_:-ms-lang(x), _:-webkit-full-screen, h2 + fieldset,
+_:-ms-lang(x), _:-webkit-full-screen, p + fieldset {
+		margin-top: 0rem;
+	}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	
+	legend {
+		padding-top: 0rem;
+	}
+	
+	fieldset {
+		margin-top: 2rem;
+	}
+	
+	h2 + fieldset,
+	p + fieldset {
+		margin-top: 0rem;
+	}
+}
 
 /* optimizations for phone screens */
 @media only screen

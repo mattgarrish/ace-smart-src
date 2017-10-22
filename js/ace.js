@@ -227,7 +227,7 @@ Ace.prototype.configureReporting = function() {
 	this.setEPUBFeatureWarnings();
 	
 	if (alert_list) {
-		alert('The following content types were not reported present in the publication:\n\n' + alert_list + '\nChecks related to them have been turned off. To re-enable these checks, refer to the WCAG configuration options.');
+		alert('The following content types were not reported present in the publication:\n\n' + alert_list + '\nChecks related to them have been turned off. To re-enable these checks, see the verification tab.');
 	}
 }
 

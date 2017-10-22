@@ -2,7 +2,6 @@
 .container
 {
 	width: 100%;
-	max-width: 67.5rem;
 	text-align: center;
 	margin: 0;
 }
@@ -61,12 +60,12 @@
 .box
 {
 	font-size: 1.25rem; /* 20 */
-	background-color: rgb(240,245,255);
+	background-color: rgb(240,248,255);
 	position: relative;
 }
 .box.has-advanced-upload
 {
-	outline: 2px dashed rgb(60,120,150);
+	outline: 4px double rgb(100,149,237);
 	outline-offset: -10px;
 	-webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
 	transition: outline-offset .15s ease-in-out, background-color .15s linear;
