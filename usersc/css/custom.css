@@ -1,0 +1,18 @@
+
+h1.ace_login_hd {
+	font-size: 140%;
+	color: rgb(255,255,255)
+}
+
+h1.ace_login_hd > span:first-child{
+	padding-right: 0.5rem;
+}
+
+img.logo{
+	vertical-align: middle;
+	margin-top: -3px;
+}
+
+.navbar-inverse {
+    background-color: rgb(27,95,161) !important;
+}
