@@ -79,7 +79,7 @@ Conformance.prototype.changeContentConformance = function(elem,type) {
 		}
 	}
 	
-	// check whether to hide forms+scripting SC
+	/* check whether to hide forms+scripting SC
 	if (type=='forms' || type=='script') {
 		var sf = (document.getElementById('forms').checked || document.getElementById('script').checked) ? false : true;
 		for (var i = 0; i < this.SC_TYPE.sf.length; i++) {
@@ -89,7 +89,7 @@ Conformance.prototype.changeContentConformance = function(elem,type) {
 				document.querySelector('input[name="' + this.SC_TYPE.sf[i] + '"][value="' + (sf ? 'unverified' : 'na') + '"]').click();
 			}
 		}
-	}
+	}*/
 	
 	// hide/show all individual SC for the checked content type
 	for (var i = 0; i < this.SC_TYPE[type].length; i++) {
