@@ -1,4 +1,6 @@
-# DAISY EPUB Accessibility Conformance and Reporting Tool
+# EPUB Accessibility Conformance and Reporting Tool
+
+This repository hosts the source code for the EPUB Accessibility Conformance and Reporting tool. To view the site, go to ...
 
 ## User Admin
 
