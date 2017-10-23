@@ -1,4 +1,4 @@
-# DAISY EPUB Accessibility Conformance and Reporting
+# DAISY EPUB Accessibility Conformance and Reporting Tool
 
 ## User Admin
 

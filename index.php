@@ -6,7 +6,7 @@
 <html lang="en" prefix="dcterms: http://purl.org/dc/terms/ schema: http://schema.org/" typeof="schema:WebPage">
 	<head>
 		<meta charset="utf-8"/>
-		<title>EPUB Accessibility Conformance and Reporting</title>
+		<title>EPUB Accessibility Conformance and Reporting Tool</title>
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" href="css/a11y.css"/>
 		<?php
@@ -20,7 +20,7 @@
 		
 		<!-- DC metadata --> 
 		<meta property="dcterms:created" content="2017-03-02"/>
-		<meta property="dcterms:description" content="The EPUB Accessibility Conformance and Reporting tool aids in the evaluation of EPUB publication for conformance to the EPUB Accessibility specification."/>
+		<meta property="dcterms:description" content="The EPUB Accessibility Conformance and Reporting Tool tool aids in the evaluation of EPUB publication for conformance to the EPUB Accessibility specification."/>
 		<meta property="dcterms:language" content="en"/>
 		
 		<!-- schema.org a11y metadata -->
@@ -41,7 +41,7 @@
 		<header>
 			<div class="id">You are logged in as <code><?php echo $user->data()->username; ?></code> <a href="users/logout.php">Log out</a></div>
 			
-			<h1><span property="dcterms:publisher"><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium"/></span> <span property="dcterms:title">EPUB Accessibility Conformance and Reporting</span></h1>
+			<h1><span property="dcterms:publisher"><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium"/></span> <span property="dcterms:title">EPUB Accessibility Conformance and Reporting Tool</span></h1>
 			
 			<nav class="menubar">
 				<a>Home</a>

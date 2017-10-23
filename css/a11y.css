@@ -677,6 +677,19 @@ div.data > div{
 	margin-bottom: 0.8rem;
 }
 
+
+/* misc formatting */
+
+span.hlt-first {
+	display:inline-block;
+}
+
+span.hlt-first::first-letter {
+	color: rgb(11,84,168);
+	font-weight: bold;
+}
+
+
 /* optimizations for phone screens in portrait orientation */
 @media only screen
  and (max-device-width : 480px)
