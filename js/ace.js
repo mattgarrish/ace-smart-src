@@ -13,8 +13,20 @@ Ace.prototype.loadReport = function(json) {
 
 	manage.clear(true);
 	
-	// add metadata
+	this.loadMetadata();
 	
+	this.interpretAccessibilityMetadata();
+	
+	// configure manual checks
+	this.configureReporting();
+	
+	/* save the report for reloading */
+	document.getElementById('report').value = this.report;
+}
+
+
+Ace.prototype.loadMetadata = function() {
+
 	// load DC metadata
 	var dc = ['title', 'identifier', 'creator', 'publisher', 'date', 'description', 'subject'];
 	
@@ -37,16 +49,8 @@ Ace.prototype.loadReport = function(json) {
 	
 	// load certifier metadata - todo: unlikely to be present, but never know
 	this.setMetadataString('certifier','a11y:certifiedBy');
-	
-	
-	
-	// configure manual checks
-	
-	this.configureReporting();
-	
-	/* save the report for reloading */
-	document.getElementById('report').value = this.report;
 }
+
 
 Ace.prototype.setMetadataString = function(id,prop) {
 
@@ -104,6 +108,7 @@ Ace.prototype.setDate = function(id,prop) {
 	document.getElementById(id).value = (date == '') ? date : new Date(date).toLocaleDateString("en",date_options);
 
 }
+
 
 Ace.prototype.formatIdentifier = function(identifier) {
 	if (identifier.match(/urn:isbn:/i)) {
@@ -196,6 +201,22 @@ Ace.prototype.setSufficientSets = function() {
 }
 
 
+
+Ace.prototype.interpretAccessibilityMetadata = function() {
+
+	// parse out a11y metadata values to set based on the report info
+	
+	if (this.report['a11y-metadata']['present'].length > 0) {
+		// if publication contains metadata, don't suggest more
+		return;
+	}
+	
+	if (this.report['properties']['hasMathML']) { document.querySelector('input[type="checkbox"][value="MathML"]').click() }
+	if (this.report['properties']['hasPageBreaks']) { document.querySelector('input[type="checkbox"][value="printPageNumbers"]').click() }
+
+}
+
+
 Ace.prototype.configureReporting = function() {
 	
 	// this should be uncommented once all content info is in data and doesn't have to be parsed out of the toc
@@ -222,6 +243,16 @@ Ace.prototype.configureReporting = function() {
 	
 	if (!this.configureChecks('video', 'videos')) {
 		alert_list += '- video\n';
+	}
+	
+	if (!this.report['properties']['hasPageBreaks']) {
+		document.querySelector('input[name="eg-1"][value="na"]').click();
+		alert_list += '- page breaks\n';
+	}
+	
+	if (!this.report['earl:testSubject']['metadata'].hasOwnProperty('media:narrator')) {
+		document.querySelector('input[name="eg-2"][value="na"]').click();
+		alert_list += '- media overlays\n';
 	}
 	
 	this.setEPUBFeatureWarnings();

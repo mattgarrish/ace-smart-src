@@ -44,9 +44,8 @@
 			<h1><span property="dcterms:publisher"><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium"/></span> <span property="dcterms:title">EPUB Accessibility Conformance and Reporting Tool</span></h1>
 			
 			<nav class="menubar">
-				<a>Home</a>
-				<a href="user-guide/">How to Use</a> 
-				<a href="faq.html">FAQ</a>
+				<a href="user-guide/" target="_blank">How to Use</a> 
+				<a href="faq.html" target="_blank">FAQ</a>
 				<a href="#" onclick="manage.saveConformanceReport(); return false" class="save-button">Save</a>
 				<a href="#" onclick="manage.clear(); return false" class="clear-button">Clear</a>
 			</nav>

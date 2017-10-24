@@ -20,11 +20,12 @@
 		<label class="data"><span>Link to report:</span> <input type="text" id="reportLink"/></label>
 	</fieldset>
 	
-	<fieldset class="credential" aria-describedby="daisy-cred">
+	<!-- <fieldset class="credential" aria-describedby="daisy-cred"> -->
+	<fieldset class="credential">
 		<legend>Credential:</legend>
 		<label class="data"><span>Name:</span> <input type="text" id="credentialName"/></label>
 		<label class="data"><span>Link:</span> <input type="text" id="credentialLink"/></label>
-		<div id="daisy-cred" class="note">Note: A DAISY credential is automatically included. This field is provided for an additional credential.</div>
+		<!-- <div id="daisy-cred" class="note">Note: A DAISY credential is automatically included. This field is provided for an additional credential.</div> -->
 	</fieldset>
 	
 	<!-- <div id="add-cred" class="pad-top"><a href="#add-cred" onclick="conf_meta.addCredential(); return false">Add credential</a></div> -->
