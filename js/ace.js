@@ -13,9 +13,11 @@ Ace.prototype.loadReport = function(json) {
 
 	manage.clear(true);
 	
+	this.loadConformance();
+	
 	this.loadMetadata();
 	
-	this.interpretAccessibilityMetadata();
+	this.inferAccessibilityMetadata();
 	
 	// configure manual checks
 	this.configureReporting();
@@ -24,6 +26,18 @@ Ace.prototype.loadReport = function(json) {
 	document.getElementById('report').value = this.report;
 }
 
+
+Ace.prototype.loadConformance = function() {
+	if (!this.report['earl:testSubject']['metadata'].hasOwnProperty('dcterms:conformsTo')) {
+		return
+	}
+	
+	var conf = this.report['earl:testSubject']['metadata']['dcterms:conformsTo'].match(/http\:\/\/www\.idpf\.org\/epub\/a11y\/accessibility\-[0-9]+\.html\#wcag-(aa?)/);
+	
+	if (conf) {
+		document.querySelector('input[name="conf-result"][value="' + conf[1] + '"]').click();
+	}
+}
 
 Ace.prototype.loadMetadata = function() {
 
@@ -47,8 +61,12 @@ Ace.prototype.loadMetadata = function() {
 	
 	this.setSufficientSets();
 	
-	// load certifier metadata - todo: unlikely to be present, but never know
-	this.setMetadataString('certifier','a11y:certifiedBy');
+	// load certifier metadata
+	var a11y = ['certifiedBy', 'certifierReport'];
+	
+	for (var i = 0; i < a11y.length; i++) {
+		this.setMetadataString(a11y[i], 'a11y:'+a11y[i]);	
+	}
 }
 
 
@@ -202,7 +220,7 @@ Ace.prototype.setSufficientSets = function() {
 
 
 
-Ace.prototype.interpretAccessibilityMetadata = function() {
+Ace.prototype.inferAccessibilityMetadata = function() {
 
 	// parse out a11y metadata values to set based on the report info
 	

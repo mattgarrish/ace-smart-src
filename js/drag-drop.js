@@ -33,9 +33,10 @@
 				};
 
 			var ajaxFlag = document.createElement( 'input' );
-			ajaxFlag.setAttribute( 'type', 'hidden' );
-			ajaxFlag.setAttribute( 'name', 'ajax' );
-			ajaxFlag.setAttribute( 'value', 1 );
+				ajaxFlag.setAttribute( 'type', 'hidden' );
+				ajaxFlag.setAttribute( 'name', 'ajax' );
+				ajaxFlag.setAttribute( 'value', 1 );
+			
 			form.appendChild( ajaxFlag );
 
 			// automatically submit the form on file select
@@ -98,6 +99,7 @@
 
 					// gathering the form data
 					var ajaxData = new FormData( form );
+					
 					if( droppedFiles )
 					{
 						Array.prototype.forEach.call( droppedFiles, function( file )
@@ -108,7 +110,7 @@
 
 					// ajax request
 					var ajax = new XMLHttpRequest();
-					ajax.open( form.getAttribute( 'method' ), form.getAttribute( 'action' ), true );
+						ajax.open( form.getAttribute( 'method' ), form.getAttribute( 'action' ), true );
 
 					ajax.onload = function()
 					{
@@ -134,6 +136,9 @@
 					ajax.onerror = function()
 					{
 						form.classList.remove( 'is-uploading' );
+						console.log('Error: ' + ajax.status);
+						console.log(ajax);
+						console.log(ajaxData);
 						alert( 'Error. Please, try again.' );
 					};
 

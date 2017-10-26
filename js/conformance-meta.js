@@ -16,11 +16,11 @@ ConformanceMeta.prototype.validate = function(quiet) {
 		error.clearAll('conformance');
 	}
 	
-	var cert_elem = document.getElementById('certifier');
+	var cert_elem = document.getElementById('certifiedBy');
 	var certifier = cert_elem.value.trim();
 	
 	if (certifier == '') {
-		error.write('conformance','certifier','err','Certifier name is a required field.');
+		error.write('conformance','certifiedBy','err','Certifier name is a required field.');
 		cert_elem.setAttribute('aria-invalid',true);
 		cert_elem.parentNode.classList.add(format.BG.ERR);
 		
@@ -38,13 +38,13 @@ ConformanceMeta.prototype.validate = function(quiet) {
 		cert_elem.parentNode.classList.remove(format.BG.ERR);
 	}
 	
-	var links = { 'reportLink': 'Report link', 'credentialLink': 'Credential link' }
+	var links = { 'certifierReport': 'Report link', 'credentialLink': 'Credential link' }
 	
 	for (var id in links) {
 		var link_elem = document.getElementById(id);
 		var linkText = link_elem.value.trim();
 		
-		if (linkText != '' && !linkText.match(/^http[s]:\/\//i)) {
+		if (linkText != '' && !linkText.match(/^https?:\/\//i)) {
 			error.write('conformance',id,'err',links[id]+' must begin with http:// or https://');
 			link_elem.setAttribute('aria-invalid',true);
 			link_elem.parentNode.classList.add(format.BG.ERR);
@@ -71,8 +71,8 @@ ConformanceMeta.prototype.generateConformanceMeta = function() {
 		meta = format.metaTag(false,'dcterms:conformsTo',conf_str);
 	}
 	
-	meta += format.metaTag(true,'a11y:certifiedBy',document.getElementById('certifier').value.trim());
-	meta += format.metaTag(false,'a11y:certifierReport',document.getElementById('reportLink').value);
+	meta += format.metaTag(true,'a11y:certifiedBy',document.getElementById('certifiedBy').value.trim());
+	meta += format.metaTag(false,'a11y:certifierReport',document.getElementById('certifierReport').value);
 	
 	if (this.addDaisyCredential) {
 		meta += format.metaTag(true,'a11y:certifierCredential','http://www.daisy.org/ace/certified');

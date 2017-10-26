@@ -16,8 +16,8 @@
 	
 	<fieldset>
 		<legend>Evaluated By:</legend>
-		<label class="data"><span>Name:<img src="<?= $DEFAULT_URL ?>/images/asterisk.png" alt="required"/></span> <input type="text" id="certifier" aria-required="true"/></label>
-		<label class="data"><span>Link to report:</span> <input type="text" id="reportLink"/></label>
+		<label class="data"><span>Name:<img src="<?= $DEFAULT_URL ?>/images/asterisk.png" alt="required"/></span> <input type="text" id="certifiedBy" aria-required="true"/></label>
+		<label class="data"><span>Link to report:</span> <input type="text" id="certifierReport"/></label>
 	</fieldset>
 	
 	<!-- <fieldset class="credential" aria-describedby="daisy-cred"> -->

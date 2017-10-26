@@ -294,22 +294,14 @@ span.a-label,
 span.aa-label,
 span.aaa-label,
 span.epub-label {
-	padding-left: 0.5rem;
-	font-size: 1.3rem;
+	padding: 0rem 0.5rem;
+	margin-left: 1rem;
+	font-size: 1.2rem;
 	font-weight: bold;
 	color: rgb(0,0,180);
-}
-
-span.aa-label {
-	color: rgb(128,0,128);
-}
-
-span.aaa-label {
-	color: rgb(255,165,0);
-}
-
-span.epub-label {
-	color: rgb(165,42,42);
+	border: 0.1rem solid rgb(180,180,180);
+	float: right;
+	margin-top: -0.5rem;
 }
 
 section.a > h3,
@@ -323,7 +315,7 @@ section.warning > h3 {
 
 p.sc-note{
 	font-style: italic;
-	text-indent: -3.6rem;
+	text-indent: -4rem;
 	margin: 1rem 2rem 2rem 4.5rem;
 }
 

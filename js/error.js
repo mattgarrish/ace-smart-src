@@ -43,7 +43,7 @@ Error.prototype.clearAll = function(scope) {
 
 Error.prototype.clearBGs = function(scope) {
 	var fields = { "discovery": ['accessibilityFeature','summary-field','accessibilityHazard','accessMode','accessModeSufficient','accessibilityAPI','accessibilityControl'],
-				   "conformance": ['certifier']};
+				   "conformance": ['certifiedBy']};
 	
 	if (scope != null && scope != '') {
 		fields[scope].forEach( function(id) {

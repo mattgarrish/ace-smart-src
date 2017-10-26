@@ -115,7 +115,7 @@ Manage.prototype.saveConformanceReport = function() {
 			reportJSON += '"result": ' + JSON.stringify(conf_res.value) + ',';
 		}
 		
-		reportJSON += '"certifier": ' + JSON.stringify(document.getElementById('certifier').value) + ',';
+		reportJSON += '"certifiedBy": ' + JSON.stringify(document.getElementById('certifiedBy').value) + ',';
 		
 		// multiple credentials disabled until shown to be needed
 		// var cNum = document.querySelectorAll('fieldset.credential').length;
@@ -127,7 +127,7 @@ Manage.prototype.saveConformanceReport = function() {
 			reportJSON += '},';
 		//}
 		
-		reportJSON += '"reportLink": ' + JSON.stringify(document.getElementById('reportLink').value);
+		reportJSON += '"certifierReport": ' + JSON.stringify(document.getElementById('certifierReport').value);
 
 	reportJSON += '}';
 	
@@ -293,7 +293,7 @@ Manage.prototype.loadConformanceReport = function(reportData) {
 	
 	/* load conformance and config text fields */
 	
-	var meta = {"conformanceMeta": ['certifier','reportLink'], "config": ['title','creator','identifier','modified','publisher','description','date','subject','optional-meta']};
+	var meta = {"conformanceMeta": ['certifiedBy','certifierReport'], "config": ['title','creator','identifier','modified','publisher','description','date','subject','optional-meta']};
 	
 	for (var key in meta) {
 		meta[key].forEach(function(id) {

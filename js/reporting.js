@@ -91,8 +91,16 @@ Report.prototype.validateConformanceReport = function() {
 	}
 	*/
 
+	var unverified = document.querySelectorAll('input[value="unverified"]:checked');
+	
+	if (unverified) {
+		for (var i = 0; i < unverified.length; i++) {
+			error.write('verification',unverified[i].name,'err','Success criteria ' + unverified[i].name.replace('sc-','') + ' is unverified.');
+		}
+	}
+	
 	/* validate that the stated conformance matches the evaluation results */
-	var failed = document.querySelectorAll('input[value="unverified"]:checked, section.a input[value="fail"]:checked, section.aa input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked').length > 0 ? true : false;
+	var failed = document.querySelectorAll('section.a input[value="fail"]:checked, section.aa input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked').length > 0 ? true : false;
 	
 	var wcag_result = '';
 	var conf_res = document.querySelector('input[name="conf-result"]:checked');
@@ -111,7 +119,13 @@ Report.prototype.validateConformanceReport = function() {
 	
 	else if ((wcag_result != 'fail') && failed) {
 		conf_elem.classList.add(format.BG.ERR);
-		error.write('conformance','conf-result','err','Conformance to the EPUB specification claimed, but report contains unverified success criteria and/or failures.');
+		error.write('conformance','conf-result','err','Conformance to the EPUB specification claimed, but report contains failed success criteria.');
+		err = true;
+	}
+	
+	else if ((wcag_result != 'fail') && unverified) {
+		conf_elem.classList.add(format.BG.ERR);
+		error.write('conformance','conf-result','err','Conformance to the EPUB specification claimed, but report contains unverified success criteria.');
 		err = true;
 	}
 	
@@ -223,10 +237,10 @@ Report.prototype.generateConformanceReport = function() {
 	reportSummary += format.pubInfo('modes','Access Mode(s)',this.listDiscoveryMeta('accessMode','accessMode'),'');
 	
 	
-	var certifier = document.getElementById('certifier').value.trim();
+	var certifier = document.getElementById('certifiedBy').value.trim();
 	
 	if (certifier != '') {
-		reportSummary += format.pubInfo('certifier','Evaluated by',certifier,'');
+		reportSummary += format.pubInfo('certifiedBy','Evaluated by',certifier,'');
 	}
 	
 	// reportSummary += '<p id="credential"><span class="label">Credential:</span> <span class="value"><a href="http://www.daisy.org/ace/certified">DAISY Ace Certified</a>';

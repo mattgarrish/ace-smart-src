@@ -8,7 +8,7 @@
 	<p>The first step is to load an Ace JSON report (<code>ace.json</code>) or a previously saved report:</p>
 	
 	<div class="container js">
-		<form method="post" action="upload.php" enctype="multipart/form-data" novalidate="novalidate" class="box">
+		<form method="post" action="upload.php" enctype="multipart/form-data" novalidate="novalidate" class="box" onsubmit="return false">
 			<div class="box__input">
 				<input type="file" name="ace-report" id="file" class="box__file"/>
 				<label class="dnd" for="file"><strong>Select a report</strong><span class="box__dragndrop"> or drag one here</span>.</label>
