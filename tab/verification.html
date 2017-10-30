@@ -91,7 +91,7 @@
 			<ul>
 				<li data-scope="img">For each image:
 					<ul>
-						<li>If the image is decorative, ensure it has an empty <code>alt</code> attribute (<code>alt=""</code>). The use of <code>role="presentation"</code> on an image instead of an empty <code>alt</code> is not sufficient.</li>
+						<li>If the image is decorative, ensure it has an empty <code>alt</code> attribute (<code>alt=""</code>).</li>
 						<li>If the image is not decorative and does not have an <code>alt</code> attribute, one of the following must true:
 							<ul>
 								<li>the image is described in the <code>figcaption</code> element or the surrounding text;</li>
@@ -100,11 +100,11 @@
 						</li>
 						<li>Otherwise, ensure that the <code>alt</code> text meaningfully describes the image.</li>
 					</ul>
-					<p>To simplify this step, refer to the Ace automated report for a list of all images with their alt text values.</p>
+					<p>Refer to the Ace report for the list of images and their alt text values.</p>
 				</li>
-				<li data-scope="audio">All audio clips include a label (<code>aria-label</code> attribute) that describes their purpose or gives their title.</li>
-				<li data-scope="video">All video clips include a label (<code>aria-label</code> attribute) that describes their purpose or gives their title.</li>
-				<li>There is no non-text content embedded via an <code>object</code> or <code>embed</code> tag without a text alternative.</li>
+				<li data-scope="audio">Ensure all audio clips include a label (<code>aria-label</code>) that describes their purpose or gives their title.</li>
+				<li data-scope="video">Ensure all video clips include a label (<code>aria-label</code>) that describes their purpose or gives their title.</li>
+				<li>Ensure there is no non-text content embedded via an <code>object</code> or <code>embed</code> tag without a text alternative.</li>
 			</ul>
 			
 			<hr/>
@@ -143,12 +143,13 @@
 			</div>
 			
 			<div data-scope="video">
-				<p>For all video clips without any accompanying audio, verify the following:</p>
+				<p>For all video-only clips, verify the following:</p>
 				<ul>
-					<li>There is a transcript or audio track.</li>
-					<li>The <code>video</code> element has a label (<code>aria-label</code> attribute) that references where to find the transcript or indicates that an audio track is available.</li>
-					<li>The transcript/audio track accurately reflects the information contained in audio/video clip.</li>
+					<li>There is a transcript or the video includes audio descriptions (if the video is not fully described in the surrounding text).</li>
+					<li>The <code>video</code> element has a label (<code>aria-label</code> attribute) that references where to find the transcript or indicates that audio descriptions are available.</li>
+					<li>The transcript/audio descriptions accurately reflect the information contained in video clip.</li>
 				</ul>
+				<p class="sc-note">Note: a video-only clip is one that has no accompanying audio (e.g., a silent movie).</p>
 			</div>
 			
 			<hr/>
@@ -176,7 +177,7 @@
 		<h3><span class="label">1.2.2 Captions (Prerecorded)</span> <span class="a-label">Level A</span></h3>
 		
 		<div class="sc-body">
-			<p>For each video with an audio track, verify the following:</p>
+			<p>For all video clips with audio, verify the following:</p>
 			<ul>
 				<li>Captions are provided via the <code>track</code> element, or open or closed captions are provided as part of the video format.</li>
 				<li>The captions accurately capture the audio content.</li>
@@ -206,18 +207,16 @@
 		<h3><span class="label">1.2.3 Audio Description or Media Alternative (Prerecorded)</span> <span class="a-label">Level A</span></h3>
 		
 		<div class="sc-body">
-			<p>Check if there are any video clips whose audio track does not fully describe all the visual information (e.g., omits actions being carried out by a presenter).</p>
+			<p>Check if there are any video clips whose accompanying audio does not fully describe all the visual information (e.g., omits actions being carried out by a presenter).</p>
 			
 			<p>If yes, verify one of the following is true for each:</p>
 			
 			<ul>
-				<li>An audio description is included via the <code>track</code> element, or descriptions are included in the default audio.</li>
+				<li>An audio description is included via the <code>track</code> element (<code>kind="descriptions"</code>), or descriptions are included in the default audio.</li>
 				<li>A transcript that includes the descriptions is provided.</li>
 			</ul>
 			
-			<p class="sc-note">Note: This success criteria does not apply to video without audio.</p>
-			
-			<p class="sc-note superseded-aa">Note: This success criterion is superseded by <a href="#sc-1.2.5">1.2.5</a> when meeting Level AA conformance. If transcripts are provided instead of descriptions, this criterion will pass but AA conformance will fail. Transcripts may be provided when meeting AA conformance so long as they are only in addition to descriptions.</p>
+			<p class="sc-note">Note: This success criterion does not apply to video without audio. See <a href="#sc-1.2.1">1.2.1</a> for such cases.</p>
 			
 			<hr/>
 			
@@ -243,7 +242,7 @@
 		<h3><span class="label">1.2.4 Captions (Live)</span> <span class="aa-label">Level AA</span></h3>
 		
 		<div class="sc-body">
-			<p>Check if there are any real-time audio/video broadcasts that can be accessed from the publication (i.e., that are only available at a specific date and time).</p>
+			<p>Check if there are any real-time audio/video broadcasts that can be accessed from the publication (i.e., that are only available on a specific date and time).</p>
 			
 			<p>If so, the broadcasts must be live captioned to pass.</p>
 			
@@ -266,7 +265,7 @@
 		<h3><span class="label">1.2.5 Audio Description (Prerecorded)</span> <span class="aa-label">Level AA</span></h3>
 		
 		<div class="sc-body">
-			<p>Check if there are any video clips whose audio track does not fully describe all the visual information (e.g., actions being carried out).</p>
+			<p>Check if there are any video clips whose accompanying audio does not fully describe all the visual information (e.g., actions being carried out).</p>
 			
 			<p>If yes, verify that audio descriptions are provided for each.</p>
 			
@@ -336,7 +335,7 @@
 		<h3><span class="label">1.2.8 Media Alternative (Prerecorded)</span> <span class="aaa-label">Level AAA</span></h3>
 		
 		<div class="sc-body">
-			<p>Verify that a transcript is provided for all video content, whether the video has an audio track or not. The transcript must accurately describe all auditory and visual information.</p>
+			<p>Verify that a transcript is provided for all video content, whether the video has audio or not. The transcript must accurately describe all auditory and visual information.</p>
 			
 			<p class="sc-note">Note: Transcripts that only capture dialogue are not sufficient to meet this success criterion.</p>
 			
@@ -579,7 +578,14 @@
 		<h3><span class="label">1.4.3 Contrast (Minimum)</span> <span class="aa-label">Level AA</span></h3>
 		
 		<div class="sc-body">
-			<p>If the publication contains images of text, verify that the images meet the 4.5:1 contrast requirement.</p>
+			<p>Verify the following are true:</p>
+			
+			<ul>
+				<li>If the publications contains SVG images, check that any text in them meets the 4.5:1 contrast requirement.</li>
+				<li>If the publication contains images of text, check that the text meet the 4.5:1 contrast requirement.</li>
+			</ul>
+			
+			<p>Contrast in HTML documents does not have to be checked if the Ace tool has been run on the publication.</p>
 			
 			<p class="sc-note">Note: An image of text is exempt from this requirement if it is part of an inactive interface, is purely decorational, is not visible, or is part of a brand or logo. If the text in the image is incidental information, it is also exempt (e.g., road or store signs in a landscape picture).</p>
 			
@@ -609,7 +615,7 @@
 		<div class="sc-body">
 			<p>Verify that font declarations use relative sizes (e.g., <code>%</code>, <code>em</code>, <code>rem</code>) and/or that text container elements resize/reflow with the text.</p>
 			
-			<p>Zoom the text to 200% and ensure that the publication remains readable.</p>
+			<p>Zoom the text to 200% and ensure that the publication remains readable (e.g., no text is cut off).</p>
 			
 			<hr/>
 			
@@ -631,7 +637,7 @@
 			<p>If any images contain text, check if the presentation can be achieved without an image (e.g., through CSS or table markup).</p>
 			<p>If the presentation cannot be achieved without an image, this success criterion passes.</p>
 			
-			<p class="sc-note">Note: This succes crtieria does not apply to images where the presentation is essential (e.g., logos) or where the text can be controlled separately from the image (e.g., SVG). It also does not apply to graphs and diagrams where more than just the text is essential information.</p>
+			<p class="sc-note">Note: This success criterion does not apply to images where the presentation is essential (e.g., logos) or where the text can be controlled separately from the image (e.g., SVG). It also does not apply to graphs and diagrams where more than just the text is essential information.</p>
 			
 			<hr/>
 			
@@ -798,7 +804,7 @@
 		<h3><span class="label">2.1.2 No Keyboard Trap</span> <span class="a-label">Level A</span></h3>
 		
 		<div class="sc-body">
-			<p>Verify that there are no keyboard traps (i.e., content that can be entered using the keyboard but then cannot be escaped using the the same method).</p>
+			<p>Verify that there are no keyboard traps (i.e., content that can be entered using the keyboard but then cannot be escaped using the same method).</p>
 			
 			<p>If any content cannot be escaped from once entered using the typical escape key (e.g., the tab key is mapped to some other function), there must be instructions on how to escape.</p>
 			
@@ -1000,7 +1006,7 @@
 		<h3><span class="label">2.4.1 Bypass Blocks</span> <span class="a-label">Level A</span></h3>
 		
 		<div class="sc-body">
-			<p>If identical content is repeated at the begining of every content document, there must be a way to bypass the duplicate information.</p>
+			<p>If identical content is repeated at the beginning of every content document, there must be a way to bypass the duplicate information.</p>
 			
 			<p class="sc-note">Note: This success criterion typically is not applicable to EPUB publications. It is intended to allow users to bypass repeated web page headers, navigation bars, etc. that precede the content.</p>
 			
@@ -1090,7 +1096,7 @@
 		<div class="sc-body">
 			<p>An EPUB publication minimally meets this requirement if all content documents are listed in the spine and there is a navigation document.</p>
 			
-			<p>If either of the above is missing or incomplete, a publication does not automatically fail. Hypelinks to all documents in the reading order is equivalent to a complete spine, for example, as the user will still be able to follow the primary narrative. The addition of a page list or index can also be counted in meeting this criterion.</p>
+			<p>If either of the above is missing or incomplete, a publication does not automatically fail. Hyperlinks to all documents in the reading order is equivalent to a complete spine, for example, as the user will still be able to follow the primary narrative. The addition of a page list or index can also be counted in meeting this criterion.</p>
 			
 			<p>The inclusion of landmarks should not be considered when evaluating this criterion, although they are important to include. Users only have access to these landmarks through the functionality provided by a given reading system; there isn't broad support for users to access the links directly.</p>
 			
@@ -1383,7 +1389,7 @@
 		<h3><span class="label">3.2.2 On Input</span> <span class="a-label">Level A</span></h3>
 		
 		<div class="sc-body">
-			<p>Verify that activating or changing a form input does not automatically causes a change of context unless the user is notified what context change(s) will occur before activating.</p>
+			<p>Verify that activating or changing a form input does not automatically cause a change of context unless the user is notified what context change(s) will occur before activating.</p>
 			
 			<hr/>
 			
@@ -1631,7 +1637,7 @@
 			<hr/>
 			
 			<details>
-				<summary>Knowledge Bse and Techniques</summary>
+				<summary>Knowledge Base and Techniques</summary>
 				<ul>
 					<li><a href="http://kb.daisy.org/publishing/docs/script/aria.html" target="_blank">ARIA</a></li>
 				</ul>
@@ -1663,7 +1669,7 @@
 			<hr/>
 			
 			<details>
-				<summary>Knowledge Bse and Techniques</summary>
+				<summary>Knowledge Base and Techniques</summary>
 				<ul>
 					<li><a href="http://kb.daisy.org/publishing/docs/navigation/pagelist.html" target="_blank">Page Navigation</a></li>
 				</ul>
