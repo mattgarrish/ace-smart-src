@@ -152,8 +152,10 @@ Report.prototype.validateConformanceReport = function() {
 	err = disc.validate(true) ? err : true;
 	
 	// validate user extensions
-	if (user_ext != '') {
-		err = user_ext.validate() ? err : true;
+	if (Object.keys(extension).length > 0) {
+		for (var key in extension) {
+			err = extension[key].validate() ? err : true;
+		}
 	}
 	
 	if (err) {
@@ -411,8 +413,10 @@ Report.prototype.generateConformanceReport = function() {
 	
 	var logo = '';
 	
-	if (user_ext != '') {
-		user_ext.LOGOS.hasOwnProperty(ACE_USER) ? '<a href="' + user_ext.LOGOS[ACE_USER][2] + '"><img src="' + user_ext.LOGOS[ACE_USER][0] + '" alt="' + user_ext.LOGOS[ACE_USER][1] + '"/>' : '';
+	if (Object.keys(extension).length > 0) {
+		for (var key in extension) {
+			logo += (typeof extension[key].LOGO !== 'undefined' && extension[key].LOGO) ? '<a href="' + extension[key].LOGO[2] + '"><img src="' + extension[key].LOGO[0] + '" alt="' + extension[key].LOGO[1] + '"/>' : '';
+		}
 	}
 	
 	if (this.outputLocation == 'win') {

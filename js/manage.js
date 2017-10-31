@@ -133,8 +133,10 @@ Manage.prototype.saveConformanceReport = function() {
 	
 	/* store extension data */
 	
-	if (user_ext != '') {
-		reportJSON += user_ext.saveData();
+	if (Object.keys(extension).length > 0) {
+		for (var key in extension) {
+			reportJSON += extension[key].saveData();
+		}
 	}
 	
 	/* close object */
@@ -342,8 +344,10 @@ Manage.prototype.loadConformanceReport = function(reportData) {
 	}
 	
 	/* load extensions */
-	if (user_ext != '') {
-		user_ext.loadData(report_obj);
+	if (Object.keys(extension).length > 0) {
+		for (var key in extension) {
+			extension[key].loadData(report_obj);
+		}
 	}
 	
 	alert('Report successfully loaded!');
@@ -440,8 +444,10 @@ Manage.prototype.clear = function(quiet) {
 	document.getElementById('modified').classList.remove(format.BG.ERR);
 	
 	/* clear extensions */
-	if (user_ext != '') {
-		user_ext.clear();
+	if (Object.keys(extension).length > 0) {
+		for (var key in extension) {
+			extension[key].clear();
+		}
 	}
 	
 	error.clearAll();

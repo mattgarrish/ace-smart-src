@@ -10,8 +10,12 @@
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" href="css/a11y.css"/>
 		<?php
-			if ($ace_users[$user->data()->username]) {
-				echo '<link rel="stylesheet" type="text/css" href="extensions/' . $user->data()->username . '/css/custom.css"/>';
+			if ($ext_module_access) {
+				foreach ($ext_module_access as $module) {
+					if ($extension[$module]) {
+						echo '<link rel="stylesheet" type="text/css" href="extensions/' . $module . '/css/custom.css"/>';
+					}
+				}
 			}
 		?>
 		<link rel="stylesheet" type="text/css" href="css/drag-drop.css"/>
@@ -34,7 +38,7 @@
 		<meta property="schema:accessibilityControl" content="fullTouchControl"/>
 		
 		<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
-		<?php echo "<script>var user_ext = ''; var ACE_USER = '" . $user->data()->username . "';</script>"; ?>
+		<?php echo "<script>var extension = new Object(); var ACE_USER = '" . $user->data()->username . "';</script>"; ?>
 	</head>
 	
 	<body class="tabs">
@@ -63,9 +67,13 @@
 					<a href="#discovery" id="label_discovery" class="js-tablist__link">Discovery Metadata</a>
 				</li>
 				<?php
-					if ($ace_users[$user->data()->username]['tabs']) {
-						foreach ($ace_users[$user->data()->username]['tabs'] as $key => $value) {
-							echo '<li class="js-tablist__item"><a href="#' . $key . '" id="label_' . $key . '" class="js-tablist__link">' . $value . '</a>';
+					if ($ext_module_access) {
+						foreach ($ext_module_access as $module) {
+							if ($extension[$module]['tab']) {
+								foreach ($extension[$module]['tab'] as $key => $value) {
+									echo '<li class="js-tablist__item"><a href="#' . $key . '" id="label_' . $key . '" class="js-tablist__link">' . $value . '</a></li>';
+								}
+							}
 						}
 					}
 				?>
@@ -86,9 +94,13 @@
 				<?php include 'tab/discovery.php' ?>
 				
 				<?php
-					if ($ace_users[$user->data()->username]['tabs']) {
-						foreach ($ace_users[$user->data()->username]['tabs'] as $key => $value) {
-							include 'extensions/' . $user->data()->username . '/tab/' . $key . '.php';
+					if ($ext_module_access) {
+						foreach ($ext_module_access as $module) {
+							if ($extension[$module]['tab']) {
+								foreach ($extension[$module]['tab'] as $key => $value) {
+									include 'extensions/' . $module . '/tab/' . $key . '.php';
+								}
+							}
 						}
 					}
 				?>
@@ -120,8 +132,12 @@
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 		
 		<?php
-			if ($ace_users[$user->data()->username]) {
-				echo '<script src="extensions/' . $user->data()->username . '/js/custom.js"></script>';
+			if ($ext_module_access) {
+				foreach ($ext_module_access as $module) {
+					if ($extension[$module]) {
+						echo '<script src="extensions/' . $module . '/js/custom.js"></script>';
+					}
+				}
 			}
 		?>
 		<script src="js/a11ytabs.js"></script>

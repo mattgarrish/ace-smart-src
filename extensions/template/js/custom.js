@@ -1,15 +1,13 @@
 
-var user_ext = new Extension();
+extension['module'] = new Extension();
 
 function Extension() {
 	/* 
-	 * for logos, property name is username
-	 * array values: [0] credential image url, [1] alt text, [2] link to credential info
+	 * for logos, array values are: [0] credential image url, [1] alt text, [2] link to credential info
 	 */ 
 	
-	this.LOGOS = {
-		'foobar': ['https://example.com/image.jpg', 'Certified by FooBar', 'https://example.com/moreinfo']
-	}
+	// this.LOGO = ['https://example.com/image.jpg', 'Certified by FooBar', 'https://example.com/moreinfo'];
+	
 	// result -> <a href="https://example.com/moreinfo"><img src="https://example.com/image.jpg" alt="Certified by FooBar"/></a>
 }
 
