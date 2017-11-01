@@ -91,21 +91,21 @@
 				
 				<?php include 'tab/verification.html' ?>
 				
-				<?php include 'tab/discovery.php' ?>
+				<?php include 'tab/discovery.html' ?>
 				
 				<?php
 					if ($ext_module_access) {
 						foreach ($ext_module_access as $module) {
 							if ($extension[$module]['tab']) {
 								foreach ($extension[$module]['tab'] as $key => $value) {
-									include 'extensions/' . $module . '/tab/' . $key . '.php';
+									include 'extensions/' . $module . '/tab/' . $key . '.html';
 								}
 							}
 						}
 					}
 				?>
 				
-				<?php include 'tab/conformance.php' ?>
+				<?php include 'tab/conformance.html' ?>
 				
 				<?php include 'tab/generate.html' ?>
 			</form>
