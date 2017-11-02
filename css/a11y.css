@@ -76,7 +76,7 @@ h1{
 	padding: 0.4rem 0 0.2rem 1.5rem !important;
 	background-color: rgb(27, 95, 161);
 	color: rgb(255, 255, 255);
-	height: 36px;
+	min-height: 36px;
 }
 
 h1 > span:first-child{
@@ -518,12 +518,8 @@ section#discovery div.error{
 }
 
 section#discovery div.cols {
-	column-count: 3;
+	column-width: 20rem;
 	column-fill: balance;
-}
-
-section#discovery div.cols.two {
-	column-count: 2;
 }
 
 section#discovery label{

@@ -29,6 +29,7 @@
 		
 		<!-- schema.org a11y metadata -->
 		<meta property="schema:accessibilityFeature" content="structuralNavigation"/>
+		<meta property="schema:accessibilityFeature" content="displayTransformability"/>
 		<meta property="schema:accessMode" content="textual"/>
 		<meta property="schema:accessModeSufficient" content="textual"/>
 		<meta property="schema:accessibilityHazard" content="none"/>
