@@ -2,7 +2,7 @@
 
 This private repository hosts the source code for the Ace SMART tool. Do not share access to this repository outside DAISY Consortium staff and select members.
 
-The public repository is at https://www.github.com/DAISY/ace-smart. All public feedback is collected at this repository. When addressing issues, make a shadow copy into this repository so that issues can be tracked and closed with the appropriate source code changes.
+The public repository is at https://www.github.com/daisy/ace-smart. All public feedback is collected at this repository. When addressing issues, make a shadow copy into this repository so that issues can be tracked and closed with the appropriate source code changes.
 
 To access the public web site, go to [smart.daisy.org](http://smart.daisy.org)
 
