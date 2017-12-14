@@ -90,19 +90,22 @@
 			<ul>
 				<li data-scope="img">For each image:
 					<ul>
-						<li>If the image is decorative, ensure it has an empty <code>alt</code> attribute (<code>alt=""</code>).</li>
-						<li>If the image is not decorative and does not have an <code>alt</code> attribute, one of the following must true:
+						<li id="img-non-empty">
+							<p>If the image is decorative, ensure it has an empty <code>alt</code> attribute (<code>alt=""</code>).</p>
+						</li>
+						<li id="img-empty">
+							<p>If the image is not decorative and has an empty <code>alt</code> attribute, one of the following must true:</p>
 							<ul>
 								<li>the image is described in the <code>figcaption</code> element or the surrounding text;</li>
 								<li>the image is part of a group of images in which only one carries the alternative text.</li>
 							</ul>
 						</li>
-						<li>Otherwise, ensure that the <code>alt</code> text meaningfully describes the image.</li>
+						<li>
+							<p>Otherwise, ensure that the <code>alt</code> text meaningfully describes the image.</p>
+							<p>Refer to the Ace report for the list of images and their alt text values.</p>
+						</li>
 					</ul>
-					<p>Refer to the Ace report for the list of images and their alt text values.</p>
 				</li>
-				<li data-scope="audio">Ensure all audio clips include a label (<code>aria-label</code>) that describes their purpose or gives their title.</li>
-				<li data-scope="video">Ensure all video clips include a label (<code>aria-label</code>) that describes their purpose or gives their title.</li>
 				<li>Ensure there is no non-text content embedded via an <code>object</code> or <code>embed</code> tag without a text alternative.</li>
 			</ul>
 			
@@ -1695,6 +1698,6 @@
 	</section>
 	
 	<div class="pad-top"><a href="#discovery" class="js-link-to-tab">Continue to Discovery Metadata</a></div>
+	
+	<script src="/js/conformance-tests.js"></script>
 </section>
-
-<script src="/js/conformance-tests.js"></script>

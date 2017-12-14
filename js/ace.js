@@ -249,6 +249,9 @@ Ace.prototype.configureReporting = function() {
 	if (!this.configureChecks('img','images')) {
 		alert_list += '- images\n';
 	}
+	else {
+		this.buildImageLists();
+	}
 	
 	// these should be automatable through configureChecks in the future
 	if (!this.configureChecks('script', 'scripts')) {
@@ -303,6 +306,49 @@ Ace.prototype.configureChecks = function(id,prop) {
 		return true;
 	}
 	
+}
+
+
+Ace.prototype.buildImageLists = function() {
+	var empty = new Array();
+	var non_empty = new Array();
+	
+	this.report['data']['images'].forEach(function(obj) {
+		if (obj.alt == "") {
+			empty.push(obj.location.substr(0,obj.location.lastIndexOf('#')) + ": " + obj.src );
+		}
+		else {
+			non_empty.push(obj.location.substr(0,obj.location.lastIndexOf('#')) + ": " + obj.src + ": '" + obj.alt + "'");
+		}
+	});
+	
+	if (empty.length > 0) {
+		this.makeImgList('img-empty',empty,'The following images have empty alt attributes:')
+	}
+	
+	if (non_empty.length > 0) {
+		this.makeImgList('img-non-empty',non_empty,'Verify the following images are not decorative:');
+	}
+}
+
+
+Ace.prototype.makeImgList = function(id,list,msg) {
+	var sc_li = document.getElementById(id);
+	var p = document.createElement('p');
+		p.appendChild(document.createTextNode(msg));
+		sc_li.appendChild(p);
+	
+	var ul = document.createElement('ul');
+	
+	for (var i = 0; i < list.length; i++) {
+		var li = document.createElement('li');
+		var code = document.createElement('code');
+			code.appendChild(document.createTextNode(list[i]));
+			li.appendChild(code);
+			ul.appendChild(li);
+	}
+	
+	sc_li.appendChild(ul);
 }
 
 /*
@@ -448,15 +494,13 @@ Ace.prototype.compileAssertions = function() {
 
 Ace.prototype.setEPUBFeatureWarnings = function() {
 	
-	var feature = {'manifest': 'manifest fallback', 'bindings': 'bindings', 'epub-trigger': 'epub:trigger', 'epub-switch': 'epub:switch'};
-	var toc = this.report['outlines']['toc'];
+	var feature = {'manifest': 'hasManifestFallbacks', 'bindings': 'hasBindings', 'switch': 'epub-switches', 'trigger': 'epub-triggers'};
 	var showWarning = true;
 	
 	for (var key in feature) {
 		
-		var re = new RegExp('\\b'+feature[key], 'i');
-		
-		if  (toc.match(re)) {
+		if  ((this.report['properties'].hasOwnProperty(feature[key]) && this.report['properties'][feature[key]])
+				|| this.report['data'].hasOwnProperty(feature[key])) {
 			var elem = document.getElementsByClassName(key);
 			
 			for (var i = 0; i < elem.length; i++) {

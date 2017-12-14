@@ -61,7 +61,7 @@ $email_act=$results->email_act;
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<h1 class="ace_login_hd"><span><img class="logo" src="/images/daisy_logo.png" alt="DAISY Consortium"/></span> <span>EPUB Accessibility Conformance and Reporting Tool</span></h1>
+			<h1 class="ace_login_hd"><span><img class="logo" src="/images/daisy_logo.png" alt="DAISY Consortium"/></span> <span>Ace SMART</span></h1>
 			<!-- <a class="" href="<?=$us_url_root?>"><img class="img-responsive" src="<?=$us_url_root?>users/images/logo.png" alt="" /></a> -->
 		</div>
 		<div class="collapse navbar-collapse navbar-top-menu-collapse navbar-right">

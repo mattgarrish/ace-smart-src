@@ -2,9 +2,9 @@
 <?php
 
 	$extension = [
-		'daisy' => [
+		'born_accessible' => [
 			'tab' => [
-				'test' => 'Test tab'
+				'born_accessible' => 'Born Accessible'
 			]
 		],
 	];

@@ -1,6 +1,4 @@
 
-@import '../../css/a11y.css';
-
 section >  section > * {
 	margin-left: 2rem;
 }

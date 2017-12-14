@@ -2,36 +2,45 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>Automated Evaluation - EPUB Accessibility Conformance and Reporting Tool</title>
+		<title>Automated Evaluation - Ace SMART</title>
+		<link rel="stylesheet" type="text/css" href="../css/a11y.css" />
 		<link rel="stylesheet" type="text/css" href="css/user-guide.css" />
 	</head>
 
 	<body class="page">
 		<header>
-			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium"/></span> <span>EPUB Accessibility Conformance and Reporting Tool</span></h1>
+			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium" /></span>
+				<span>Ace SMART &#8212; User Guide</span></h1>
+			<nav class="menubar">
+				<a href="index.html">Table of Contents</a>
+			</nav>
 		</header>
 		<main>
 			<section id="ace">
 				<h2>Automated Evaluation</h2>
-				
-				<p>Before beginning the manual evaluation process, ensure that the publication passes the Ace automated evaluation tool
-					without error.</p>
-				
-				<p>The latest version of the tool can be downloaded from the <a href="https://github.com/daisy/ace-core/releases">Ace 
-					GitHub releases page</a>.</p>
-				
-				<p>Instructions on how to run the tool and interpret its reports is available from <a class="todo">tbd</a>.</p>
-				
-				<p>To expedite manual evaluations, it is necessary to refer to the additional information provided in these reports (e.g.,
-					the list of images and alternative text). Keep the HTML report open as you proceed.</p>
-				
+				<p>Before beginning the manual evaluation process, ensure that the publication passes the Ace automated
+					evaluation tool without error. (If errors cannot be fixed, they will be reported under the appropriate
+					WCAG success criterion in the SMART interface.)</p>
+				<p>Instruction on how to run Ace and interpret its reports is available from the <a
+						href="https://github.com/daisy/ace-core/">project home page</a>. The latest version of the tool can
+					be downloaded from the <a href="https://github.com/daisy/ace-core/releases">releases page</a>.</p>
+				<p>When the Ace tool is run, it generates two primary documents:</p>
+				<dl>
+					<dt><code>report.html</code></dt>
+					<dd>The HTML report document provides a human-readable report of any issues found, as well as
+						supplementary information like the images, audio and video. To expedite manual evaluations, it will
+						be necessary to refer to the additional information provided in this report, so keep the report open
+						as you proceed.</dd>
+					<dt><code>report.json</code></dt>
+					<dd>The JSON report document provides machine-readable data about the automatic evaluation. It is loaded
+						into the SMART interface to prepare and simplify the manual evaluation process.</dd>
+				</dl>
 				<div class="note">
-					<p><strong>Note</strong>: Although it is possible to evaluate a publication without using the Ace automated evaluation tool, it is not
-						recommended. The automated tool cannot check every failure, but it prevents oversights of the common errors it
-						can detect.</p>
+					<p><strong>Note</strong>: Although it is possible to evaluate a publication without using the Ace
+						automated evaluation tool, it is not recommended. The automated tool cannot check every failure, but
+						it prevents oversights of the common errors it can detect.</p>
 				</div>
 			</section>
-			
 			<nav class="user-links">
 				<div class="prev-link"><a href="overview.html">Overview</a></div>
 				<div class="next-link"><a href="setup.html">Evaluation Setup</a></div>
@@ -39,7 +48,7 @@
 		</main>
 		<footer>
 			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a href="http://www.daisy.org/terms-use">Terms of Use</a> | <a href="http://www.daisy.org/contact">Contact</a></p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a href="http://www.daisy.org/terms-use">Terms of Use</a></p>
 		</footer>
 	</body>
 </html>

@@ -820,10 +820,7 @@ label.pad-left{
 /* page tocs */
 
 nav[role = "doc-toc"]{
-	border: 0.1rem dotted rgb(180, 180, 180);
-	padding: 0.8rem;
 	width: 35rem;
-	background-color: rgb(245, 245, 245);
 }
 
 nav[role = "doc-toc"] > h3{
@@ -835,7 +832,7 @@ nav[role = "doc-toc"] > h3{
 	border-left: none;
 }
 
-nav[role = "doc-toc"] > ol{
+nav[role = "doc-toc"] ol{
 	list-style-type: disc;
 }
 

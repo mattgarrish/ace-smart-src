@@ -6,7 +6,7 @@
 <html lang="en" prefix="dcterms: http://purl.org/dc/terms/ schema: http://schema.org/" typeof="schema:WebPage">
 	<head>
 		<meta charset="utf-8"/>
-		<title>EPUB Accessibility Conformance and Reporting Tool</title>
+		<title>Ace SMART</title>
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" href="css/a11y.css"/>
 		<?php
@@ -38,6 +38,9 @@
 		<meta property="schema:accessibilityControl" content="fullKeyboardControl"/>
 		<meta property="schema:accessibilityControl" content="fullTouchControl"/>
 		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="js/jquery.details.min.js"></script>
 		<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
 		<?php echo "<script>var extension = new Object(); var ACE_USER = '" . $user->data()->username . "';</script>"; ?>
 	</head>
@@ -46,10 +49,10 @@
 		<header>
 			<div class="id">You are logged in as <code><?php echo $user->data()->username; ?></code> <a href="users/logout.php">Log out</a></div>
 			
-			<h1><span property="dcterms:publisher"><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium"/></span> <span property="dcterms:title">EPUB Accessibility Conformance and Reporting Tool</span></h1>
+			<h1><span property="dcterms:publisher"><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium"/></span> <span property="dcterms:title">Ace SMART</span></h1>
 			
 			<nav class="menubar">
-				<a href="user-guide/" target="_blank">How to Use</a> 
+				<a href="user-guide/" target="_blank">User Guide</a> 
 				<a href="faq.html" target="_blank">FAQ</a>
 				<a href="#" onclick="manage.saveConformanceReport(); return false" class="save-button">Save</a>
 				<a href="#" onclick="manage.clear(); return false" class="clear-button">Clear</a>
@@ -64,9 +67,6 @@
 				<li class="js-tablist__item">
 					<a href="#verification" id="label_verification" class="js-tablist__link">Conformance Verification</a>
 				</li>
-				<li class="js-tablist__item">
-					<a href="#discovery" id="label_discovery" class="js-tablist__link">Discovery Metadata</a>
-				</li>
 				<?php
 					if ($ext_module_access) {
 						foreach ($ext_module_access as $module) {
@@ -78,6 +78,9 @@
 						}
 					}
 				?>
+				<li class="js-tablist__item">
+					<a href="#discovery" id="label_discovery" class="js-tablist__link">Discovery Metadata</a>
+				</li>
 				<li class="js-tablist__item">
 					<a href="#conformance" id="label_conformance" class="js-tablist__link">Conformance Metadata</a>
 				</li>
@@ -124,12 +127,9 @@
 		
 		<footer>
 			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2017</span> <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a href="http://www.daisy.org/terms-use">Terms of Use</a> | <a href="http://www.daisy.org/contact">Contact</a></p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a href="http://www.daisy.org/terms-use">Terms of Use</a></p>
 		</footer>
 		
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		<script src="js/jquery.details.min.js"></script>
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 		
 		<?php

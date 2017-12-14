@@ -2,90 +2,86 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>Discovery Metadata - EPUB Accessibility Conformance and Reporting Tool</title>
+		<title>Discovery Metadata - Ace SMART</title>
+		<link rel="stylesheet" type="text/css" href="../css/a11y.css" />
 		<link rel="stylesheet" type="text/css" href="css/user-guide.css" />
 	</head>
 
 	<body class="page">
 		<header>
-			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium"/></span> <span>EPUB Accessibility Conformance and Reporting Tool</span></h1>
+			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium" /></span>
+				<span>Ace SMART &#8212; User Guide</span></h1>
+			<nav class="menubar">
+				<a href="index.html">Table of Contents</a>
+			</nav>
 		</header>
 		<main>
 			<section id="discovery">
 				<h2>Discovery Metadata</h2>
-				
-				<p>After completing the accessibility evaluation, the next step is to review the discovery metadata
-					in the <a href="index.html#discovery">Discovery Metadata</a> tab.</p>
-				
-				<p>Each of the fields in this tab corresponds to a schema.org accessibility metadata property. The fields
-					are pre-populated, as much as possible, from information in the Ace JSON report.</p>
-				
+				<p>After completing the accessibility evaluation, the next step is to review the discovery metadata in the <a
+						href="index.html#discovery">Discovery Metadata</a> tab.</p>
+				<p>Each of the fields in this tab corresponds to a schema.org accessibility metadata property. The fields are
+					pre-populated, as much as possible, from information in the Ace JSON report.</p>
 				<p>There are seven discovery properties:</p>
-				
 				<dl>
 					<dt>Accessibility Feature</dt>
 					<dd>
 						<p>This field describes any features or affordances included in the publication that increase its
 							accessibility.</p>
-						
 						<p>Additional features can be added by clicking the "Add custom field" link.</p>
 					</dd>
-					
+
 					<dt>Accessibility Summary</dt>
 					<dd>
 						<p>Use this field to include a short description of the overall accessibility of the publication, or
 							its failings.</p>
 					</dd>
-					
+
 					<dt>Accessibility Hazard</dt>
 					<dd>
 						<p>This field identifies any known hazards in the content, such as flashing.</p>
 					</dd>
-					
+
 					<dt>Access Modes</dt>
 					<dd>
 						<p>Identifies the nature of the content. For exmaple, visual is checked if there are images or video;
 							textual if there is text content; auditory if there is audio.</p>
 					</dd>
-					
+
 					<dt>Sufficient Access Modes</dt>
 					<dd>
-						<p>Identifies ways to access the full content of the publication. A publication may be consumed in a number
-							of ways, regardless of the default nature of the content. For example, a publication with text and images
-							will have a purely textual access mode if sufficient text equivalents and descriptions are provided for
-							all visual content.</p>
+						<p>Identifies ways to access the full content of the publication. A publication may be consumed in a
+							number of ways, regardless of the default nature of the content. For example, a publication with
+							text and images will have a purely textual access mode if sufficient text equivalents and
+							descriptions are provided for all visual content.</p>
 					</dd>
-					
+
 					<dt>Accessibility API</dt>
 					<dd>
-						<p>If the publication uses ARIA roles, states and properties to make all custom controls accessible, check
-							this field.</p>
+						<p>If the publication uses ARIA roles, states and properties to make all custom controls accessible,
+							check this field.</p>
 					</dd>
-					
+
 					<dt>Accessibility Control</dt>
 					<dd>
-						<p>This field identifies input methods that can be used to control the content. It is typically only necessary
-							to specify if there is scripted content.</p>
+						<p>This field identifies input methods that can be used to control the content. It is typically only
+							necessary to specify if there is scripted content.</p>
 					</dd>
 				</dl>
-				
 				<div class="note">
-					<p><strong>Note</strong>: For more information on how to complete these fields, refer to their 
-						<a href="https://schema.org/CreativeWork">schema.org definitions</a> and to the <a
-								href="http://www.idpf.org/epub/a11y/techniques/techniques.html#sec-discovery">descriptions in the EPUB
-								Accessibility Techniques document</a>.</p>
+					<p><strong>Note</strong>: For more information on how to complete these fields, refer to their <a
+							href="https://schema.org/CreativeWork">schema.org definitions</a> and to the <a
+							href="http://www.idpf.org/epub/a11y/techniques/techniques.html#sec-discovery">descriptions in the
+							EPUB Accessibility Techniques document</a>.</p>
 				</div>
-				
-				<p>If the publication did not contain discovery metadata, or if you made changes to what was found, click 
-					the "Generate" button at the bottom of the tab to create a new set of metadata tags. These can be to paste 
+				<p>If the publication did not contain discovery metadata, or if you made changes to what was found, click the
+					"Generate" button at the bottom of the tab to create a new set of metadata tags. These can be to paste
 					into the publication's package document to replace what was there.</p>
-				
 				<div class="note">
-					<p><strong>Note</strong>: Include discovery metadata even if the publication fails conformance testing. It is a required
-						component of the EPUB Accessibility specification.</p>
+					<p><strong>Note</strong>: Include discovery metadata even if the publication fails conformance testing.
+						It is a required component of the EPUB Accessibility specification.</p>
 				</div>
 			</section>
-			
 			<nav class="user-links">
 				<div class="prev-link"><a href="conformance.html">Conformance Verification</a></div>
 				<div class="next-link"><a href="eval-meta.html">Evaluation Metadata</a></div>
@@ -93,7 +89,7 @@
 		</main>
 		<footer>
 			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a href="http://www.daisy.org/terms-use">Terms of Use</a> | <a href="http://www.daisy.org/contact">Contact</a></p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a href="http://www.daisy.org/terms-use">Terms of Use</a></p>
 		</footer>
 	</body>
 </html>

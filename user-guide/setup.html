@@ -2,13 +2,17 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>Evaluation Setup - EPUB Accessibility Conformance and Reporting Tool</title>
+		<title>Evaluation Setup - Ace SMART</title>
+		<link rel="stylesheet" type="text/css" href="../css/a11y.css" />
 		<link rel="stylesheet" type="text/css" href="css/user-guide.css" />
 	</head>
 
 	<body class="page">
 		<header>
-			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium"/></span> <span>EPUB Accessibility Conformance and Reporting Tool</span></h1>
+			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium"/></span> <span>Ace SMART &#8212; User Guide</span></h1>
+			<nav class="menubar">
+				<a href="index.html">Table of Contents</a> 
+			</nav>
 		</header>
 		<main>
 			<section id="start">
@@ -18,21 +22,21 @@
 					<h3>Loading the Ace JSON Report</h3>
 					
 					<p>To prepare this site to evaluate a publication, it is first necessary to load the JSON report output by the Ace 
-						automated tool. This report is in the file called <code>ace.json</code>. It is not the HTML file that you use 
+						automated tool. This report is in the file called <code>report.json</code>. It is not the HTML file that you use 
 						to review the issues found by that tool.</p>
 					
 					<p>To load the JSON file, you can drag it from your file system and drop it in the blue box in the Start tab:</p>
 					
 					<figure>
-						<figcaption>The drag and drop area is shaded blue and surrounded by a dashed border.</figcaption>
-						<img src="images/dnd.png" width="600" alt="" />
+						<figcaption id="fig01">The drag and drop area is shaded blue and surrounded by a dashed border.</figcaption>
+						<img src="images/dnd.png" aria-labelledby="fig01" width="600" alt="" />
 					</figure>
 					
-					<p>If you're not able to drag and drop the report, it is also possible to select it from the file system.</p>
+					<p>If you are not able to drag and drop the report, it is also possible to select it from the file system.</p>
 					
 					<figure>
-						<figcaption>Within the drag and drop area is a link to a file selection dialog.</figcaption>
-						<img src="images/json-select.png" width="250" alt="" />
+						<figcaption id="fig02">Within the drag and drop area is a link to a file selection dialog.</figcaption>
+						<img src="images/json-select.png" aria-labelledby="fig02" width="250" alt="" />
 					</figure>
 					
 					<p>The reporting tool will attempt to load the JSON report and customize itself based on the information
@@ -40,12 +44,12 @@
 						if any.</p>
 					
 					<figure>
-						<figcaption>The alert shows that checks for images, audio and video have been turned off.</figcaption>
-						<img src="images/ace-alert.png" width="400" alt="" />
+						<figcaption id="fig03">The alert shows that checks for images, audio and video have been turned off.</figcaption>
+						<img src="images/ace-alert.png" aria-labelledby="fig03" width="400" alt="" />
 					</figure>
 					
-					<p>If automatic detection results in incorrect tests being disabled, they can always be re-enabled by going
-						to the <a href="#configure">configuration tab</a>.</p>
+					<p>If automatic detection results in incorrect tests being disabled, they can always be re-enabled in the
+						<a href="conformance.html">Conformance Verification tab</a>.</p>
 					
 					<div class="note">
 						<p><strong>Note</strong>: The process for loading an Ace report is the same as for loading a 
@@ -53,82 +57,36 @@
 					</div>
 				</section>
 				
-				<section id="epub-config">
-					<h3>EPUB Format Configuration</h3>
+				<section id="pub-info">
+					<h3>Adding Publication Information</h3>
 					
-					<p>A field to select the format of the EPUB publication is located below the report loading box.</p>
+					<p>The final section on the Start tab describes the publication.</p>
 					
-					<figure>
-						<img src="images/epub_format.png" width="330" alt="EPUB format configuration with options for EPUB 2 and 3" />
-					</figure>
-					
-					<p>The format selected does not change the evaluation criteria, but it does control optional metadata
-						that can be generated from the tool (i.e., discovery and conformance metadata for the package document).
-						It is also the reported format of the publication in the final report.</p>
-				</section>
-				
-				<section id="wcag-config">
-					<h3>WCAG Configuration</h3>
-					
-					<p>The reporting tool is configured by default to verify that publications meets WCAG Level A requirements.</p>
+					<p>The first field in this section identifies the format of the EPUB publication:</p>
 					
 					<figure>
-						<img src="images/wcag_config.png" width="430" alt="WCAG conformance configuration with options for levels A and AA and a link to additional configuration settings" />
+						<img src="images/epub_format.png" aria-labelledby="fig04" width="330" alt="EPUB format configuration with options for EPUB 2 and 3" />
 					</figure>
 					
-					<p>To check for Level AA conformance, simply switch the setting. The list of success criteria to verify  
-						in the next step automatically updates to match the selected setting.</p>
+					<p>The format does not change the evaluation criteria, but it does control the output format of the 
+						optional metadata that can be generated from the tool (i.e., discovery and conformance metadata for the 
+						package document).</p>
 					
-					<p>The first section allows you to WCAG Level AA and AAA success criteria to the conformance verification tab.</p>
+					<p>The rest of the section allows you to input metadata about the publication.</p>
 					
 					<figure>
-						<img src="images/wcag_optional_config.png" width="250" alt="Configure button followed by save and load buttons" />
+						<img src="images/pub-meta.png" width="600" alt="Text inputs for title, author, identifier, publisher, dates, subject and description" />
 					</figure>
 					
-					<p>Showing these criteria does not change the conformance level being verified, and their status is not checked 
-						when the final report is generated. Showing them allows you to indicate that a publication meets requirements
-						beyond the base level being tested. If any of these criteria are set to pass or fail, they will be included
-						in the final report.</p>
+					<p>This metadata is used to accurately identify the publication in the output report.</p>
 					
 					<div class="note">
-						<p><strong>Note</strong>: To change the WCAG conformance level the publication has to meet, use the 
-							<a href="setup.html#wcag-config">options on the Start tab</a>.</p>
+						<p><strong>Note</strong>: The addition of metadata can be skipped if you do not intend to generate a final report.
+							To avoid validation errors, however, it is recommended to always input the required fields.</p>
 					</div>
-					
-					<p>It is also possible to hide content-specific success criteria if you know that they do not apply to the
-						publication (e.g., scripting requirements).</p>
-					
-					<figure>
-						<img src="images/criteria_options.png" width="450" alt="Checkboxes for images, audio, video, scripting, and forms elements" />
-					</figure>
-					
-					<p>These options are automatically updated to reflect the content when the Ace JSON report is loaded in the 
-						<a href="setup.html">setup step</a>.</p>
-					
-					<p>Note that deselecting an option only hides the related criteria from view. The criteria are still included in 
-						the generated report with a "not applicable" status.</p>
-					
-					<div>
-						<p class="note"><strong>Note</strong>: The reporting tool does not include the option to conform to level AAA, as no content can
-							realistically conform to all the requirements of this level.</p>
-					</div>
-				</section>
-				
-				<section id="pubinfo">
-					<h3>Publication Information</h3>
-					
-					<p>The final section on the Start tab is dedicated to metadata about the publication. This section can be skipped if
-						you do not intend to generate a final report, otherwise you need to provide at least the title of the publication.</p>
-					
-					<figure>
-						<img src="images/pub-meta.png" width="600" alt="Text inputs for title, last modified date, authors, identifier and publisher" />
-					</figure>
-					
-					<p>The title, author(s), identifier, publisher and last modified dates are all used to accurately identify the 
-						publication being reported on.</p>
 					
 					<p>In addition to the provided fields, it is also possible to add optional metadata using the text box at the end of
-						the form. To add optional metadata, type a human-readable label followed by a colon and space and then add the
+						the form. To add optional metadata, type a human-readable label followed by a colon, a space, and then the
 						value.</p>
 					
 					<figure>
@@ -136,8 +94,8 @@
 					</figure>
 					
 					<div class="note">
-						<p><strong>Note</strong>: As the optional metadata is for human consumption, it is not recommended to use property names (e.g., use a label
-							like "Created On" instead of "dcterms:created").</p>
+						<p><strong>Note</strong>: As the optional metadata is for human consumption, it is not recommended to use property 
+							names (e.g., use a label like "Created On" instead of "dcterms:created").</p>
 					</div>
 				</section>
 			</section>
@@ -149,7 +107,7 @@
 		</main>
 		<footer>
 			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a href="http://www.daisy.org/terms-use">Terms of Use</a> | <a href="http://www.daisy.org/contact">Contact</a></p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a href="http://www.daisy.org/terms-use">Terms of Use</a></p>
 		</footer>
 	</body>
 </html>

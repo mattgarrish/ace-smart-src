@@ -1,0 +1,16 @@
+
+#born_accessible h4 {
+	margin-bottom: 0;
+}
+
+#born_accessible fieldset {
+	margin-top: 0;
+	max-height: 6rem;
+	background-color: inherit;
+	border: none;
+	box-shadow: none;
+}
+
+#born_accessible fieldset > .ba_score {
+	padding: 0 2rem;
+}
