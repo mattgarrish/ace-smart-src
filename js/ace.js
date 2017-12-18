@@ -17,10 +17,10 @@ Ace.prototype.loadReport = function(json) {
 	
 	this.loadMetadata();
 	
-	this.inferAccessibilityMetadata();
+	var suggested = this.inferAccessibilityMetadata();
 	
 	// configure manual checks
-	this.configureReporting();
+	this.configureReporting(suggested);
 	
 	/* save the report for reloading */
 	document.getElementById('report').value = this.report;
@@ -28,14 +28,16 @@ Ace.prototype.loadReport = function(json) {
 
 
 Ace.prototype.loadConformance = function() {
+	
 	if (!this.report['earl:testSubject']['metadata'].hasOwnProperty('dcterms:conformsTo')) {
-		return
+		return;
 	}
 	
 	var conf = this.report['earl:testSubject']['metadata']['dcterms:conformsTo'].match(/http\:\/\/www\.idpf\.org\/epub\/a11y\/accessibility\-[0-9]+\.html\#wcag-(aa?)/);
 	
 	if (conf) {
-		document.querySelector('input[name="conf-result"][value="' + conf[1] + '"]').click();
+		document.getElementById('conf-result-status').textContent = conf.STATUS[conf];
+		document.getElementById('conf-result').value = conf;
 	}
 }
 
@@ -222,32 +224,94 @@ Ace.prototype.setSufficientSets = function() {
 
 Ace.prototype.inferAccessibilityMetadata = function() {
 
+	var msg = document.createElement('ul');
+	
 	// parse out a11y metadata values to set based on the report info
 	
 	if (this.report['a11y-metadata']['present'].length > 0) {
 		// if publication contains metadata, don't suggest more
-		return;
+		return '';
 	}
 	
-	if (this.report['properties']['hasMathML']) { document.querySelector('input[type="checkbox"][value="MathML"]').click() }
-	if (this.report['properties']['hasPageBreaks']) { document.querySelector('input[type="checkbox"][value="printPageNumbers"]').click() }
+	var hasAltText = false;
+	
+	if (this.report['data'].hasOwnProperty('images')) {
+		for (var i = 0; i < this.report['data']['images'].length; i++) {
+			if (this.report['data']['images'][i].hasOwnProperty('alt') && this.report['data']['images'][i]['alt'] != '') {
+				hasAltText = true;
+				msg.appendChild(this.setMetadata('accessibilityFeature','alternativeText'));
+				break;
+			}
+		}		
+	}
+	
+	if (this.report['properties']['hasMathML']) {
+		msg.appendChild(this.setMetadata('accessibilityFeature','MathML'));
+	}
+	
+	if (this.report['properties']['hasPageBreaks']) {
+		msg.appendChild(this.setMetadata('accessibilityFeature','printPageNumbers'));
+	}
+	
+	msg.appendChild(this.setMetadata('accessibilityFeature','readingOrder'));
+	msg.appendChild(this.setMetadata('accessibilityFeature','tableOfContents'));
+	
+	// assuming any publication being assessed in not purely image-based
+	msg.appendChild(this.setMetadata('accessMode','textual'));
+	this.setSufficientMetadata(1,'textual');
+	
+	// track modes to set sufficient label later
+	var sufficient = 'textual';
+	
+	if (hasAltText || this.report.hasOwnProperty('videos')) {
+		msg.appendChild(this.setMetadata('accessMode','visual'));
+		this.setSufficientMetadata(1,'visual');
+		sufficient += ', visual';
+	}
+	
+	if (this.report['data'].hasOwnProperty('audios')) {
+		msg.appendChild(this.setMetadata('accessMode','auditory'));
+		this.setSufficientMetadata(1,'auditory');
+		sufficient += ', auditory';
+	}
+	
+	var suff_li = document.createElement('li');
+		suff_li.appendChild(document.createTextNode('accessModeSufficient: '+sufficient));
+	msg.appendChild(suff_li);
+	
+	return msg.hasChildNodes() ? msg : '';
 
 }
 
 
-Ace.prototype.configureReporting = function() {
+Ace.prototype.setMetadata = function(property, meta_id) {
+	document.querySelector('input[type="checkbox"][value="' + meta_id + '"]').click();
+	var li = document.createElement('li');
+		li.appendChild(document.createTextNode(property + ': ' + meta_id));
+	return li;
+}
+
+
+Ace.prototype.setSufficientMetadata = function(set_id, meta_id) {
+	document.querySelector('fieldset#set' + set_id + ' input[type="checkbox"][value="' + meta_id + '"]').click();
+}
+
+
+
+Ace.prototype.configureReporting = function(metadata_msg) {
 	
-	// this should be uncommented once all content info is in data and doesn't have to be parsed out of the toc
-	//if (!this.report.hasOwnProperty('data')) {
-	//	return;
-	//}
+	if (!this.report.hasOwnProperty('data')) {
+		return;
+	}
 	
-	var alert_list = '';
+	var alert_list = document.createElement('ul');
 	
 	this.setPassFail();
 	
 	if (!this.configureChecks('img','images')) {
-		alert_list += '- images\n';
+		var li = document.createElement('li');
+			li.appendChild(document.createTextNode('images'))
+		alert_list.appendChild(li);
 	}
 	else {
 		this.buildImageLists();
@@ -255,32 +319,70 @@ Ace.prototype.configureReporting = function() {
 	
 	// these should be automatable through configureChecks in the future
 	if (!this.configureChecks('script', 'scripts')) {
-		alert_list += '- scripting\n';
+		var li = document.createElement('li');
+			li.appendChild(document.createTextNode('scripting'))
+		alert_list.appendChild(li);
 	}
 	
 	if (!this.configureChecks('audio', 'audios')) {
-		alert_list += '- audio\n';
+		var li = document.createElement('li');
+			li.appendChild(document.createTextNode('audio'))
+		alert_list.appendChild(li);
 	}
 	
 	if (!this.configureChecks('video', 'videos')) {
-		alert_list += '- video\n';
+		var li = document.createElement('li');
+			li.appendChild(document.createTextNode('video'))
+		alert_list.appendChild(li);
 	}
 	
 	if (!this.report['properties']['hasPageBreaks']) {
 		document.querySelector('input[name="eg-1"][value="na"]').click();
-		alert_list += '- page breaks\n';
+		var li = document.createElement('li');
+			li.appendChild(document.createTextNode('page breaks'))
+		alert_list.appendChild(li);
 	}
 	
 	if (!this.report['earl:testSubject']['metadata'].hasOwnProperty('media:narrator')) {
 		document.querySelector('input[name="eg-2"][value="na"]').click();
-		alert_list += '- media overlays\n';
+		var li = document.createElement('li');
+			li.appendChild(document.createTextNode('media overlays'))
+		alert_list.appendChild(li);
 	}
 	
 	this.setEPUBFeatureWarnings();
 	
-	if (alert_list) {
-		alert('The following content types were not reported present in the publication:\n\n' + alert_list + '\nChecks related to them have been turned off. To re-enable these checks, see the verification tab.');
+	var import_msg = document.getElementById('import');
+	
+	var success = document.createElement('p');
+		success.appendChild(document.createTextNode('Ace report successfully imported!'));
+	import_msg.appendChild(success);
+	
+	if (alert_list.hasChildNodes()) {
+		var start_msg = document.createElement('p');
+			start_msg.appendChild(document.createTextNode('The following content types were not reported present in the publication:'));
+		import_msg.appendChild(start_msg);
+		
+		import_msg.appendChild(alert_list);
+		
+		var end_msg = document.createElement('p');
+			end_msg.appendChild(document.createTextNode('Checks related to them have been turned off. To re-enable these checks, see the Conformance Verification tab.'));
+		import_msg.appendChild(end_msg);
 	}
+	
+	if (metadata_msg) {
+		var start_msg = document.createElement('p');
+			start_msg.appendChild(document.createTextNode('The following accessibiity metadata was set based on the Ace report:'));
+		import_msg.appendChild(start_msg);
+		
+		import_msg.appendChild(metadata_msg);
+		
+		var end_msg = document.createElement('p');
+			end_msg.appendChild(document.createTextNode('Verify the accuracy of these assumptions in the Discovery Metadata tab.'));
+		import_msg.appendChild(end_msg);
+	}
+	
+	import_dialog.dialog('open');
 }
 
 
@@ -350,34 +452,6 @@ Ace.prototype.makeImgList = function(id,list,msg) {
 	
 	sc_li.appendChild(ul);
 }
-
-/*
-Ace.prototype.parseChecks = function(id,str) {
-
-	// mimics configureChecks except have to use regexes to parse the toc outline for keywords
-	
-	var checkElem = document.getElementById(id);
-	
-	var toc = this.report['outlines']['toc'];
-	
-	var re = new RegExp('\\b'+str, 'i');
-	
-	if (!toc.match(re)) {
-		if (!checkElem.checked) {
-			checkElem.click();
-		}
-		return false;
-	}
-	
-	else {
-		if (checkElem.checked) {
-			checkElem.click();
-		}
-		return true;
-	}
-}
-*/
-
 
 
 Ace.prototype.setPassFail = function() {

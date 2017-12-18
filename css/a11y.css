@@ -52,7 +52,12 @@ div.id code {
 	font-size: 1.6rem;
 }
 
-div.id a {
+div.id code > a {
+	font: inherit;
+	color: inherit;
+}
+
+div.id a.logout {
 	font-size: 1.1rem;
 	margin-left: 1rem;
 	color: rgb(255,255,255);
@@ -60,7 +65,7 @@ div.id a {
 	padding: 0.4rem 1rem;
 }
 
-div.id a:hover {
+div.id a.logout:hover {
 	text-decoration: none;
 	color: rgb(120,240,255);
 	border: 0.1rem solid rgb(120,240,255);
@@ -364,6 +369,17 @@ hr {
 	border-color: rgb(240,245,255);
 }
 
+/* conformance results */
+
+div.conf-result {
+	padding: 1rem 0 1rem 1.5rem;
+}
+
+span#conf-result-status {
+	padding-left: 4rem;
+}
+
+
 /* lists */
 
 ul{
@@ -405,7 +421,8 @@ li.epub-trigger {
 
 /* fieldsets */
 
-fieldset{
+fieldset,
+div.conf-result {
 	max-width: 65rem;
 	border: none;
 	border-left: 0.6rem double cornflowerblue;

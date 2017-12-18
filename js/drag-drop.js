@@ -109,7 +109,6 @@
 						url: 			$form.attr( 'action' ),
 						type:			$form.attr( 'method' ),
 						data: 			ajaxData,
-						dataType:		'json',
 						cache:			false,
 						contentType:	false,
 						processData:	false,
@@ -124,7 +123,7 @@
 						},
 						error: function()
 						{
-							alert( 'Error. Please, contact the webmaster!' );
+							alert( 'Error. Please, report this problem. Include any error messages reported in your browser\'s console.' );
 						}
 					});
 				}
@@ -295,7 +294,7 @@
 								form.classList.add('is-error');
 							}
 						}
-						else alert( 'Upload failed. Please, contact the webmaster.' );
+						else alert( 'Upload failed. Please report this problem including any errors in your browser\'s console.' );
 					};
 
 					ajax.onerror = function()
@@ -369,23 +368,24 @@
 
 function loadAceReportJSON(data) {
 	
-	var input = data.match(/(<input id="json".*?>)/i);
+	var input_match = data.match(/(<input id=\\"json\\".*?>)/i);
 	
-	if (input !== null) {
+	if (input_match !== null) {
+		var input = input_match[0].replace(/\\/g,'');
 		var html = document.createElement('div');
-			html.innerHTML = input[0];
+			html.innerHTML = input;
 		data = html.querySelector('input#json').value;
 	}
 	
 	data = JSON.parse(data);
-		
+	
 	if (data.hasOwnProperty('aceFlag') && data.aceFlag == 'savedReport') {
 		manage.loadConformanceReport(JSON.stringify(data));
 	}
 	
 	else {
 		var ace = new Ace();
-			ace.storeJSON(data);
+			ace.storeJSON(JSON.parse(data));
 			ace.loadReport();
 	}
 }

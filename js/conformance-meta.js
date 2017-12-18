@@ -2,12 +2,6 @@
 var conf_meta = new ConformanceMeta();
 
 function ConformanceMeta() {
-	this.addDaisyCredential = false;
-}
-
-
-ConformanceMeta.prototype.setDaisyCredential = function() {
-	this.addDaisyCredential = true;
 }
 
 ConformanceMeta.prototype.validate = function(quiet) {
@@ -67,16 +61,12 @@ ConformanceMeta.prototype.generateConformanceMeta = function() {
 	var conf_str = 'http://www.idpf.org/epub/a11y/accessibility-20170105.html#wcag-' + conf.wcag_level;
 	var meta = '';
 	
-	if (!document.querySelector('input[name="conf-result"][value="fail"]').checked) {
+	if (!document.getElementById('conf-result').value == "fail") {
 		meta = format.metaTag(false,'dcterms:conformsTo',conf_str);
 	}
 	
 	meta += format.metaTag(true,'a11y:certifiedBy',document.getElementById('certifiedBy').value.trim());
 	meta += format.metaTag(false,'a11y:certifierReport',document.getElementById('certifierReport').value);
-	
-	if (this.addDaisyCredential) {
-		meta += format.metaTag(true,'a11y:certifierCredential','http://www.daisy.org/ace/certified');
-	}
 	
 	var credNum = document.querySelectorAll('fieldset.credential').length;
 	

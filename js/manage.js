@@ -110,10 +110,7 @@ Manage.prototype.saveConformanceReport = function() {
 	
 	reportJSON += '"conformanceMeta": {'
 	
-		var conf_res = document.querySelector('input[name="conf-result"]:checked');
-		if (conf_res) {
-			reportJSON += '"result": ' + JSON.stringify(conf_res.value) + ',';
-		}
+		reportJSON += '"result": ' + '"' + document.getElementById('conf-result').value + '",';
 		
 		reportJSON += '"certifiedBy": ' + JSON.stringify(document.getElementById('certifiedBy').value) + ',';
 		
@@ -304,7 +301,8 @@ Manage.prototype.loadConformanceReport = function(reportData) {
 	}
 	
 	if (report_obj.conformanceMeta.hasOwnProperty('result')) {
-		document.querySelector('input[name=conf-result][value="' + report_obj.conformanceMeta.result + '"]').click();
+		document.getElementById('conf-result').value = report_obj.conformanceMeta.result;
+		document.getElementById('conf-result-status').textContent = conf.STATUS[report_obj.conformanceMeta.result]
 	}
 	
 	/* load credentials - multiple credentials currently disabled */
@@ -452,6 +450,15 @@ Manage.prototype.clear = function(quiet) {
 	
 	error.clearAll();
 	error.hide();
+	
+	/* clear the import messages */
+	
+	var import_dlg = document.getElementById('import');
+	
+	while(import_dlg.firstChild) {
+		import_dlg.removeChild(import_dlg.firstChild);
+	}
+
 }
 
 

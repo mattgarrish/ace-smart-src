@@ -91,59 +91,14 @@ Report.prototype.validateConformanceReport = function() {
 	}
 	*/
 
-	var unverified = document.querySelectorAll('input[value="unverified"]:checked');
+	var unver = 'section.a input[value="unverified"]:checked';
+		unver += conf.wcag_level == 'a' ? '' : ', section.aa input[value="unverified"]:checked';
+	
+	var unverified = document.querySelectorAll(unver);
 	
 	if (unverified) {
 		for (var i = 0; i < unverified.length; i++) {
 			error.write('verification',unverified[i].name,'err','Success criteria ' + unverified[i].name.replace('sc-','') + ' is unverified.');
-		}
-	}
-	
-	/* validate that the stated conformance matches the evaluation results */
-	var failed = document.querySelectorAll('section.a input[value="fail"]:checked, section.aa input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked').length > 0 ? true : false;
-	
-	var wcag_result = '';
-	var conf_res = document.querySelector('input[name="conf-result"]:checked');
-	
-	if (conf_res) {
-		wcag_result = conf_res.value
-	}
-	
-	var conf_elem = document.getElementById('conf-result');
-	
-	if (wcag_result == '') {
-		conf_elem.classList.add(format.BG.ERR);
-		error.write('conformance','conf-result','err','Conformance to the EPUB specification not specified.');
-		err = true;
-	}
-	
-	else if ((wcag_result != 'fail') && failed) {
-		conf_elem.classList.add(format.BG.ERR);
-		error.write('conformance','conf-result','err','Conformance to the EPUB specification claimed, but report contains failed success criteria.');
-		err = true;
-	}
-	
-	else if ((wcag_result != 'fail') && unverified) {
-		conf_elem.classList.add(format.BG.ERR);
-		error.write('conformance','conf-result','err','Conformance to the EPUB specification claimed, but report contains unverified success criteria.');
-		err = true;
-	}
-	
-	else {
-		/* also check that the form-configured wcag level matches the stated conformance */
-		if (conf.wcag_level != wcag_result) {
-			if (conf.wcag_level == 'a') {
-				conf_elem.classList.add(format.BG.ERR);
-				error.write('conformance','conf-result','err','Tool is configured for testing Level A but Level AA conformance has been claimed.');
-			}
-			else {
-				conf_elem.classList.add(format.BG.WARN);
-				error.write('conformance','conf-result','warn','Tool is configured for testing Level AA but Level A conformance has been claimed.');
-			}
-			err = true;
-		}
-		else {
-			conf_elem.classList.remove(format.BG.ERR);
 		}
 	}
 	
@@ -212,26 +167,15 @@ Report.prototype.generateConformanceReport = function() {
 		reportSummary += '<div class="summaryTable">\n';
 		reportSummary += '<h3><span>Synopsis</span><span></span></h3>';
 		
-	var wcag_conf = 'undef';
-	var conf_res = document.querySelector('input[name="conf-result"]:checked');
-	
-	if (conf_res) {
-		wcag_conf = conf_res.value;
-	}
-	
-	var wcag_label = [];
-		wcag_label.undef  = 'Not specified';
-		wcag_label.a = 'EPUB + WCAG 2.0 Level A';
-		wcag_label.aa = 'EPUB + WCAG 2.0 Level AA';
-		wcag_label.fail = 'Failed';
+	var wcag_conf = document.getElementById('conf-result').value;
 	
 	var conf_class = [];
-		conf_class.undef = 'undefined';
+		conf_class.incomplete = 'undefined';
 		conf_class.a = 'pass';
 		conf_class.aa = 'pass';
 		conf_class.fail = 'fail';
 	
-	reportSummary += format.pubInfo('conformance','Conformance',wcag_label[wcag_conf],'dcterms:conformsTo',conf_class[wcag_conf]);
+	reportSummary += format.pubInfo('conformance','Conformance',conf.STATUS[wcag_conf],'dcterms:conformsTo',conf_class[wcag_conf]);
 
 	reportSummary += format.pubInfo('summary','Summary',document.getElementById('accessibilitySummary').value,'accessibilitySummary','');
 	reportSummary += format.pubInfo('features','Features',this.listDiscoveryMeta('accessibilityFeature','accessibilityFeature'),'');

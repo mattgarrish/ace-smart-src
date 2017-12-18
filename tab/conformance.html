@@ -6,12 +6,11 @@
 	
 	<p>Use the Generate button at the bottom of the page to create a set metadata tags that can be pasted back into the publication.</p>
 	
-	<fieldset id="conf-result">
-		<legend>Conformance Result:</legend>
-		<label><input type="radio" name="conf-result" value="a"/> Pass - EPUB + WCAG Level A</label><br/>
-		<label><input type="radio" name="conf-result" value="aa"/> Pass - EPUB + WCAG Level AA</label><br/>
-		<label><input type="radio" name="conf-result" value="fail"/> Fail</label>
-	</fieldset>
+	<div class="conf-result">
+		<strong>Conformance Result:</strong>
+		<span id="conf-result-status">Incomplete</span>
+		<input type="hidden" name="conf-result" id="conf-result" value="incomplete"/>
+	</div>
 	
 	<fieldset>
 		<legend>Evaluated By:</legend>

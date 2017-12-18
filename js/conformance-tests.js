@@ -14,6 +14,11 @@ function Conformance() {
 	this.SC_TYPE.forms = ['sc-2.4.3'];
 	this.SC_TYPE.sf = ['sc-4.1.2'];
 
+	this.STATUS = new Object();
+	this.STATUS.incomplete = 'Incomplete';
+	this.STATUS.fail = 'Failed';
+	this.STATUS.a = 'Pass - EPUB + WCAG Level A';
+	this.STATUS.aa = 'Pass - EPUB + WCAG Level AA';
 }
 
 Conformance.prototype.setWCAGShow = function() {
@@ -37,9 +42,6 @@ Conformance.prototype.changeConformance = function() {
 	for (var i = 0; i < sup.length; i++) {
 		sup[i].style.display = (this.wcag_level == 'aa') ? 'block' : 'none';
 	}
-	
-	// switch the conformance result to match new configuration
-	// document.querySelector('input[name="conf-result"][value="' + this.wcag_level + '"]').click();
 	
 	this.setWCAGShow();
 }
@@ -128,6 +130,47 @@ Conformance.prototype.setStatus = function(obj) {
 	}
 	
 	document.getElementById(obj.name+'-fail').style.display = (obj.value == 'fail') ? 'block' : 'none';
+	
+	this.setEvaluationResult();
+}
+
+
+Conformance.prototype.setEvaluationResult = function() {
+
+	var show_aa = this.wcag_show.indexOf('|aa|') > 0 ? true  : false;
+	
+	var status_label = document.getElementById('conf-result-status');
+	var status_input = document.getElementById('conf-result');
+	
+	var unverified = 'section.a input[value="unverified"]:checked, section#eg-2 input[value="unverified"]:checked, section#eg-1 input[value="unverified"]:checked';
+		unverified += this.wcag_level == 'aa' ? ', section.aa input[value="unverified"]:checked' : '';
+	
+	if (document.querySelectorAll(unverified).length > 0) {
+		status_label.textContent = this.STATUS.incomplete;
+		return;
+	}
+	
+	if (this.wcag_level == 'aa' || show_aa) {
+		
+		if (document.querySelectorAll('section.a input[value="fail"]:checked, section.aa input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked').length == 0) {
+			
+			if (this.wcag_level == 'aa' || document.querySelectorAll('section.aa input[value="unverified"]:checked').length > 0) {
+				status_label.textContent = this.STATUS.aa;
+				status_input.value = 'aa';
+				return;
+			}
+		}
+	}
+	
+	if (document.querySelectorAll('section.a input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked').length == 0) {
+		status_label.textContent = this.STATUS.a;
+		status_input.value = 'a';
+	}
+	
+	else {
+		status_label.textContent = this.STATUS.fail;
+		status_input.value = 'fail';
+	}
 }
 
 

@@ -24,7 +24,7 @@
 		
 		<!-- DC metadata --> 
 		<meta property="dcterms:created" content="2017-03-02"/>
-		<meta property="dcterms:description" content="The EPUB Accessibility Conformance and Reporting Tool tool aids in the evaluation of EPUB publication for conformance to the EPUB Accessibility specification."/>
+		<meta property="dcterms:description" content="The Ace SMART tool aids in the evaluation of EPUB publications for conformance to the EPUB Accessibility specification."/>
 		<meta property="dcterms:language" content="en"/>
 		
 		<!-- schema.org a11y metadata -->
@@ -47,7 +47,7 @@
 	
 	<body class="tabs">
 		<header>
-			<div class="id">You are logged in as <code><?php echo $user->data()->username; ?></code> <a href="users/logout.php">Log out</a></div>
+			<div class="id">You are logged in as <code><a target="_blank" href="users/account.php"><?php echo $user->data()->username; ?></code></a> <a class="logout" href="users/logout.php">Log out</a></div>
 			
 			<h1><span property="dcterms:publisher"><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium"/></span> <span property="dcterms:title">Ace SMART</span></h1>
 			
@@ -125,9 +125,13 @@
 		</section>
 		</form>
 		
+		<section id="import" aria-label="Ace Import Details" title="Ace Import Details">
+		
+		</section>
+		
 		<footer>
-			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2017</span> <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2017</span> <a target="_blank" href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
+			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a></p>
 		</footer>
 		
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
