@@ -94,7 +94,7 @@ Discovery.prototype.verifyOneCheck = function(id,msg) {
 	
 	msg.err = true;
 	
-	console.log(id);
+	//console.log(id);
 	error.write('discovery',id,'err',this.error[id].msg);
 	
 	this.highlightError(id, this.error[id].warn);

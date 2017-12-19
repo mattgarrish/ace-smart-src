@@ -177,11 +177,34 @@ Report.prototype.generateConformanceReport = function() {
 	
 	reportSummary += format.pubInfo('conformance','Conformance',conf.STATUS[wcag_conf],'dcterms:conformsTo',conf_class[wcag_conf]);
 
-	reportSummary += format.pubInfo('summary','Summary',document.getElementById('accessibilitySummary').value,'accessibilitySummary','');
-	reportSummary += format.pubInfo('features','Features',this.listDiscoveryMeta('accessibilityFeature','accessibilityFeature'),'');
-	reportSummary += format.pubInfo('hazards','Hazards',this.listDiscoveryMeta('accessibilityHazard','accessibilityHazard'),'');
-	reportSummary += format.pubInfo('modes','Access Mode(s)',this.listDiscoveryMeta('accessMode','accessMode'),'');
+	reportSummary += format.pubInfo('accessibilitySummary','Summary',document.getElementById('accessibilitySummary').value,'accessibilitySummary','');
+	reportSummary += format.pubInfo('accessibilityFeatures','Features',this.listDiscoveryMeta('accessibilityFeature','accessibilityFeature'),'');
+	reportSummary += format.pubInfo('accessibilityHazards','Hazards',this.listDiscoveryMeta('accessibilityHazard','accessibilityHazard'),'');
+	reportSummary += format.pubInfo('accessModes','Access Mode(s)',this.listDiscoveryMeta('accessMode','accessMode'),'');
 	
+	var suffSet = document.querySelectorAll('fieldset#accessModeSufficient fieldset');
+	var items = '';
+	
+	for (var i = 0; i < suffSet.length; i++) {
+		var suffMode = suffSet[i].querySelectorAll('input:checked');
+		if (suffMode.length > 0) {
+			items += '<li>';
+			for (var j = 0; j < suffMode.length; j++) {
+				items += suffMode[j].value;
+				if (j != suffMode.length-1) {
+					items += ', ';
+				}
+			}
+			items += '</li>';
+		}
+	}
+	
+	if (items != '') {
+		reportSummary += '<div id="accessModeSufficient"><div class="label">Sufficient Mode(s):</div> <div class="value" property="accessModeSufficient"><ul>' + items + '</ul></div></div>\n'
+	}
+	
+	reportSummary += format.pubInfo('accessibilityAPI', 'Accessibility APIs', this.listDiscoveryMeta('accessibilityAPI','accessibilityAPI'),'');
+	reportSummary += format.pubInfo('accessibilityControl', 'Accessibility Control', this.listDiscoveryMeta('accessibilityControl','accessibilityControl'),'');
 	
 	var certifier = document.getElementById('certifiedBy').value.trim();
 	
@@ -511,7 +534,7 @@ Report.prototype.listDiscoveryMeta = function(id,prop) {
 	
 	str = str.replace(/, $/,'');
 	
-	return (str == '' ? 'Not specified' : str);
+	return (str == '' ? (prop == 'accessibilityHazard' ? 'Not specified' : '') : str);
 }
 
 

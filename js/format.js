@@ -31,7 +31,7 @@ Format.prototype.metaTag = function(isMeta, property, value) {
 Format.prototype.pubInfo = function(id,label,value,prop,add_value_class) {
 	add_value_class = (add_value_class) ? ' ' + add_value_class : '';
 	
-	return '<p id="' + id + '"><span class="label">' + label + ':</span> <span class="value' + add_value_class + '"' + ((prop === undefined || prop == null || prop == '') ? '' : ' property="' + prop + '"') + '>' + value + '</span></p>\n';
+	return (value == '') ? value : '<p id="' + id + '"><span class="label">' + label + ':</span> <span class="value' + add_value_class + '"' + ((prop === undefined || prop == null || prop == '') ? '' : ' property="' + prop + '"') + '>' + value + '</span></p>\n';
 }
 
 Format.prototype.pubSpan = function(id,value,prop) {
