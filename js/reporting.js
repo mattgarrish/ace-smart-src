@@ -248,7 +248,7 @@ Report.prototype.generateConformanceReport = function() {
 	reportDetails += format.pubInfo('format','Format', 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value,'');
 	
 	if (delayID) {
-		reportDetails += format.pubInfo('identifier','Identifier', document.getElementById('modified').value.trim(), '');
+		reportDetails += format.pubInfo('identifier','Identifier', document.getElementById('identifier').value.trim(), '');
 	}
 	
 	reportDetails += format.pubInfo('modified','Last Modified', document.getElementById('modified').value.trim(), '');
