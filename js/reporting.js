@@ -125,11 +125,6 @@ Report.prototype.validateConformanceReport = function() {
 
 Report.prototype.generateConformanceReport = function() {
 	
-	var criteria = {
-		'wcag': document.querySelectorAll('.a, .aa, .aaa'),
-		'epub': document.querySelectorAll('.epub')
-	}
-	
 	var title = document.getElementById('title').value;
 	
 	var reportBody = '<h2 id="title" property="name">' + document.getElementById('title').value.trim() + '</h2>';
@@ -241,8 +236,8 @@ Report.prototype.generateConformanceReport = function() {
 	
 	reportSummary += '\n</div>\n</section>\n';
 
-	var reportDetails = '<section id="details" aria-label="Additional Information">\n';
-		reportDetails += '<details class="info">\n<summary>Additional Details</summary>\n';
+	var reportDetails = '<section id="details" aria-label="Report Details">\n';
+		reportDetails += '<details class="info">\n<summary>Additional Information</summary>\n';
 	
 	// add epub version
 	reportDetails += format.pubInfo('format','Format', 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value,'');
@@ -273,89 +268,84 @@ Report.prototype.generateConformanceReport = function() {
 	
 	var reportTable = '';
 	
-	for (var cat in criteria) {
+	reportTable += '<details id="conformance">\n<summary>Detailed Conformance Results</summary>\n<table>\n<thead>\n<tr><th>Success Criteria</th>\n<th>Level</th>\n<th>Result</th>\n</thead>\n<tbody>\n';
 	
-		reportTable += '<details id="' + cat + '">\n<summary>' + cat.toUpperCase() + ' Conformance Results</summary>\n<table>\n<thead>\n<tr><th>Success Criteria</th>\n';
-		reportTable += (cat == 'wcag') ? '<th>Level</th>' : ''; 
-		reportTable += '<th>Result</th>\n</thead>\n<tbody>\n';
+	var criteria = document.querySelectorAll('.a, .aa, .aaa, .epub');
+	
+	for (var i = 0; i < criteria.length; i++) {
 		
-		for (var i = 0; i < criteria[cat].length; i++) {
-			
-			var conf_level = criteria[cat][i].classList.contains('a') ? 'a' : (criteria[cat][i].classList.contains('aa') ? 'aa' : (criteria[cat][i].classList.contains('aaa') ? 'aaa' : 'epub'));
-			
-			// whether to include in stats for meeting the user specified wcag level
-			var log = (conf_level == 'aaa' || conf.wcag_level == 'a' && conf_level != 'a') ? false : true;
-			
-			var status = document.querySelector('input[name="'+criteria[cat][i].id+'"]:checked').value;
-			
-			// skip AA (if A conformance) and AAA (all the time) SCs if not selected to show in config options
-			if ((conf_level == 'aa' && conf.wcag_level == 'a' && !showAA) || (conf_level == 'aaa' && !showAAA)) {
-				continue;
-			}
-			
-			// skip reporting AA (if A conformance) and AAA (all the time) SCs if they are n/a
-			if ((conf_level == 'aaa' || (conf_level == 'aa' && conf.wcag_level == 'a'))
-					&& (status == 'unverified')) {
-				continue;
-			}
-			
-			reportTable += '<tr>\n<th>' + (criteria[cat][i].getElementsByClassName('label'))[0].textContent + '</th>\n';
-			
-			if (cat == 'wcag') {
-				reportTable += '<td class="lvl">' + conf_level.toUpperCase() + '</td>\n';
-			}
-			
-			reportTable += '<td class="' + status + '"><p class="label">';
-			
-			if (status == 'pass') {
-				reportTable += 'Pass</p>'
-				if (log) {
-					stat.pass += 1;
-				}
-			}
-			
-			else if (status == 'fail') {
-				var err = document.getElementById(criteria[cat][i].id+'-err').value;
-				reportTable += 'Fail</p>'
-				
-				// add the reason 
-				if ((err != '') && (this.displayNotes == 1 || this.displayNotes == 2)) {
-					reportTable += '<p>' + err.replace(/</g,'&lt;').replace(/\r?\n/g, '</p><p>') + '</p>';
-				}
-				
-				if ((criteria[cat]['name'] != 'EPUB') || ((criteria[cat]['name'] == 'EPUB') && (criteria[cat][i].id != 'eg-2'))) {
-					if (log) {
-						stat.fail += 1;
-					}
-				}
-			}
-			
-			else if (status == 'na') {
-				reportTable += 'Not Applicable</p>';
-				if (log) {
-					stat.na += 1;
-				}
-			}
-			
-			else {
-				reportTable += 'Not checked</p>';
-				if (log) {
-					stat.unverified += 1;
-				}
-			}
-			
-			if (this.displayNotes == 1 || this.displayNotes == 3) {
-				if ((document.getElementsByName(criteria[cat][i].id+'-note'))[0].checked) {
-					reportTable += '\n<p class="label">Additional info:</p><p class="value">' + document.getElementById(criteria[cat][i].id+'-info').value + '</p>\n';
-				}
-			}
-			
-			reportTable += '</td>\n</tr>\n';
+		var conf_level = criteria[i].classList.contains('a') ? 'a' : (criteria[i].classList.contains('aa') ? 'aa' : (criteria[i].classList.contains('aaa') ? 'aaa' : 'epub'));
+		
+		// whether to include in stats for meeting the user specified wcag level
+		var log = (conf_level == 'aaa' || conf.wcag_level == 'a' && conf_level != 'a') ? false : true;
+		
+		var status = document.querySelector('input[name="'+criteria[i].id+'"]:checked').value;
+		
+		// skip AA (if A conformance) and AAA (all the time) SCs if not selected to show in config options
+		if ((conf_level == 'aa' && conf.wcag_level == 'a' && !showAA) || (conf_level == 'aaa' && !showAAA)) {
+			continue;
 		}
 		
-		reportTable += '</tbody>\n</table>';
-		reportTable += '</details>\n';
+		// skip reporting AA (if A conformance) and AAA (all the time) SCs if they are n/a
+		if ((conf_level == 'aaa' || (conf_level == 'aa' && conf.wcag_level == 'a'))
+				&& (status == 'unverified')) {
+			continue;
+		}
+		
+		reportTable += '<tr>\n<th>' + (criteria[i].getElementsByClassName('label'))[0].textContent + '</th>\n';
+		
+		reportTable += '<td class="lvl">' + conf_level.toUpperCase() + '</td>\n';
+		
+		reportTable += '<td class="' + status + '"><p class="label">';
+		
+		if (status == 'pass') {
+			reportTable += 'Pass</p>'
+			if (log) {
+				stat.pass += 1;
+			}
+		}
+		
+		else if (status == 'fail') {
+			var err = document.getElementById(criteria[i].id+'-err').value;
+			reportTable += 'Fail</p>'
+			
+			// add the reason 
+			if ((err != '') && (this.displayNotes == 1 || this.displayNotes == 2)) {
+				reportTable += '<p>' + err.replace(/</g,'&lt;').replace(/\r?\n/g, '</p><p>') + '</p>';
+			}
+			
+			if ((criteria['name'] != 'EPUB') || ((criteria['name'] == 'EPUB') && (criteria[i].id != 'eg-2'))) {
+				if (log) {
+					stat.fail += 1;
+				}
+			}
+		}
+		
+		else if (status == 'na') {
+			reportTable += 'Not Applicable</p>';
+			if (log) {
+				stat.na += 1;
+			}
+		}
+		
+		else {
+			reportTable += 'Not checked</p>';
+			if (log) {
+				stat.unverified += 1;
+			}
+		}
+		
+		if (this.displayNotes == 1 || this.displayNotes == 3) {
+			if ((document.getElementsByName(criteria[i].id+'-note'))[0].checked) {
+				reportTable += '\n<p class="label">Additional info:</p><p class="value">' + document.getElementById(criteria[i].id+'-info').value + '</p>\n';
+			}
+		}
+		
+		reportTable += '</td>\n</tr>\n';
 	}
+	
+	reportTable += '</tbody>\n</table>';
+	reportTable += '</details>\n';
 	
 	/* add conformance */
 	

@@ -178,3 +178,13 @@ footer > * {
 	margin: 0 0 0.5rem 1rem;
 	padding: 0 0 0 4rem;
 }
+details#conformance table {
+	border-collapse: collapse !important;
+}
+.dataTables_filter {
+	text-align: left !important;
+}
+.row {
+	display: block !important;
+	margin-top: 1rem !important;
+}
