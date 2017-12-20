@@ -102,6 +102,9 @@ div.summaryTable > p > span.pass {
 div.summaryTable > p > span.fail {
 	background-color: rgb(240,230,230);
 }
+div.summaryTable > p > span.incomplete {
+	background-color: rgb(255,255,190);
+}
 div.summaryTable > div#accessModeSufficient > div.value > ul {
 	margin: 0;
 	padding-left: 1rem;
@@ -153,7 +156,7 @@ td.lvl {
 }
 .label{
 	font-weight: bold;
-	width: 9rem;
+	width: 10rem;
 	vertical-align: top;
 }
 .value{
@@ -187,4 +190,8 @@ details#conformance table {
 .row {
 	display: block !important;
 	margin-top: 1rem !important;
+}
+div.dataTables_wrapper div.dataTables_filter label {
+	font-size: 0.9rem !important;
+	font-weight: bold !important;
 }

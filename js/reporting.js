@@ -135,7 +135,7 @@ Report.prototype.generateConformanceReport = function() {
 	
 	var info = {'creator': 'author', 'identifier': 'identifier', 'publisher': 'publisher'};
 	
-	// used to determine whether to add ID to pub info below
+	// used to determine whether to add ID after title or in pub info section
 	var delayID = false;
 	
 	for (var key in info) {
@@ -165,7 +165,7 @@ Report.prototype.generateConformanceReport = function() {
 	var wcag_conf = document.getElementById('conf-result').value;
 	
 	var conf_class = [];
-		conf_class.incomplete = 'undefined';
+		conf_class.incomplete = 'incomplete';
 		conf_class.a = 'pass';
 		conf_class.aa = 'pass';
 		conf_class.fail = 'fail';
