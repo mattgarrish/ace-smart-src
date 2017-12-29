@@ -1,0 +1,45 @@
+
+<section id="certification" class="js-tabcontent">
+	<h2>Certification Metadata</h2>
+	
+	<p>This section is for reporting conformance and identifying the certifier of this report.</p>
+	
+	<p>Use the Generate button at the bottom of the page to create a set metadata tags that can be pasted back into the publication.</p>
+	
+	<div class="conf-result">
+		<strong>Conformance Result:</strong>
+		<span id="conf-result-status">Incomplete</span>
+		<input type="hidden" name="conf-result" id="conf-result" value="incomplete"/>
+	</div>
+	
+	<fieldset>
+		<legend>Evaluated By:</legend>
+		<label class="data"><span>Name:<img src="/images/asterisk.png" alt="required"/></span> <input type="text" id="certifiedBy" aria-required="true"/></label>
+		<label class="data"><span>Link to report:</span> <input type="text" id="certifierReport"/></label>
+	</fieldset>
+	
+	<!-- <fieldset class="credential" aria-describedby="daisy-cred"> -->
+	<fieldset class="credential">
+		<legend>Credential:</legend>
+		<label class="data"><span>Name:</span> <input type="text" id="credentialName"/></label>
+		<label class="data"><span>Link:</span> <input type="text" id="credentialLink"/></label>
+		<!-- <div id="daisy-cred" class="note">Note: A DAISY credential is automatically included. This field is provided for an additional credential.</div> -->
+	</fieldset>
+	
+	<!-- <div id="add-cred" class="pad-top"><a href="#add-cred" onclick="smartCertification.addCredential(); return false">Add credential</a></div> -->
+	
+	<div class="buttons">
+		<input type="button" value="Generate" onclick="smartCertification.generateCertificationMeta()"/>
+	</div>
+	
+	<p>After generating, copy and paste the output in the following field to the package document metadata.</p>
+	<textarea id="conf-meta" rows="6" aria-label="certification metadata"></textarea>
+	
+	<div class="pad-top"><a href="#generate" class="js-link-to-tab">Continue to Generate Report</a></div>
+</section>
+
+<script src="/js/error.js"></script>
+<script src="/js/format.js"></script>
+<script src="/js/wcag.js"></script>
+<script src="/js/conformance.js"></script>
+<script src="/js/certification.js"></script>

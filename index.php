@@ -43,19 +43,20 @@
 		<script src="js/jquery.details.min.js"></script>
 		<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
 		<?php echo "<script>var extension = new Object(); var ACE_USER = '" . $user->data()->username . "';</script>"; ?>
+		<script src="js/format.js"></script>
 	</head>
 	
 	<body class="tabs">
 		<header>
 			<div class="id">You are logged in as <code><a target="_blank" href="users/account.php"><?php echo $user->data()->username; ?></code></a> <a class="logout" href="users/logout.php">Log out</a></div>
 			
-			<h1><span property="dcterms:publisher"><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium"/></span> <span property="dcterms:title">Ace SMART</span></h1>
+			<h1><span property="dcterms:publisher"><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium"/></span> <span property="dcterms:title">Ace <span class="smart_hd">SMART</span></h1>
 			
 			<nav class="menubar">
 				<a href="user-guide/" target="_blank">User Guide</a> 
 				<a href="faq.html" target="_blank">FAQ</a>
-				<a href="#" onclick="manage.saveConformanceReport(); return false" class="save-button">Save</a>
-				<a href="#" onclick="manage.clear(); return false" class="clear-button">Clear</a>
+				<a href="#" onclick="smartManage.saveConformanceReport(); return false" class="save-button">Save</a>
+				<a href="#" onclick="smartManage.clear(); return false" class="clear-button">Clear</a>
 			</nav>
 		</header>
 		
@@ -65,7 +66,7 @@
 					<a href="#start" id="label_start" class="js-tablist__link">Start</a>
 				</li>
 				<li class="js-tablist__item">
-					<a href="#verification" id="label_verification" class="js-tablist__link">Conformance Verification</a>
+					<a href="#conformance" id="label_conformance" class="js-tablist__link">Conformance</a>
 				</li>
 				<?php
 					if ($ext_module_access) {
@@ -79,13 +80,13 @@
 					}
 				?>
 				<li class="js-tablist__item">
-					<a href="#discovery" id="label_discovery" class="js-tablist__link">Discovery Metadata</a>
+					<a href="#discovery" id="label_discovery" class="js-tablist__link">Discovery</a>
 				</li>
 				<li class="js-tablist__item">
-					<a href="#conformance" id="label_conformance" class="js-tablist__link">Conformance Metadata</a>
+					<a href="#certification" id="label_certification" class="js-tablist__link">Certification</a>
 				</li>
 				<li class="js-tablist__item">
-					<a href="#generate" id="label_generate" class="js-tablist__link">Generate Report</a>
+					<a href="#generate" id="label_generate" class="js-tablist__link">Reporting</a>
 				</li>
 			</ul>
 	
@@ -93,7 +94,7 @@
 			
 			<form class="report">
 				
-				<?php include 'tab/verification.html' ?>
+				<?php include 'tab/conformance.html' ?>
 				
 				<?php include 'tab/discovery.html' ?>
 				
@@ -109,25 +110,25 @@
 					}
 				?>
 				
-				<?php include 'tab/conformance.html' ?>
+				<?php include 'tab/certification.html' ?>
 				
 				<?php include 'tab/generate.html' ?>
 			</form>
 		</main>
 		
-		<form class="report">
-		<section id="error-pane">
-			<a href="#error-pane" onclick="error.hide()"><img src="images/close-icon.png" alt="Close" class="error-close"/></a>
-			<h2 id="validation-msg">Validation Messages:</h2>
-			<div role="log" aria-labelledby="validation-msg" class="scroll">
-				<ul id="error-msg"></ul>
-			</div>
-		</section>
-		</form>
-		
 		<section id="import" aria-label="Ace Import Details" title="Ace Import Details">
 		
 		</section>
+		
+		<form class="report">
+			<section id="error-pane">
+				<a href="#error-pane" onclick="smartError.hideErrorPane()"><img src="images/close-icon.png" alt="Close" class="error-close"/></a>
+				<h2 id="validation-msg">Validation Messages:</h2>
+				<div role="log" aria-labelledby="validation-msg" class="scroll">
+					<ul id="error-msg"></ul>
+				</div>
+			</section>
+		</form>
 		
 		<footer>
 			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2017</span> <a target="_blank" href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
@@ -148,8 +149,8 @@
 		<script src="js/a11ytabs.js"></script>
 		<script src="js/drag-drop.js"></script>
 		<script src="js/ace.js"></script>
-		<script src="js/reporting.js"></script>
 		<script src="js/manage.js"></script>
+		<script src="js/reporting.js"></script>
 		
 		<script src="js/init.js"></script>
 </body>

@@ -1,116 +1,112 @@
-var error = new Error();
 
-function Error() {
-	this.err_pane = '';
-	this.err_msg = '';
+'use strict';
+
+var smartError = (function() {
+
+	var _errorPane = undefined;
+	var _errorMessages = undefined;
 	
-	this.severity = {'err': 'ERROR', 'warn': 'WARNING'};
+	var _errorPaneVisible = false;
 	
-	this.visible = false;
-}
-
-Error.prototype.init = function() {
-	this.err_pane = document.getElementById('error-pane');
-	this.err_msg = document.getElementById('error-msg');
-}
-
-Error.prototype.clearMessages = function() {
-	/* clear the message panel */
-	if (this.err_msg != '') {
-		while (this.err_msg.firstChild) {
-			this.err_msg.removeChild(this.err_msg.firstChild);
-		};
-	}
-}
-
-
-Error.prototype.clearInvalid = function(scope) {	
-	/* clear all aria-invalid attributes */
-	scope = (scope != '') ? '#'+scope+' ' : ''; 
-	var invalid = document.querySelectorAll(scope + '*[aria-invalid="true"]');
-	for (var i = 0; i < invalid.length; i++) {
-		invalid[i].setAttribute('aria-invalid',false);
-	}
-}
-
-
-Error.prototype.clearAll = function(scope) {
-	this.clearMessages();
-	this.clearInvalid(scope);
-	this.clearBGs(scope);
-}
-
-
-Error.prototype.clearBGs = function(scope) {
-	var fields = { "discovery": ['accessibilityFeature','summary-field','accessibilityHazard','accessMode','accessModeSufficient','accessibilityAPI','accessibilityControl'],
-				   "conformance": ['certifiedBy']};
+	var _SEVERITY = {'err': 'ERROR', 'warn': 'WARNING'};
 	
-	if (scope != null && scope != '') {
-		fields[scope].forEach( function(id) {
-			document.getElementById(id).classList.remove(format.BG.ERR, format.BG.WARN, format.BG.PASS, format.BG.NA);
-		});
-	}
-	
-	else {
-		for (var key in fields) {
-			fields[key].forEach( function(id) {
-				document.getElementById(id).classList.remove(format.BG.ERR, format.BG.WARN, format.BG.PASS, format.BG.NA);
-			});
+	return {
+		init: function() {
+			_errorPane = document.getElementById('error-pane');
+			_errorMessages = document.getElementById('error-msg');
+		},
+		
+		clearAll: function(scope) {
+			this.clearMessagePane();
+			this.clearAriaInvalid(scope);
+			this.clearErrorBGs(scope);
+		},
+		
+		clearMessagePane: function() {
+			if (_errorMessages) {
+				while (_errorMessages.firstChild) {
+					_errorMessages.removeChild(_errorMessages.firstChild);
+				};
+			}
+		},
+		
+		clearAriaInvalid: function(scope) {	
+			scope = (scope != '') ? '#'+scope+' ' : ''; 
+			var invalid = document.querySelectorAll(scope + '*[aria-invalid="true"]');
+			for (var i = 0; i < invalid.length; i++) {
+				invalid[i].setAttribute('aria-invalid',false);
+			}
+		},
+		
+		clearErrorBGs: function(scope) {
+			var errorFields = { "discovery": ['accessibilityFeature', 'summary-field', 'accessibilityHazard', 'accessMode', 'accessModeSufficient', 'accessibilityAPI', 'accessibilityControl'],
+						   "certification": ['certifiedBy']};
+			
+			if (scope != null && scope != '') {
+				errorFields[scope].forEach( function(id) {
+					document.getElementById(id).classList.remove(smartFormat.BG.ERR, smartFormat.BG.WARN, smartFormat.BG.PASS, smartFormat.BG.NA);
+				});
+			}
+			
+			else {
+				for (var key in errorFields) {
+					errorFields[key].forEach( function(id) {
+						document.getElementById(id).classList.remove(smartFormat.BG.ERR, smartFormat.BG.WARN, smartFormat.BG.PASS, smartFormat.BG.NA);
+					});
+				}
+			}
+		},
+		
+		logError: function(options) {
+			options = typeof(options) === 'object' ? options : {};
+			options.tab_id = options.tab_id ? options.tab_id : '';
+			options.element_id = options.element_id ? options.element_id : '';
+			options.security_level = options.security_level ? options.security_level : '';
+			
+			if (!_errorMessages) {
+				return;
+			}
+			
+			if (!_errorPaneVisible) {
+				this.showErrorPane();
+			}
+			
+			var errorNumber = (_errorMessages.childElementCount + 1).pad(2);
+			var error_li = document.createElement('li');
+				error_li.setAttribute('id', 'err'+errorNumber);
+		
+			var error_link = document.createElement('a');
+				error_link.setAttribute('href', '#err'+errorNumber);
+				error_link.setAttribute('onclick', "smartError.jumpToError('"+options.tab_id+"','"+options.element_id+"'); return false;");
+				error_link.appendChild(document.createTextNode('[' + _SEVERITY[options.severity] + '] ' + options.message));
+			
+			error_li.appendChild(error_link);
+			_errorMessages.appendChild(error_li);
+		},
+		
+		showErrorPane: function() {
+			_errorPane.style.display = 'block';
+			document.body.style.marginBottom = '13rem';
+			_errorPaneVisible = true;
+		},
+		
+		hideErrorPane: function() {
+			_errorPane.style.display = 'none';
+			document.body.style.marginBottom = '0';
+			_errorPaneVisible = false;
+		},
+		
+		jumpToError: function(tab,id) {
+			document.getElementById('label_'+tab).click();
+			
+			var error_element = document.getElementById(id);
+			
+			var top = error_element.offsetTop;
+				window.scrollTo(0,top-100);
+			
+			error_element.focus();
 		}
+		
 	}
-}
 
-
-Error.prototype.write = function(page,id,level,msg) {
-	if (this.err_msg == '') {
-		return;
-	}
-	
-	if (!this.visible) {
-		this.show();
-	}
-	var errNo = (this.err_msg.childElementCount + 1).pad(2);
-	var err_li = document.createElement('li');
-		err_li.setAttribute('id', 'err'+errNo);
-
-	var err_link = document.createElement('a');
-		err_link.setAttribute('href', '#err'+errNo);
-		err_link.setAttribute('onclick', "error.jumpToError('"+page+"','"+id+"'); return false;");
-		err_link.appendChild(document.createTextNode('[' + this.severity[level] + '] ' + msg));
-	
-	err_li.appendChild(err_link);
-	this.err_msg.appendChild(err_li);
-}
-
-Error.prototype.show = function() {
-	this.err_pane.style.display = 'block';
-	document.body.style.marginBottom = '13rem';
-	this.visible = true;
-}
-
-Error.prototype.hide = function() {
-	this.err_pane.style.display = 'none';
-	document.body.style.marginBottom = '0';
-	this.visible = false;
-}
-
-Error.prototype.alert = function(msg) {
-	alert('Report is incomplete or invalid.\n\nSee error panel for more information.');
-}
-
-Error.prototype.jumpToError = function(tab,id) {
-	var err_elem = document.getElementById(id);
-	
-	if (tab == 'config') {
-		config_dialog.dialog('open');
-	}
-	
-	else {
-		document.getElementById('label_'+tab).click();
-		var top = err_elem.offsetTop;
-		window.scrollTo(0,top-100);
-	}
-	
-	err_elem.focus();
-}
- 
+})();

@@ -13,6 +13,11 @@ img.logo{
 	margin-top: -3px;
 }
 
+span.smart_hd {
+	color: rgb(127,255,0);
+	font-style: italic;
+}
+
 .navbar-inverse {
     background-color: rgb(27,95,161) !important;
 }

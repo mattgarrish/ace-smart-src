@@ -1,7 +1,6 @@
 
-<section id="start" class="js-tabcontent" aria-label="Start">
-	
-	<p class="no-title">Welcome to Ace SMART</p>
+<section id="start" class="js-tabcontent">
+	<h2>Welcome to Ace SMART</h2>
 	
 	<p>This tool provides manual conformance checks necessary to ensure compliance with EPUB and WCAG requirements. It is designed to be used in conjunction with the <a target="_blank" href="https://github.com/daisy/ace-core/releases">Ace</a> accessibility checker.</p>
 	
@@ -28,8 +27,8 @@
 			<fieldset class="flat">
 				<legend>Format:</legend>
 				<!-- <div><small>Note: This setting also controls the format of the discovery and conformance metadata.</small></div> -->
-				<label><input type="radio" name="epub-format" value="3" onchange="format.setVersion('3')" checked="checked"/> EPUB 3</label>
-				<label><input type="radio" name="epub-format" value="2" onchange="format.setVersion('2')"/> EPUB 2</label>
+				<label><input type="radio" name="epub-format" value="3" onchange="format.setEPUBVersion('3')" checked="checked"/> EPUB 3</label>
+				<label><input type="radio" name="epub-format" value="2" onchange="format.setEPUBVersion('2')"/> EPUB 2</label>
 			</fieldset>
 			
 			<label class="data"><span>Title:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="title" aria-required="true"/></label>

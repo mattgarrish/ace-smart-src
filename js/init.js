@@ -1,11 +1,11 @@
-	
-	var qs = new URLSearchParams(window.location.search);
+
+	'use strict';
 	
 	// initialize details polyfill
 	$('details').details();
 	
 	// set error elements
-	error.init();
+	smartError.init();
 	
 	// initialize dialogs
 	var import_dialog = $("#import").dialog({
@@ -19,7 +19,7 @@
 		}
 	});
 	
-	function setDialogWidth() {
+	function adjustDialogWidth() {
 		if (document.body.clientWidth < 550) {
 			import_dialog.dialog("option", "width", 300);
 		}
@@ -28,12 +28,21 @@
 		}
 	}
 	
-	// fix dialog size to match browser size
+	// initial set
+	adjustDialogWidth();
+	
+	// readjust dialog on browser resize
 	$( window ).resize(function() {
-		setDialogWidth();
+		adjustDialogWidth();
 	});
 	
-	// initial set
-	setDialogWidth();
 	
+	/* generate the reporting fields when page loads */
+	window.onload = smartReport.addSuccessCriteriaReporting();
+	
+	/* watch for clicks on SC status radio buttons */
+	$('input.sc_status').click( function(){
+		smartConformance.setStatus(this);
+	});
+
 

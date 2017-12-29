@@ -23,7 +23,7 @@ body{
 	font-size: 1.4rem;
 	margin: 0;
 	padding: 0;
-	background-color: rgb(142, 189, 244);
+	background-color: rgb(251,251,251);
 	color: rgb(0, 0, 0);
 }
 
@@ -75,7 +75,6 @@ div.id a.logout:hover {
 
 h1{
 	font-family: 'Open Sans Light', Helvetica, Arial, sans-serif;
-	font-weight: normal;
 	font-size: 2rem;
 	margin: 0;
 	padding: 0.4rem 0 0.2rem 1.5rem !important;
@@ -89,7 +88,12 @@ h1 > span:first-child{
 }
 
 img.logo{
-	vertical-align: bottom;
+	vertical-align: middle;
+}
+
+span.smart_hd {
+	color: rgb(127,255,0);
+	font-style: italic;
 }
 
 /* page content */
@@ -139,6 +143,7 @@ h2{
 	font-size: 2.4rem;
 	font-weight: normal;
 	color: rgb(0, 0, 180);
+	margin-top: 4rem;
 }
 
 h3{
@@ -200,7 +205,7 @@ a.save-button,
 a.clear-button {
 	font-size: 1.1rem !important;
 	float: right;
-	background-color: rgb(‎248, 248, 255);
+	background-color: rgb(248,248,255);
 	color: rgb(0,0,220);
 	border: 0.1rem solid rgb(0,0,220);
 	padding: 0.2rem 1.6rem !important;
@@ -238,33 +243,37 @@ section.js-tabcontent{
 ul.js-tablist{
 	position: relative;
 	top: -3.6rem;
-	left: -1.2rem;
 	padding: 0;
 	display: inline;
 	margin-left: -1rem;
+	border-bottom: 0.1rem solid grey;
+	padding-bottom: 0.6rem !important;
+	padding-left: 1rem !important;
+	padding-right: 11rem !important;
 }
 
 li.js-tablist__item{
-	width: 16.5rem;
+	width: 11.5rem;
+	text-align: center;
 	display: inline-block;
 	padding: 0.7rem;
 	font-size: 1.325rem;
 	line-height: 1.325rem;
-	background-color: rgb(235, 235, 235);
-	border-radius: 0.5rem 0.5rem 0 0;
+	border: 0.1rem solid lightgrey;
+	border-bottom: none;
 	cursor: pointer;
 	margin-right: 0.3rem;
 }
 
 li.active{
-	background-color: rgb(251, 251, 251);
-	border-top: 0.3rem solid rgb(0, 0, 220);
+	background-color: rgb(240, 248, 255);
+	border-top: 0.1rem solid rgb(0, 0, 220);
 }
 
 li.js-tablist__item a{
 	color: rgb(0, 0, 160);
 	display: inline-block;
-	width: 16.5rem;
+	width: 9.5rem;
 }
 
 li.js-tablist__item a:hover{
