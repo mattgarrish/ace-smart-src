@@ -2,7 +2,7 @@
 'use strict';
 
 document.getElementById('discovery_button').onclick = function() {
-	smartDiscovery.validate(false);
+	smartDiscovery.validate();
 }
 
 var smartDiscovery = (function(smartFormat) { 
@@ -32,9 +32,9 @@ var smartDiscovery = (function(smartFormat) {
 		_prop_error.accessModeSufficient.dup.warn = false;
 	
 	
-	function validate(quiet) {
+	function validate(options) {
 	
-		if (!quiet) {
+		if (!options.quiet) {
 			smartError.clearAll('discovery');
 		}
 		
@@ -62,7 +62,7 @@ var smartDiscovery = (function(smartFormat) {
 		setPass('accessibilityAPI');
 		setPass('accessibilityControl');
 		
-		if (quiet) {
+		if (options.quiet) {
 			return (msg.err || msg.warn) ? false : true;
 		}
 		
@@ -314,8 +314,10 @@ var smartDiscovery = (function(smartFormat) {
 			addSufficient();
 		},
 		
-		validate: function(quiet) {
-			validate(quiet);
+		validate: function(options) {
+			options = typeof(options) === 'object' ? options : {};
+			options.quiet = options.hasOwnProperty('quiet') ? options.quiet : false;
+			validate(options);
 		}
 	}
 

@@ -4,85 +4,30 @@
 var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConformance,smartCertification) {
 	
 	var _reportOutputLocation = 'win';
-	var _notesToDisplay = 1; // all - show all; failures - show only failures; notes - show only general; none - hide all
+	var _notesToDisplay = 'all';
 	
 	function validateConformanceReport() {
 		
-		var error = false;
-		
-		/* clear the error pane */
 		smartError.clearAll();
 		
-		/* validate the title/modified date */
-		var required_meta = {'title': 'title', 'modified': 'last modified date'};
+		var is_valid = true;
 		
-		for (var meta_name in required_meta) {
-			var meta_element = document.getElementById(meta_name);
-			
-			if (meta_element.value.trim() == '') {
-				meta_element.setAttribute('aria-invalid',true);
-				meta_element.parentNode.classList.add(smartFormat.BG.ERR);
-				smartError.logError({tab_id: 'start', element_id: meta_name, severity: 'err', message: 'The ' + required_meta[meta_name] + ' is a required field.'});
-				error = true;
-			}
-			
-			else {
-				meta_element.setAttribute('aria-invalid',false);
-				meta_element.parentNode.classList.remove(smartFormat.BG.ERR);
-			}
-		}
+		is_valid = validatePublicationMetadata() ? is_valid : false;
 		
-		/* validate the optional metadata field */
+		is_valid = checkNoUnverifiedSC() ? is_valid : false;
 		
-		var optional_elem = document.getElementById('optional-meta');
-		var optional_meta_value = optional_elem.value.trim();
+		is_valid = smartCertification.validate({quiet: true}) ? is_valid : false;
 		
-		if (optional_meta_value != '') {
-			var meta_lines = optional_meta_value.replace(/\r\n/g,'\n').split('\n');
-			var meta_error = false;
-			for (var i = 0; i < meta_lines.length; i++) {
-				if (!meta_lines[i].match(/: /)) {
-					optional_elem.setAttribute('aria-invalid',true);
-					optional_elem.parentNode.classList.add(smartFormat.BG.ERR);
-					smartError.logError({tab_id: 'start', element_id: 'optional-meta', severity: 'err', message: 'Missing a colon separator on line ' + (i+1)});
-					error = true;
-					meta_error = true;
-				}
-			}
-			if (!meta_error) {
-				optional_elem.setAttribute('aria-invalid',false);
-				optional_elem.parentNode.classList.remove(smartFormat.BG.ERR);
-			}
-		}
-		
-		else {
-			optional_elem.setAttribute('aria-invalid',false);
-			optional_elem.parentNode.classList.remove(smartFormat.BG.ERR);
-		}
-		
-		var unverified_selector = 'section.a input[value="unverified"]:checked';
-			unverified_selector += smartWCAG.WCAGLevel == 'a' ? '' : ', section.aa input[value="unverified"]:checked';
-		
-		var unverified_success_criteria = document.querySelectorAll(unverified_selector);
-		
-		if (unverified_success_criteria) {
-			for (var i = 0; i < unverified_success_criteria.length; i++) {
-				smartError.logError({tab_id: 'conformance', element_id: unverified_success_criteria[i].name, severity: 'err', message: 'Success criteria ' + unverified_success_criteria[i].name.replace('sc-','') + ' is unverified.'});
-			}
-		}
-		
-		error = smartCertification.validate(true) ? error : true;
-		
-		error = smartDiscovery.validate(true) ? error : true;
+		is_valid = smartDiscovery.validate({quiet: true}) ? is_valid : false;
 		
 		// validate user extensions
 		if (Object.keys(extension).length > 0) {
 			for (var key in extension) {
-				error = extension[key].validate() ? error : true;
+				is_valid = extension[key].validate() ? is_valid : false;
 			}
 		}
 		
-		if (error) {
+		if (!is_valid) {
 			if (!confirm('Report did not validate successfully!\n\nClick Ok to generate anyway, or Cancel to exit.')) {
 				return false;
 			}
@@ -92,6 +37,99 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 	}
 	
 	
+	function validatePublicationMetadata() {
+		var is_valid = true;
+		
+		is_valid = validateRequiredPubMetadata() ? is_valid : false;
+		is_valid = validateOptionalPubMetadata() ? is_valid : false;
+		
+		return is_valid;
+	}
+	
+	
+	function validateRequiredPubMetadata() {
+		var is_valid = true;
+		
+		var required_fields = {'title': 'title', 'modified': 'last modified date'};
+		
+		for (var meta_name in required_fields) {
+			var meta_element = document.getElementById(meta_name);
+			
+			if (meta_element.value.trim() == '') {
+				meta_element.setAttribute('aria-invalid',true);
+				meta_element.parentNode.classList.add(smartFormat.BG.ERR);
+				smartError.logError({tab_id: 'start', element_id: meta_name, severity: 'err', message: 'The ' + required_fields[meta_name] + ' is a required field.'});
+				is_valid = false;
+			}
+			
+			else {
+				meta_element.setAttribute('aria-invalid',false);
+				meta_element.parentNode.classList.remove(smartFormat.BG.ERR);
+			}
+		}
+		
+		return is_valid;
+	}
+	
+	
+	function validateOptionalPubMetadata() {
+		var is_valid = true;
+		
+		var optional_meta_element = document.getElementById('optional-meta');
+		var optional_meta_value = optional_meta_element.value.trim();
+		
+		if (optional_meta_value != '') {
+			var meta_lines = optional_meta_value.replace(/\r\n/g,'\n').split('\n');
+			var meta_error = false;
+			for (var i = 0; i < meta_lines.length; i++) {
+				if (!meta_lines[i].match(/: /)) {
+					optional_elem.setAttribute('aria-invalid',true);
+					optional_elem.parentNode.classList.add(smartFormat.BG.ERR);
+					smartError.logError({tab_id: 'start', element_id: 'optional-meta', severity: 'err', message: 'Missing a colon separator on line ' + (i+1)});
+					is_valid = false;
+					meta_error = true;
+				}
+			}
+			if (!meta_error) {
+				optional_meta_element.setAttribute('aria-invalid',false);
+				optional_meta_element.parentNode.classList.remove(smartFormat.BG.ERR);
+			}
+		}
+		
+		else {
+			optional_meta_element.setAttribute('aria-invalid',false);
+			optional_meta_element.parentNode.classList.remove(smartFormat.BG.ERR);
+		}
+		
+		return is_valid;
+	}
+	
+	
+	function checkNoUnverifiedSC() {
+		var unverified_selector = 'section.a input[value="unverified"]:checked';
+			unverified_selector += smartWCAG.WCAGLevel == 'a' ? '' : ', section.aa input[value="unverified"]:checked';
+		
+		var unverified_success_criteria = document.querySelectorAll(unverified_selector);
+		
+		if (unverified_success_criteria) {
+			for (var i = 0; i < unverified_success_criteria.length; i++) {
+				smartError.logError({tab_id: 'conformance', element_id: unverified_success_criteria[i].name, severity: 'err', message: 'Success criteria ' + unverified_success_criteria[i].name.replace('sc-','') + ' is unverified.'});
+			}
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
+	
+	
+	
+	/* 
+	 * Creates the final conformance report for the publication
+	 */
+	
 	function generateConformanceReport() {
 		
 		if (!validateConformanceReport()) {
@@ -100,16 +138,109 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 		
 		var title = document.getElementById('title').value;
 		
-		var reportBody = '<h2 id="title" property="name">' + document.getElementById('title').value.trim() + '</h2>';
+		var report_body = createReportBody();
+		var report_title = 'EPUB Accessibility Conformance Report for ' + title;
+		var report_timestamp = smartFormat.generateTimestamp('at');
 		
-		/* add publication info */
+		var logo = document.createElement('span');
 		
-		reportBody += '<div class="pubinfo">';
+		if (Object.keys(extension).length > 0) {
+			for (var key in extension) {
+				if (typeof extension[key].LOGO !== 'undefined' && extension[key].LOGO) {
+					var logoLink = document.createElement('a');
+						logoLink.setAttribute('href', extension[key].LOGO[2]);
+					
+					var logoImg = document.createElement('img');
+						logoImg.setAttribute('src', extension[key].LOGO[0]);
+						logoImg.setAttribute('alt', extension[key].LOGO[1]);
+					
+					logoLink.appendChild(logoImg);
+					logo.appendChild(logoLink);
+				}
+			}
+		}
+		
+		if (_reportOutputLocation == 'win') {
+			var reportWin = window.open('report.html','reportWin');
+				reportWin.addEventListener('load', function() { reportWin.init(report_title, logo.innerHTML, report_body, report_timestamp); });
+		}
+		
+		else {
+			var report_template = '';
+			var xhr = new XMLHttpRequest();
+			
+			xhr.open("GET", 'report.html', true);
+			
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4){
+			    	report_template = xhr.responseText;
+			    	report_template = report_template.replace('<title></title>', '<title>' + report_title + '</title>');
+			    	report_template = report_template.replace('<main></main>', '<main>' + report_body + '</main>');
+			    	report_template = report_template.replace('<span id="date-created"></span>', '<span id="date-created">' + report_timestamp + '</span>');
+			    	report_template = report_template.replace(/<script type="text\/javascript">[\s\S]+?<\/script>\s*/i, '');
+			    	document.getElementById('report-html').value = report_template;
+			    }
+			}
+			
+			xhr.send();
+		}
+	}
+	
+	
+	function createReportBody() {
+		var reportBody = document.createElement('body');
+		
+		// add the header
+		reportBody.appendChild(createReportHeader());
+		
+		// add the publication info below the header
+		var publicationInfo = createReportPublicationInfo();
+			reportBody.appendChild(publicationInfo.content);
+		
+		// add the report summary
+		reportBody.appendChild(createReportSummary());
+		
+		// create the detailed report
+		var reportDetails = document.createElement('section');
+			reportDetails.setAttribute('id', 'details');
+			reportDetails.setAttribute('aria-label', 'Report Details');
+		
+		// add additional info details
+		var additionalInfo = createReportAdditionalInfo({addedID: publicationInfo.addedID});
+		
+		// add test result details
+		var testResults = createReportTestDetails();
+		
+		// add statistics to the additional info section
+		additionalInfo.appendChild(formatPubInfoEntry({id: 'result', label: 'Statistics', value: createReportStats(testResults.count)}));
+		
+		reportDetails.appendChild(additionalInfo);
+		reportDetails.appendChild(testResults.content);
+		reportBody.appendChild(reportDetails);
+		
+		return reportBody.innerHTML;
+	}
+	
+	
+	function createReportHeader() {
+		var reportHD = document.createElement('h2');
+			reportHD.setAttribute('id', 'title');
+			reportHD.setAttribute('property', 'name');
+			reportHD.appendChild(document.createTextNode(document.getElementById('title').value.trim()))
+		return reportHD;
+	}
+	
+	
+	function createReportPublicationInfo() {
+		var publicationInfo = {};
+		
+		publicationInfo.content = document.createElement('div');
+			publicationInfo.content.setAttribute('class', 'pubinfo');
 		
 		var info = {'creator': 'author', 'identifier': 'identifier', 'publisher': 'publisher'};
 		
 		// used to determine whether to add ID after title or in pub info section
-		var IDOnTop = false;
+		publicationInfo.addedID = false;
 		
 		for (var key in info) {
 			var value = document.getElementById(key).value.trim();
@@ -119,22 +250,39 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 						value = 'ISBN ' + value;
 					}
 					else {
-						IDOnTop = true;
+						publicationInfo.addedID = true;
 						continue;
 					}
 				}
-				reportBody += formatTitleSubInfo(key,value,info[key]);
+				publicationInfo.content.appendChild(formatTitleSubInfo(key, value, info[key]));
 			}
 		}
 		
-		reportBody = reportBody.replace(/ \| $/,'');
+		return publicationInfo;
+	}
+	
+	
+	function createReportSummary() {
+	
+		var summary = document.createElement('section');
+			summary.setAttribute('id', 'summary');
 		
-		reportBody += '</div>\n';
+		var summaryTable = document.createElement('div');
+			summaryTable.setAttribute('class', 'summaryTable');
 		
-		var reportSummary = '<section id="summary">\n'
-			reportSummary += '<div class="summaryTable">\n';
-			reportSummary += '<h3><span>Synopsis</span><span></span></h3>';
-			
+		var summaryHD = document.createElement('h3');
+		
+		var summaryHD_col1 = document.createElement('span');
+			summaryHD_col1.appendChild(document.createTextNode('Synopsis'));
+		
+		summaryHD.appendChild(summaryHD_col1);
+		
+		var summaryHD_col2 = document.createElement('span');
+		
+		summaryHD.appendChild(summaryHD_col2);
+		
+		summaryTable.appendChild(summaryHD);
+		
 		var wcag_conf = document.getElementById('conf-result').value;
 		
 		var conf_class = [];
@@ -143,86 +291,115 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 			conf_class.aa = 'pass';
 			conf_class.fail = 'fail';
 		
-		reportSummary += formatPubInfoEntry({id: 'conformance', label: 'Conformance', value: smartConformance.STATUS[wcag_conf], property: 'dcterms:conformsTo', value_bg_class: conf_class[wcag_conf]});
+		summaryTable.appendChild(formatPubInfoEntry({id: 'conformance', label: 'Conformance', value: smartConformance.STATUS[wcag_conf], property: 'dcterms:conformsTo', value_bg_class: conf_class[wcag_conf]}));
 	
-		reportSummary += formatPubInfoEntry({id: 'accessibilitySummary', label: 'Summary', value: document.getElementById('accessibilitySummary').value, property: 'accessibilitySummary'});
-		reportSummary += formatPubInfoEntry({id: 'accessibilityFeatures', label: 'Features', value: listDiscoveryMeta('accessibilityFeature','accessibilityFeature')});
-		reportSummary += formatPubInfoEntry({id: 'accessibilityHazards', label: 'Hazards', value: listDiscoveryMeta('accessibilityHazard','accessibilityHazard')});
-		reportSummary += formatPubInfoEntry({id: 'accessModes', label: 'Access Mode(s)', value: listDiscoveryMeta('accessMode','accessMode')});
+		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilitySummary', label: 'Summary', value: document.getElementById('accessibilitySummary').value, property: 'accessibilitySummary'}));
+		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityFeatures', label: 'Features', value: listDiscoveryMeta('accessibilityFeature','accessibilityFeature')}));
+		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityHazards', label: 'Hazards', value: listDiscoveryMeta('accessibilityHazard','accessibilityHazard')}));
+		summaryTable.appendChild(formatPubInfoEntry({id: 'accessModes', label: 'Access Mode(s)', value: listDiscoveryMeta('accessMode','accessMode')}));
 		
 		var suffSet = document.querySelectorAll('fieldset#accessModeSufficient fieldset');
-		var items = '';
+		
+		var sufficient_ul = document.createElement('ul');
 		
 		for (var i = 0; i < suffSet.length; i++) {
 			var suffMode = suffSet[i].querySelectorAll('input:checked');
 			if (suffMode.length > 0) {
-				items += '<li>';
+				var li = document.createElement('li')
 				for (var j = 0; j < suffMode.length; j++) {
-					items += suffMode[j].value;
+					li.appendChild(document.createTextNode(suffMode[j].value));
 					if (j != suffMode.length-1) {
-						items += ', ';
+						li.appendChild(document.createTextNode(', '));
 					}
 				}
-				items += '</li>';
+				sufficient_ul.appendChild(li);
 			}
 		}
 		
-		if (items != '') {
-			reportSummary += '<div id="accessModeSufficient"><div class="label">Sufficient Mode(s):</div> <div class="value" property="accessModeSufficient"><ul>' + items + '</ul></div></div>\n'
+		if (sufficient_ul.childElementCount > 0) {
+			var sufficientModes = document.createElement('div');
+				sufficientModes.setAttribute('id', 'accessModeSufficient');
+			
+			var label = document.createElement('div');
+				label.setAttribute('class', 'label');
+				label.appendChild(document.createTextNode('Sufficient Mode(s):'))
+			
+			sufficientModes.appendChild(label);
+			sufficientModes.appendChild(document.createTextNode(' '));
+			
+			var value = document.createElement('div');
+				value.setAttribute('class', 'value');
+				value.setAttribute('property', 'accessModeSufficient');
+				value.appendChild(sufficient_ul);
+			
+			sufficientModes.appendChild(value);
+			
+			summaryTable.appendChild(sufficientModes);
 		}
 		
-		reportSummary += formatPubInfoEntry({id: 'accessibilityAPI', label: 'Accessibility APIs', value: listDiscoveryMeta('accessibilityAPI','accessibilityAPI')});
-		reportSummary += formatPubInfoEntry({id: 'accessibilityControl', label: 'Accessibility Control', value: listDiscoveryMeta('accessibilityControl','accessibilityControl')});
+		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityAPI', label: 'Accessibility APIs', value: listDiscoveryMeta('accessibilityAPI','accessibilityAPI')}));
+		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityControl', label: 'Accessibility Control', value: listDiscoveryMeta('accessibilityControl','accessibilityControl')}));
 		
 		var certifier = document.getElementById('certifiedBy').value.trim();
 		
 		if (certifier != '') {
-			reportSummary += formatPubInfoEntry({id: 'certifiedBy', label: 'Evaluated by', value: certifier});
+			summaryTable.appendChild(formatPubInfoEntry({id: 'certifiedBy', label: 'Evaluated by', value: certifier}));
 		}
 		
-		// reportSummary += '<p id="credential"><span class="label">Credential:</span> <span class="value"><a href="http://www.daisy.org/ace/certified">DAISY Ace Certified</a>';
+		var credential;
 		
-		//var credNum = document.querySelectorAll('fieldset.credential').length;
+		var name = document.getElementById('credentialName').value.trim();
+		var link = document.getElementById('credentialLink').value.trim();
 		
-		var cred = '';
-		
-		//for (var i = 1; i <= credNum; i++) {
-			var name = document.getElementById('credentialName').value.trim();
-			var link = document.getElementById('credentialLink').value.trim();
-			
-			if (name != '' && link != '') {
-				cred += '<br><a href="' + link + '">' + name + '</a>';
-			}
-			
-			else if (name != '') {
-				cred += '<br>' + name;
-			}
-			
-			else if (link != '') {
-				cred += '<br><a href="' + link + '">' + link + '</a>';
-			}
-		//}
-		
-		if (cred != '') {
-			reportSummary += formatPubInfoEntry({id: 'credential', label: 'Additional Credential(s)', value: cred});
+		if (name && link) {
+			credential = document.createElement('a');
+			credental.setAttribute('href', link);
+			credential.appendChild(document.createTextNode(name));
 		}
 		
-		reportSummary += '\n</div>\n</section>\n';
+		else if (name != '') {
+			credential = document.createTextNode(name);
+		}
+		
+		else if (link != '') {
+			credential = document.createElement('a');
+			credental.setAttribute('href', link);
+			credential.appendChild(document.createTextNode(link));
+		}
+		
+		if (credential) {
+			summaryTable.appendChild(formatPubInfoEntry({id: 'credential', label: 'Additional Credential(s)', value: credential}));
+		}
+		
+		summary.appendChild(summaryTable);
+		
+		return summary;
+	}
 	
-		var reportDetails = '<section id="details" aria-label="Report Details">\n';
-			reportDetails += '<details class="info">\n<summary>Additional Information</summary>\n';
+	
+	function createReportAdditionalInfo(options) {
+		options = typeof(options) === 'object' ? options : {};
+		options.addedID = options.hasOwnProperty('addedID') ? options.addedID : false;
+		
+		var additionalInfo = document.createElement('details');
+			additionalInfo.setAttribute('class', 'info');
+		
+		var additionalInfoSummary = document.createElement('summary');
+			additionalInfoSummary.appendChild(document.createTextNode('Additional Information'));
+		
+		additionalInfo.appendChild(additionalInfoSummary);
 		
 		// add epub version
-		reportDetails += formatPubInfoEntry({id: 'format', label: 'Format', value: 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value});
+		additionalInfo.appendChild(formatPubInfoEntry({id: 'format', label: 'Format', value: 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value}));
 		
-		if (IDOnTop) {
-			reportDetails += formatPubInfoEntry({id: 'identifier', label: 'Identifier', value: document.getElementById('identifier').value.trim()});
+		if (!options.addedID) {
+			additionalInfo.appendChild(formatPubInfoEntry({id: 'identifier', label: 'Identifier', value: document.getElementById('identifier').value.trim()}));
 		}
 		
-		reportDetails += formatPubInfoEntry({id: 'modified', label: 'Last Modified', value: document.getElementById('modified').value.trim()});
-		reportDetails += formatPubInfoEntry({id: 'date', label: 'Published', value: document.getElementById('date').value.trim()});
-		reportDetails += formatPubInfoEntry({id: 'description', label: 'Description', value: document.getElementById('description').value.trim()});
-		reportDetails += formatPubInfoEntry({id: 'subject', label: 'Subject', value: document.getElementById('subject').value.trim()});
+		additionalInfo.appendChild(formatPubInfoEntry({id: 'modified', label: 'Last Modified', value: document.getElementById('modified').value.trim()}));
+		additionalInfo.appendChild(formatPubInfoEntry({id: 'date', label: 'Published', value: document.getElementById('date').value.trim()}));
+		additionalInfo.appendChild(formatPubInfoEntry({id: 'description', label: 'Description', value: document.getElementById('description').value.trim()}));
+		additionalInfo.appendChild(formatPubInfoEntry({id: 'subject', label: 'Subject', value: document.getElementById('subject').value.trim()}));
 		
 		var optional_meta = document.getElementById('optional-meta').value.trim();
 		
@@ -230,18 +407,50 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 			var meta = optional_meta.replace(/\r\n/g,'\n').split('\n');
 			for (var i = 0; i < meta.length; i++) {
 				var part = meta[i].split(': ');
-				reportDetails += formatPubInfoEntry({id: part[0].toLowerCase().replace(/\s/g,''), label: part[0], value: part[1]});
+				additionalInfo.appendChild(formatPubInfoEntry({id: part[0].toLowerCase().replace(/\s/g,''), label: part[0], value: part[1]}));
 			}
 		}
 		
-		var stat = { "pass": 0, "fail": 0, "na": 0, "unverified": 0 };
+		return additionalInfo;
+	}
+	
+	
+	function createReportTestDetails() {
+	
+		var result = {};
+			result.content = document.createElement('details');
+			result.content.setAttribute('id', 'conformance');
+		
+		result.count = { pass: 0, fail: 0, na: 0, unverified: 0 };
 		
 		var showAA = document.getElementById('show-aa').checked;
 		var showAAA = document.getElementById('show-aaa').checked;
 		
-		var reportTable = '';
+		var resultSummary = document.createElement('summary');
+			resultSummary.appendChild(document.createTextNode('Detailed Conformance Results'));
 		
-		reportTable += '<details id="conformance">\n<summary>Detailed Conformance Results</summary>\n<table>\n<thead>\n<tr><th>Success Criteria</th>\n<th>Level</th>\n<th>Result</th>\n</thead>\n<tbody>\n';
+		result.content.appendChild(resultSummary);
+		
+		var resultTable = document.createElement('table');
+		var resultThead = document.createElement('thead');
+		var resultTheadRow = document.createElement('tr');
+		
+		var resultTheadSC = document.createElement('th');
+			resultTheadSC.appendChild(document.createTextNode('Success Criteria'));
+		resultTheadRow.appendChild(resultTheadSC);
+		
+		var resultTheadLevel = document.createElement('th');
+			resultTheadLevel.appendChild(document.createTextNode('Level'));
+		resultTheadRow.appendChild(resultTheadLevel);
+		
+		var resultTheadResult = document.createElement('th');
+			resultTheadResult.appendChild(document.createTextNode('Result'));
+		resultTheadRow.appendChild(resultTheadResult);
+		
+		resultThead.appendChild(resultTheadRow);
+		resultTable.appendChild(resultThead);
+		
+		var resultTbody = document.createElement('tbody');
 		
 		var criteria = document.querySelectorAll('.a, .aa, .aaa, .epub');
 		
@@ -265,118 +474,124 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 				continue;
 			}
 			
-			reportTable += '<tr>\n<th>' + (criteria[i].getElementsByClassName('label'))[0].textContent + '</th>\n';
+			var resultRow = document.createElement('tr');
 			
-			reportTable += '<td class="lvl">' + conf_level.toUpperCase() + '</td>\n';
+			var resultColSC = document.createElement('th');
+				resultColSC.appendChild(document.createTextNode((criteria[i].getElementsByClassName('label'))[0].textContent));
+			resultRow.appendChild(resultColSC);
 			
-			reportTable += '<td class="' + status + '"><p class="label">';
+			var resultColLevel = document.createElement('td');
+				resultColLevel.setAttribute('class', 'lvl');
+				resultColLevel.appendChild(document.createTextNode(conf_level.toUpperCase()));
+			resultRow.appendChild(resultColLevel);
+			
+			var resultColStatus = document.createElement('td');
+				resultColStatus.setAttribute('class', status);
+			
+			var resultColStatusLabel = document.createElement('p');
+				resultColStatusLabel.setAttribute('class', 'label');
 			
 			if (status == 'pass') {
-				reportTable += 'Pass</p>'
+				resultColStatusLabel.appendChild(document.createTextNode('Pass'));
+				resultColStatus.appendChild(resultColStatusLabel);
 				if (log) {
-					stat.pass += 1;
+					result.count.pass += 1;
 				}
 			}
 			
 			else if (status == 'fail') {
 				var err = document.getElementById(criteria[i].id+'-err').value;
-				reportTable += 'Fail</p>'
+				resultColStatusLabel.appendChild(document.createTextNode('Fail'));
+				resultColStatus.appendChild(resultColStatusLabel);
 				
 				// add the reason 
-				if ((err != '') && (_notesToDisplay == 'failures' || _notesToDisplay == 'notes')) {
-					reportTable += '<p>' + err.replace(/</g,'&lt;').replace(/\r?\n/g, '</p><p>') + '</p>';
+				if ((err != '') && (_notesToDisplay == 'all' || _notesToDisplay == 'failures')) {
+					var lines = err.replace(/</g,'&lt;').trim().split(/[\r\n]+/);
+					lines.forEach(function(line) {
+						if (line) {
+							var notePara = document.createElement('p');
+								notePara.appendChild(document.createTextNode(line));
+							resultColStatus.appendChild(notePara);
+						}
+					});
 				}
 				
 				if ((criteria['name'] != 'EPUB') || ((criteria['name'] == 'EPUB') && (criteria[i].id != 'eg-2'))) {
 					if (log) {
-						stat.fail += 1;
+						result.count.fail += 1;
 					}
 				}
 			}
 			
 			else if (status == 'na') {
-				reportTable += 'Not Applicable</p>';
+				resultColStatusLabel.appendChild(document.createTextNode('Not Applicable'));
+				resultColStatus.appendChild(resultColStatusLabel);
 				if (log) {
-					stat.na += 1;
+					result.count.na += 1;
 				}
 			}
 			
 			else {
-				reportTable += 'Not checked</p>';
+				resultColStatusLabel.appendChild(document.createTextNode('Not checked'));
+				resultColStatus.appendChild(resultColStatusLabel);
 				if (log) {
-					stat.unverified += 1;
+					result.count.unverified += 1;
 				}
 			}
 			
-			if (_notesToDisplay == 'failures' || _notesToDisplay == 'none') {
+			if (_notesToDisplay == 'all' || _notesToDisplay == 'notes') {
 				if ((document.getElementsByName(criteria[i].id+'-note'))[0].checked) {
-					reportTable += '\n<p class="label">Additional info:</p><p class="value">' + document.getElementById(criteria[i].id+'-info').value + '</p>\n';
+					var noteLabel = document.createElement('p');
+						noteLabel.setAttribute('class', 'label');
+						noteLabel.appendChild(document.createTextNode('Additional Info:'));
+					resultColStatus.appendChild(noteLabel);
+					
+					var noteValue = document.createElement('p');
+						noteValue.setAttribute('class', 'value');
+						noteValue.appendChild(document.createTextNode(document.getElementById(criteria[i].id+'-info').value));
+					resultColStatus.appendChild(noteValue);
 				}
 			}
 			
-			reportTable += '</td>\n</tr>\n';
+			resultRow.appendChild(resultColStatus);
+			resultTbody.appendChild(resultRow);
 		}
 		
-		reportTable += '</tbody>\n</table>';
-		reportTable += '</details>\n';
+		resultTable.appendChild(resultTbody);
+		result.content.appendChild(resultTable);
 		
-		/* add conformance */
-		
-		var stats = (stat.fail ? stat.fail + ' fail, ' : '') + (stat.unverified ? stat.unverified + ' unverified, ' : '') + stat.pass + ' pass' + (stat.na ? ', ' + stat.na + ' not applicable' : '');
-		
-		reportDetails += formatPubInfoEntry({id: 'result', label: 'Statistics', value: stats});
-		
-		reportDetails += '</details>\n';
-		reportDetails += reportTable;
-		reportDetails += '</section>\n'
-		
-		/*
-		var cssURL = document.getElementById('add-custom-css').checked ? document.getElementById('custom-css-url').value.trim() : '';
-		
-		var css = document.getElementById('default-styles').checked ? HTML_DEFAULT_STYLES : '';
-			css += (cssURL != '') ? '\n<link rel="stylesheet" type="text/css" href="'+cssURL+'"/>\n' : '';
-		*/ 
-		
-		var report_title = 'EPUB Accessibility Conformance Report for ' + title;
-		var report_body = reportBody + reportSummary + reportDetails;
-		var report_timestamp = smartFormat.generateTimestamp('at');
-		
-		var logo = '';
-		
-		if (Object.keys(extension).length > 0) {
-			for (var key in extension) {
-				logo += (typeof extension[key].LOGO !== 'undefined' && extension[key].LOGO) ? '<a href="' + extension[key].LOGO[2] + '"><img src="' + extension[key].LOGO[0] + '" alt="' + extension[key].LOGO[1] + '"/>' : '';
-			}
-		}
-		
-		if (_reportOutputLocation == 'win') {
-			var reportWin = window.open('report.html','reportWin');
-				reportWin.addEventListener('load', function() { reportWin.init(report_title, logo, report_body, report_timestamp); });
-		}
-		
-		else {
-			var report_template = '';
-			var xhr = new XMLHttpRequest();
-			
-			xhr.open("GET", 'report.html', true);
-			
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4){
-			    	report_template = xhr.responseText;
-			    	report_template = report_template.replace('<title></title>', '<title>' + report_title + '</title>');
-			    	//report_template = report_template.replace('<div id="add-id"></div>', '<div id="add-id">' + logo + '</div>');
-			    	report_template = report_template.replace('<main></main>', '<main>' + report_body + '</main>');
-			    	report_template = report_template.replace('<span id="date-created"></span>', '<span id="date-created">' + report_timestamp + '</span>');
-			    	report_template = report_template.replace(/<script type="text\/javascript">[\s\S]+?<\/script>\s*/i, '');
-			    	document.getElementById('report-html').value = report_template;
-			    }
-			}
-			
-			xhr.send();
-		}
+		return result;
 	}
 	
 	
+	function createReportStats(count) {
+		var stats = '';
+		
+		if (count.fail) {
+			stats += count.fail + ' fail, ';
+		}
+		
+		if (count.unverified) {
+			stats += count.unverified + ' unverified, '; 
+		}
+		
+		stats += count.pass + ' pass';
+		
+		if (count.na) {
+			stats += ', ' + count.na + ' not applicable';
+		}
+		
+		return stats;
+	}
+	
+	
+	
+	
+	
+	/* 
+	 * Dynamically generates the status radio buttons and note fields for 
+	 * evaluating the success criteria
+	 */
 	
 	function addSCStatusFields() {
 	
@@ -497,20 +712,57 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 	}
 	
 	
+	
 	function formatPubInfoEntry(options) {
 		options = typeof(options) === 'object' ? options : {};
 		options.id = options.id ? options.id : '';
 		options.label = options.label ? options.label : '';
 		options.property = options.property ? options.property : '';
 		options.value = options.value ? options.value : '';
-		options.value_bg_class = options.value_bg ?  ' ' + options.value_bg : '';
+		options.value_bg_class = options.value_bg_class ?  ' ' + options.value_bg_class : '';
 		
-		return (options.value == '') ? '' : '<p id="' + options.id + '"><span class="label">' + options.label + ':</span> <span class="value' + options.value_bg_class + '"' + ((options.property == '') ? '' : ' property="' + options.property + '"') + '>' + options.value + '</span></p>\n';
+		if (!options.value) {
+			return document.createTextNode(' ');
+		}
+		
+		var entry = document.createElement('p');
+			entry.setAttribute('id', options.id);
+		
+		var label = document.createElement('span');
+			label.setAttribute('class','label');
+			label.appendChild(document.createTextNode(options.label));
+		
+		entry.appendChild(label);
+		entry.appendChild(document.createTextNode(' '));
+		
+		var value;
+		
+		if (typeof(options.value === 'string')) {
+			var value = document.createElement('span');
+				value.setAttribute('class', options.value_bg_class ? 'value ' + options.value_bg_class : 'value');
+			
+			if (options.property) {
+				value.setAttribute('property', options.property);
+			}
+			value.appendChild(document.createTextNode(options.value));
+		}
+		
+		else {
+			value = options.value;
+		}
+		
+		entry.appendChild(value);
+		
+		return entry;
 	}
 	
 	
-	function formatTitleSubInfo(id,value,prop) {
-		return '<span id="' + id + '" property="' + prop + '">' + value + '</span> | ';
+	function formatTitleSubInfo(id, value, property) {
+		var span = document.createElement('span');
+			span.setAttribute('id', id);
+			span.setAttribute('property', property);
+			span.appendChild(document.createTextNode(value));
+		return span;
 	}
 	
 	

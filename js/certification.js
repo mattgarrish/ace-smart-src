@@ -3,9 +3,9 @@
 
 var smartCertification = (function(smartFormat) {
 	
-	function validate(quiet) {
+	function validate(options) {
 		
-		if (!quiet) {
+		if (!options.quiet) {
 			smartError.clearAll('certification');
 		}
 		
@@ -17,7 +17,7 @@ var smartCertification = (function(smartFormat) {
 			cert_elem.setAttribute('aria-invalid',true);
 			cert_elem.parentNode.classList.add(smartFormat.BG.ERR);
 			
-			if (quiet) {
+			if (options.quiet) {
 				return false;
 			}
 			else {
@@ -121,8 +121,10 @@ var smartCertification = (function(smartFormat) {
 		generateCertificationMeta: function() {
 			generateCertificationMeta();
 		},
-		validate: function(quiet) {
-			validate(quiet);
+		validate: function(options) {
+			options = typeof(options) === 'object' ? options : {};
+			options.quiet = options.hasOwnProperty('quiet') ? options.quiet : false;
+			validate(options);
 		}
 	}
 
