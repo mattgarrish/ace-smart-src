@@ -9,23 +9,22 @@
 	<div class="form-data">
 		<fieldset class="flat">
 			<legend>WCAG Conformance:</legend>
-			<label><input type="radio" name="wcag-level" value="a" onchange="smartWCAG.setWCAGLevel('a'); smartConformance.changeConformance(); smartConformance.enableAAOption('show');"/> Level A</label>
-			<label><input type="radio" name="wcag-level" value="aa" onchange="smartWCAG.setWCAGLevel('aa'); smartConformance.changeConformance(); smartConformance.enableAAOption('disable');" checked="checked"/> Level AA</label>
+			<label><input type="radio" name="wcag-level" value="a"/> Level A</label>
+			<label><input type="radio" name="wcag-level" value="aa" checked="checked"/> Level AA</label>
 		</fieldset>
 		
 		<fieldset class="flat">
 			<legend>Show Optional Criteria:</legend>
-			<label><input type="checkbox" id="show-aa" onchange="smartConformance.showLevel('aa', (this.checked ? true : false))" disabled="disabled"/> Level AA</label>
-			<label><input type="checkbox" id="show-aaa" onchange="smartConformance.showLevel('aaa', (this.checked ? true : false))"/> Level AAA</label>
+			<label><input type="checkbox" id="show-aa" class="optional-criteria" disabled="disabled"/> Level AA</label>
+			<label><input type="checkbox" id="show-aaa" class="optional-criteria"/> Level AAA</label>
 		</fieldset>
 		
 		<fieldset id="exclusions" class="flat">
 			<legend>Exclude Tests For:</legend>
-			<label><input type="checkbox" id="img" value="img" onchange="smartConformance.changeContentConformance(this,'img')"/> Images</label>
-			<label><input type="checkbox" id="audio" value="audio" onchange="smartConformance.changeContentConformance(this,'audio')"/> Audio</label>
-			<label><input type="checkbox" id="video" value="video" onchange="smartConformance.changeContentConformance(this,'video')"/> Video</label>
-			<label><input type="checkbox" id="script" value="script" onchange="smartConformance.changeContentConformance(this,'script')"/> Scripting</label>
-			<!-- <label><input type="checkbox" id="forms" value="forms" onchange="smartConformance.changeContentConformance(this,'forms')"/> Form Elements</label> -->
+			<label><input type="checkbox" id="img" class="excl-test"/> Images</label>
+			<label><input type="checkbox" id="audio" class="excl-test"/> Audio</label>
+			<label><input type="checkbox" id="video" class="excl-test"/> Video</label>
+			<label><input type="checkbox" id="script" class="excl-test"/> Scripting</label>
 		</fieldset>
 	</div>
 	
@@ -34,22 +33,30 @@
 		
 		<fieldset class="flat">
 			<legend>Hide success criteria with status:</legend>
-			<label><input type="checkbox" onchange="smartConformance.showSC(this,'unverified')"/> Unverified</label>
-			<label><input type="checkbox" onchange="smartConformance.showSC(this,'pass')"/> Pass</label>
-			<label><input type="checkbox" onchange="smartConformance.showSC(this,'fail')"/> Fail</label>
-			<label><input type="checkbox" onchange="smartConformance.showSC(this,'na')"/> N/A</label>
+			<label><input type="checkbox" class="hide_sc" value="unverified"/> Unverified</label>
+			<label><input type="checkbox" class="hide_sc" value="pass"/> Pass</label>
+			<label><input type="checkbox" class="hide_sc" value="fail"/> Fail</label>
+			<label><input type="checkbox" class="hide_sc" value="na"/> N/A</label>
+		</fieldset>
+		
+		<fieldset class="flat">
+			<legend>Set all success criteria to:</legend>
+			<label><input type="radio" name="status" value="unverified" checked="checked"/> Unverified</label>
+			<label><input type="radio" name="status" value="pass"/> Pass</label>
+			<label><input type="radio" name="status" value="fail"/> Fail</label>
+			<label><input type="radio" name="status" value="na"/> N/A</label>
 		</fieldset>
 		
 		<fieldset class="flat">
 			<legend>Success criteria descriptions:</legend>
-			<label><input type="radio" name="sc-body" onchange="smartConformance.showSCBody(true)" checked="checked"/> Expand all</label>
-			<label><input type="radio" name="sc-body" onchange="smartConformance.showSCBody(false)"/> Collapse all</label>
+			<label><input type="radio" name="sc-body" value="true" checked="checked"/> Expand all</label>
+			<label><input type="radio" name="sc-body" value="false"/> Collapse all</label>
 		</fieldset>
 		
 		<fieldset class="flat">
 			<legend>Help links:</legend>
-			<label><input type="radio" name="link-exp" onchange="smartConformance.showLinks(false)" checked="checked"/> Collapse all</label>
-			<label><input type="radio" name="link-exp" onchange="smartConformance.showLinks(true)"/> Expand all</label>
+			<label><input type="radio" name="link-exp" value="false" checked="checked"/> Collapse all</label>
+			<label><input type="radio" name="link-exp" value="true"/> Expand all</label>
 		</fieldset>
 	</details>
 	

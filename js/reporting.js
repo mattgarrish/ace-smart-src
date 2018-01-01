@@ -1,6 +1,24 @@
 
 'use strict';
 
+/* 
+ * 
+ * smartReport
+ * 
+ * Controls the report generation.
+ * 
+ * Public functions:
+ * 
+ * - generateConformanceReport - creates the final output report
+ * 
+ * - addSuccessCriteriaReporting - dynamically adds the status and note fields to success criteria
+ * 
+ * - setReportOutputLocation - sets _reportOutputLocation - whether the user want the report output to a new window or textbox
+ * 
+ * - setNoteOutput - sets _notesToDisplay - which kinds of notes the user wants included in the report
+ * 
+ */
+
 var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConformance,smartCertification) {
 	
 	var _reportOutputLocation = 'win';
@@ -585,6 +603,78 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 	}
 	
 	
+	/* return discovery metadata sets as strings */
+	
+	function listDiscoveryMeta(id,prop) {
+		var elemList = document.getElementById(id).getElementsByTagName('input');
+		var str = '';
+		
+		for (var i = 0; i < elemList.length; i++) {
+			if (elemList[i].checked) {
+				str += '<span property="' + prop + '">' + elemList[i].parentNode.textContent.trim() + '</span>, ';
+			}
+		}
+		
+		str = str.replace(/, $/,'');
+		
+		return (str == '' ? (prop == 'accessibilityHazard' ? 'Not specified' : '') : str);
+	}
+	
+	
+	
+	function formatPubInfoEntry(options) {
+		options = typeof(options) === 'object' ? options : {};
+		options.id = options.id ? options.id : '';
+		options.label = options.label ? options.label : '';
+		options.property = options.property ? options.property : '';
+		options.value = options.value ? options.value : '';
+		options.value_bg_class = options.value_bg_class ?  ' ' + options.value_bg_class : '';
+		
+		if (!options.value) {
+			return document.createTextNode(' ');
+		}
+		
+		var entry = document.createElement('p');
+			entry.setAttribute('id', options.id);
+		
+		var label = document.createElement('span');
+			label.setAttribute('class','label');
+			label.appendChild(document.createTextNode(options.label));
+		
+		entry.appendChild(label);
+		entry.appendChild(document.createTextNode(' '));
+		
+		var value;
+		
+		if (typeof(options.value === 'string')) {
+			var value = document.createElement('span');
+				value.setAttribute('class', options.value_bg_class ? 'value ' + options.value_bg_class : 'value');
+			
+			if (options.property) {
+				value.setAttribute('property', options.property);
+			}
+			value.appendChild(document.createTextNode(options.value));
+		}
+		
+		else {
+			value = options.value;
+		}
+		
+		entry.appendChild(value);
+		
+		return entry;
+	}
+	
+	
+	function formatTitleSubInfo(id, value, property) {
+		var span = document.createElement('span');
+			span.setAttribute('id', id);
+			span.setAttribute('property', property);
+			span.appendChild(document.createTextNode(value));
+		return span;
+	}
+	
+	
 	
 	
 	
@@ -666,7 +756,7 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 			var note_input = document.createElement('input');
 				note_input.setAttribute('type','checkbox');
 				note_input.setAttribute('name',sc[i].id+'-note');
-				note_input.setAttribute('onclick','smartConformance.showNote(this)');
+				note_input.setAttribute('onclick','smartConformance.showSCNoteField(this)');
 			
 			note_label.appendChild(note_input);
 			note_label.appendChild(document.createTextNode(' Add Note'));
@@ -693,77 +783,6 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 		}
 	}
 	
-	
-	/* return discovery metadata sets as strings */
-	
-	function listDiscoveryMeta(id,prop) {
-		var elemList = document.getElementById(id).getElementsByTagName('input');
-		var str = '';
-		
-		for (var i = 0; i < elemList.length; i++) {
-			if (elemList[i].checked) {
-				str += '<span property="' + prop + '">' + elemList[i].parentNode.textContent.trim() + '</span>, ';
-			}
-		}
-		
-		str = str.replace(/, $/,'');
-		
-		return (str == '' ? (prop == 'accessibilityHazard' ? 'Not specified' : '') : str);
-	}
-	
-	
-	
-	function formatPubInfoEntry(options) {
-		options = typeof(options) === 'object' ? options : {};
-		options.id = options.id ? options.id : '';
-		options.label = options.label ? options.label : '';
-		options.property = options.property ? options.property : '';
-		options.value = options.value ? options.value : '';
-		options.value_bg_class = options.value_bg_class ?  ' ' + options.value_bg_class : '';
-		
-		if (!options.value) {
-			return document.createTextNode(' ');
-		}
-		
-		var entry = document.createElement('p');
-			entry.setAttribute('id', options.id);
-		
-		var label = document.createElement('span');
-			label.setAttribute('class','label');
-			label.appendChild(document.createTextNode(options.label));
-		
-		entry.appendChild(label);
-		entry.appendChild(document.createTextNode(' '));
-		
-		var value;
-		
-		if (typeof(options.value === 'string')) {
-			var value = document.createElement('span');
-				value.setAttribute('class', options.value_bg_class ? 'value ' + options.value_bg_class : 'value');
-			
-			if (options.property) {
-				value.setAttribute('property', options.property);
-			}
-			value.appendChild(document.createTextNode(options.value));
-		}
-		
-		else {
-			value = options.value;
-		}
-		
-		entry.appendChild(value);
-		
-		return entry;
-	}
-	
-	
-	function formatTitleSubInfo(id, value, property) {
-		var span = document.createElement('span');
-			span.setAttribute('id', id);
-			span.setAttribute('property', property);
-			span.appendChild(document.createTextNode(value));
-		return span;
-	}
 	
 	
 	return {

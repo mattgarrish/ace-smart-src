@@ -1,6 +1,30 @@
 
 'use strict';
 
+/* 
+ * 
+ * smartError
+ * 
+ * Error reporting functions
+ * 
+ * Public functions
+ * 
+ * - init - initializes the error pane and message list
+ * 
+ * - clearAll - calls the following three functions to reset error reporting
+ *    - clearMessagePane - clears the message pane
+ *    - clearARIAInvalid - resets aria-invalid attributes to false
+ *    - clearErrorBGs - resets error and warning background shading to default colour
+ * 
+ * - logError - adds an error message to the error pane
+ * 
+ * - jumpToError - called whne a user clicks on an error message to jump them to the location
+ * 
+ * - showErrorPane - makes the error pane visible
+ * - hideErrorPane - hides the error pane
+ * 
+ */
+
 var smartError = (function() {
 
 	var _errorPane = undefined;
@@ -84,6 +108,17 @@ var smartError = (function() {
 			_errorMessages.appendChild(error_li);
 		},
 		
+		jumpToError: function(tab,id) {
+			document.getElementById('label_'+tab).click();
+			
+			var error_element = document.getElementById(id);
+			
+			var top = error_element.offsetTop;
+				window.scrollTo(0,top-100);
+			
+			error_element.focus();
+		},
+		
 		showErrorPane: function() {
 			_errorPane.style.display = 'block';
 			document.body.style.marginBottom = '13rem';
@@ -94,17 +129,6 @@ var smartError = (function() {
 			_errorPane.style.display = 'none';
 			document.body.style.marginBottom = '0';
 			_errorPaneVisible = false;
-		},
-		
-		jumpToError: function(tab,id) {
-			document.getElementById('label_'+tab).click();
-			
-			var error_element = document.getElementById(id);
-			
-			var top = error_element.offsetTop;
-				window.scrollTo(0,top-100);
-			
-			error_element.focus();
 		}
 		
 	}

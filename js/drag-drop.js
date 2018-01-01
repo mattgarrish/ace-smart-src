@@ -181,7 +181,7 @@
 			}
 			
 			else {
-				smartAce.storeJSON(JSON.parse(data));
+				smartAce.storeReportJSON(JSON.parse(data));
 				smartAce.loadReport();
 			}
 		}

@@ -1,6 +1,21 @@
 
 'use strict';
 
+/* 
+ * 
+ * smartAce
+ * 
+ * Loads an Ace report into the reporting tool.
+ * 
+ * Public functions:
+ * 
+ * - storeReportJSON - stores the ace json output to _report
+ * 
+ * - loadReport - populates the ace data into the tool
+ * 
+ * 
+ */
+
 var smartAce = (function(smartConformance,smartDiscovery) {
 
 	var _report = '';
@@ -578,7 +593,7 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 	}
 	
 	return {
-		storeJSON: function(json) {
+		storeReportJSON: function(json) {
 			_report = json;
 		},
 		

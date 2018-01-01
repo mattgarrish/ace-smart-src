@@ -7,6 +7,7 @@ var smartFormat = (function() {
 	
 	var _BG = {
 		"ERR": 'err',
+		"FAIL": 'err',
 		"NA": 'na',
 		"PASS": 'pass',
 		"WARN": 'warn'
