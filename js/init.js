@@ -40,6 +40,12 @@
 	/* generate the reporting fields when page loads */
 	window.onload = smartReport.addSuccessCriteriaReporting();
 	
+	/* watch for local load */
+	$('#local-load input[type="button"]').click( function(){
+		smartManage.loadLocalReport();
+	});
+	
+	
 	/* watch for conformance level changes */
 	$('input[name="wcag-level"]').click( function(){
 		smartConformance.setWCAGConformanceLevel(this.value);
@@ -47,7 +53,7 @@
 	
 	/* watch for optional criteria display changes */
 	$('input.optional-criteria').click( function(){
-		onchange="smartConformance.displaySuccessCriteria({wcag_level: this.id.replace('show-',''), display: (this.checked ? true : false)})"
+		smartConformance.displaySuccessCriteria({wcag_level: this.id.replace('show-',''), display: (this.checked ? true : false)});
 	});
 	
 	/* watch for clicks on SC status radio buttons */
@@ -78,4 +84,49 @@
 	/* watch for clicks to show/hide help links */
 	$('input[name="link-exp"]').click( function(){
 		smartConformance.showSCHelpLinks(this.value == 'true' ? true : false);
+	});
+	
+	/* watch for clicks to show/hide help links */
+	$('input.show-note').click( function(){
+		smartConformance.showSCNoteField(this);
+	});
+
+	
+	/* watch for save button click */
+	$('#save-button').click( function(){
+		smartManage.saveConformanceReport();
+		return false;
+	});
+	
+	/* watch for clear button click */
+	$('#clear-button').click( function(){
+		smartManage.clear();
+		return false; 
+	});
+	
+	/* watch for error pane close click */
+	$('#error-pane-close').click( function(){
+		smartError.hideErrorPane();
+	});
+	
+	/* watch for click to add custom accessibilityFeature */
+	$('#add-a11y-feature').click( function(){
+		smartDiscovery.addCustomFeature();
+		return false;
+	});
+	
+	/* watch for click to add custom accessibilityFeature */
+	$('#add-sufficient').click( function(){
+		smartDiscovery.addSufficient();
+		return false;
+	});
+	
+	/* watch for click on button to generate certification metadata */
+	$('#generate-certification-metadata').click( function(){
+		smartCertification.generateCertificationMeta();
+	});
+	
+	/* watch for click on button to generate final report */
+	$('#generate-report').click( function(){
+		smartReport.generateConformanceReport(); 
 	});

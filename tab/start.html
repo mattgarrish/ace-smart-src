@@ -18,6 +18,12 @@
 			<div class="box__success">Done! <a href="" class="box__restart" role="button">Load a different report?</a></div>
 			<div class="box__error">Error! <span></span>. <a href="" class="box__restart" role="button">Try again!</a></div>
 		</form>
+		<details id="local-load">
+			<summary>Load report locally</summary>
+			<p>Paste the report JSON into the textbox below to load the report without sending any data to the SMART server.</p>
+			<textarea id="local-report-json" rows="5" cols="30"></textarea>
+			<div><input type="button" id="local-json-report" value="Load"/></div>
+		</details>
 	</div>
 	
 	<form class="report">

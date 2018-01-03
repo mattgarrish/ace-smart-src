@@ -53,7 +53,7 @@ var smartCertification = (function(smartFormat) {
 	
 	function generateCertificationMeta() {
 		
-		if (!validate()) {
+		if (!validate({quiet: false})) {
 			return;
 		}
 		

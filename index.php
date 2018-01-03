@@ -38,6 +38,14 @@
 		<meta property="schema:accessibilityControl" content="fullKeyboardControl"/>
 		<meta property="schema:accessibilityControl" content="fullTouchControl"/>
 		
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-327448-4"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'UA-327448-4');
+		</script>
+		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="js/jquery.details.min.js"></script>
@@ -55,8 +63,8 @@
 			<nav class="menubar">
 				<a href="user-guide/" target="_blank">User Guide</a> 
 				<a href="faq.html" target="_blank">FAQ</a>
-				<a href="#" onclick="smartManage.saveConformanceReport(); return false" class="save-button">Save</a>
-				<a href="#" onclick="smartManage.clear(); return false" class="clear-button">Clear</a>
+				<a href="#" id="save-button">Save</a>
+				<a href="#" id="clear-button">Clear</a>
 			</nav>
 		</header>
 		
@@ -122,7 +130,7 @@
 		
 		<form class="report">
 			<section id="error-pane">
-				<a href="#error-pane" onclick="smartError.hideErrorPane()"><img src="images/close-icon.png" alt="Close" class="error-close"/></a>
+				<a href="#error-pane-close" id="error-pane-close"><img src="images/close-icon.png" alt="Close" class="error-close"/></a>
 				<h2 id="validation-msg">Validation Messages:</h2>
 				<div role="log" aria-labelledby="validation-msg" class="scroll">
 					<ul id="error-msg"></ul>

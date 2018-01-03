@@ -238,7 +238,7 @@ var smartConformance = (function(smartWCAG,smartFormat) {
 		},
 		
 		showSCHelpLinks: function(display) {
-			var details = document.getElementById('conformance').querySelectorAll('details');
+			var details = document.getElementById('conformance').querySelectorAll('section.a details, section.aa details, section.aaa details, section.epub details');
 			for (var i = 0; i < details.length; i++) {
 				details[i].open = display;
 			}

@@ -201,8 +201,8 @@ nav.menubar > a:not([href]) {
 	text-decoration: none;
 }
 
-a.save-button,
-a.clear-button {
+a#save-button,
+a#clear-button {
 	font-size: 1.1rem !important;
 	float: right;
 	background-color: rgb(248,248,255);
@@ -213,12 +213,12 @@ a.clear-button {
 	margin-right: 4.5rem;
 }
 
-a.clear-button {
+a#clear-button {
 	margin-right: 1rem;
 }
 
-a.save-button:hover,
-a.clear-button:hover {
+a#save-button:hover,
+a#clear-button:hover {
 	color: rgb(220,0,0);
 	border-color: rgb(220,0,0);
 	text-decoration: none;
@@ -280,6 +280,14 @@ li.js-tablist__item a:hover{
 	color: rgb(238, 0, 0);
 }
 
+
+/* local report loading */
+
+#local-load {
+	text-align: left;
+	font-size: 90%;
+	margin-left: 0.4rem;
+}
 
 /* conformance guidelines */
 

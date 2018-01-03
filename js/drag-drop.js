@@ -164,19 +164,17 @@
 			
 			smartManage.clear(true);
 			
-			var input_match = data.match(/(<input id=\\"json\\".*?>)/i);
+			var input_match = data.match(/<pre id=\\"report\\">/i);
 			
 			if (input_match !== null) {
-				var input = input_match[0].replace(/\\/g,'');
-				var html = document.createElement('div');
-					html.innerHTML = input;
-				data = html.querySelector('input#json').value;
+				var html = document.createElement('html');
+					html.innerHTML = data.replace(/\\n/g,'').replace(/\\/g,'');
+				data = html.querySelector('pre#report').textContent;
 			}
 			
 			data = JSON.parse(data);
 			
 			if (data.hasOwnProperty('aceFlag') && data.aceFlag == 'savedReport') {
-				var manage = new Manage();
 				smartManage.loadConformanceReport(JSON.stringify(data));
 			}
 			

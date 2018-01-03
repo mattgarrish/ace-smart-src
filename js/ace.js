@@ -21,6 +21,7 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 	var _report = '';
 	
 	function loadReport() {
+	
 		setWCAGConformanceLevel();
 		
 		loadMetadata();
@@ -33,6 +34,7 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 		/* save the report for reloading */
 		document.getElementById('report').value = _report;
 	}
+	
 	
 	function setWCAGConformanceLevel() {
 		
@@ -47,6 +49,7 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 			document.getElementById('conf-result').value = conf;
 		}
 	}
+	
 	
 	function loadMetadata() {
 	
@@ -193,6 +196,7 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 		}
 	
 	}
+	
 	
 	function setSufficientSets() {
 		

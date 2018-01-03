@@ -7,113 +7,94 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 	
 		var sc = document.querySelectorAll('.a, .aa, .aaa, .epub');
 		
-		var reportJSON = '{';
+		var reportJSON = {};
 		
-		reportJSON += '"version": "1.0",';
-		reportJSON += '"aceFlag": "savedReport",';
-		reportJSON += '"created": "' + smartFormat.generateTimestamp('dash') + '",';
+		reportJSON.version = '1.0';
+		reportJSON.aceFlag = 'savedReport';
+		reportJSON.created = smartFormat.generateTimestamp('dash');
 		
 		/* store configuration info */
 		
-		reportJSON += '"config": {';
-			reportJSON += '"wcag": {';
-				reportJSON += '"level": ' + JSON.stringify(document.querySelector('input[name="wcag-level"]:checked').value) + ',';
-				reportJSON += '"show_aa": ' + (document.getElementById('show-aa').checked ? 'true' : 'false') + ',';
-				reportJSON += '"show_aaa": ' + (document.getElementById('show-aaa').checked ? 'true' : 'false') + '';
-			reportJSON += '},';
+		reportJSON.config = {};
+			reportJSON.config.wcag = {};
+				reportJSON.config.wcag.level = document.querySelector('input[name="wcag-level"]:checked').value;
+				reportJSON.config.wcag.show_aa = (document.getElementById('show-aa').checked ? 'true' : 'false');
+				reportJSON.config.wcag.show_aaa = (document.getElementById('show-aaa').checked ? 'true' : 'false');
 		
 			/* store pub info */
 			
-			reportJSON += '"title": ' + JSON.stringify(document.getElementById('title').value) + ',';
-			reportJSON += '"creator": ' + JSON.stringify(document.getElementById('creator').value) + ',';
-			reportJSON += '"identifier": ' + JSON.stringify(document.getElementById('identifier').value) + ',';
-			reportJSON += '"modified": ' + JSON.stringify(document.getElementById('modified').value) + ',';
-			reportJSON += '"publisher": ' + JSON.stringify(document.getElementById('publisher').value) + ',';
-			reportJSON += '"date": ' + JSON.stringify(document.getElementById('date').value) + ',';
-			reportJSON += '"description": ' + JSON.stringify(document.getElementById('description').value) + ',';
-			reportJSON += '"subject": ' + JSON.stringify(document.getElementById('subject').value) + ',';
-			reportJSON += '"optional-meta": ' + JSON.stringify(document.getElementById('optional-meta').value) + ',';
+			reportJSON.config.title = document.getElementById('title').value;
+			reportJSON.config.creator = document.getElementById('creator').value;
+			reportJSON.config.identifier = document.getElementById('identifier').value;
+			reportJSON.config.modified = document.getElementById('modified').value;
+			reportJSON.config.publisher = document.getElementById('publisher').value;
+			reportJSON.config.date = document.getElementById('date').value;
+			reportJSON.config.description = document.getElementById('description').value;
+			reportJSON.config.subject = document.getElementById('subject').value;
+			reportJSON.config['optional-meta'] = document.getElementById('optional-meta').value;
 			
 			/* store original report data section */
 			
-			reportJSON += '"report": ' + JSON.stringify(document.getElementById('report').value) + ',';
+			reportJSON.config.report = document.getElementById('report').value;
 			
 			/* other config info */
-			reportJSON += '"epub_format": ' + JSON.stringify(document.querySelector('input[name="epub-format"]:checked').value);
+			reportJSON.config.epub_format = document.querySelector('input[name="epub-format"]:checked').value;
 			
 			var excl = document.querySelectorAll('#exclusions input[type="checkbox"]:checked');
 			if (excl.length > 0) {
-				reportJSON += ',"exclusions": [';
+				reportJSON.config.exclusions = [];
 					for (var k = 0; k < excl.length; k++) {
-					   reportJSON += JSON.stringify(excl[k].value);
-					   reportJSON += (k == excl.length-1) ? '' : ',';
+					   reportJSON.config.exclusions.push(excl[k].value);
 					}
-				reportJSON += ']';
 			}
-		reportJSON += '},';
 	
 		/* store success criteria state */
 		
-		reportJSON += '"conformance": [';
+		reportJSON.conformance = [];
 		
 			for (var i = 0; i < sc.length; i++) {
 				
 				var status = document.querySelector('input[name="'+sc[i].id+'"]:checked').value;
 				
-				reportJSON += '{"sc": "' + sc[i].id + '", "status": "' + status + '"';
+				reportJSON.conformance[i] = {};
+				reportJSON.conformance[i].sc = sc[i].id;
+				reportJSON.conformance[i].status = status;
 				
 				if (status == 'fail') {
-					reportJSON += ', "error": ' + JSON.stringify(document.getElementById(sc[i].id+'-err').value);
+					reportJSON.conformance[i].error = document.getElementById(sc[i].id+'-err').value;
 				}
 				
 				if ((document.getElementsByName(sc[i].id+'-note'))[0].checked) {
-					reportJSON += ', "note": ' + JSON.stringify(document.getElementById(sc[i].id+'-info').value);
+					reportJSON.conformance[i].note = document.getElementById(sc[i].id+'-info').value;
 				}
-				
-				reportJSON += '}';
-				reportJSON += (i == (sc.length-1)) ? '' : ',';
 			}
-		
-		reportJSON += '],';
 		
 		/* store discovery metadata */
 		
-		reportJSON += '"discovery": {'
+		reportJSON.discovery = {};
 		
 			var fields = new Array('accessibilityFeature','accessibilityHazard','accessMode','accessibilityAPI','accessibilityControl');
 			
 			fields.forEach( function(id) {
-				reportJSON += saveDiscoveryMeta(id);
+				reportJSON.discovery[id] = saveDiscoveryMeta(id);
 			});
 			
-			reportJSON += '"accessibilitySummary": ' + JSON.stringify(document.getElementById('accessibilitySummary').value) + ',';
-			reportJSON += '"accessModeSufficient": {';
-				reportJSON += saveSufficientSets();
-			reportJSON += '}';
-		
-		reportJSON += '},';
+			reportJSON.discovery.accessibilitySummary = document.getElementById('accessibilitySummary').value;
+			reportJSON.discovery.accessModeSufficient = saveSufficientSets();
 		
 		/* store conformance metadata */
 		
-		reportJSON += '"conformanceMeta": {'
+		reportJSON.conformanceMeta = {};
 		
-			reportJSON += '"result": ' + '"' + document.getElementById('conf-result').value + '",';
+			reportJSON.conformanceMeta.result = document.getElementById('conf-result').value;
 			
-			reportJSON += '"certifiedBy": ' + JSON.stringify(document.getElementById('certifiedBy').value) + ',';
+			reportJSON.conformanceMeta.certifiedBy = document.getElementById('certifiedBy').value;
 			
-			// multiple credentials disabled until shown to be needed
-			// var cNum = document.querySelectorAll('fieldset.credential').length;
+			reportJSON.conformanceMeta.credential = {};
+				reportJSON.conformanceMeta.credential.name = document.getElementById('credentialName').value;
+				reportJSON.conformanceMeta.credential.link = document.getElementById('credentialLink').value;
 			
-			//for (var i = 1; i <= cNum; i++) {
-				reportJSON += '"credential": {';
-					reportJSON += '"name": ' + JSON.stringify(document.getElementById('credentialName').value) + ',';
-					reportJSON += '"link": ' + JSON.stringify(document.getElementById('credentialLink').value);
-				reportJSON += '},';
-			//}
-			
-			reportJSON += '"certifierReport": ' + JSON.stringify(document.getElementById('certifierReport').value);
-	
-		reportJSON += '}';
+			reportJSON.conformanceMeta.certifierReport = document.getElementById('certifierReport').value;
 		
 		/* store extension data */
 		
@@ -123,58 +104,28 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 			}
 		}
 		
-		/* close object */
-		reportJSON += '}';
-		
-		/* 
-		if (document.querySelector('input[name="save"][value="storage"]:checked')) {
-	   		try {
-				if (localStorage.getItem('epubA11YReport')) {
-					if (!confirm('Local storage already contains a saved report. Click Ok to overwrite.')) {
-						return;
-					}
-				}
-				localStorage.setItem('epubA11YReport',reportJSON);
-	   		}
-	   		catch (e) {
-	   			alert('Failed to save report:\n\n'+e);
-	   			return;
-	   		}
-	   		alert('Report successfully saved to local storage.');
-		}
-		
-		else {
-			writeSavedJSON(reportJSON);
-		}
-		 */
-		
-		writeSavedJSON(reportJSON);
-		
-		//save_dialog.dialog('close');
+		writeSavedJSON(JSON.stringify(reportJSON));
 	}
 	
 	
 	
 	function saveDiscoveryMeta(id) {
-		var str = '';
+		var metaArray = [];
 		var checked = document.querySelectorAll('fieldset#' + id + ' input:checked');
 		
 		if (checked.length > 0) {
-			str += '"' + id + '": [';
 			for (var i = 0; i< checked.length; i++) {
-				str += JSON.stringify(checked[i].value);
-				str += (i == checked.length-1) ? '' : ',';
+				metaArray.push(checked[i].value);
 			}
-			str += '],';
 		}
 		
-		return str;
+		return metaArray;
 	}
 	
 	
 	
 	function saveSufficientSets(id) {
-		var str = '';
+		var suffSets = {};
 		
 		var sets = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset');
 		
@@ -182,24 +133,21 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 			var modes = sets[i].querySelectorAll('input:checked');
 			
 			if (modes.length > 0) {
-				str += (i == 0) ? '' : ',';
-				str += '"set' + i +'": [';
+				suffSets['set'+i] = [];
 					for (var j = 0; j < modes.length; j++) {
-						str += JSON.stringify(modes[j].value);
-						str += (j == modes.length - 1) ? '' : ','; 
+						suffSets['set'+i].push(modes[j].value);
 					}
-				str += ']';
 			}
 		}
 		
-		return str;
+		return suffSets;
 	}
 	
 	
 	
 	
 	function writeSavedJSON(reportJSON) {
-		var jsonWin = window.open('json.html','jsonWin');
+		var jsonWin = window.open('saved-evaluation.html','jsonWin');
 			jsonWin.addEventListener('load', function() { jsonWin.init(reportJSON); });
 	}
 	
@@ -210,7 +158,6 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 			localStorage.removeItem('epubA11YReport');
 		}
 	}
-	
 	
 	
 	function loadConformanceReport(reportData) {
@@ -251,7 +198,7 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 			document.querySelector('input[name="'+report_obj.conformance[i].sc+'"][value="'+ report_obj.conformance[i].status + '"]').click();
 			
 			if (report_obj.conformance[i].hasOwnProperty('error')) {
-				document.getElementById(report_obj.conformance[i].sc+'-err').value = report_obj.sc[i].error;
+				document.getElementById(report_obj.conformance[i].sc+'-err').value = report_obj.conformance[i].error;
 			}
 			
 			if (report_obj.conformance[i].hasOwnProperty('note')) {
@@ -457,26 +404,59 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 			data_elem.click();
 		}
 	}
-
+	
+	
+	
 	return {
+	
 		saveConformanceReport: function() {
 			saveConformanceReport();
 		},
+		
+		loadLocalReport: function(){
+			var report_textarea = document.getElementById('local-report-json');
+			var json_text = report_textarea.value;
+			var json;
+			
+			try {
+				json = JSON.parse(json_text);
+			}
+			
+			catch (e) {
+				alert('Failed to load report.\n\n' + e); 
+				return;
+			}
+			
+			if (json.hasOwnProperty('aceFlag') && json.aceFlag == 'savedReport') {
+				loadConformanceReport(json);
+			}
+			else {
+				smartAce.storeReportJSON(json);
+				smartAce.loadReport();
+			}
+			report_textarea.value = '';
+		},
+		
 		loadConformanceReport: function(data){
 			loadConformanceReport(data);
 		},
+		
 		saveDiscoveryMeta: function(id) {
 			saveDiscoveryMeta(id);
 		},
+		
 		loadDiscoveryMeta: function(id) {
 			loadDiscoveryMeta(id);
 		},
+		
 		clear: function(quiet) {
 			clear(quiet);
 		},
+		
 		clearSaved: function() {
 			clearSaved();
 		},
+		
 		clearSavedReport: function() {
 			clearSavedReport();
 		}
