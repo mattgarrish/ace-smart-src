@@ -162,7 +162,7 @@
 		
 		function loadReportJSON(data) {
 			
-			smartManage.clear(true);
+			smartManage.resetSMARTInterface(true);
 			
 			var input_match = data.match(/<pre id=\\"report\\">/i);
 			
@@ -174,8 +174,8 @@
 			
 			data = JSON.parse(data);
 			
-			if (data.hasOwnProperty('aceFlag') && data.aceFlag == 'savedReport') {
-				smartManage.loadConformanceReport(JSON.stringify(data));
+			if (data.hasOwnProperty('category') && data.category == 'savedReport') {
+				smartManage.loadConformanceReport(data);
 			}
 			
 			else {

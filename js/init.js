@@ -100,7 +100,7 @@
 	
 	/* watch for clear button click */
 	$('#clear-button').click( function(){
-		smartManage.clear();
+		smartManage.resetSMARTInterface();
 		return false; 
 	});
 	

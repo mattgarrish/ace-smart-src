@@ -1,71 +1,86 @@
 
 'use strict';
 
+/* 
+ * 
+ * smartManage
+ * 
+ * Manages saving and loading in-progress evaluations
+ * 
+ * Public functions
+ * 
+ * - saveConformanceReport - writes a json object with the current evaluation data
+ * 
+ * - loadConformanceReport - reads in a saved object and populates the form
+ * 
+ * = loadLocalReport - reads the json from from the text box and calls loadConformanceReport to populate the form
+ * 
+ * - resetSMARTInterface - resets the smart tool to its initial unloaded state
+ * 
+ */
+
 var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 	
 	function saveConformanceReport() {
 	
-		var sc = document.querySelectorAll('.a, .aa, .aaa, .epub');
-		
 		var reportJSON = {};
 		
 		reportJSON.version = '1.0';
-		reportJSON.aceFlag = 'savedReport';
+		reportJSON.category = 'savedReport';
 		reportJSON.created = smartFormat.generateTimestamp('dash');
 		
-		/* store configuration info */
+		/* store report configuration info */
 		
-		reportJSON.config = {};
-			reportJSON.config.wcag = {};
-				reportJSON.config.wcag.level = document.querySelector('input[name="wcag-level"]:checked').value;
-				reportJSON.config.wcag.show_aa = (document.getElementById('show-aa').checked ? 'true' : 'false');
-				reportJSON.config.wcag.show_aaa = (document.getElementById('show-aaa').checked ? 'true' : 'false');
+		reportJSON.configuration = {};
+			reportJSON.configuration.wcag = {};
+				reportJSON.configuration.wcag.level = document.querySelector('input[name="wcag-level"]:checked').value;
+				reportJSON.configuration.wcag.show_aa = (document.getElementById('show-aa').checked ? 'true' : 'false');
+				reportJSON.configuration.wcag.show_aaa = (document.getElementById('show-aaa').checked ? 'true' : 'false');
 		
-			/* store pub info */
-			
-			reportJSON.config.title = document.getElementById('title').value;
-			reportJSON.config.creator = document.getElementById('creator').value;
-			reportJSON.config.identifier = document.getElementById('identifier').value;
-			reportJSON.config.modified = document.getElementById('modified').value;
-			reportJSON.config.publisher = document.getElementById('publisher').value;
-			reportJSON.config.date = document.getElementById('date').value;
-			reportJSON.config.description = document.getElementById('description').value;
-			reportJSON.config.subject = document.getElementById('subject').value;
-			reportJSON.config['optional-meta'] = document.getElementById('optional-meta').value;
-			
-			/* store original report data section */
-			
-			reportJSON.config.report = document.getElementById('report').value;
-			
 			/* other config info */
-			reportJSON.config.epub_format = document.querySelector('input[name="epub-format"]:checked').value;
+			reportJSON.configuration.epub_format = document.querySelector('input[name="epub-format"]:checked').value;
 			
-			var excl = document.querySelectorAll('#exclusions input[type="checkbox"]:checked');
-			if (excl.length > 0) {
-				reportJSON.config.exclusions = [];
-					for (var k = 0; k < excl.length; k++) {
-					   reportJSON.config.exclusions.push(excl[k].value);
+			var excluded_test_types = document.querySelectorAll('#exclusions input[type="checkbox"]:checked');
+			if (excluded_test_types.length > 0) {
+				reportJSON.configuration.exclusions = [];
+					for (var k = 0; k < excluded_test_types.length; k++) {
+					   reportJSON.configuration.exclusions.push(excluded_test_types[k].value);
 					}
 			}
 	
+		/* store publication info */
+		
+		reportJSON.publicationInfo = {};
+		reportJSON.publicationInfo.title = document.getElementById('title').value;
+		reportJSON.publicationInfo.creator = document.getElementById('creator').value;
+		reportJSON.publicationInfo.identifier = document.getElementById('identifier').value;
+		reportJSON.publicationInfo.modified = document.getElementById('modified').value;
+		reportJSON.publicationInfo.publisher = document.getElementById('publisher').value;
+		reportJSON.publicationInfo.date = document.getElementById('date').value;
+		reportJSON.publicationInfo.description = document.getElementById('description').value;
+		reportJSON.publicationInfo.subject = document.getElementById('subject').value;
+		reportJSON.publicationInfo['optional-meta'] = document.getElementById('optional-meta').value;
+		
 		/* store success criteria state */
+		
+		var success_criteria = document.querySelectorAll('.a, .aa, .aaa, .epub');
 		
 		reportJSON.conformance = [];
 		
-			for (var i = 0; i < sc.length; i++) {
+			for (var i = 0; i < success_criteria.length; i++) {
 				
-				var status = document.querySelector('input[name="'+sc[i].id+'"]:checked').value;
+				var status = document.querySelector('input[name="'+success_criteria[i].id+'"]:checked').value;
 				
 				reportJSON.conformance[i] = {};
-				reportJSON.conformance[i].sc = sc[i].id;
+				reportJSON.conformance[i].id = success_criteria[i].id;
 				reportJSON.conformance[i].status = status;
 				
 				if (status == 'fail') {
-					reportJSON.conformance[i].error = document.getElementById(sc[i].id+'-err').value;
+					reportJSON.conformance[i].error = document.getElementById(success_criteria[i].id+'-err').value;
 				}
 				
-				if ((document.getElementsByName(sc[i].id+'-note'))[0].checked) {
-					reportJSON.conformance[i].note = document.getElementById(sc[i].id+'-info').value;
+				if ((document.getElementsByName(success_criteria[i].id+'-note'))[0].checked) {
+					reportJSON.conformance[i].note = document.getElementById(success_criteria[i].id+'-info').value;
 				}
 			}
 		
@@ -73,9 +88,9 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 		
 		reportJSON.discovery = {};
 		
-			var fields = new Array('accessibilityFeature','accessibilityHazard','accessMode','accessibilityAPI','accessibilityControl');
+			var a11yFields = new Array('accessibilityFeature','accessibilityHazard','accessMode','accessibilityAPI','accessibilityControl');
 			
-			fields.forEach( function(id) {
+			a11yFields.forEach( function(id) {
 				reportJSON.discovery[id] = saveDiscoveryMeta(id);
 			});
 			
@@ -84,17 +99,17 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 		
 		/* store conformance metadata */
 		
-		reportJSON.conformanceMeta = {};
+		reportJSON.certification = {};
 		
-			reportJSON.conformanceMeta.result = document.getElementById('conf-result').value;
+			reportJSON.certification.result = document.getElementById('conf-result').value;
 			
-			reportJSON.conformanceMeta.certifiedBy = document.getElementById('certifiedBy').value;
+			reportJSON.certification.certifiedBy = document.getElementById('certifiedBy').value;
 			
-			reportJSON.conformanceMeta.credential = {};
-				reportJSON.conformanceMeta.credential.name = document.getElementById('credentialName').value;
-				reportJSON.conformanceMeta.credential.link = document.getElementById('credentialLink').value;
+			reportJSON.certification.credential = {};
+				reportJSON.certification.credential.name = document.getElementById('credentialName').value;
+				reportJSON.certification.credential.link = document.getElementById('credentialLink').value;
 			
-			reportJSON.conformanceMeta.certifierReport = document.getElementById('certifierReport').value;
+			reportJSON.certification.certifierReport = document.getElementById('certifierReport').value;
 		
 		/* store extension data */
 		
@@ -104,18 +119,22 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 			}
 		}
 		
+		/* store original Ace report data */
+		reportJSON.aceReport = document.getElementById('report').value;
+		
 		writeSavedJSON(JSON.stringify(reportJSON));
 	}
 	
 	
 	
+	/* returns an array of checked discovery metadata values */
 	function saveDiscoveryMeta(id) {
 		var metaArray = [];
-		var checked = document.querySelectorAll('fieldset#' + id + ' input:checked');
+		var checkedItems = document.querySelectorAll('fieldset#' + id + ' input:checked');
 		
-		if (checked.length > 0) {
-			for (var i = 0; i< checked.length; i++) {
-				metaArray.push(checked[i].value);
+		if (checkedItems.length > 0) {
+			for (var i = 0; i < checkedItems.length; i++) {
+				metaArray.push(checkedItems[i].value);
 			}
 		}
 		
@@ -123,60 +142,43 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 	}
 	
 	
-	
+	/* returns an object containing sets of sufficientAccessModes */
 	function saveSufficientSets(id) {
-		var suffSets = {};
+		var setObject = {};
 		
-		var sets = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset');
+		var sufficientSets = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset');
 		
-		for (var i = 0; i < sets.length; i++) {
-			var modes = sets[i].querySelectorAll('input:checked');
+		for (var i = 0; i < sufficientSets.length; i++) {
+			var checkedAccessModes = sufficientSets[i].querySelectorAll('input:checked');
 			
-			if (modes.length > 0) {
-				suffSets['set'+i] = [];
-					for (var j = 0; j < modes.length; j++) {
-						suffSets['set'+i].push(modes[j].value);
+			if (checkedAccessModes.length > 0) {
+				setObject['set'+i] = [];
+					for (var j = 0; j < checkedAccessModes.length; j++) {
+						setObject['set'+i].push(checkedAccessModes[j].value);
 					}
 			}
 		}
 		
-		return suffSets;
+		return setObject;
 	}
 	
 	
 	
-	
+	/* opens the saved evaluation window and writes the json data to it */
 	function writeSavedJSON(reportJSON) {
-		var jsonWin = window.open('saved-evaluation.html','jsonWin');
-			jsonWin.addEventListener('load', function() { jsonWin.init(reportJSON); });
+		var evalWin = window.open('saved-evaluation.html','evalWin');
+			evalWin.addEventListener('load', function() { evalWin.init(reportJSON); });
 	}
 	
 	
 	
-	function clearSaved() {
-		if (confirm('WARNING: this operation will permanently delete any saved results. Click Ok to continue or Cancel to exit.')) {
-			localStorage.removeItem('epubA11YReport');
-		}
-	}
-	
-	
-	function loadConformanceReport(reportData) {
-	
-		if (reportData === null || reportData == '') {
-			alert('Load failed. No data found.');
-			return;
-		}
-		
-		if (!confirm('This action will delete any current reporting data and cannot be undone. Click Ok to continue.')) {
-			return;
-		}
-		
-		clear(true);
-		
-		var report_obj;
+	function loadLocalReport() {
+		var report_textarea = document.getElementById('local-report-json');
+		var report_text = report_textarea.value;
+		var report_json;
 		
 		try {
-			report_obj = JSON.parse(reportData);
+			report_json = JSON.parse(report_text);
 		}
 		
 		catch (e) {
@@ -184,94 +186,117 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 			return;
 		}
 		
-		/* save out the original report data and reset the form to match */
-		if (report_obj.hasOwnProperty(report)) {
-			document.getElementById('report').value = JSON.stringify(report_obj['report']);
+		if (report_json.hasOwnProperty('category') && report_json.category == 'savedReport') {
+			loadConformanceReport(report_json);
+		}
+		
+		else {
+			smartAce.storeReportJSON(report_json);
+			smartAce.loadReport();
+		}
+		
+		report_textarea.value = '';
+	}
+	
+	
+	
+	function loadConformanceReport(reportJSON) {
+	
+		if (!reportJSON.hasOwnProperty('category') || reportJSON.category != 'savedReport') {
+			alert('Invalid report - missing category identifier. Unable to load.');
+			return;
+		}
+		
+		if (!confirm('This action will delete the current evaluation and cannot be undone. Click Ok to continue.')) {
+			return;
+		}
+		
+		resetSMARTInterface(true);
+		
+		/* load the original Ace report data first */
+		
+		if (reportJSON.hasOwnProperty('aceReport') && reportJSON.aceReport != '') {
+			document.getElementById('aceReport').value = JSON.stringify(reportJSON['aceReport']);
 			var ace = new Ace();
-			smartAce.storeReport(report_obj['report']);
+			smartAce.storeReport(reportJSON['aceReport']);
 			smartAce.configureReporting();
 		}
 		
-		/* load SCs */
+		/* set the success criteria */
 		
-		for (var i = 0; i < report_obj.conformance.length; i++) {
-			document.querySelector('input[name="'+report_obj.conformance[i].sc+'"][value="'+ report_obj.conformance[i].status + '"]').click();
+		for (var i = 0; i < reportJSON.conformance.length; i++) {
+			document.querySelector('input[name="'+reportJSON.conformance[i].id+'"][value="'+ reportJSON.conformance[i].status + '"]').click();
 			
-			if (report_obj.conformance[i].hasOwnProperty('error')) {
-				document.getElementById(report_obj.conformance[i].sc+'-err').value = report_obj.conformance[i].error;
+			if (reportJSON.conformance[i].hasOwnProperty('error')) {
+				document.getElementById(reportJSON.conformance[i].id+'-err').value = reportJSON.conformance[i].error;
 			}
 			
-			if (report_obj.conformance[i].hasOwnProperty('note')) {
-				document.querySelector('input[name="'+report_obj.conformance[i].sc+'-note"]').click();
-				document.getElementById(report_obj.conformance[i].sc+'-info').value = report_obj.conformance[i].note;
+			if (reportJSON.conformance[i].hasOwnProperty('note')) {
+				document.querySelector('input[name="'+reportJSON.conformance[i].id+'-note"]').click();
+				document.getElementById(reportJSON.conformance[i].id+'-info').value = reportJSON.conformance[i].note;
 			}
 		}
 		
-		/* load discovery metadata */
+		/* load the discovery metadata */
 		
-		var disc_chk = ['accessibilityFeature','accessibilityHazard','accessMode','accessibilityAPI','accessibilityControl'];
+		var discovery_checkbox_fields = ['accessibilityFeature','accessibilityHazard','accessMode','accessibilityAPI','accessibilityControl'];
 		
-		disc_chk.forEach(function(id) {
-			if (report_obj.discovery.hasOwnProperty(id)) {
-				loadDiscoveryMeta(id,report_obj.discovery[id]);
+		discovery_checkbox_fields.forEach(function(id) {
+			if (reportJSON.discovery.hasOwnProperty(id)) {
+				setDiscoveryMetaCheckbox(id,reportJSON.discovery[id]);
 			}
-		})
+		});
 		
-		if (report_obj.discovery.hasOwnProperty('accessibilitySummary')) {
-			document.getElementById('accessibilitySummary').value = report_obj.discovery.accessibilitySummary;
+		if (reportJSON.discovery.hasOwnProperty('accessibilitySummary')) {
+			document.getElementById('accessibilitySummary').value = reportJSON.discovery.accessibilitySummary;
 		}
 		
-		if (report_obj.discovery.hasOwnProperty('accessModeSufficient')) {
-			loadSufficientModes(report_obj.discovery.accessModeSufficient);
+		if (reportJSON.discovery.hasOwnProperty('accessModeSufficient')) {
+			setSufficientModes(reportJSON.discovery.accessModeSufficient);
 		}
 		
-		/* load conformance and config text fields */
+		/* load certification and publication text fields */
 		
-		var meta = {"conformanceMeta": ['certifiedBy','certifierReport'], "config": ['title','creator','identifier','modified','publisher','description','date','subject','optional-meta']};
+		var text_fields = {
+			publicationInfo: ['title', 'creator', 'identifier', 'modified', 'publisher', 'description', 'date', 'subject', 'optional-meta'],
+			certification: ['certifiedBy','certifierReport']
+		};
 		
-		for (var key in meta) {
-			meta[key].forEach(function(id) {
-				document.getElementById(id).value = report_obj[key][id];
+		for (var key in text_fields) {
+			text_fields[key].forEach(function(id) {
+				document.getElementById(id).value = reportJSON[key][id];
 			})
 		}
 		
-		if (report_obj.conformanceMeta.hasOwnProperty('result')) {
-			document.getElementById('conf-result').value = report_obj.conformanceMeta.result;
-			document.getElementById('conf-result-status').textContent = smartConformance.STATUS[report_obj.conformanceMeta.result]
+		if (reportJSON.certification.hasOwnProperty('result')) {
+			document.getElementById('conf-result').value = reportJSON.certification.result;
+			document.getElementById('conf-result-status').textContent = smartConformance.STATUS[reportJSON.certification.result]
 		}
 		
-		/* load credentials - multiple credentials currently disabled */
+		/* load credential */
 		
-		//for (var i = 1; i < 25; i++) {
-			if (report_obj["conformanceMeta"].hasOwnProperty("credential")) {
-				//if (i > 1) {
-				//	conf_meta.addCredential();
-				//}
-				document.getElementById('credentialName').value = report_obj['conformanceMeta']['credential']['name'];
-				document.getElementById('credentialLink').value = report_obj['conformanceMeta']['credential']['link'];
-			}
-			//else {
-			//	break;
-			//}
-		//}
+		if (reportJSON["certification"].hasOwnProperty("credential")) {
+			document.getElementById('credentialName').value = reportJSON.certification.credential.name;
+			document.getElementById('credentialLink').value = reportJSON.certification.credential.link;
+		}
 		
-		/* load config */
+		/* load configuration info */
 		
-		document.querySelector('input[name="wcag-level"][value="' + report_obj.config.wcag.level + '"]').click();
+		document.querySelector('input[name="wcag-level"][value="' + reportJSON.configuration.wcag.level + '"]').click();
 		
-		if (report_obj.config.wcag.show_aa && report_obj.config.wcag.level != 'aa') {
+		if (reportJSON.configuration.wcag.show_aa && reportJSON.configuration.wcag.level != 'aa') {
 			document.getElementById('show-aa').click();
 		}
 		
-		if (report_obj.config.wcag.show_aaa) {
+		if (reportJSON.configuration.wcag.show_aaa) {
 			document.getElementById('show-aaa').click();
 		}
 		
-		document.querySelector('input[name="epub-format"][value="' + report_obj.config.epub_format + '"]').click();
+		document.querySelector('input[name="epub-format"][value="' + reportJSON.configuration.epub_format + '"]').click();
 		
-		if (report_obj.config.hasOwnProperty('exclusions')) {
+		if (reportJSON.configuration.hasOwnProperty('exclusions')) {
 			var excl = document.getElementById('exclusions');
-			report_obj.config.exclusions.forEach(function(val) {
+			reportJSON.configuration.exclusions.forEach(function(val) {
 			   excl.querySelector('input[value="' + val + '"]').click(); 
 			});
 		}
@@ -279,100 +304,98 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 		/* load extensions */
 		if (Object.keys(extension).length > 0) {
 			for (var key in extension) {
-				extension[key].loadData(report_obj);
+				extension[key].loadData(reportJSON);
 			}
 		}
 		
 		alert('Report successfully loaded!');
-		
-		//load_dialog.dialog('close');
 	}
 	
 	
 	
-	function loadDiscoveryMeta(id,obj) {
+	function setDiscoveryMetaCheckbox(id,obj) {
 		for (var i = 0; i < obj.length; i++) {
-			var chkbox = document.querySelector('#' + id + ' input[value="' + obj[i] + '"]');
-			if (chkbox == null) {
-				if (id == 'features') {
+			var checkbox = document.querySelector('#' + id + ' input[value="' + obj[i] + '"]');
+			if (checkbox === null) {
+				/* ignore except for accessibilityFeature, as indicates a user-defined feature */
+				if (id == 'accessibilityFeature') {
 					disc.addCustomFeature(obj[i]);
 				}
 			}
 			else {
-				chkbox.click();
+				checkbox.click();
 			}
 		}
 	}
 	
 	
 	
-	function loadSufficientModes(modeSets) {
+	function setSufficientModes(modeSets) {
 		/* add any additional sets before loading */
-		var setNum = Object.keys(modeSets).length;
-		if (setNum > 2) {
-			for (var j = 1; j <= setNum - 2; j++) {
-				disc.addSufficient();
+		var setCount = Object.keys(modeSets).length;
+		if (setCount > 2) {
+			for (var j = 1; j <= setCount - 2; j++) {
+				smartDiscovery.addSufficient();
 			}
 		}
 		
-		var sets = document.querySelectorAll('#accessModeSufficient fieldset');
+		var sufficient_fields = document.querySelectorAll('#accessModeSufficient fieldset');
 		
-		var num = 0;
-		for (var key in modeSets) {
-			modeSets[key].forEach(function(val) {
-				sets[num].querySelector('input[value="' + val + '"]').click();
+		var set_counter = 0;
+		for (var set_id in modeSets) {
+			modeSets[set_id].forEach(function(sufficient_mode) {
+				sufficient_fields[set_counter].querySelector('input[value="' + sufficient_mode + '"]').click();
 			});
-			num += 1;
+			set_counter += 1;
 		}
 	}
 	
 	
-	function clear(quiet) {
+	function resetSMARTInterface(quiet) {
 		
-		if (!quiet && !confirm('WARNING: All currently entered data will be deleted. This operation cannot be undone.\n\nClick Ok to continue or Cancel to exit.')) {
-			return;
+		if (!quiet) {
+			if (!confirm('WARNING: All currently entered data will be deleted. This operation cannot be undone.\n\nClick Ok to continue.')) {
+				return;
+			}
 		}
 		
 		/* clear all forms */
-		var forms = document.forms;
-		
-		for (var x = 0; x < forms.length; x++) {
-			forms[x].reset();
+		for (var x = 0; x < document.forms.length; x++) {
+			document.forms[x].reset();
 		}
 		
-		/* hide epub feature warnings */
+		/* hide epub feature warnings (top of conformance page) */
+		var epub_warning_elements = document.querySelectorAll('section.warning, li.manifest, li.bindings, li.epub-switch, li.epub-trigger');
 		
-		var warn_elem = document.querySelectorAll('section.warning, li.manifest, li.bindings, li.epub-switch, li.epub-trigger');
-		
-		for (var i = 0; i < warn_elem.length; i++) {
-			warn_elem[i].style.display = 'none';
+		for (var i = 0; i < epub_warning_elements.length; i++) {
+			epub_warning_elements[i].style.display = 'none';
 		}
 		
 		/* clear artefacts from the conformance checks */
-		var sc_elem = document.querySelectorAll('.a, .aa, .aaa, .epub');
+		var success_criteria = document.querySelectorAll('section.a, section.aa, section.aaa, section.epub');
 		
-		for (var i = 0; i < sc_elem.length; i++) {
+		for (var i = 0; i < success_criteria.length; i++) {
 			// reset the status to remove background colours
-			document.querySelector('input[name="' + sc_elem[i].id + '"][value="unverified"]').click();
+			document.querySelector('input[name="' + success_criteria[i].id + '"][value="unverified"]').click();
 			
 			// click the notes twice because reset removes check without hiding note
-			var note = document.querySelector('input[name="' + sc_elem[i].id + '-note"]');
+			var note = document.querySelector('input[name="' + success_criteria[i].id + '-note"]');
 				note.click();
 				note.click();
 		}
 		
 		/* clear artefacts from the discovery metadata */
-		var disc_elem = document.querySelectorAll('#discovery fieldset');
+		var discovery_fields = document.querySelectorAll('#discovery fieldset');
 		
-		for (var i = 0; i < disc_elem.length; i++) {
-			disc_elem[i].classList.remove(smartFormat.BG.ERR, smartFormat.BG.WARN, smartFormat.BG.PASS, smartFormat.BG.NA);
-			var custom = disc_elem[i].getElementsByClassName('custom');
-			for (var j = 0; j < custom.length; j++) {
-				custom[j].parentNode.removeChild(custom[j]);
+		for (var i = 0; i < discovery_fields.length; i++) {
+			discovery_fields[i].classList.remove(smartFormat.BG.ERR, smartFormat.BG.WARN, smartFormat.BG.PASS, smartFormat.BG.NA);
+			var custom_elements = discovery_fields[i].getElementsByClassName('custom');
+			for (var j = 0; j < custom_elements.length; j++) {
+				custom_elements[j].parentNode.removeChild(custom_elements[j]);
 			}
 		}
 		
-		/* clear artefacts from config */
+		/* clear warnings from the publication info */
 		document.getElementById('title').classList.remove(smartFormat.BG.ERR);
 		document.getElementById('modified').classList.remove(smartFormat.BG.ERR);
 		
@@ -383,6 +406,8 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 			}
 		}
 		
+		/* clear the error pane */
+		
 		smartError.clearAll();
 		smartError.hideErrorPane();
 		
@@ -392,16 +417,6 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 		
 		while(import_dlg.firstChild) {
 			import_dlg.removeChild(import_dlg.firstChild);
-		}
-	
-	}
-	
-	
-	
-	function setSavedReport() {
-		var data_elem = document.getElementById('savedReportOpt');
-		if (!data_elem.checked) {
-			data_elem.click();
 		}
 	}
 	
@@ -414,51 +429,15 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 		},
 		
 		loadLocalReport: function(){
-			var report_textarea = document.getElementById('local-report-json');
-			var json_text = report_textarea.value;
-			var json;
-			
-			try {
-				json = JSON.parse(json_text);
-			}
-			
-			catch (e) {
-				alert('Failed to load report.\n\n' + e); 
-				return;
-			}
-			
-			if (json.hasOwnProperty('aceFlag') && json.aceFlag == 'savedReport') {
-				loadConformanceReport(json);
-			}
-			else {
-				smartAce.storeReportJSON(json);
-				smartAce.loadReport();
-			}
-			report_textarea.value = '';
+			loadLocalReport();
 		},
 		
 		loadConformanceReport: function(data){
 			loadConformanceReport(data);
 		},
 		
-		saveDiscoveryMeta: function(id) {
-			saveDiscoveryMeta(id);
-		},
-		
-		loadDiscoveryMeta: function(id) {
-			loadDiscoveryMeta(id);
-		},
-		
-		clear: function(quiet) {
-			clear(quiet);
-		},
-		
-		clearSaved: function() {
-			clearSaved();
-		},
-		
-		clearSavedReport: function() {
-			clearSavedReport();
+		resetSMARTInterface: function(quiet) {
+			resetSMARTInterface(quiet);
 		}
 	}
 
