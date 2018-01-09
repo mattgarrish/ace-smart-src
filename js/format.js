@@ -20,6 +20,7 @@ var smartFormat = (function() {
 			_epubVersion = num;
 		},
 		
+		
 		createMetaTag: function(options) {
 			options = typeof(options) === 'object' ? options : {};
 			options.type = options.type ? options.type : 'meta';
@@ -42,9 +43,29 @@ var smartFormat = (function() {
 			return '';
 		},
 		
+		
+		convertUTCDateToString: function (utcDate) {
+			var date_options = { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };  
+			
+			return (utcDate == '') ? '' : new Date(utcDate).toLocaleDateString("en",date_options);
+		},
+		
+		
+		formatIdentifier: function (identifier) {
+			if (identifier.match(/urn:isbn:/i)) {
+				identifier = 'ISBN ' + identifier.replace('urn:isbn:','');
+			}
+			else {
+				identifier = identifier.replace(/urn:[a-z0-9]+:/i, '');
+			}
+			return identifier;
+		},
+		
+		
 		toTitleCase: function(str) {
 			return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		},
+		
 		
 		generateTimestamp: function(sep) {
 			var today = new Date();

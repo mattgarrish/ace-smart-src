@@ -180,7 +180,7 @@
 			
 			else {
 				smartAce.storeReportJSON(JSON.parse(data));
-				smartAce.loadReport();
+				smartAce.loadAceReport();
 			}
 		}
 	

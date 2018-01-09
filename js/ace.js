@@ -9,7 +9,7 @@
  * 
  * Public functions:
  * 
- * - storeReportJSON - stores the ace json output to _report
+ * - storeReportJSON - stores the ace json output to _aceReport
  * 
  * - loadReport - populates the ace data into the tool
  * 
@@ -18,215 +18,250 @@
 
 var smartAce = (function(smartConformance,smartDiscovery) {
 
-	var _report = '';
+	var _aceReport = '';
 	
-	function loadReport() {
+	/* used to process incoming a11y metadata case-insensitively */
+	var _SCHEMA_MAP = {
+		accessibilityFeature: {
+			alternativetext: 'alternativeText',
+			annotations: 'annotations',
+			audiodescription: 'audioDescription',
+			bookmarks: 'bookmarks',
+			braille: 'braille',
+			captions: 'captions',
+			chemml: 'ChemML',
+			describedmath: 'describedMath',
+			displaytransformability: 'displayTransformability',
+			highcontrastaudio: 'highContrastAudio',
+			highcontrastdisplay: 'highContrastDisplay',
+			index: 'index',
+			largeprint: 'largePrint',
+			latex: 'latex',
+			longdescription: 'longDescription',
+			mathml: 'MathML',
+			none: 'none',
+			printpagenumbers: 'printPageNumbers',
+			readingorder: 'readingOrder',
+			rubyannotations: 'rubyAnnotations',
+			signlanguage: 'signLanguage',
+			structuralnavigation: 'structuralNavigation',
+			synchronizedaudiotext: 'synchronizedAudioText',
+			tableofcontents: 'tableOfContents',
+			tactilegraphic: 'tactileGraphic',
+			tactileobject: 'tactileObject',
+			timingcontrol: 'timingControl',
+			transcript: 'transcript',
+			ttsMarkup: 'ttsmarkup'
+		},
+		accessibilityAPI: {
+			aria: 'ARIA'
+		}
+	};
+
 	
+	function loadAceReport() {
+	
+		if (!_aceReport) {
+			alert('Ace report does not contain any data. Failed to load.');
+			return;
+		}
+		
+		if (!_aceReport.hasOwnProperty('@context') || _aceReport['@context'] != 'http://ace.daisy.org/ns/ace-report.jsonld') {
+			if (!confirm('Could not verify Ace report. Click Ok to process to attempt to process anyway.')) {
+				return;
+			}
+		}
+		
 		setWCAGConformanceLevel();
 		
 		loadMetadata();
 		
-		var suggested = inferAccessibilityMetadata();
+		var inferred_metadata_message = inferAccessibilityMetadata();
 		
-		// configure manual checks
-		configureReporting(suggested);
+		var reporting_message = configureReporting(inferred_metadata_message);
+		
+		showReportLoadResult({inferred: inferred_metadata_message, reporting: reporting_message});
 		
 		/* save the report for reloading */
-		document.getElementById('report').value = _report;
+		document.getElementById('report').value = _aceReport;
 	}
 	
 	
 	function setWCAGConformanceLevel() {
 		
-		if (!_report['earl:testSubject']['metadata'].hasOwnProperty('dcterms:conformsTo')) {
+		var conformance_url = '';
+		
+		if (_aceReport['earl:testSubject'].hasOwnProperty('links') && !_aceReport['earl:testSubject'].hasOwnProperty('dcterms:conformsTo')) {
+			conformance_url = _aceReport['earl:testSubject'].links['dcterms:conformsTo'];
+		}
+		
+		else if (_aceReport['earl:testSubject'].metadata.hasOwnProperty('dcterms:conformsTo')) {
+			conformance_url = _aceReport['earl:testSubject'].metadata['dcterms:conformsTo'];
+		}
+		
+		else {
 			return;
 		}
 		
-		var conf = _report['earl:testSubject']['metadata']['dcterms:conformsTo'].match(/http\:\/\/www\.idpf\.org\/epub\/a11y\/accessibility\-[0-9]+\.html\#wcag-(aa?)/);
+		var conformance_level = conformance_url.match(/http\:\/\/www\.idpf\.org\/epub\/a11y\/accessibility\-[0-9]+\.html\#wcag-(aa?)/);
 		
-		if (conf) {
-			document.getElementById('conf-result-status').textContent = smartConformance.STATUS[conf];
-			document.getElementById('conf-result').value = conf;
+		if (conformance_level) {
+			document.getElementById('conf-result-status').textContent = smartConformance.STATUS[conformance_level];
+			document.getElementById('conf-result').value = conformance_level;
 		}
 	}
 	
 	
 	function loadMetadata() {
 	
-		// load DC metadata
-		var dc = ['title', 'identifier', 'creator', 'publisher', 'date', 'description', 'subject'];
+		// set DC metadata
+		var dc_elements = ['title', 'identifier', 'creator', 'publisher', 'date', 'description', 'subject'];
 		
-		for (var x = 0; x < dc.length; x++) {
-			setMetadataString(dc[x],'dc:'+dc[x]);	
+		for (var i = 0; i < dc_elements.length; i++) {
+			document.getElementById(dc_elements[i]).value = formatMetadataProperty(dc_elements[i],'dc:'+dc_elements[i]);	
 		}
 		
-		// load DCTERMS metadata
-		setDate('modified','dcterms:modified');
+		// set DCTERMS metadata
+		if (_aceReport['earl:testSubject']['metadata'].hasOwnProperty('modified')) {
+			document.getElementById('modified').value = smartFormat.convertUTCDateToString(_aceReport['earl:testSubject']['metadata']['modified']);
+		}	
 		
-		// load accessibility metadata
-		setMetadataString('accessibilitySummary','schema:accessibilitySummary');
-		var schema = ['accessibilityFeature', 'accessMode', 'accessibilityHazard', 'accessibilityAPI', 'accessibilityControl'];
+		// set discovery metadata
 		
-		for (var i = 0; i < schema.length; i++) {
-			setMetadataArray(schema[i], 'schema:'+schema[i]);	
+		var discovery_checkbox_properties = ['accessibilityFeature', 'accessMode', 'accessibilityHazard', 'accessibilityAPI', 'accessibilityControl'];
+		
+		for (var i = 0; i < discovery_checkbox_properties.length; i++) {
+			setDiscoveryCheckboxes(discovery_checkbox_properties[i], 'schema:'+discovery_checkbox_properties[i]);	
 		}
 		
 		setSufficientSets();
 		
-		// load certifier metadata
-		var a11y = ['certifiedBy', 'certifierReport'];
+		document.getElementById('accessibilitySummary').value = formatMetadataProperty('accessibilitySummary','schema:accessibilitySummary');
 		
-		for (var i = 0; i < a11y.length; i++) {
-			setMetadataString(a11y[i], 'a11y:'+a11y[i]);	
+		// set certifier metadata
+		
+		document.getElementById('certifiedBy').value = formatMetadataProperty('certifiedBy', 'a11y:certifiedBy');
+		
+		// certifier links that could be in meta or link elements
+		var certifier_links = ['certifierReport', 'certifierCredential'];
+		
+		for (var i = 0; i < certifier_links.length; i++) {
+		
+			var certifier_value = '';
+			
+			if (_aceReport['earl:testSubject'].hasOwnProperty('links') &&_aceReport['earl:testSubject'].links.hasOwnProperty('a11y:'+certifier_links[i])) {
+				certifier_value = _aceReport['earl:testSubject'].links['a11y:'+certifier_links[i]];
+			}
+			
+			else if (_aceReport['earl:testSubject'].metadata.hasOwnProperty('a11y:'+certifier_links[i])) {
+				certifier_value = _aceReport['earl:testSubject'].metadata['a11y:'+certifier_links[i]];
+			}
+			
+			else {
+				continue;
+			}
+
+			document.getElementById(certifier_links[i]).value = certifier_value;	
 		}
 	}
 	
 	
-	function setMetadataString(id,prop) {
+	function formatMetadataProperty(id, property) {
 	
-		if (!_report['earl:testSubject']['metadata'].hasOwnProperty(prop)) {
-			return;
+		if (!_aceReport['earl:testSubject']['metadata'].hasOwnProperty(property)) {
+			return '';
 		}
 		
-		var str = '';
+		var report_property = _aceReport['earl:testSubject']['metadata'][property];
 		
-		var meta = _report['earl:testSubject']['metadata'][prop];
+		var formatted_value = '';
 		
-		var pickOne = {"dc:title": true, "dc:identifier": true};
+		// for these properties, only the first instance found is used when there are multiple available
+		var select_first_instance = {"dc:title": true, "dc:identifier": true};
 		
-		if (Object.prototype.toString.call(meta) === '[object Array]') {
+		if (Array.isArray(report_property)) {
 			
-			if (pickOne.hasOwnProperty(prop)) {
-				str = meta[0];
+			if (select_first_instance.hasOwnProperty(property)) {
+				
 				if (id == 'dc:identifier') {
-					str = formatIdentifier(str);
+					formatted_value = smartFormat.formatIdentifier(report_property[0]);
+				}
+				
+				else {
+					formatted_value = report_property[0];
 				}
 			}
 			
 			else {
-				for (var i = 0; i < meta.length; i++) {
-					str += (i > 0) ? ', ' : '';
-					str += meta[i];
+				for (var i = 0; i < report_property.length; i++) {
+					formatted_value += (i > 0) ? ', ' : '';
+					formatted_value += report_property[i];
 				}
 			}
 		}
+		
 		else {
-			if (prop == 'dc:identifier') {
-				str = formatIdentifier(meta);
+			if (property == 'dc:identifier') {
+				formatted_value = smartFormat.formatIdentifier(report_property);
 			}
 			else {
-				str = meta;
+				formatted_value = report_property;
 			}
 		}
-		document.getElementById(id).value = str;
+		
+		return formatted_value;
 	}
 	
 	
-	function setDate(id,prop) {
-	
-		if (!_report['earl:testSubject']['metadata'].hasOwnProperty(prop)) {
-			console.log('Did not find date property ' + prop);
-			return;
-		}	
-	
-		var str = '';
+	function setDiscoveryCheckboxes(id, property) {
 		
-		var date = _report['earl:testSubject']['metadata'][prop];
-		
-		var date_options = { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };  
-		
-		document.getElementById(id).value = (date == '') ? date : new Date(date).toLocaleDateString("en",date_options);
-	
-	}
-	
-	
-	function formatIdentifier(identifier) {
-		if (identifier.match(/urn:isbn:/i)) {
-			identifier = 'ISBN ' + identifier.replace('urn:isbn:','');
-		}
-		else {
-			identifier = identifier.replace(/urn:[a-z0-9]+:/i, '');
-		}
-		return identifier
-	}
-	
-	
-	function setMetadataArray(id,prop) {
-		
-		if (!_report['earl:testSubject']['metadata'].hasOwnProperty(prop)) {
+		if (!_aceReport['earl:testSubject']['metadata'].hasOwnProperty(property)) {
 			return;
 		}
 		
-		var meta = _report['earl:testSubject']['metadata'][prop];
+		var report_property = Array.isArray(_aceReport['earl:testSubject']['metadata'][property]) ? 
+				_aceReport['earl:testSubject']['metadata'][property] :
+				[ _aceReport['earl:testSubject']['metadata'][property] ];
 		
-		if (Object.prototype.toString.call(meta) === '[object Array]') {
-			for (var i = 0; i < meta.length; i++) {
-				// console.log('#' + id + ' input[value="' + meta[i] + '"]');
-				var elem = document.querySelector('#' + id + ' input[value="' + meta[i] + '"]');
-				
-				if (id == 'accessibilityFeature' && elem == null) {
-					smartDiscovery.addCustomFeature(meta[i]);
-					elem = document.querySelector('#' + id + ' input[value="' + meta[i] + '"]');
-					elem.click();
-				}
-				
-				if (elem == null) {
-					console.log('Failed to load ace metadata string: #' + id + ' input[value="' + meta[i] + '"]'); 
-					continue;
-				}
-				
-				elem.click();
-			}
-		}
 		
-		else {
-			var elem = document.querySelector('#' + id + ' input[value="' + meta + '"]');
+		for (var i = 0; i < report_property.length; i++) {
 			
-			if (id == 'accessibilityFeature' && elem == null) {
-				smartDiscovery.addCustomFeature(meta);
-				elem = document.querySelector('#' + id + ' input[value="' + meta + '"]');
+			var checkbox = document.querySelector('#' + id + ' input[value="' + _SCHEMA_MAP[id][report_property[i].toLowerCase()] + '"]');
+			
+			if (id == 'accessibilityFeature' && checkbox === null) {
+				smartDiscovery.addCustomFeature(report_property[i]);
+				checkbox = document.querySelector('#' + id + ' input[value="' + report_property[i] + '"]');
 			}
 			
-			if (elem == null) {
-				console.log('Failed to load ace metadata string: #' + id + ' input[value="' + meta + '"]'); 
-				return;
+			if (checkbox == null) {
+				console.log('Failed to load ace metadata string: #' + id + ' input[value="' + report_property[i] + '"]'); 
 			}
 			
-			elem.click();
+			checkbox.click();
 		}
-	
 	}
 	
 	
 	function setSufficientSets() {
 		
-		if (!_report['earl:testSubject']['metadata'].hasOwnProperty('schema:accessModeSufficient')) {
+		if (!_aceReport['earl:testSubject']['metadata'].hasOwnProperty('schema:accessModeSufficient')) {
 			return;
 		}
 		
-		var meta = _report['earl:testSubject']['metadata']['schema:accessModeSufficient'];
+		var report_sets = Array.isArray(_aceReport['earl:testSubject']['metadata']['schema:accessModeSufficient']) ?
+						_aceReport['earl:testSubject']['metadata']['schema:accessModeSufficient'] :
+						[ _aceReport['earl:testSubject']['metadata']['schema:accessModeSufficient'] ];
 	
-		if (Object.prototype.toString.call(meta) === '[object Array]') {
-			for (var i = 0; i < meta.length; i++) {
-				if (i > 0) {
-					smartDiscovery.addSufficient();
-				}
-				
-				var mode = meta[i].split(/[\s,]+/);
-				
-				for (var j = 0; j < mode.length; j++) {
-					//console.log('#set' + (i+1) + ' input[value="' + mode[j] + '"]');
-					document.querySelector('#set' + (i+1) + ' input[value="' + mode[j] + '"]').click();
-				}
+		for (var i = 0; i < report_sets.length; i++) {
+			/* add additional sets so there is always one blank to work with */
+			if (i > 0) {
+				smartDiscovery.addSufficient();
 			}
-		}
-		
-		else {
-			var mode = meta.split(/[\s,]+/);
 			
-			for (var i = 0; i < mode.length; i++) {
-				//console.log('#set' + (i+1) + ' input[value="' + mode[i] + '"]');
-				document.querySelector('#set' + (i+1) + ' input[value="' + mode[i] + '"]').click();
+			var access_modes = report_sets[i].split(/[\s,]+/);
+			
+			for (var j = 0; j < access_modes.length; j++) {
+				document.querySelector('#set' + (i+1) + ' input[value="' + access_modes[j] + '"]').click();
 			}
 		}
 	}
@@ -234,67 +269,67 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 	
 	function inferAccessibilityMetadata() {
 	
-		var msg = document.createElement('ul');
-		
-		// parse out a11y metadata values to set based on the report info
-		
-		if (_report['a11y-metadata']['present'].length > 0) {
+		if (_aceReport['a11y-metadata']['present'].length > 0) {
 			// if publication contains metadata, don't suggest more
 			return '';
 		}
 		
+		var user_message = document.createElement('ul');
+		
+		// parse out a11y metadata values to set based on the report info
+		
 		var hasAltText = false;
 		
-		if (_report['data'].hasOwnProperty('images')) {
-			for (var i = 0; i < _report['data']['images'].length; i++) {
-				if (_report['data']['images'][i].hasOwnProperty('alt') && _report['data']['images'][i]['alt'] != '') {
+		if (_aceReport['data'].hasOwnProperty('images')) {
+			for (var i = 0; i < _aceReport['data']['images'].length; i++) {
+				if (_aceReport['data']['images'][i].hasOwnProperty('alt') && _aceReport['data']['images'][i]['alt'] != '') {
 					hasAltText = true;
-					msg.appendChild(setMetadata('accessibilityFeature','alternativeText'));
+					user_message.appendChild(setCheckbox('accessibilityFeature','alternativeText'));
 					break;
 				}
 			}		
 		}
 		
-		if (_report['properties']['hasMathML']) {
-			msg.appendChild(setMetadata('accessibilityFeature','MathML'));
+		if (_aceReport['properties']['hasMathML']) {
+			user_message.appendChild(setCheckbox('accessibilityFeature','MathML'));
 		}
 		
-		if (_report['properties']['hasPageBreaks']) {
-			msg.appendChild(setMetadata('accessibilityFeature','printPageNumbers'));
+		if (_aceReport['properties']['hasPageBreaks']) {
+			user_message.appendChild(setCheckbox('accessibilityFeature','printPageNumbers'));
 		}
 		
-		msg.appendChild(setMetadata('accessibilityFeature','readingOrder'));
-		msg.appendChild(setMetadata('accessibilityFeature','tableOfContents'));
+		user_message.appendChild(setCheckbox('accessibilityFeature','readingOrder'));
+		user_message.appendChild(setCheckbox('accessibilityFeature','tableOfContents'));
 		
 		// assuming any publication being assessed in not purely image-based
-		msg.appendChild(setMetadata('accessMode','textual'));
-		setSufficientMetadata(1,'textual');
+		user_message.appendChild(setCheckbox('accessMode','textual'));
+		setSufficientMode(1,'textual');
 		
 		// track modes to set sufficient label later
 		var sufficient = 'textual';
 		
-		if (hasAltText || _report.hasOwnProperty('videos')) {
-			msg.appendChild(setMetadata('accessMode','visual'));
-			setSufficientMetadata(1,'visual');
+		if (hasAltText || _aceReport.hasOwnProperty('videos')) {
+			user_message.appendChild(setCheckbox('accessMode','visual'));
+			setSufficientMode(1,'visual');
 			sufficient += ', visual';
 		}
 		
-		if (_report['data'].hasOwnProperty('audios')) {
-			msg.appendChild(setMetadata('accessMode','auditory'));
-			setSufficientMetadata(1,'auditory');
+		if (_aceReport['data'].hasOwnProperty('audios')) {
+			user_message.appendChild(setCheckbox('accessMode','auditory'));
+			setSufficientMode(1,'auditory');
 			sufficient += ', auditory';
 		}
 		
-		var suff_li = document.createElement('li');
-			suff_li.appendChild(document.createTextNode('accessModeSufficient: '+sufficient));
-		msg.appendChild(suff_li);
+		var sufficient_message = document.createElement('li');
+			sufficient_message.appendChild(document.createTextNode('accessModeSufficient: '+sufficient));
+		user_message.appendChild(sufficient_message);
 		
-		return msg.hasChildNodes() ? msg : '';
+		return user_message.hasChildNodes() ? user_message : '';
 	
 	}
 	
 	
-	function setMetadata(property, meta_id) {
+	function setCheckbox(property, meta_id) {
 		document.querySelector('input[type="checkbox"][value="' + meta_id + '"]').click();
 		var li = document.createElement('li');
 			li.appendChild(document.createTextNode(property + ': ' + meta_id));
@@ -302,57 +337,49 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 	}
 	
 	
-	function setSufficientMetadata(set_id, meta_id) {
+	function setSufficientMode(set_id, meta_id) {
 		document.querySelector('fieldset#set' + set_id + ' input[type="checkbox"][value="' + meta_id + '"]').click();
 	}
 	
 	
-	function configureReporting(metadata_msg) {
+	function configureReporting(inferred_message) {
 		
-		if (!_report.hasOwnProperty('data')) {
+		if (!_aceReport.hasOwnProperty('data')) {
 			return;
 		}
 		
 		var alert_list = document.createElement('ul');
 		
-		setPassFail();
+		setSuccessCriteriaStatus();
 		
-		if (!configureChecks('img','images')) {
-			var li = document.createElement('li');
-				li.appendChild(document.createTextNode('images'))
-			alert_list.appendChild(li);
-		}
-		else {
-			buildImageLists();
-		}
+		var content_types = {
+								img: {property: 'images', description: 'images'},
+								script: {property: 'scripts', description: 'scripting'},
+								audio: {property: 'audios', description: 'audio'},
+								video: {property: 'videos', description: 'video'}
+							};
 		
-		// these should be automatable through configureChecks in the future
-		if (!configureChecks('script', 'scripts')) {
-			var li = document.createElement('li');
-				li.appendChild(document.createTextNode('scripting'))
-			alert_list.appendChild(li);
-		}
-		
-		if (!configureChecks('audio', 'audios')) {
-			var li = document.createElement('li');
-				li.appendChild(document.createTextNode('audio'))
-			alert_list.appendChild(li);
+		for (var id in content_types) {
+			if (excludeContentChecks(id, content_types[id].property)) {
+				var li = document.createElement('li');
+					li.appendChild(document.createTextNode(content_type[id].description))
+				alert_list.appendChild(li);
+			}
+			else {
+				if (id == 'img') {
+					buildImageLists();
+				}
+			}
 		}
 		
-		if (!configureChecks('video', 'videos')) {
-			var li = document.createElement('li');
-				li.appendChild(document.createTextNode('video'))
-			alert_list.appendChild(li);
-		}
-		
-		if (!_report['properties']['hasPageBreaks']) {
+		if (!_aceReport['properties']['hasPageBreaks']) {
 			document.querySelector('input[name="eg-1"][value="na"]').click();
 			var li = document.createElement('li');
 				li.appendChild(document.createTextNode('page breaks'))
 			alert_list.appendChild(li);
 		}
 		
-		if (!_report['earl:testSubject']['metadata'].hasOwnProperty('media:narrator')) {
+		if (!_aceReport['earl:testSubject']['metadata'].hasOwnProperty('media:narrator')) {
 			document.querySelector('input[name="eg-2"][value="na"]').click();
 			var li = document.createElement('li');
 				li.appendChild(document.createTextNode('media overlays'))
@@ -361,117 +388,18 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 		
 		setEPUBFeatureWarnings();
 		
-		var import_msg = document.getElementById('import');
-		
-		var success = document.createElement('p');
-			success.appendChild(document.createTextNode('Ace report successfully imported!'));
-		import_msg.appendChild(success);
-		
-		if (alert_list.hasChildNodes()) {
-			var start_msg = document.createElement('p');
-				start_msg.appendChild(document.createTextNode('The following content types were not reported present in the publication:'));
-			import_msg.appendChild(start_msg);
-			
-			import_msg.appendChild(alert_list);
-			
-			var end_msg = document.createElement('p');
-				end_msg.appendChild(document.createTextNode('Checks related to them have been turned off. To re-enable these checks, see the Conformance Verification tab.'));
-			import_msg.appendChild(end_msg);
-		}
-		
-		if (metadata_msg) {
-			var start_msg = document.createElement('p');
-				start_msg.appendChild(document.createTextNode('The following accessibiity metadata was set based on the Ace report:'));
-			import_msg.appendChild(start_msg);
-			
-			import_msg.appendChild(metadata_msg);
-			
-			var end_msg = document.createElement('p');
-				end_msg.appendChild(document.createTextNode('Verify the accuracy of these assumptions in the Discovery Metadata tab.'));
-			import_msg.appendChild(end_msg);
-		}
-		
-		import_dialog.dialog('open');
+		return alert_list.hasChildNodes() ? alert_list : '';
 	}
 	
 	
-	function configureChecks(id,prop) {
+	function setSuccessCriteriaStatus() {
 		
-		var checkElem = document.getElementById(id);
-		
-		// clicking triggers smartConformance.changeContentConformance to modify the form
-		
-		if (!_report['data'].hasOwnProperty(prop)) {
-			// uncheck since not present
-			if (!checkElem.checked) {
-				checkElem.click();
-			}
-			return false;
-		}
-		
-		else {
-			if (checkElem.checked) {
-				checkElem.click();
-			}
-			return true;
-		}
-		
-	}
-	
-	
-	function buildImageLists() {
-		var empty = new Array();
-		var non_empty = new Array();
-		
-		_report['data']['images'].forEach(function(obj) {
-			if (obj.alt == "") {
-				empty.push(obj.location.substr(0,obj.location.lastIndexOf('#')) + ": " + obj.src );
-			}
-			else {
-				non_empty.push(obj.location.substr(0,obj.location.lastIndexOf('#')) + ": " + obj.src + ": '" + obj.alt + "'");
-			}
-		});
-		
-		if (empty.length > 0) {
-			makeImgList('img-empty',empty,'The following images have empty alt attributes:')
-		}
-		
-		if (non_empty.length > 0) {
-			makeImgList('img-non-empty',non_empty,'Verify the following images are not decorative:');
-		}
-	}
-	
-	
-	function makeImgList(id,list,msg) {
-		var sc_li = document.getElementById(id);
-		var p = document.createElement('p');
-			p.appendChild(document.createTextNode(msg));
-			sc_li.appendChild(p);
-		
-		var ul = document.createElement('ul');
-		
-		for (var i = 0; i < list.length; i++) {
-			var li = document.createElement('li');
-			var code = document.createElement('code');
-				code.appendChild(document.createTextNode(list[i]));
-				li.appendChild(code);
-				ul.appendChild(li);
-		}
-		
-		sc_li.appendChild(ul);
-	}
-	
-	
-	function setPassFail() {
-		
-		var ace_status = _report['earl:result']['earl:outcome'];
-		
-		if (ace_status == 'pass') {
+		if (_aceReport['earl:result']['earl:outcome'] == 'pass') {
 			setSCStatus('sc-3.1.1','pass'); // lang
 		}
 		
 		else {
-			if (!_report.hasOwnProperty('assertions')) {
+			if (!_aceReport.hasOwnProperty('assertions')) {
 				// problem with ace?
 				console.log('Report did not pass but contains no failure assertions.');
 				return;
@@ -542,67 +470,180 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 	
 	
 	function compileAssertions() {
-		var failure = {};
-		for (var i = 0; i < _report['assertions'].length; i++) {
+		
+		var ace_failures = {};
+		
+		for (var i = 0; i < _aceReport.assertions.length; i++) {
 			
-			if (!_report['assertions'][i].hasOwnProperty('assertions')) { 
+			if (!_aceReport.assertions[i].hasOwnProperty('assertions')) { 
 				console.log('Document assertions has no sub-assertions');
 				continue;
 			}
 			
-			for (var j = 0; j <  _report['assertions'][i]['assertions'].length; j++) {
+			for (var j = 0; j < _aceReport.assertions[i].assertions.length; j++) {
 				
-				if (!_report['assertions'][i]['assertions'][j].hasOwnProperty('earl:test')) {
+				if (!_aceReport.assertions[i].assertions[j].hasOwnProperty('earl:test')) {
 					console.log('Document assertions does not have an earl:test section');
 					continue;
 				}
 				
-				if (!_report['assertions'][i]['assertions'][j]['earl:test'].hasOwnProperty('dct:title')) {
+				if (!_aceReport.assertions[i].assertions[j]['earl:test'].hasOwnProperty('dct:title')) {
 					console.log('Assertion test has no title');
 					continue;
 				}
 				
-				if (!failure.hasOwnProperty(_report['assertions'][i]['assertions'][j]['earl:test']['dct:title'])) {
-					failure[_report['assertions'][i]['assertions'][j]['earl:test']['dct:title']] = '';
+				if (!ace_failures.hasOwnProperty(_aceReport.assertions[i].assertions[j]['earl:test']['dct:title'])) {
+					ace_failures[_aceReport.assertions[i].assertions[j]['earl:test']['dct:title']] = '';
 				}
 				
-				failure[_report['assertions'][i]['assertions'][j]['earl:test']['dct:title']] += _report['assertions'][i]['assertions'][j]['earl:result']['dct:description'].replace(/Fix (any|all) of the following:\s+/i,'') + ' (' + _report['assertions'][i]['earl:testSubject']['url'] + ').\n';
+				ace_failures[_aceReport.assertions[i].assertions[j]['earl:test']['dct:title']] += _aceReport.assertions[i].assertions[j]['earl:result']['dct:description'].replace(/Fix (any|all) of the following:\s+/i,'') + ' (' + _aceReport.assertions[i]['earl:testSubject'].url + ').\n';
 			}
 		}
-		return failure;
+		
+		return ace_failures;
+	}
+	
+	
+	function excludeContentChecks(id, property) {
+		
+		var test_checkbox = document.getElementById(id);
+		
+		// clicking the checkbox calls smartConformance.changeContentConformance to modify the form
+		
+		if (!_aceReport['data'].hasOwnProperty(property)) {
+			if (!test_checkbox.checked) {
+				// check to make the applicable success criteria n/a
+				test_checkbox.click();
+			}
+			return true;
+		}
+		
+		else {
+			if (test_checkbox.checked) {
+				// uncheck to reset the success criteria to unverified
+				test_checkbox.click();
+			}
+			return false;
+		}
+	}
+	
+	
+	function buildImageLists() {
+		var empty_alt = new Array();
+		var non_empty_alt = new Array();
+		
+		_aceReport['data']['images'].forEach(function(image) {
+			if (image.alt == '') {
+				empty_alt.push(image.location.substr(0,image.location.lastIndexOf('#')) + ': ' + image.src);
+			}
+			else {
+				non_empty_alt.push(image.location.substr(0,image.location.lastIndexOf('#')) + ': ' + image.src + ": '" + image.alt + "'");
+			}
+		});
+		
+		if (empty_alt.length > 0) {
+			setImageStatus({id: 'img-empty', images: empty_alt, leadin: 'The following images have empty alt attributes:'});
+		}
+		
+		if (non_empty_alt.length > 0) {
+			setImageStatus({id: 'img-non-empty', images: non_empty_alt, leadin: 'Verify the following images are not decorative:'});
+		}
+	}
+	
+	
+	// appends the list of images and alt texts to the corresponding requirement in sc 1.1.1
+	function setImageStatus(options) {
+	
+		var sc_111_listitem = document.getElementById(options.id);
+		
+		var leadin = document.createElement('p');
+			leadin.appendChild(document.createTextNode(options.leadin));
+		
+		sc_111_listitem.appendChild(leadin);
+		
+		var image_list = document.createElement('ul');
+		
+		for (var i = 0; i < options.images.length; i++) {
+			
+			var image_item = document.createElement('li');
+			
+			var code = document.createElement('code');
+				code.appendChild(document.createTextNode(options.images[i]));
+			
+			image_item.appendChild(code);
+			image_list.appendChild(image_item);
+		}
+		
+		sc_111_listitem.appendChild(image_list);
 	}
 	
 	
 	function setEPUBFeatureWarnings() {
 		
-		var feature = {'manifest': 'hasManifestFallbacks', 'bindings': 'hasBindings', 'switch': 'epub-switches', 'trigger': 'epub-triggers'};
-		var showWarning = true;
+		var features = {'manifest': 'hasManifestFallbacks', 'bindings': 'hasBindings', 'switch': 'epub-switches', 'trigger': 'epub-triggers'};
+		var warningIsVisible = false;
 		
-		for (var key in feature) {
+		for (var key in features) {
 			
-			if  ((_report['properties'].hasOwnProperty(feature[key]) && _report['properties'][feature[key]])
-					|| _report['data'].hasOwnProperty(feature[key])) {
-				var elem = document.getElementsByClassName(key);
+			if  ((_aceReport['properties'].hasOwnProperty(features[key]) && _aceReport['properties'][features[key]])
+					|| _aceReport['data'].hasOwnProperty(features[key])) {
 				
-				for (var i = 0; i < elem.length; i++) {
-					elem[i].style.display = 'list-item';
+				var messages = document.getElementsByClassName(key);
+				
+				for (var i = 0; i < messages.length; i++) {
+					messages[i].style.display = 'list-item';
 				}
 				
-				if (showWarning) {
+				if (!warningIsVisible) {
 					document.getElementById('fallbacks').style.display = 'block';
-					showWarning = false;
+					warningIsVisible = true;
 				}
 			}
 		}
 	}
 	
+	
+	function showReportLoadResult(messages) {
+		var import_result = document.getElementById('import');
+		
+		var successful_load = document.createElement('p');
+			successful_load.appendChild(document.createTextNode('Ace report successfully imported!'));
+		import_result.appendChild(successful_load);
+		
+		if (messages.reporting.hasChildNodes()) {
+			var report_exclusions = document.createElement('p');
+				report_exclusions.appendChild(document.createTextNode('The following content types were not reported present in the publication:'));
+			import_result.appendChild(report_exclusions);
+			
+			import_result.appendChild(messages.reporting);
+			
+			var exclusions_info = document.createElement('p');
+				exclusions_info.appendChild(document.createTextNode('Checks related to them have been turned off. To re-enable these checks, see the Conformance Verification tab.'));
+			import_result.appendChild(exclusions_info);
+		}
+		
+		if (messages.inferred) {
+			var inferred_metadata = document.createElement('p');
+				inferred_metadata.appendChild(document.createTextNode('The following accessibiity metadata was set based on the Ace report:'));
+			import_result.appendChild(inferred_metadata);
+			
+			import_result.appendChild(messages.inferred);
+			
+			var verify_inferred = document.createElement('p');
+				verify_inferred.appendChild(document.createTextNode('Verify the accuracy of these assumptions in the Discovery Metadata tab.'));
+			import_result.appendChild(verify_inferred);
+		}
+		
+		import_dialog.dialog('open');
+	}
+	
 	return {
 		storeReportJSON: function(json) {
-			_report = json;
+			_aceReport = json;
 		},
 		
-		loadReport: function() {
-			loadReport();
+		loadAceReport: function() {
+			loadAceReport();
 		}
 	}
 

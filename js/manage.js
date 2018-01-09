@@ -192,7 +192,7 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 		
 		else {
 			smartAce.storeReportJSON(report_json);
-			smartAce.loadReport();
+			smartAce.loadAceReport();
 		}
 		
 		report_textarea.value = '';

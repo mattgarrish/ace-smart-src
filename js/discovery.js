@@ -7,29 +7,29 @@ document.getElementById('discovery_button').onclick = function() {
 
 var smartDiscovery = (function(smartFormat) { 
 
-	var _prop_error = { "accessibilityFeature": {}, "accessibilityHazard": {}, "accessMode": {}, "accessibilitySummary": {}, "accessModeSufficient": {} };
-		_prop_error.accessModeSufficient = { "missing": {}, "none": {}, "dup": {} };
+	var _PROP_ERROR = { accessibilityFeature: {}, accessibilityHazard: {}, accessMode: {}, accessibilitySummary: {}, accessModeSufficient: {} };
+		_PROP_ERROR.accessModeSufficient = { "missing": {}, "none": {}, "dup": {} };
 		
-		_prop_error.accessibilityFeature.msg = 'At least one accessibility feature must be specified.';
-		_prop_error.accessibilityFeature.warn = false;
+		_PROP_ERROR.accessibilityFeature.msg = 'At least one accessibility feature must be specified.';
+		_PROP_ERROR.accessibilityFeature.warn = false;
 		
-		_prop_error.accessibilityHazard.msg = 'A hazard indication is required. If uncertain whether there are hazards in the content, select the "unknown" value.';
-		_prop_error.accessibilityHazard.warn = false;
+		_PROP_ERROR.accessibilityHazard.msg = 'A hazard indication is required. If uncertain whether there are hazards in the content, select the "unknown" value.';
+		_PROP_ERROR.accessibilityHazard.warn = false;
 		
-		_prop_error.accessMode.msg = 'At least one access mode must be selected.';
-		_prop_error.accessMode.warn = false;
+		_PROP_ERROR.accessMode.msg = 'At least one access mode must be selected.';
+		_PROP_ERROR.accessMode.warn = false;
 		
-		_prop_error.accessibilitySummary.msg = 'An accessibility summary is required. The summary must not be empty or contain only white space.';
-		_prop_error.accessibilitySummary.warn = false;
+		_PROP_ERROR.accessibilitySummary.msg = 'An accessibility summary is required. The summary must not be empty or contain only white space.';
+		_PROP_ERROR.accessibilitySummary.warn = false;
 		
-		_prop_error.accessModeSufficient.missing.msg = 'Sufficient access mode "%%val%%" checked but is not listed as an access mode. It is not common for a publication to have a sufficient access mode that is not also an access mode.';
-		_prop_error.accessModeSufficient.missing.warn = true;
+		_PROP_ERROR.accessModeSufficient.missing.msg = 'Sufficient access mode "%%val%%" checked but is not listed as an access mode. It is not common for a publication to have a sufficient access mode that is not also an access mode.';
+		_PROP_ERROR.accessModeSufficient.missing.warn = true;
 		 
-		_prop_error.accessModeSufficient.none.msg = 'Sufficient access modes for reading the publication not specified.';
-		_prop_error.accessModeSufficient.none.warn = true;
+		_PROP_ERROR.accessModeSufficient.none.msg = 'Sufficient access modes for reading the publication not specified.';
+		_PROP_ERROR.accessModeSufficient.none.warn = true;
 
-		_prop_error.accessModeSufficient.dup.msg = 'Duplicate sets of sufficient access modes specified.';
-		_prop_error.accessModeSufficient.dup.warn = false;
+		_PROP_ERROR.accessModeSufficient.dup.msg = 'Duplicate sets of sufficient access modes specified.';
+		_PROP_ERROR.accessModeSufficient.dup.warn = false;
 	
 	
 	function validate(options) {
@@ -43,8 +43,8 @@ var smartDiscovery = (function(smartFormat) {
 		verifyOneCheck('accessibilityFeature',msg);
 		
 		if (document.getElementById('accessibilitySummary').value.replace(/\s/g,'') == '') {
-			smartError.logError({tab_id: 'discovery', element_id: 'summary-field', severity: 'err', message: _prop_error['accessibilitySummary'].msg});
-			highlightError('summary-field', _prop_error['accessibilitySummary'].warn);
+			smartError.logError({tab_id: 'discovery', element_id: 'summary-field', severity: 'err', message: _PROP_ERROR['accessibilitySummary'].msg});
+			highlightError('summary-field', _PROP_ERROR['accessibilitySummary'].warn);
 			msg.err = true;
 		}
 		
@@ -96,9 +96,9 @@ var smartDiscovery = (function(smartFormat) {
 		msg.err = true;
 		
 		//console.log(id);
-		smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _prop_error[id].msg});
+		smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].msg});
 		
-		highlightError(id, _prop_error[id].warn);
+		highlightError(id, _PROP_ERROR[id].warn);
 	}
 	
 	function verifySufficient(msg) {
@@ -115,8 +115,8 @@ var smartDiscovery = (function(smartFormat) {
 				
 				if (!document.querySelector('input[type="checkbox"][id="'+modes[j].value+'"]:checked')) {
 					msg.warn = true;
-					smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'warn', message: _prop_error.accessModeSufficient.missing.msg.replace('%%val%%', modes[j].value)});
-					highlightError('accessModeSufficient', _prop_error.accessModeSufficient.missing.warn);
+					smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'warn', message: _PROP_ERROR.accessModeSufficient.missing.msg.replace('%%val%%', modes[j].value)});
+					highlightError('accessModeSufficient', _PROP_ERROR.accessModeSufficient.missing.warn);
 					return;
 				}
 			}
@@ -128,8 +128,8 @@ var smartDiscovery = (function(smartFormat) {
 	
 		if (modeList.length == 0) {
 			msg.warn = true;
-			smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'warn', message: _prop_error.accessModeSufficient.none.msg});
-			highlightError('accessModeSufficient', _prop_error.accessModeSufficient.none.warn);
+			smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'warn', message: _PROP_ERROR.accessModeSufficient.none.msg});
+			highlightError('accessModeSufficient', _PROP_ERROR.accessModeSufficient.none.warn);
 			return;
 		}
 		
@@ -138,8 +138,8 @@ var smartDiscovery = (function(smartFormat) {
 		for (var k = 1; k < modeList.length; k++) {
 			if (modeList[k] == modeList[k-1]) {
 				msg.err = true;
-				smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'err', message: _prop_error.accessModeSufficient.dup.msg});
-				highlightError('accessModeSufficient', _prop_error.accessModeSufficient.dup.warn);
+				smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'err', message: _PROP_ERROR.accessModeSufficient.dup.msg});
+				highlightError('accessModeSufficient', _PROP_ERROR.accessModeSufficient.dup.warn);
 				return;
 			}
 		}
