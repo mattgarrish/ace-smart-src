@@ -1,14 +1,17 @@
 
 'use strict';
 
-document.getElementById('discovery_button').onclick = function() {
-	smartDiscovery.validate();
-}
+/* 
+ * 
+ * smartDiscovery
+ * 
+ * Validates and generates discovery metadata
+ * 
+ */
 
 var smartDiscovery = (function(smartFormat) { 
 
 	var _PROP_ERROR = { accessibilityFeature: {}, accessibilityHazard: {}, accessMode: {}, accessibilitySummary: {}, accessModeSufficient: {} };
-		_PROP_ERROR.accessModeSufficient = { "missing": {}, "none": {}, "dup": {} };
 		
 		_PROP_ERROR.accessibilityFeature.msg = 'At least one accessibility feature must be specified.';
 		_PROP_ERROR.accessibilityFeature.warn = false;
@@ -22,239 +25,226 @@ var smartDiscovery = (function(smartFormat) {
 		_PROP_ERROR.accessibilitySummary.msg = 'An accessibility summary is required. The summary must not be empty or contain only white space.';
 		_PROP_ERROR.accessibilitySummary.warn = false;
 		
+		_PROP_ERROR.accessModeSufficient = { missing: {}, none: {}, duplicate: {} };
+		
 		_PROP_ERROR.accessModeSufficient.missing.msg = 'Sufficient access mode "%%val%%" checked but is not listed as an access mode. It is not common for a publication to have a sufficient access mode that is not also an access mode.';
 		_PROP_ERROR.accessModeSufficient.missing.warn = true;
 		 
 		_PROP_ERROR.accessModeSufficient.none.msg = 'Sufficient access modes for reading the publication not specified.';
 		_PROP_ERROR.accessModeSufficient.none.warn = true;
 
-		_PROP_ERROR.accessModeSufficient.dup.msg = 'Duplicate sets of sufficient access modes specified.';
-		_PROP_ERROR.accessModeSufficient.dup.warn = false;
+		_PROP_ERROR.accessModeSufficient.duplicate.msg = 'Duplicate sets of sufficient access modes specified.';
+		_PROP_ERROR.accessModeSufficient.duplicate.warn = false;
 	
 	
-	function validate(options) {
+	function validateDiscoveryMetadata() {
 	
-		if (!options.quiet) {
-			smartError.clearAll('discovery');
-		}
+		smartError.clearAll('discovery');
 		
-		var msg = { 'err': false, 'warn': false };
+		var is_valid = true;
 		
-		verifyOneCheck('accessibilityFeature',msg);
+		is_valid = verifyOneItemChecked('accessibilityFeature');
 		
 		if (document.getElementById('accessibilitySummary').value.replace(/\s/g,'') == '') {
 			smartError.logError({tab_id: 'discovery', element_id: 'summary-field', severity: 'err', message: _PROP_ERROR['accessibilitySummary'].msg});
-			highlightError('summary-field', _PROP_ERROR['accessibilitySummary'].warn);
-			msg.err = true;
+			smartFormat.setFieldToError('summary-field', _PROP_ERROR['accessibilitySummary'].warn, false);
+			is_valid = false;
 		}
 		
 		else {
-			setPass('summary-field');
+			smartFormat.setFieldToPass('summary-field', false);
 		}
 		
-		verifyOneCheck('accessibilityHazard',msg);
+		is_valid = verifyOneItemChecked('accessibilityHazard') ? is_valid : false;
 		
-		verifyOneCheck('accessMode',msg);
+		is_valid = verifyOneItemChecked('accessMode') ? is_valid : false;
 		
-		verifySufficient(msg);
+		is_valid = verifySufficientModes() ? is_valid : false;
 		
 		// optional metadata gets an automatic pass
-		setPass('accessibilityAPI');
-		setPass('accessibilityControl');
+		smartFormat.setFieldToPass('accessibilityAPI', false);
+		smartFormat.setFieldToPass('accessibilityControl', false);
 		
-		if (options.quiet) {
-			return (msg.err || msg.warn) ? false : true;
+		return is_valid;
+		
+	}
+	
+	
+	function verifyOneItemChecked(id, found) {
+		var checked_items = document.querySelectorAll('fieldset#' + id + ' input:checked')
+		
+		if (checked_items.length > 0) {
+			smartFormat.setFieldToPass(id, false);
+			return true;
 		}
 		
-		if (msg.err || msg.warn) {
+		else {
+			smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].msg});
+			smartFormat.setFieldToError(id, _PROP_ERROR[id].warn, false);
+			return false;
+		}
+	}
+	
+	
+	function verifySufficientModes() {
+		var fieldsets = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset');
+		var sufficient_mode_sets = [];
+		
+		// check sufficient modes have been checked
+		for (var i = 0; i < fieldsets.length; i++) {
+			var checked_modes = fieldsets[i].querySelectorAll('input:checked');
+			var this_set = '';
+			
+			for (var j = 0; j < checked_modes.length; j++) {
+				this_set += checked_modes[j].value;
+				
+				// issue a warning if not also selected as a primary access mode
+				if (!document.querySelector('input[type="checkbox"][id="'+checked_modes[j].value+'"]:checked')) {
+					smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'warn', message: _PROP_ERROR.accessModeSufficient.missing.msg.replace('%%val%%', checked_modes[j].value)});
+					smartFormat.setFieldToError('accessModeSufficient', _PROP_ERROR.accessModeSufficient.missing.warn, false);
+					return false;
+				}
+			}
+			
+			if (this_set != '') {
+				sufficient_mode_sets.push(this_set);
+			}
+		}
+	
+		if (sufficient_mode_sets.length == 0) {
+			smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'warn', message: _PROP_ERROR.accessModeSufficient.none.msg});
+			smartFormat.setFieldToError('accessModeSufficient', _PROP_ERROR.accessModeSufficient.none.warn, false);
+			return false;
+		}
+		
+		else if (sufficient_mode_sets.length > 1) {
+			// check there are no duplicate sets
+			sufficient_mode_sets.sort();
+			for (var i = 1; i < sufficient_mode_sets.length; i++) {
+				if (sufficient_mode_sets[i] == sufficient_mode_sets[i-1]) {
+					smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'err', message: _PROP_ERROR.accessModeSufficient.duplicate.msg});
+					smartFormat.setFieldToError('accessModeSufficient', _PROP_ERROR.accessModeSufficient.duplicate.warn, false);
+					return false;
+				}
+			}
+		}
+		
+		setFieldToPass('accessModeSufficient', false);
+		
+		return true;
+	}
+	
+	
+	function generateDiscoveryMetadata() {
+	
+		if (!validateDiscoveryMetadata()) {
 			if (!confirm('Metadata does not validate!\n\nClick Ok to generate anyway or Cancel to close this dialog and correct.')) {
 				return;
 			}
 		}
 		
-		generateMetadata();
-	}
-	
-	function highlightError(id,isWarning) {
-		var fDiv = document.getElementById(id);
-			fDiv.setAttribute('aria-invalid', (isWarning ? false : true));
-			fDiv.classList.add(isWarning ? smartFormat.BG.WARN : smartFormat.BG.ERR);
-	}
-	
-	function setPass(id) {
-		document.getElementById(id).classList.add(smartFormat.BG.PASS);
-	}
-	
-	function verifyOneCheck(id,msg) {
-		var elemList = document.querySelectorAll('fieldset#' + id + ' input:checked')
+		var discovery_metadata = document.getElementById('discovery-metadata');
+			discovery_metadata.value = '';
 		
-		if (elemList.length > 0) {
-			setPass(id);
-			return;
-		}
-		
-		msg.err = true;
-		
-		//console.log(id);
-		smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].msg});
-		
-		highlightError(id, _PROP_ERROR[id].warn);
-	}
-	
-	function verifySufficient(msg) {
-		var sets = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset');
-		var modeList = [];
-		
-		// check sufficient modes have been checked
-		for (var i = 0; i < sets.length; i++) {
-			var modes = sets[i].querySelectorAll('input:checked');
-			var thisList = '';
-			
-			for (var j = 0; j < modes.length; j++) {
-				thisList += modes[j].value;
-				
-				if (!document.querySelector('input[type="checkbox"][id="'+modes[j].value+'"]:checked')) {
-					msg.warn = true;
-					smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'warn', message: _PROP_ERROR.accessModeSufficient.missing.msg.replace('%%val%%', modes[j].value)});
-					highlightError('accessModeSufficient', _PROP_ERROR.accessModeSufficient.missing.warn);
-					return;
-				}
-			}
-			
-			if (thisList != '') {
-				modeList.push(thisList);
-			}
-		}
-	
-		if (modeList.length == 0) {
-			msg.warn = true;
-			smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'warn', message: _PROP_ERROR.accessModeSufficient.none.msg});
-			highlightError('accessModeSufficient', _PROP_ERROR.accessModeSufficient.none.warn);
-			return;
-		}
-		
-		// check no duplicates
-		modeList.sort();
-		for (var k = 1; k < modeList.length; k++) {
-			if (modeList[k] == modeList[k-1]) {
-				msg.err = true;
-				smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'err', message: _PROP_ERROR.accessModeSufficient.dup.msg});
-				highlightError('accessModeSufficient', _PROP_ERROR.accessModeSufficient.dup.warn);
-				return;
-			}
-		}
-		
-		setPass('accessModeSufficient');
-		
-		return;
-	}
-	
-	function generateMetadata() {
-	
-		var output = '';
-		var outputBox = document.getElementById('metadata');
-		
-		outputBox.value = '';
+		var meta_tags = '';
 		
 		// add accessibility features
-		output += addMeta('schema:accessibilityFeature', 'accessibilityFeature');
+		meta_tags += addMetaTag('schema:accessibilityFeature', 'accessibilityFeature');
 		
 		// add the summary
-		output += addSummary('schema:accessibilitySummary', 'accessibilitySummary');
+		meta_tags += smartFormat.createMetaTag({type: 'meta', property: 'schema:accessibilitySummary', value: document.getElementById('accessibilitySummary').value});
 		
 		// add hazards
-		output += addMeta('schema:accessibilityHazard', 'accessibilityHazard');
+		meta_tags += addMetaTag('schema:accessibilityHazard', 'accessibilityHazard');
 		
 		// add access modes
-		output += addMeta('schema:accessMode', 'accessMode');
+		meta_tags += addMetaTag('schema:accessMode', 'accessMode');
 		
 		// add sufficent access modes
-		output += addSufficientSets('schema:accessModeSufficient');
+		meta_tags += addSufficientSetTags('schema:accessModeSufficient');
 		
 		// add apis
-		output += addMeta('schema:accessibilityAPI', 'accessibilityAPI');
+		meta_tags += addMetaTag('schema:accessibilityAPI', 'accessibilityAPI');
 		
 		// add controls
-		output += addMeta('schema:accessibilityControl', 'accessibilityControl');
+		meta_tags += addMetaTag('schema:accessibilityControl', 'accessibilityControl');
 		
-		if (output == '') {
+		if (meta_tags == '') {
 			alert('No metadata specified. Failed to generate.');
 		}
 		
 		else {
-			outputBox.value = output;
+			discovery_metadata.value = meta_tags;
 		}
 	
 	}
 	
-	function addMeta(property, id) {
-		var elemList = document.getElementById(id).getElementsByTagName('input');
-		var meta = '';
-		for (var i = 0; i < elemList.length; i++) {
-			if (elemList[i].checked) {
-				meta += smartFormat.createMetaTag({type: 'meta', property: property, value: elemList[i].value});
-			}
-		}
-		return meta;
-	}
 	
-	function addSummary(property, id) {
-		var summary = document.getElementById(id).value;
-		if (smartFormat.epub_version == 3) {
-			// replace & < and > for use as element text
-			summary.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-		}
-		else {
-			// replace & " < > and line endings for use as attribute text
-			summary.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\r?\n/g, ' ')
-		}
-		return smartFormat.createMetaTag({type: 'meta', property: property, value: summary});
-	}
-	
-	function addSufficientSets(property) {
-		var meta = '';
-		var sets = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset');
-		for (var i = 0; i < sets.length; i++) {
-			var elemList = sets[i].querySelectorAll('input:checked');
-			var modeList = '';
-			for (var j = 0; j < elemList.length; j++) {
-				if (modeList != '') { modeList += ','; }
-				modeList += elemList[j].value;
-			}
-			if (modeList != '') {
-				meta += smartFormat.createMetaTag({type: true, property: property, value: modeList});
-			}
-		}
-		return meta;
-	}
-	
-	function addCustomFeature(fname) {
+	function addMetaTag(property, id) {
+		var checked_values = document.getElementById(id).querySelectorAll('input:checked');
+		var meta_tag = '';
 		
-		if (fname == null || fname == '') {
-			fname = prompt('Enter the accessibility feature as it will appear in the metadata:').trim();
+		for (var i = 0; i < checked_values.length; i++) {
+			meta_tag += smartFormat.createMetaTag({type: 'meta', property: property, value: checked_values[i].value});
 		}
 		
-		if (fname != '') {
-			if (document.getElementById(fname)) {
+		return meta_tag;
+	}
+	
+	
+	function addSufficientSetTags(property) {
+		var meta_tags = '';
+		var fieldsets = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset');
+		
+		for (var i = 0; i < fieldsets.length; i++) {
+			var checked_modes = fieldsets[i].querySelectorAll('input:checked');
+			var sufficient_set = '';
+			
+			for (var j = 0; j < checked_modes.length; j++) {
+				sufficient_set += sufficient_set ? ',' : '';
+				sufficient_set += checked_modes[j].value;
+			}
+			
+			if (sufficient_set) {
+				meta_tags += smartFormat.createMetaTag({type: true, property: property, value: sufficient_set});
+			}
+		}
+		
+		return meta_tags;
+	
+	}
+	
+	
+	function addCustomFeature(feature_name) {
+		
+		if (!feature_name) {
+			feature_name = prompt('Enter the accessibility feature as it will appear in the metadata:').trim();
+		}
+		
+		if (feature_name) {
+		
+			if (document.getElementById(feature_name)) {
 				alert('Feature already exists. Unable to add');
 			}
+			
 			else {
-				var addLink = document.getElementById('add-af');
-				var colDiv = addLink.parentNode.getElementsByClassName('cols')[0];
+				var new_feature_label = document.createElement('label');
+					new_feature_label.setAttribute('class', 'custom');
 				
-				var newEntry = document.createElement("label");
-					newEntry.setAttribute("class", "custom");
+				var new_feature_checkbox = document.createElement('input');
+					new_feature_checkbox.setAttribute('type', 'checkbox');
+					new_feature_checkbox.setAttribute('value', feature_name);
+					new_feature_checkbox.setAttribute('checked', 'checked');
 				
-				var newCheckbox = document.createElement("input");
-					newCheckbox.setAttribute("type", "checkbox");
-					newCheckbox.setAttribute("value", fname);
-					newCheckbox.setAttribute("checked", "checked");
+				new_feature_label.appendChild(new_feature_checkbox);
 				
-				newEntry.appendChild(newCheckbox);
+				new_feature_label.appendChild(document.createTextNode(' ' + feature_name));
 				
-				newEntry.appendChild(document.createTextNode(" "+fname));
+				// get the link to add new features
+				var add_feature_link = document.getElementById('add-af');
 				
-				colDiv.appendChild(newEntry, addLink);
+				// append the new feature to the column-formatted div before the link
+				add_feature_link.parentNode.getElementsByClassName('cols')[0].appendChild(new_feature_label, add_feature_link);
 			}
 		}
 		
@@ -263,61 +253,64 @@ var smartDiscovery = (function(smartFormat) {
 		}
 	}
 	
-	function addSufficient() {
 	
-		var num = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset').length + 1;
+	function addNewSufficientSet() {
+	
+		var set_count = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset').length + 1;
 		
-		var addLink = document.getElementById('add-ams');
-		var parentField = addLink.parentNode;
+		var new_fieldset = document.createElement('fieldset');
+			new_fieldset.setAttribute('id', 'set' + set_count);
+			new_fieldset.setAttribute('class', 'custom');
 		
-		var newField = document.createElement("fieldset");
-			newField.setAttribute("id", "set"+num);
-			newField.setAttribute("class", "custom");
+		var legend = document.createElement('legend');
+			legend.appendChild(document.createTextNode('Set ' + set_count));
 		
-		var legend = document.createElement("legend");
-			legend.appendChild(document.createTextNode("Set "+num));
+		new_fieldset.appendChild(legend);
 		
-		newField.appendChild(legend);
+		var new_column_wrapper_div = document.createElement('div');
+			new_column_wrapper_div.setAttribute('class','cols');
 		
-		var colDiv = document.createElement('div');
-			colDiv.setAttribute('class','cols two');
+		var access_modes = ['auditory','tactile','textual','visual'];
 		
-		var fields = ['auditory','tactile','textual','visual'];
-		
-		for (var i = 0; i < fields.length; i++) {
-			var newLabel = document.createElement("label");
+		for (var i = 0; i < access_modes.length; i++) {
+			var access_mode_label = document.createElement('label');
 			
-			var newCheckbox = document.createElement("input");
-				newCheckbox.setAttribute("type", "checkbox");
-				newCheckbox.setAttribute("value",fields[i]);
+			var new_checkbox = document.createElement('input');
+				new_checkbox.setAttribute('type', 'checkbox');
+				new_checkbox.setAttribute('value', access_modes[i]);
 			
-			newLabel.appendChild(newCheckbox);
+			access_mode_label.appendChild(new_checkbox);
+			access_mode_label.appendChild(document.createTextNode(' ' + access_modes[i]));
 			
-			var labelText = document.createTextNode(" "+fields[i]);
-			
-			newLabel.appendChild(labelText);
-			
-			colDiv.appendChild(newLabel);
+			new_column_wrapper_div.appendChild(access_mode_label);
 		}
 		
-		newField.appendChild(colDiv);
+		new_fieldset.appendChild(new_column_wrapper_div);
 		
-		parentField.insertBefore(newField, addLink);
+		// get the link to add new sufficient modes
+		var add_sufficient_set_link = document.getElementById('add-ams');
+		
+		// insert the new set before the link
+		add_sufficient_set_link.parentNode.insertBefore(new_fieldset, add_sufficient_set_link);
 	}
 	
+	
+	
 	return {
-		addCustomFeature: function(fname) {
-			addCustomFeature(fname);
+		addCustomFeature: function(feature_name) {
+			addCustomFeature(feature_name);
 		},
 		
-		addSufficient: function() {
-			addSufficient();
+		addNewSufficientSet: function() {
+			addNewSufficientSet();
 		},
 		
-		validate: function(options) {
-			options = typeof(options) === 'object' ? options : {};
-			options.quiet = options.hasOwnProperty('quiet') ? options.quiet : false;
-			validate(options);
+		validateDiscoveryMetadata: function() {
+			validateDiscoveryMetadata();
+		},
+		
+		generateDiscoveryMetadata: function() {
+			generateDiscoveryMetadata();
 		}
 	}
 

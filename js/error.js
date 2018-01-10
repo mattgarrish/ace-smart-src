@@ -11,7 +11,7 @@
  * 
  * - init - initializes the error pane and message list
  * 
- * - clearAll - calls the following three functions to reset error reporting
+ * - clearAll - calls the following three functions to reset error reporting - may be scoped to a specific tab
  *    - clearMessagePane - clears the message pane
  *    - clearARIAInvalid - resets aria-invalid attributes to false
  *    - clearErrorBGs - resets error and warning background shading to default colour

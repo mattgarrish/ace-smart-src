@@ -63,10 +63,16 @@ $(document).ready(function(){
 					} );
 			} );
 			
-			// highlight current tab or pubinfo by default -- added MG
+			
+			
+			/*  highlight current tab or pubinfo by default -- added Matt Garrish */
+			
 			var hash_tab = '#label_' + ((hash == '') ? 'start' : hash);
 			$(hash_tab).closest( '.js-tablist__item' ).addClass( 'active' );
-
+			
+			/*  ----------------------------------------------------------------- */
+			
+			
 	 
 			/* Tabs content ---------------------------------------------------------------------------------------------------- */
 			$( ".js-tabcontent" ).attr({

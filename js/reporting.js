@@ -9,6 +9,8 @@
  * 
  * Public functions:
  * 
+ * - validateConformanceReport - validates the output report
+ * 
  * - generateConformanceReport - creates the final output report
  * 
  * - addSuccessCriteriaReporting - dynamically adds the status and note fields to success criteria
@@ -34,9 +36,9 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 		
 		is_valid = checkNoUnverifiedSC() ? is_valid : false;
 		
-		is_valid = smartCertification.validate({quiet: true}) ? is_valid : false;
+		is_valid = smartCertification.validateCertificationMetadata() ? is_valid : false;
 		
-		is_valid = smartDiscovery.validate({quiet: true}) ? is_valid : false;
+		is_valid = smartDiscovery.validateDiscoveryMetadata() ? is_valid : false;
 		
 		// validate user extensions
 		if (Object.keys(extension).length > 0) {
@@ -45,13 +47,7 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 			}
 		}
 		
-		if (!is_valid) {
-			if (!confirm('Report did not validate successfully!\n\nClick Ok to generate anyway, or Cancel to exit.')) {
-				return false;
-			}
-		}
-		
-		return true;
+		return is_valid;
 	}
 	
 	
@@ -74,15 +70,13 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 			var meta_element = document.getElementById(meta_name);
 			
 			if (meta_element.value.trim() == '') {
-				meta_element.setAttribute('aria-invalid',true);
-				meta_element.parentNode.classList.add(smartFormat.BG.ERR);
 				smartError.logError({tab_id: 'start', element_id: meta_name, severity: 'err', message: 'The ' + required_fields[meta_name] + ' is a required field.'});
+				smartFormat.setFieldToError(meta_name, false, true);
 				is_valid = false;
 			}
 			
 			else {
-				meta_element.setAttribute('aria-invalid',false);
-				meta_element.parentNode.classList.remove(smartFormat.BG.ERR);
+				smartFormat.setFieldToPass(meta_name, false, true);
 			}
 		}
 		
@@ -101,22 +95,19 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 			var meta_error = false;
 			for (var i = 0; i < meta_lines.length; i++) {
 				if (!meta_lines[i].match(/: /)) {
-					optional_elem.setAttribute('aria-invalid',true);
-					optional_elem.parentNode.classList.add(smartFormat.BG.ERR);
 					smartError.logError({tab_id: 'start', element_id: 'optional-meta', severity: 'err', message: 'Missing a colon separator on line ' + (i+1)});
+					smartFormat.setFieldToError('optional-meta', true);
 					is_valid = false;
 					meta_error = true;
 				}
 			}
 			if (!meta_error) {
-				optional_meta_element.setAttribute('aria-invalid',false);
-				optional_meta_element.parentNode.classList.remove(smartFormat.BG.ERR);
+				smartFormat.setFieldToPass('optional-meta', true);
 			}
 		}
 		
 		else {
-			optional_meta_element.setAttribute('aria-invalid',false);
-			optional_meta_element.parentNode.classList.remove(smartFormat.BG.ERR);
+			smartFormat.setFieldToPass('optional-meta', true);
 		}
 		
 		return is_valid;
@@ -151,7 +142,9 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 	function generateConformanceReport() {
 		
 		if (!validateConformanceReport()) {
-			return;
+			if (!confirm('Report did not validate successfully!\n\nClick Ok to generate anyway, or Cancel to exit.')) {
+				return;
+			}
 		}
 		
 		var title = document.getElementById('title').value;
@@ -795,6 +788,10 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 	
 	
 	return {
+		validateConformanceReport: function() {
+			validateConformanceReport();
+		},
+		
 		generateConformanceReport: function() {
 			generateConformanceReport();
 		},

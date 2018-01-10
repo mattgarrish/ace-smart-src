@@ -117,13 +117,18 @@
 	
 	/* watch for click to add custom accessibilityFeature */
 	$('#add-sufficient').click( function(){
-		smartDiscovery.addSufficient();
+		smartDiscovery.addNewSufficientSet();
 		return false;
 	});
 	
+	/* watch for click to generate discovery metadata */
+	$('#discovery_button').click( function(){
+		smartDiscovery.generateDiscoveryMetadata();
+	});
+		
 	/* watch for click on button to generate certification metadata */
 	$('#generate-certification-metadata').click( function(){
-		smartCertification.generateCertificationMeta();
+		smartCertification.generateCertificationMetadata();
 	});
 	
 	/* watch for click on button to generate final report */

@@ -335,7 +335,7 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 		var setCount = Object.keys(modeSets).length;
 		if (setCount > 2) {
 			for (var j = 1; j <= setCount - 2; j++) {
-				smartDiscovery.addSufficient();
+				smartDiscovery.addNewSufficientSet();
 			}
 		}
 		

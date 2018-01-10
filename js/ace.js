@@ -255,7 +255,7 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 		for (var i = 0; i < report_sets.length; i++) {
 			/* add additional sets so there is always one blank to work with */
 			if (i > 0) {
-				smartDiscovery.addSufficient();
+				smartDiscovery.addNewSufficientSet();
 			}
 			
 			var access_modes = report_sets[i].split(/[\s,]+/);
