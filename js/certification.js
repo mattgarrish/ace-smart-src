@@ -25,12 +25,12 @@ var smartCertification = (function(smartFormat) {
 		
 		if (document.getElementById('certifiedBy').value.trim() == '') {
 			smartError.logError({tab_id: 'certification', element_id: 'certifiedBy', severity: 'err', message: 'Certifier name is a required field.'});
-			smartFormat.setFieldToError('certifiedBy', true, true);
+			smartFormat.setFieldToError({id: 'certifiedBy', is_warnign: true, highlight_parent: true});
 			is_valid = false;
 		}
 		
 		else {
-			smartFormat.setFieldToPass('certifiedBy', true);
+			smartFormat.setFieldToPass({id: 'certifiedBy', highlight_parent: true});
 		}
 		
 		var links = { 'certifierReport': 'Report link', 'certifierCredential': 'Credential link' }
@@ -39,12 +39,12 @@ var smartCertification = (function(smartFormat) {
 		
 			if (!document.getElementById(id).value.trim().match(/^https?:\/\//i)) {
 				smartError.logError({tab_id: 'certification', element_id: id, severity: 'err', message: links[id]+' must begin with http:// or https://'});
-				smartFormat.setFieldToError(id, true, true);
+				smartFormat.setFieldToError({id: id, is_warning: true, highlight_parent: true});
 				is_valid = false;
 			}
 			
 			else {
-				smartFormat.setFieldToPass(id, true);
+				smartFormat.setFieldToPass({id: id, highlight_parent: true});
 			}
 		}
 		

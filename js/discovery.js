@@ -47,12 +47,12 @@ var smartDiscovery = (function(smartFormat) {
 		
 		if (document.getElementById('accessibilitySummary').value.replace(/\s/g,'') == '') {
 			smartError.logError({tab_id: 'discovery', element_id: 'summary-field', severity: 'err', message: _PROP_ERROR['accessibilitySummary'].msg});
-			smartFormat.setFieldToError('summary-field', _PROP_ERROR['accessibilitySummary'].warn, false);
+			smartFormat.setFieldToError({id: 'summary-field', is_warning: _PROP_ERROR['accessibilitySummary'].warn, highlight_parent: false});
 			is_valid = false;
 		}
 		
 		else {
-			smartFormat.setFieldToPass('summary-field', false);
+			smartFormat.setFieldToPass({id: 'summary-field', highlight_parent: false});
 		}
 		
 		is_valid = verifyOneItemChecked('accessibilityHazard') ? is_valid : false;
@@ -62,8 +62,8 @@ var smartDiscovery = (function(smartFormat) {
 		is_valid = verifySufficientModes() ? is_valid : false;
 		
 		// optional metadata gets an automatic pass
-		smartFormat.setFieldToPass('accessibilityAPI', false);
-		smartFormat.setFieldToPass('accessibilityControl', false);
+		smartFormat.setFieldToPass({id: 'accessibilityAPI', highlight_parent: false});
+		smartFormat.setFieldToPass({id: 'accessibilityControl', highlight_parent: false});
 		
 		return is_valid;
 		
@@ -74,13 +74,13 @@ var smartDiscovery = (function(smartFormat) {
 		var checked_items = document.querySelectorAll('fieldset#' + id + ' input:checked')
 		
 		if (checked_items.length > 0) {
-			smartFormat.setFieldToPass(id, false);
+			smartFormat.setFieldToPass({id: id, highlight_parent: false});
 			return true;
 		}
 		
 		else {
 			smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].msg});
-			smartFormat.setFieldToError(id, _PROP_ERROR[id].warn, false);
+			smartFormat.setFieldToError({id: id, is_warning: _PROP_ERROR[id].warn, highlight_parent: false});
 			return false;
 		}
 	}
@@ -101,7 +101,7 @@ var smartDiscovery = (function(smartFormat) {
 				// issue a warning if not also selected as a primary access mode
 				if (!document.querySelector('input[type="checkbox"][id="'+checked_modes[j].value+'"]:checked')) {
 					smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'warn', message: _PROP_ERROR.accessModeSufficient.missing.msg.replace('%%val%%', checked_modes[j].value)});
-					smartFormat.setFieldToError('accessModeSufficient', _PROP_ERROR.accessModeSufficient.missing.warn, false);
+					smartFormat.setFieldToError({id: 'accessModeSufficient', is_warning: _PROP_ERROR.accessModeSufficient.missing.warn, highlight_parent: false});
 					return false;
 				}
 			}
@@ -113,7 +113,7 @@ var smartDiscovery = (function(smartFormat) {
 	
 		if (sufficient_mode_sets.length == 0) {
 			smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'warn', message: _PROP_ERROR.accessModeSufficient.none.msg});
-			smartFormat.setFieldToError('accessModeSufficient', _PROP_ERROR.accessModeSufficient.none.warn, false);
+			smartFormat.setFieldToError({id: 'accessModeSufficient', is_warning: _PROP_ERROR.accessModeSufficient.none.warn, highlight_parent: false});
 			return false;
 		}
 		
@@ -123,13 +123,13 @@ var smartDiscovery = (function(smartFormat) {
 			for (var i = 1; i < sufficient_mode_sets.length; i++) {
 				if (sufficient_mode_sets[i] == sufficient_mode_sets[i-1]) {
 					smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'err', message: _PROP_ERROR.accessModeSufficient.duplicate.msg});
-					smartFormat.setFieldToError('accessModeSufficient', _PROP_ERROR.accessModeSufficient.duplicate.warn, false);
+					smartFormat.setFieldToError({id: 'accessModeSufficient', is_warning: _PROP_ERROR.accessModeSufficient.duplicate.warn, highlight_parent: false});
 					return false;
 				}
 			}
 		}
 		
-		setFieldToPass('accessModeSufficient', false);
+		smartFormat.setFieldToPass({id: 'accessModeSufficient', highlight_parent: false});
 		
 		return true;
 	}

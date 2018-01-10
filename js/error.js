@@ -101,17 +101,25 @@ var smartError = (function() {
 		
 			var error_link = document.createElement('a');
 				error_link.setAttribute('href', '#err'+errorNumber);
-				error_link.setAttribute('onclick', "smartError.jumpToError('"+options.tab_id+"','"+options.element_id+"'); return false;");
+				error_link.setAttribute('onclick', "smartError.jumpToError({tab: '"+options.tab_id+"', id: '"+options.element_id+"'}); return false;");
 				error_link.appendChild(document.createTextNode('[' + _SEVERITY[options.severity] + '] ' + options.message));
 			
 			error_li.appendChild(error_link);
 			_errorMessages.appendChild(error_li);
 		},
 		
-		jumpToError: function(tab,id) {
-			document.getElementById('label_'+tab).click();
+		jumpToError: function(options) {
+			options = typeof(options) === 'object' ? options : {};
+			if (!options.hasOwnProperty('tab') || !options.tab) {
+				return;
+			}
+			if (!options.hasOwnProperty('id') || !options.id) {
+				return;
+			}
 			
-			var error_element = document.getElementById(id);
+			document.getElementById('label_'+options.tab).click();
+			
+			var error_element = document.getElementById(options.id);
 			
 			var top = error_element.offsetTop;
 				window.scrollTo(0,top-100);

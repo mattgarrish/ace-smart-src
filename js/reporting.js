@@ -71,12 +71,12 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 			
 			if (meta_element.value.trim() == '') {
 				smartError.logError({tab_id: 'start', element_id: meta_name, severity: 'err', message: 'The ' + required_fields[meta_name] + ' is a required field.'});
-				smartFormat.setFieldToError(meta_name, false, true);
+				smartFormat.setFieldToError({id: meta_name, is_warning: false, highlight_parent: true});
 				is_valid = false;
 			}
 			
 			else {
-				smartFormat.setFieldToPass(meta_name, false, true);
+				smartFormat.setFieldToPass({id: meta_name, highlight_parent: true});
 			}
 		}
 		
@@ -96,18 +96,18 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 			for (var i = 0; i < meta_lines.length; i++) {
 				if (!meta_lines[i].match(/: /)) {
 					smartError.logError({tab_id: 'start', element_id: 'optional-meta', severity: 'err', message: 'Missing a colon separator on line ' + (i+1)});
-					smartFormat.setFieldToError('optional-meta', true);
+					smartFormat.setFieldToError({id: 'optional-meta', highlight_parent: true});
 					is_valid = false;
 					meta_error = true;
 				}
 			}
 			if (!meta_error) {
-				smartFormat.setFieldToPass('optional-meta', true);
+				smartFormat.setFieldToPass({id: 'optional-meta', highlight_parent: true});
 			}
 		}
 		
 		else {
-			smartFormat.setFieldToPass('optional-meta', true);
+			smartFormat.setFieldToPass({id: 'optional-meta', highlight_parent: true});
 		}
 		
 		return is_valid;

@@ -120,27 +120,40 @@ var smartFormat = (function() {
 		},
 		
 		
-		setFieldToError: function(id, isWarning, highlight_parent) {
-			var field = document.getElementById(id);
-				field.setAttribute('aria-invalid', (isWarning ? false : true));
+		setFieldToError: function(options) {
+			options = typeof(options) === 'object' ? options : {};
+			if (!options.hasOwnProperty('id') || !options.id) {
+				return;
+			}
+			options.is_warning = options.hasOwnProperty('is_warning') ? options.is_warning : false;
+			options.highlight_parent = options.hasOwnProperty('highlight_parent') ? options.highlight_parent : false;
 			
-			if (highlight_parent) {
+			var field = document.getElementById(options.id);
+				field.setAttribute('aria-invalid', (options.is_warning ? false : true));
+			
+			if (options.highlight_parent) {
 				field.parentNode.classList.remove(_BG.PASS,_BG.WARN,_BG.ERR);
-				field.parentNode.classList.add(isWarning ? _BG.WARN : _BG.ERR);
+				field.parentNode.classList.add(options.is_warning ? _BG.WARN : _BG.ERR);
 			}
 			
 			else {
 				field.classList.remove(_BG.PASS,_BG.WARN,_BG.ERR);
-				field.classList.add(isWarning ? _BG.WARN : _BG.ERR);
+				field.classList.add(options.is_warning ? _BG.WARN : _BG.ERR);
 			}
 		},
 		
 		
-		setFieldToPass: function(id, highlight_parent) {
-			var field = document.getElementById(id);
+		setFieldToPass: function(options) {
+			options = typeof(options) === 'object' ? options : {};
+			if (!options.hasOwnProperty('id') || !options.id) {
+				return;
+			}
+			options.highlight_parent = options.hasOwnProperty('highlight_parent') ? options.highlight_parent : false;
+			
+			var field = document.getElementById(options.id);
 				field.setAttribute('aria-invalid', false);
 			
-			if (highlight_parent) {
+			if (options.highlight_parent) {
 				field.parentNode.classList.remove(_BG.PASS,_BG.WARN,_BG.ERR);
 				field.parentNode.classList.add(_BG.PASS);
 			}
