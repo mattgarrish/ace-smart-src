@@ -12,11 +12,11 @@ Example directory structure for module foobar:
 extensions
       /foobar
            /css
-              - custom.css
+              - extension.css
            /js
-              - custom.js
+              - extension.js
            /tab
-              - custom.html
+              - tab.html
 ```
 
 ### Step 2. Update ```config.php```
@@ -36,7 +36,7 @@ Example entry for the module foobar:
 
 ### Step 3. Create New Tab
 
-1. Open the file ```/extensions/{module}/tab/custom.html```. _This file can be renamed._
+1. Open the file ```/extensions/{module}/tab/tab.html```. _This file can be renamed._
 2. Add the module HTML markup to this file:
   * the contents of a tab must be an HTML fragment with a ```section``` element as its root;
   * the ```section``` element must have the ```class``` ```js-tabcontent```;
@@ -61,7 +61,7 @@ Example tab entry:
 
 ### Step 4. Extend Core Scripts
 
-1. Open the ```/extensions/{module}/js/custom.js``` file. __Do not rename the file.__
+1. Open the ```/extensions/{module}/js/extension.js``` file. __Do not rename the file.__
 2. Rename the ```$extension``` variable declaration at the top of the file (```$extension['module']```) so that "```module```" is the module name from step 2.
 3. Add any necessary coding to the extension functions:
   * ```clear``` - This function is called whenever the tool is reset (e.g., when the Clear button is clicked, or a new report loaded). Forms are automatically reset, but if any additional code is necessary to reset your module add it here.
@@ -72,5 +72,5 @@ Example tab entry:
 
 ### Step 5. Add Custom CSS
 
-1. Add any custom CSS necessary to style the module to the ```extensions/{module}/css/custom.css``` file. __Do not rename the file.__
+1. Add any custom CSS necessary to style the module to the ```extensions/{module}/css/extension.css``` file. __Do not rename the file.__
 2. Ensure that all CSS selectors are scoped to the ```section``` element containing your module (i.e., start all selectors with ```section#id```). Selectors that may interfere with the general appearance of the site will cause your module to be rejected until fixed.
