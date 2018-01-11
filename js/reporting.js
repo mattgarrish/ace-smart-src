@@ -302,12 +302,12 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 			conf_class.aa = 'pass';
 			conf_class.fail = 'fail';
 		
-		summaryTable.appendChild(formatPubInfoEntry({id: 'conformance', label: 'Conformance', value: smartConformance.STATUS[wcag_conf], property: 'dcterms:conformsTo', value_bg_class: conf_class[wcag_conf]}));
+		summaryTable.appendChild(formatPubInfoEntry({id: 'conformance-result', label: 'Conformance', value: smartConformance.STATUS[wcag_conf], property: 'dcterms:conformsTo', value_bg_class: conf_class[wcag_conf]}));
 	
 		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilitySummary', label: 'Summary', value: document.getElementById('accessibilitySummary').value, property: 'accessibilitySummary'}));
-		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityFeatures', label: 'Features', value: convertCheckboxValuesToString('accessibilityFeature')}));
-		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityHazards', label: 'Hazards', value: convertCheckboxValuesToString('accessibilityHazard')}));
-		summaryTable.appendChild(formatPubInfoEntry({id: 'accessModes', label: 'Access Mode(s)', value: convertCheckboxValuesToString('accessMode')}));
+		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityFeatures', label: 'Features', value: compileCheckboxValues('accessibilityFeature')}));
+		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityHazards', label: 'Hazards', value: compileCheckboxValues('accessibilityHazard')}));
+		summaryTable.appendChild(formatPubInfoEntry({id: 'accessModes', label: 'Access Mode(s)', value: compileCheckboxValues('accessMode')}));
 		
 		var suffSet = document.querySelectorAll('fieldset#accessModeSufficient fieldset');
 		
@@ -348,8 +348,8 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 			summaryTable.appendChild(sufficientModes);
 		}
 		
-		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityAPI', label: 'Accessibility APIs', value: convertCheckboxValuesToString('accessibilityAPI')}));
-		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityControl', label: 'Accessibility Control', value: convertCheckboxValuesToString('accessibilityControl')}));
+		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityAPI', label: 'Accessibility APIs', value: compileCheckboxValues('accessibilityAPI')}));
+		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityControl', label: 'Accessibility Control', value: compileCheckboxValues('accessibilityControl')}));
 		
 		var certifier = document.getElementById('certifiedBy').value.trim();
 		
@@ -359,20 +359,9 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 		
 		var credential;
 		
-		var name = document.getElementById('credentialName').value.trim();
-		var link = document.getElementById('credentialLink').value.trim();
+		var link = document.getElementById('certifierCredential').value.trim();
 		
-		if (name && link) {
-			credential = document.createElement('a');
-			credental.setAttribute('href', link);
-			credential.appendChild(document.createTextNode(name));
-		}
-		
-		else if (name != '') {
-			credential = document.createTextNode(name);
-		}
-		
-		else if (link != '') {
+		if (link) {
 			credential = document.createElement('a');
 			credental.setAttribute('href', link);
 			credential.appendChild(document.createTextNode(link));
@@ -597,25 +586,32 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 	
 	
 	/* return discovery metadata sets as strings */
-	function convertCheckboxValuesToString(id) {
-		var checkboxes = document.getElementById(id).getElementsByTagName('input');
-		var valueString = '';
+	function compileCheckboxValues(id) {
+		var checkboxes = document.getElementById(id).querySelectorAll('input:checked');
+		
+		var value_span = document.createElement('span');
 		
 		for (var i = 0; i < checkboxes.length; i++) {
-			if (checkboxes[i].checked) {
-				valueString += '<span property="' + id + '">' + checkboxes[i].parentNode.textContent.trim() + '</span>, ';
+			if (i > 0) { value_span.appendChild(document.createTextNode(', ')); }
+			
+			var property_span = document.createElement('span');
+				property_span.setAttribute('property', id);
+				property_span.appendChild(document.createTextNode(checkboxes[i].parentNode.textContent.trim()));
+			
+			value_span.appendChild(property_span); 
+		}
+		
+		if (!value_span.hasChildNodes()) {
+			if (id == 'accessibilityHazard') {
+				return 'Not specified';
 			}
 		}
 		
-		valueString = valueString.replace(/, $/,'');
-		
-		if (!valueString && id == 'accessibilityHazard') {
-			return 'Not specified';
-		}
-		
 		else {
-			return valueString;
+			return value_span;
 		}
+		
+		return '';
 	}
 	
 	
@@ -644,7 +640,7 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 		
 		var value;
 		
-		if (typeof(options.value === 'string')) {
+		if (typeof(options.value) === 'string') {
 			var value = document.createElement('span');
 				value.setAttribute('class', options.value_bg_class ? 'value ' + options.value_bg_class : 'value');
 			
@@ -666,7 +662,7 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 	
 	function formatReportTitleSubSpan(options) {
 		var span = document.createElement('span');
-			span.setAttribute('id', options.id);
+			span.setAttribute('id', options.property);
 			
 			if (options.property) {
 				span.setAttribute('property', options.property);

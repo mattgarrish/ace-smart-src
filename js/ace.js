@@ -83,7 +83,7 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 		showReportLoadResult({inferred: inferred_metadata_message, reporting: reporting_message});
 		
 		/* save the report for reloading */
-		document.getElementById('report').value = _aceReport;
+		document.getElementById('aceReport').value = JSON.stringify(_aceReport);
 	}
 	
 	
@@ -91,7 +91,7 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 		
 		var conformance_url = '';
 		
-		if (_aceReport['earl:testSubject'].hasOwnProperty('links') && !_aceReport['earl:testSubject'].hasOwnProperty('dcterms:conformsTo')) {
+		if (_aceReport['earl:testSubject'].hasOwnProperty('links') && _aceReport['earl:testSubject'].hasOwnProperty('dcterms:conformsTo')) {
 			conformance_url = _aceReport['earl:testSubject'].links['dcterms:conformsTo'];
 		}
 		

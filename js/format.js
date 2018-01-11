@@ -111,10 +111,10 @@ var smartFormat = (function() {
 		},
 		
 		
-		generateTimestamp: function(sep) {
-			var today = new Date();
+		generateTimestamp: function(seperator, date) {
+			var today = date ? new Date(date) : new Date();
 			var timestamp= today.toLocaleString('en-us', { month: 'long' }) + ' ' + today.getDate() + ', ' + today.getFullYear();
-				timestamp += (sep == 'dash') ? '-' : ' at ' 
+				timestamp += (seperator == 'dash') ? '-' : ' at ' 
 				timestamp += today.getHours().pad(2) + ':' + today.getMinutes().pad(2) + ':' + today.getSeconds().pad(2);
 			return timestamp;
 		},

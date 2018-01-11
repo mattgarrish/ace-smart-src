@@ -117,7 +117,7 @@
 						success: function( data )
 						{
 							$form.addClass( 'is-success' );
-							loadReportJSON(JSON.stringify(data));
+							loadReportJSON(data);
 						},
 						error: function()
 						{
@@ -164,12 +164,10 @@
 			
 			smartManage.resetSMARTInterface(true);
 			
-			var input_match = data.match(/<pre id=\\"report\\">/i);
+			var input_match = data.match(/<pre id="report">([\s\S]*?)<\/pre>/i);
 			
 			if (input_match !== null) {
-				var html = document.createElement('html');
-					html.innerHTML = data.replace(/\\n/g,'').replace(/\\/g,'');
-				data = html.querySelector('pre#report').textContent;
+				data = input_match[1];
 			}
 			
 			data = JSON.parse(data);
@@ -179,7 +177,7 @@
 			}
 			
 			else {
-				smartAce.storeReportJSON(JSON.parse(data));
+				smartAce.storeReportJSON(data);
 				smartAce.loadAceReport();
 			}
 		}

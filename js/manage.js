@@ -105,9 +105,7 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 			
 			reportJSON.certification.certifiedBy = document.getElementById('certifiedBy').value;
 			
-			reportJSON.certification.credential = {};
-				reportJSON.certification.credential.name = document.getElementById('credentialName').value;
-				reportJSON.certification.credential.link = document.getElementById('credentialLink').value;
+			reportJSON.certification.certifierCredential = document.getElementById('certifierCredential').value;
 			
 			reportJSON.certification.certifierReport = document.getElementById('certifierReport').value;
 		
@@ -120,7 +118,7 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 		}
 		
 		/* store original Ace report data */
-		reportJSON.aceReport = document.getElementById('report').value;
+		reportJSON.aceReport = document.getElementById('aceReport').value;
 		
 		writeSavedJSON(JSON.stringify(reportJSON));
 	}
@@ -215,11 +213,10 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 		
 		/* load the original Ace report data first */
 		
-		if (reportJSON.hasOwnProperty('aceReport') && reportJSON.aceReport != '') {
-			document.getElementById('aceReport').value = JSON.stringify(reportJSON['aceReport']);
-			var ace = new Ace();
-			smartAce.storeReport(reportJSON['aceReport']);
-			smartAce.configureReporting();
+		if (reportJSON.hasOwnProperty('aceReport') && reportJSON.aceReport) {
+			document.getElementById('aceReport').value = reportJSON.aceReport;
+			smartAce.storeReportJSON(JSON.parse(reportJSON.aceReport));
+			smartAce.loadAceReport();
 		}
 		
 		/* set the success criteria */
