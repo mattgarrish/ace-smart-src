@@ -64,7 +64,7 @@ var smartCertification = (function(smartFormat) {
 		
 		var metadata = '';
 		
-		if (!document.getElementById('conf-result').value == "fail") {
+		if (!document.getElementById('conformance-result').value == "fail") {
 			metadata += smartFormat.createMetaTag({type: 'link', property: 'dcterms:conformsTo', value: conformance_url});
 		}
 		

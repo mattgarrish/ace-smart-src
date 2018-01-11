@@ -101,7 +101,7 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 		
 		reportJSON.certification = {};
 		
-			reportJSON.certification.result = document.getElementById('conf-result').value;
+			reportJSON.certification.result = document.getElementById('conformance-result').value;
 			
 			reportJSON.certification.certifiedBy = document.getElementById('certifiedBy').value;
 			
@@ -266,8 +266,8 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 		}
 		
 		if (reportJSON.certification.hasOwnProperty('result')) {
-			document.getElementById('conf-result').value = reportJSON.certification.result;
-			document.getElementById('conf-result-status').textContent = smartConformance.STATUS[reportJSON.certification.result]
+			document.getElementById('conformance-result').value = reportJSON.certification.result;
+			document.getElementById('conformance-result-status').textContent = smartConformance.STATUS[reportJSON.certification.result]
 		}
 		
 		/* load credential */

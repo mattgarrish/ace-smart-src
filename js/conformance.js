@@ -113,8 +113,8 @@ var smartConformance = (function(smartWCAG,smartFormat) {
 	
 		var show_aa = smartWCAG.WCAGClassList.indexOf('|aa|') > 0 ? true  : false;
 		
-		var status_label = document.getElementById('conf-result-status');
-		var status_input = document.getElementById('conf-result');
+		var status_label = document.getElementById('conformance-result-status');
+		var status_input = document.getElementById('conformance-result');
 		
 		var unverified = 'section.a input[value="unverified"]:checked, section#eg-2 input[value="unverified"]:checked, section#eg-1 input[value="unverified"]:checked';
 			unverified += smartWCAG.WCAGLevel == 'aa' ? ', section.aa input[value="unverified"]:checked' : '';

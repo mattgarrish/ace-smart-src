@@ -388,11 +388,11 @@ hr {
 
 /* conformance results */
 
-div.conf-result {
+div.conformance-result {
 	padding: 1rem 0 1rem 1.5rem;
 }
 
-span#conf-result-status {
+span#conformance-result-status {
 	padding-left: 4rem;
 }
 
@@ -439,7 +439,7 @@ li.epub-trigger {
 /* fieldsets */
 
 fieldset,
-div.conf-result {
+div.conformance-result {
 	max-width: 65rem;
 	border: none;
 	border-left: 0.6rem double cornflowerblue;
@@ -525,16 +525,16 @@ div.form-data > fieldset {
 	box-shadow: none !important;
 }
 
-details#view-opt {
+details#view-options {
 	margin-top: 2rem;
 }
 
-details#view-opt > fieldset {
+details#view-options > fieldset {
 	margin: 1rem;
 	padding: 1rem;
 }
 
-details#view-opt > fieldset > legend {
+details#view-options > fieldset > legend {
 	width: 25rem;
 }
 

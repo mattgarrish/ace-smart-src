@@ -241,7 +241,7 @@ var smartDiscovery = (function(smartFormat) {
 				new_feature_label.appendChild(document.createTextNode(' ' + feature_name));
 				
 				// get the link to add new features
-				var add_feature_link = document.getElementById('add-af');
+				var add_feature_link = document.getElementById('add-feature');
 				
 				// append the new feature to the column-formatted div before the link
 				add_feature_link.parentNode.getElementsByClassName('cols')[0].appendChild(new_feature_label, add_feature_link);

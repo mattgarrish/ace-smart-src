@@ -294,7 +294,7 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 		
 		summaryTable.appendChild(summaryHD);
 		
-		var wcag_conf = document.getElementById('conf-result').value;
+		var wcag_conf = document.getElementById('conformance-result').value;
 		
 		var conf_class = [];
 			conf_class.incomplete = 'incomplete';

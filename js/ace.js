@@ -106,8 +106,8 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 		var conformance_level = conformance_url.match(/http\:\/\/www\.idpf\.org\/epub\/a11y\/accessibility\-[0-9]+\.html\#wcag-(aa?)/);
 		
 		if (conformance_level) {
-			document.getElementById('conf-result-status').textContent = smartConformance.STATUS[conformance_level];
-			document.getElementById('conf-result').value = conformance_level;
+			document.getElementById('conformance-result-status').textContent = smartConformance.STATUS[conformance_level];
+			document.getElementById('conformance-result').value = conformance_level;
 		}
 	}
 	
