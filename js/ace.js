@@ -122,8 +122,8 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 		}
 		
 		// set DCTERMS metadata
-		if (_aceReport['earl:testSubject']['metadata'].hasOwnProperty('modified')) {
-			document.getElementById('modified').value = smartFormat.convertUTCDateToString(_aceReport['earl:testSubject']['metadata']['modified']);
+		if (_aceReport['earl:testSubject']['metadata'].hasOwnProperty('dcterms:modified')) {
+			document.getElementById('modified').value = smartFormat.convertUTCDateToString(_aceReport['earl:testSubject']['metadata']['dcterms:modified']);
 		}	
 		
 		// set discovery metadata

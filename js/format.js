@@ -89,7 +89,7 @@ var smartFormat = (function() {
 		
 		
 		convertUTCDateToString: function (utcDate) {
-			var date_options = { weekday: "long", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };  
+			var date_options = { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };  
 			
 			return (utcDate == '') ? '' : new Date(utcDate).toLocaleDateString("en",date_options);
 		},

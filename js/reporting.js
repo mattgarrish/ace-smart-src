@@ -25,6 +25,7 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 	
 	var _reportOutputLocation = 'win';
 	var _notesToDisplay = 'all';
+	var _reportWin;
 	
 	function validateConformanceReport() {
 		
@@ -172,8 +173,23 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 		}
 		
 		if (_reportOutputLocation == 'win') {
-			var reportWin = window.open('report.html','reportWin');
-				reportWin.addEventListener('load', function() { reportWin.init(report_title, logo.innerHTML, report_body, report_timestamp); });
+			if (!_reportWin || _reportWin.closed) {
+				_reportWin = window.open('report.html','reportWin');
+				var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
+				if (isIE11 && _reportWin.document.readyState === "complete") {
+					_reportWin.init(report_title, logo.innerHTML, report_body, report_timestamp);
+				}
+				else if (_reportWin.addEventListener) {
+					_reportWin.addEventListener('load', function() { _reportWin.init(report_title, logo.innerHTML, report_body, report_timestamp) });
+				}
+				else {
+					_reportWin.attachEvent('onload', function() { reportWin.init(report_title, logo.innerHTML, report_body, report_timestamp) });
+				}
+			}
+			else {
+				_reportWin.init(report_title, logo.innerHTML, report_body, report_timestamp);
+				_reportWin.focus();
+			}
 		}
 		
 		else {
@@ -248,24 +264,32 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 		publicationInfo.content = document.createElement('div');
 			publicationInfo.content.setAttribute('class', 'pubinfo');
 		
-		var info = {'creator': 'author', 'identifier': 'identifier', 'publisher': 'publisher'};
+		var info_fields = [{id: 'creator', property: 'author', pub_value: document.getElementById('creator').value.trim()}, {id: 'identifier', property: 'identifier', pub_value: document.getElementById('identifier').value.trim()}, {id: 'publisher', property: 'publisher', pub_value: document.getElementById('publisher').value.trim()}];
 		
 		// used to determine whether to add ID after title or in pub info section
-		publicationInfo.addedID = false;
+		var addedID = false;
 		
-		for (var key in info) {
-			var value = document.getElementById(key).value.trim();
-			if (value != '') {
-				if (key == 'identifier' && !value.match(/^(ISBN|ISSN|DOI)/i)) {
-					if (value.match(/^97[89]/)) {
-						value = 'ISBN ' + value;
+		for (var i = 0; i < info_fields.length; i++) {
+		
+			if (info_fields[i].pub_value) {
+				
+				var field_value = info_fields[i].pub_value;
+				
+				// mark whether the id has already been added
+				if (info_fields[i].id == 'identifier') {
+					if (!info_fields[i].pub_value.match(/^(ISBN|ISSN|DOI)/i)) {
+						if (info_fields[i].pub_value.match(/^97[89]/)) {
+							field_value = 'ISBN ' + info_fields[i].pub_value;
+						}
+						else {
+							continue;
+						}
 					}
-					else {
-						publicationInfo.addedID = true;
-						continue;
-					}
+					publicationInfo.addedID = true;
 				}
-				publicationInfo.content.appendChild(formatReportTitleSubSpan({key: key, value: value, property: info[key]}));
+				
+				publicationInfo.content.appendChild(formatReportTitleSubSpan({key: info_fields[i].id, value: field_value, property: info_fields[i].property}));
+				if (((i+1) < info_fields.length) && info_fields[i+1].pub_value) { publicationInfo.content.appendChild(document.createTextNode(' | ')); }
 			}
 		}
 		

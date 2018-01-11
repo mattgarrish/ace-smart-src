@@ -171,10 +171,11 @@ var smartConformance = (function(smartWCAG,smartFormat) {
 			configureContentTypeTests(options);
 		},
 		
-		setGlobalSCStatus(status) {
+		setGlobalSCStatus: function(status) {
 			if (!confirm('This action will change all current status fields and cannot be undone.\n\nPlease confirm to continue.')) {
 				return;
 			}
+			
 			var success_criteria = document.querySelectorAll('.a, .aa, .aaa, .epub');
 			
 			for (var i = 0; i < success_criteria.length; i++) {
