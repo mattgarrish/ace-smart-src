@@ -46,6 +46,11 @@
 	});
 	
 	
+	/* watch for EPUB format changes */
+	$('input[name="epub-format"]').click( function(){
+		smartFormat.setEPUBVersion(this.value);
+	});
+	
 	/* watch for conformance level changes */
 	$('input[name="wcag-level"]').click( function(){
 		smartConformance.setWCAGConformanceLevel(this.value);
@@ -129,6 +134,16 @@
 	/* watch for click on button to generate certification metadata */
 	$('#generate-certification-metadata').click( function(){
 		smartCertification.generateCertificationMetadata();
+	});
+	
+	/* watch for changes to note output */
+	$('input[name="show-notes"]').click( function(){
+		smartReport.setNoteOutput(this.value);
+	});
+	
+	/* watch for changes to output location */
+	$('input[name="report-location"]').click( function(){
+		smartReport.setReportOutputLocation(this.value);
 	});
 	
 	/* watch for click on button to generate final report */

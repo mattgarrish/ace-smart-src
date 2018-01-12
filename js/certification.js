@@ -15,7 +15,7 @@
  * 
  */
 
-var smartCertification = (function(smartFormat) {
+var smartCertification = (function() {
 	
 	function validateCertificationMetadata() {
 		
@@ -85,4 +85,4 @@ var smartCertification = (function(smartFormat) {
 		}
 	}
 
-})(smartFormat);
+})();

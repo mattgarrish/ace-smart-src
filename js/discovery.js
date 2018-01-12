@@ -9,7 +9,7 @@
  * 
  */
 
-var smartDiscovery = (function(smartFormat) { 
+var smartDiscovery = (function() { 
 
 	var _PROP_ERROR = { accessibilityFeature: {}, accessibilityHazard: {}, accessMode: {}, accessibilitySummary: {}, accessModeSufficient: {} };
 		
@@ -206,7 +206,7 @@ var smartDiscovery = (function(smartFormat) {
 			}
 			
 			if (sufficient_set) {
-				meta_tags += smartFormat.createMetaTag({type: true, property: property, value: sufficient_set});
+				meta_tags += smartFormat.createMetaTag({type: 'meta', property: property, value: sufficient_set});
 			}
 		}
 		
@@ -314,4 +314,4 @@ var smartDiscovery = (function(smartFormat) {
 		}
 	}
 
-})(smartFormat);
+})();

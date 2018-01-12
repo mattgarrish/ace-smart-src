@@ -19,7 +19,7 @@
  * 
  */
 
-var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
+var smartManage = (function() {
 	
 	function saveConformanceReport() {
 	
@@ -438,4 +438,4 @@ var smartManage = (function(smartFormat,smartError,smartAce,smartConformance) {
 		}
 	}
 
-})(smartFormat,smartError,smartAce,smartConformance);
+})();

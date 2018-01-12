@@ -33,7 +33,7 @@
  * 
  */
 
-var smartConformance = (function(smartWCAG,smartFormat) {
+var smartConformance = (function() {
 	var _SC_TYPE = new Object();
 		_SC_TYPE.img = ['sc-1.4.9'];
 		_SC_TYPE.audio = ['sc-1.4.2', 'sc-1.4.7'];
@@ -119,7 +119,9 @@ var smartConformance = (function(smartWCAG,smartFormat) {
 		var unverified = 'section.a input[value="unverified"]:checked, section#eg-2 input[value="unverified"]:checked, section#eg-1 input[value="unverified"]:checked';
 			unverified += smartWCAG.WCAGLevel == 'aa' ? ', section.aa input[value="unverified"]:checked' : '';
 		
-		if (document.querySelectorAll(unverified).length > 0) {
+		var incomplete = document.querySelectorAll(unverified);
+		
+		if (incomplete.length > 0) {
 			status_label.textContent = _STATUS.incomplete;
 			return;
 		}
@@ -246,4 +248,4 @@ var smartConformance = (function(smartWCAG,smartFormat) {
 		}
 	}
 
-})(smartWCAG,smartFormat);
+})();

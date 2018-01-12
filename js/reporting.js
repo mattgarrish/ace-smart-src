@@ -21,7 +21,7 @@
  * 
  */
 
-var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConformance,smartCertification) {
+var smartReport = (function() {
 	
 	var _reportOutputLocation = 'win';
 	var _notesToDisplay = 'all';
@@ -831,4 +831,4 @@ var smartReport = (function(smartError,smartFormat,smartDiscovery,smartConforman
 		}
 	}
 
-})(smartError,smartFormat,smartDiscovery,smartConformance,smartCertification);
+})();

@@ -50,8 +50,8 @@ var smartFormat = (function() {
 	return {
 		BG: _BG,
 		
-		setEPUBVersion: function(num) {
-			_epubVersion = num;
+		setEPUBVersion: function(newVersion) {
+			console.log(_epubVersion);
 		},
 		
 		

@@ -16,7 +16,7 @@
  * 
  */
 
-var smartAce = (function(smartConformance,smartDiscovery) {
+var smartAce = (function() {
 
 	var _aceReport = '';
 	
@@ -647,4 +647,4 @@ var smartAce = (function(smartConformance,smartDiscovery) {
 		}
 	}
 
-})(smartConformance,smartDiscovery);
+})();
