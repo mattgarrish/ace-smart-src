@@ -23,7 +23,6 @@
 
 var smartReport = (function() {
 	
-	var _reportOutputLocation = 'win';
 	var _notesToDisplay = 'all';
 	var _reportWin;
 	var _aceExtensionTabs = new Array();
@@ -142,7 +141,7 @@ var smartReport = (function() {
 	 * Creates the final conformance report for the publication
 	 */
 	
-	function generateConformanceReport() {
+	function generateConformanceReport(reportOutputType) {
 		
 		if (!validateConformanceReport()) {
 			if (!confirm('Report did not validate successfully!\n\nClick Ok to generate anyway, or Cancel to exit.')) {
@@ -174,31 +173,46 @@ var smartReport = (function() {
 			}
 		}
 		
-		if (_reportOutputLocation == 'win') {
-			if (!_reportWin || _reportWin.closed) {
-				_reportWin = window.open('report.html','reportWin');
-				var isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
-				if (isIE11 && _reportWin.document.readyState === "complete") {
-					_reportWin.init(report_title, logo.innerHTML, report_body, report_timestamp);
-				}
-				else if (_reportWin.addEventListener) {
-					_reportWin.addEventListener('load', function() { _reportWin.init(report_title, logo.innerHTML, report_body, report_timestamp) });
-				}
-				else {
-					_reportWin.attachEvent('onload', function() { reportWin.init(report_title, logo.innerHTML, report_body, report_timestamp) });
-				}
-			}
-			else {
-				_reportWin.init(report_title, logo.innerHTML, report_body, report_timestamp);
-				_reportWin.focus();
-			}
+		if (reportOutputType == 'preview') {
+			var report_form = document.createElement('form');
+				report_form.target = '_blank';    
+				report_form.method = 'POST';
+				report_form.action = 'report.php';
+			
+			var report_title_input = document.createElement('input');
+				report_title_input.type = 'hidden';
+				report_title_input.name = 'title';
+				report_title_input.value = report_title;
+			report_form.appendChild(report_title_input);
+			
+			var report_logo_input = document.createElement('input');
+				report_logo_input.type = 'hidden';
+				report_logo_input.name = 'logo';
+				report_logo_input.value = logo.innerHTML;
+			report_form.appendChild(report_logo_input);
+			
+			var report_body_input = document.createElement('input');
+				report_body_input.type = 'hidden';
+				report_body_input.name = 'report';
+				report_body_input.value = report_body;
+			report_form.appendChild(report_body_input);
+			
+			var report_timestamp_input = document.createElement('input');
+				report_timestamp_input.type = 'hidden';
+				report_timestamp_input.name = 'timestamp';
+				report_timestamp_input.value = report_timestamp;
+			report_form.appendChild(report_timestamp_input);
+			
+			document.body.appendChild(report_form);
+			report_form.submit();
+			report_form.parentNode.removeChild(report_form);
 		}
 		
 		else {
 			var report_template = '';
 			var xhr = new XMLHttpRequest();
 			
-			xhr.open("GET", 'report.html', true);
+			xhr.open("GET", 'report.php', true);
 			
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState == 4){
@@ -206,7 +220,6 @@ var smartReport = (function() {
 			    	report_template = report_template.replace('<title></title>', '<title>' + report_title + '</title>');
 			    	report_template = report_template.replace('<main></main>', '<main>' + report_body + '</main>');
 			    	report_template = report_template.replace('<span id="date-created"></span>', '<span id="date-created">' + report_timestamp + '</span>');
-			    	report_template = report_template.replace(/<script type="text\/javascript">[\s\S]+?<\/script>\s*/i, '');
 			    	document.getElementById('report-html').value = report_template;
 			    }
 			}
@@ -838,18 +851,12 @@ var smartReport = (function() {
 			validateConformanceReport();
 		},
 		
-		generateConformanceReport: function() {
-			generateConformanceReport();
+		generateConformanceReport: function(location) {
+			generateConformanceReport(location);
 		},
 		
 		addSuccessCriteriaReporting: function() {
 			addSCStatusFields();
-		},
-		
-		setReportOutputLocation: function(location) {
-			_reportOutputLocation = location;
-			document.getElementById('report-html').style.display = (location == 'win') ? 'none' : 'block';
-			document.getElementById('popup-instructions').style.display = (location == 'box') ? 'none' : 'block';
 		},
 		
 		setNoteOutput: function(code) {

@@ -1,12 +1,6 @@
 
 	'use strict';
 	
-	/* 
-	 * INITIATE TABS
-	 */
-	
-	$(document).ready( smartA11yTabs.initialize() );
-
 	/*
 	 *  REPORTING
 	 */
@@ -190,14 +184,14 @@
 		smartReport.setNoteOutput(this.value);
 	});
 	
-	/* watch for changes to output location */
-	$('input[name="report-location"]').click( function(){
-		smartReport.setReportOutputLocation(this.value);
+	/* watch for click on button to generate final report */
+	$('#preview-report').click( function(){
+		smartReport.generateConformanceReport('preview'); 
 	});
-	
+
 	/* watch for click on button to generate final report */
 	$('#generate-report').click( function(){
-		smartReport.generateConformanceReport(); 
+		smartReport.generateConformanceReport();
 	});
 
 

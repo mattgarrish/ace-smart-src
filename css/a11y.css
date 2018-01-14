@@ -307,6 +307,11 @@ input[type="button"]:hover {
 	box-shadow: 0 0 1rem 0 cadetblue;
 }
 
+input.preview {
+	float: left;
+	margin-right: 1.5rem;
+}
+
 input[type = "checkbox"]{
 	cursor: pointer;
 }

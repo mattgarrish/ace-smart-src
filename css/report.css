@@ -30,6 +30,11 @@ ul.js-tablist {
 	top: -1.6rem !important;
 }
 
+li.js-tablist__item{
+	width: 13.5rem !important;
+	margin-right: 0.7rem !important;
+}
+
 section.js-tabcontent {
 	margin-top: -1rem !important;
 }
@@ -96,7 +101,6 @@ div.summaryTable > div {
 div.summaryTable > div > div {
 	display: table-cell;
 	padding: 0.75rem;
-	font-size: 1.4rem;
 }
 
 div.summaryTable > div:first-child > div:first-child {
@@ -121,6 +125,11 @@ div.summaryTable > div:nth-child(n+2) > div {
 
 div.summaryTable > div > div.label {
 	background-color: rgb(240,248,255);
+	min-width: 20rem;
+}
+
+div.summaryTable > div > div.value {
+	min-width: 30rem;
 }
 
 div.summaryTable > div > div.pass {

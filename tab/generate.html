@@ -10,23 +10,16 @@
 		<label><input type="radio" name="show-notes" value="none"/> None</label>
 	</fieldset>
 	
-	<fieldset>
-		<legend>Output Location</legend>
-		<label class="data"><input type="radio" name="report-location" value="win"/> Open in new window</label>
-		<label class="data"><input type="radio" name="report-location" value="box"/> Output to text box</label>
-	</fieldset>
-	
 	<p id="gen">If there are errors validating the report, you will receive a warning before it is generated. Errors will be listed in a message panel at the bottom of the page. Clicking on an error will take you to the location.</p>
 	
+	<p><input type="button" value="Preview" id="preview-report" class="preview" aria-describedby="popup-instructions"/></p>
 	<p><input type="button" value="Create" id="generate-report" aria-describedby="gen"/></p>
 	
+	<textarea id="report-html" rows="10" aria-label="final report"></textarea>
+	
 	<div id="popup-instructions">
-		<p>Ensure that you do not have a pop-up blocker enabled.</p>
-		<p>Do not bookmark the generated page, as the report is lost once the browser is closed. Do not refresh the report page, or it will be lost.</p>
+		<p>Ensure that you do not have a pop-up blocker enabled when previewing content.</p>
+		<p>Do not bookmark the preview page, as the report is lost once your browser is closed.</p>
 	</div>
-	
-	<textarea hidden="hidden" id="report-html" rows="10" aria-label="final report"></textarea>
-	
-	<p><strong>The report must be saved locally after it is generated.</strong></p>
 	
 </section>

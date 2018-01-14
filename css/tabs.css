@@ -1,7 +1,7 @@
 /* tabs */
 
 main.js-tabs{
-	margin-top: 11.5rem;
+	margin-top: 9.5rem;
 	padding-left: 3rem;
 	border-radius: 0.8rem 0.8rem 0 0;
 }
@@ -10,13 +10,7 @@ section.js-tabcontent[aria-hidden = true]{
 	display: none;
 }
 
-section.js-tabcontent{
-	margin-top: -4rem;
-}
-
 ul.js-tablist{
-	position: relative;
-	top: -3.6rem;
 	padding: 0;
 	display: inline;
 	margin-left: -1rem;
