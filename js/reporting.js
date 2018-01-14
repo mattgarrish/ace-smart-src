@@ -26,6 +26,8 @@ var smartReport = (function() {
 	var _reportOutputLocation = 'win';
 	var _notesToDisplay = 'all';
 	var _reportWin;
+	var _aceExtensionTabs = new Array();
+	
 	
 	function validateConformanceReport() {
 		
@@ -224,13 +226,35 @@ var smartReport = (function() {
 		var publicationInfo = createReportPublicationInfo();
 			reportBody.appendChild(publicationInfo.content);
 		
+		// add the tab list
+		var tab_list = document.createElement('ul');
+			tab_list.setAttribute('class','js-tablist');
+			tab_list.setAttribute('data-existing-hx','h3');
+		
+		var tabs = [{id: 'summary', label: 'Summary'}, {id: 'additional-info', label: 'Publication Info'}, {id: 'conformance', label: 'Results'}];
+		
+		if (_aceExtensionTabs.length > 0) {
+			_aceExtensionTabs.forEach(function(tab) {tabs.push(tab); });
+		}
+		
+		tabs.forEach(function(tab) {
+			var tab_list_item = document.createElement('li');
+				tab_list_item.setAttribute('class','js-tablist__item');
+			
+			var tab_link = document.createElement('a');
+				tab_link.setAttribute('href','#'+tab.id);
+				tab_link.setAttribute('id','label_'+tab.id);
+				tab_link.setAttribute('class','js-tablist__link');
+				tab_link.appendChild(document.createTextNode(tab.label));
+			
+			tab_list_item.appendChild(tab_link);
+			tab_list.appendChild(tab_list_item);
+		});
+		
+		reportBody.appendChild(tab_list);
+		
 		// add the report summary
 		reportBody.appendChild(createReportSummary());
-		
-		// create the detailed report
-		var reportDetails = document.createElement('section');
-			reportDetails.setAttribute('id', 'details');
-			reportDetails.setAttribute('aria-label', 'Report Details');
 		
 		// add additional info details
 		var additionalInfo = createReportAdditionalInfo({addedID: publicationInfo.addedID});
@@ -241,9 +265,8 @@ var smartReport = (function() {
 		// add statistics to the additional info section
 		additionalInfo.appendChild(formatPubInfoEntry({id: 'result', label: 'Statistics', value: createReportStats(testResults.count)}));
 		
-		reportDetails.appendChild(additionalInfo);
-		reportDetails.appendChild(testResults.content);
-		reportBody.appendChild(reportDetails);
+		reportBody.appendChild(additionalInfo);
+		reportBody.appendChild(testResults.content);
 		
 		return reportBody.innerHTML;
 	}
@@ -301,22 +324,15 @@ var smartReport = (function() {
 	
 		var summary = document.createElement('section');
 			summary.setAttribute('id', 'summary');
+			summary.setAttribute('class', 'js-tabcontent');
+		
+		var summaryHD = document.createElement('h3');
+			summaryHD.appendChild(document.createTextNode('Summary'));
+		
+		summary.appendChild(summaryHD);
 		
 		var summaryTable = document.createElement('div');
 			summaryTable.setAttribute('class', 'summaryTable');
-		
-		var summaryHD = document.createElement('h3');
-		
-		var summaryHD_col1 = document.createElement('span');
-			summaryHD_col1.appendChild(document.createTextNode('Synopsis'));
-		
-		summaryHD.appendChild(summaryHD_col1);
-		
-		var summaryHD_col2 = document.createElement('span');
-		
-		summaryHD.appendChild(summaryHD_col2);
-		
-		summaryTable.appendChild(summaryHD);
 		
 		var wcag_conf = document.getElementById('conformance-result').value;
 		
@@ -405,13 +421,14 @@ var smartReport = (function() {
 		options = typeof(options) === 'object' ? options : {};
 		options.addedID = options.hasOwnProperty('addedID') ? options.addedID : false;
 		
-		var additionalInfo = document.createElement('details');
-			additionalInfo.setAttribute('class', 'info');
+		var additionalInfo = document.createElement('section');
+			additionalInfo.setAttribute('id','additional-info');
+			additionalInfo.setAttribute('class', 'info js-tabcontent');
 		
-		var additionalInfoSummary = document.createElement('summary');
-			additionalInfoSummary.appendChild(document.createTextNode('Additional Information'));
+		var additionalInfoHD = document.createElement('h3');
+			additionalInfoHD.appendChild(document.createTextNode('Additional Information'));
 		
-		additionalInfo.appendChild(additionalInfoSummary);
+		additionalInfo.appendChild(additionalInfoHD);
 		
 		// add epub version
 		additionalInfo.appendChild(formatPubInfoEntry({id: 'format', label: 'Format', value: 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value}));
@@ -442,18 +459,19 @@ var smartReport = (function() {
 	function createReportTestDetails() {
 	
 		var result = {};
-			result.content = document.createElement('details');
+			result.content = document.createElement('section');
 			result.content.setAttribute('id', 'conformance');
+			result.content.setAttribute('class', 'js-tabcontent');
+		
+		var resultHD = document.createElement('h3');
+			resultHD.appendChild(document.createTextNode('Conformance Results'));
+		
+		result.content.appendChild(resultHD);
 		
 		result.count = { pass: 0, fail: 0, na: 0, unverified: 0 };
 		
 		var showAA = document.getElementById('show-aa').checked;
 		var showAAA = document.getElementById('show-aaa').checked;
-		
-		var resultSummary = document.createElement('summary');
-			resultSummary.appendChild(document.createTextNode('Detailed Conformance Results'));
-		
-		result.content.appendChild(resultSummary);
 		
 		var resultTable = document.createElement('table');
 		var resultThead = document.createElement('thead');
@@ -609,30 +627,28 @@ var smartReport = (function() {
 	}
 	
 	
-	/* return discovery metadata sets as strings */
+	/* return discovery metadata sets */
 	function compileCheckboxValues(id) {
 		var checkboxes = document.getElementById(id).querySelectorAll('input:checked');
 		
-		var value_span = document.createElement('span');
+		var value_list = document.createElement('ul');
 		
 		for (var i = 0; i < checkboxes.length; i++) {
-			if (i > 0) { value_span.appendChild(document.createTextNode(', ')); }
+			var property_li = document.createElement('li');
+				property_li.setAttribute('property', id);
+				property_li.appendChild(document.createTextNode(checkboxes[i].parentNode.textContent.trim()));
 			
-			var property_span = document.createElement('span');
-				property_span.setAttribute('property', id);
-				property_span.appendChild(document.createTextNode(checkboxes[i].parentNode.textContent.trim()));
-			
-			value_span.appendChild(property_span); 
+			value_list.appendChild(property_li); 
 		}
 		
-		if (!value_span.hasChildNodes()) {
+		if (!value_list.hasChildNodes()) {
 			if (id == 'accessibilityHazard') {
-				return 'Not specified';
+				return 'not specified';
 			}
 		}
 		
 		else {
-			return value_span;
+			return value_list;
 		}
 		
 		return '';
@@ -652,12 +668,12 @@ var smartReport = (function() {
 			return document.createTextNode(' ');
 		}
 		
-		var entry = document.createElement('p');
+		var entry = document.createElement('div');
 			entry.setAttribute('id', options.id);
 		
-		var label = document.createElement('span');
+		var label = document.createElement('div');
 			label.setAttribute('class','label');
-			label.appendChild(document.createTextNode(options.label));
+			label.appendChild(document.createTextNode(options.label+':'));
 		
 		entry.appendChild(label);
 		entry.appendChild(document.createTextNode(' '));
@@ -665,13 +681,19 @@ var smartReport = (function() {
 		var value;
 		
 		if (typeof(options.value) === 'string') {
-			var value = document.createElement('span');
-				value.setAttribute('class', options.value_bg_class ? 'value ' + options.value_bg_class : 'value');
+			value = document.createElement('div');
+			value.setAttribute('class', options.value_bg_class ? 'value ' + options.value_bg_class : 'value');
 			
 			if (options.property) {
 				value.setAttribute('property', options.property);
 			}
 			value.appendChild(document.createTextNode(options.value));
+		}
+		
+		else if (options.value.tagName.toLowerCase() == 'ul') {
+			value = document.createElement('div');
+			value.setAttribute('class', options.value_bg_class ? 'value ' + options.value_bg_class : 'value');
+			value.appendChild(options.value);
 		}
 		
 		else {
@@ -808,6 +830,10 @@ var smartReport = (function() {
 	
 	
 	return {
+		addExtensionTab: function(tab_info) {
+			_aceExtensionTabs.push(tab_info);
+		},
+		
 		validateConformanceReport: function() {
 			validateConformanceReport();
 		},

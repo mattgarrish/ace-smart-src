@@ -9,6 +9,7 @@
 		<title>Ace SMART</title>
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" href="css/a11y.css"/>
+		<link rel="stylesheet" type="text/css" href="css/tabs.css"/>
 		<?php
 			if ($ext_module_access) {
 				foreach ($ext_module_access as $module) {
@@ -77,11 +78,15 @@
 					<a href="#conformance" id="label_conformance" class="js-tablist__link">Conformance</a>
 				</li>
 				<?php
+					$ace_extension_tabs = array();
+					
 					if ($ext_module_access) {
 						foreach ($ext_module_access as $module) {
 							if ($extension[$module]['tab']) {
 								foreach ($extension[$module]['tab'] as $key => $value) {
 									echo '<li class="js-tablist__item"><a href="#' . $key . '" id="label_' . $key . '" class="js-tablist__link">' . $value . '</a></li>';
+									$ext_js_object = "{id: '" . $key . "', label: '" . str_replace("'", "\\'", $value) . "'}";
+									array_push($ace_extension_tabs, $ext_js_object);
 								}
 							}
 						}
@@ -144,6 +149,11 @@
 		</footer>
 		
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+		<script src="js/a11ytabs.js"></script>
+		<script src="js/drag-drop.js"></script>
+		<script src="js/ace.js"></script>
+		<script src="js/manage.js"></script>
+		<script src="js/reporting.js"></script>
 		
 		<?php
 			if ($ext_module_access) {
@@ -152,13 +162,15 @@
 						echo '<script src="extensions/' . $module . '/js/extension.js"></script>';
 					}
 				}
+				if ($ace_extension_tabs) {
+					echo '<script>';
+					foreach ($ace_extension_tabs as $tab) {
+						echo 'smartReport.addExtensionTab(' . $tab . ');';
+					}
+					echo '</script>';
+				}
 			}
 		?>
-		<script src="js/a11ytabs.js"></script>
-		<script src="js/drag-drop.js"></script>
-		<script src="js/ace.js"></script>
-		<script src="js/manage.js"></script>
-		<script src="js/reporting.js"></script>
 		
 		<script src="js/init.js"></script>
 </body>

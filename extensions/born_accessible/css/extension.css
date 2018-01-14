@@ -1,16 +1,29 @@
 
-#born_accessible h4 {
+#born_accessible {
+	max-width: 90rem !important;
+}
+
+#born_accessible h3 {
 	margin-bottom: 0;
+	font-size: 140%;
+	font-weight: normal;
 }
 
 #born_accessible fieldset {
 	margin-top: 0;
-	max-height: 6rem;
-	background-color: inherit;
-	border: none;
-	box-shadow: none;
+	max-width: 90rem !important;
 }
 
 #born_accessible fieldset > .ba_score {
-	padding: 0 2rem;
+	display: block;
+	padding: 0.5rem 0 0.5rem 2rem;
+}
+
+#born_accessible div.ba-score {
+	margin-top: 2rem;
+	font-size: 120%;
+	background-color: rgb(250,250,210);
+	border: double 0.4rem rgb(100,149,237);
+	padding: 1rem;
+	margin-bottom: 5rem;
 }

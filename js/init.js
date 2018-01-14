@@ -1,6 +1,12 @@
 
 	'use strict';
 	
+	/* 
+	 * INITIATE TABS
+	 */
+	
+	$(document).ready( smartA11yTabs.initialize() );
+
 	/*
 	 *  REPORTING
 	 */

@@ -1,13 +1,16 @@
 
 'use strict';
 
-$(document).ready(function(){
+var smartA11yTabs = (function() {
 
-		var license = '\
-		 * jQuery Accessible tab panel system, using ARIA   \
-		 * Website: http://a11y.nicolas-hoffmann.net/tabs/  \
-		 * License MIT: https://github.com/nico3333fr/jquery-accessible-tabs-aria/blob/master/LICENSE \
-		';
+	var license = '\
+	 * jQuery Accessible tab panel system, using ARIA   \
+	 * Website: http://a11y.nicolas-hoffmann.net/tabs/  \
+	 * License MIT: https://github.com/nico3333fr/jquery-accessible-tabs-aria/blob/master/LICENSE \
+	';
+	
+	function initialize() {
+		
 		// Store current URL hash.
 		var hash = window.location.hash.replace( "#", "" );
 		
@@ -67,7 +70,7 @@ $(document).ready(function(){
 			
 			/*  highlight current tab or pubinfo by default -- added Matt Garrish */
 			
-			var hash_tab = '#label_' + ((hash == '') ? 'start' : hash);
+			var hash_tab = '#label_' + ((hash == '') ? (window.location.href.match(/report\.html/i) ? 'summary' : 'start') : hash);
 			$(hash_tab).closest( '.js-tablist__item' ).addClass( 'active' );
 			
 			/*  ----------------------------------------------------------------- */
@@ -332,5 +335,12 @@ $(document).ready(function(){
 			} );
 			
 		}
+	}
+	
+	return {
+		initialize: function() {
+			initialize();
+		}
+	}
   
-});
+})();
