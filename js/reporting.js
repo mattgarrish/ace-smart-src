@@ -244,11 +244,13 @@ var smartReport = (function() {
 			tab_list.setAttribute('class','js-tablist');
 			tab_list.setAttribute('data-existing-hx','h3');
 		
-		var tabs = [{id: 'summary', label: 'Summary'}, {id: 'additional-info', label: 'Publication Info'}, {id: 'conformance', label: 'Results'}];
+		var tabs = [{id: 'summary', label: 'Summary'}, {id: 'conformance', label: 'Conformance'}];
 		
 		if (_aceExtensionTabs.length > 0) {
 			_aceExtensionTabs.forEach(function(tab) {tabs.push(tab); });
 		}
+		
+		tabs.push({id: 'additional-info', label: 'Additional Info'});
 		
 		tabs.forEach(function(tab) {
 			var tab_list_item = document.createElement('li');
