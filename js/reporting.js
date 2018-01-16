@@ -25,7 +25,7 @@ var smartReport = (function() {
 	
 	var _notesToDisplay = 'all';
 	var _reportWin;
-	var _aceExtensionTabs = new Array();
+	var _smartExtensionTabs = new Array();
 	
 	
 	function validateConformanceReport() {
@@ -43,9 +43,9 @@ var smartReport = (function() {
 		is_valid = smartDiscovery.validateDiscoveryMetadata() ? is_valid : false;
 		
 		// validate user extensions
-		if (Object.keys(extension).length > 0) {
-			for (var key in extension) {
-				is_valid = extension[key].validate() ? is_valid : false;
+		if (Object.keys(smart_extensions).length > 0) {
+			for (var key in smart_extensions) {
+				is_valid = smart_extensions[key].validate() ? is_valid : false;
 			}
 		}
 		
@@ -157,15 +157,15 @@ var smartReport = (function() {
 		
 		var logo = document.createElement('span');
 		
-		if (Object.keys(extension).length > 0) {
-			for (var key in extension) {
-				if (typeof extension[key].LOGO !== 'undefined' && extension[key].LOGO) {
+		if (Object.keys(smart_extensions).length > 0) {
+			for (var key in smart_extensions) {
+				if (typeof smart_extensions[key].LOGO !== 'undefined' && smart_extensions[key].LOGO.length == 3) {
 					var logoLink = document.createElement('a');
-						logoLink.setAttribute('href', extension[key].LOGO[2]);
+						logoLink.setAttribute('href', smart_extensions[key].LOGO[2]);
 					
 					var logoImg = document.createElement('img');
-						logoImg.setAttribute('src', extension[key].LOGO[0]);
-						logoImg.setAttribute('alt', extension[key].LOGO[1]);
+						logoImg.setAttribute('src', smart_extensions[key].LOGO[0]);
+						logoImg.setAttribute('alt', smart_extensions[key].LOGO[1]);
 					
 					logoLink.appendChild(logoImg);
 					logo.appendChild(logoLink);
@@ -246,8 +246,8 @@ var smartReport = (function() {
 		
 		var tabs = [{id: 'summary', label: 'Summary'}, {id: 'conformance', label: 'Conformance'}];
 		
-		if (_aceExtensionTabs.length > 0) {
-			_aceExtensionTabs.forEach(function(tab) {tabs.push(tab); });
+		if (_smartExtensionTabs.length > 0) {
+			_smartExtensionTabs.forEach(function(tab) {tabs.push(tab); });
 		}
 		
 		tabs.push({id: 'additional-info', label: 'Additional Info'});
@@ -271,17 +271,27 @@ var smartReport = (function() {
 		// add the report summary
 		reportBody.appendChild(createReportSummary());
 		
-		// add additional info details
-		var additionalInfo = createReportAdditionalInfo({addedID: publicationInfo.addedID});
-		
 		// add test result details
 		var testResults = createReportTestDetails();
+		
+		reportBody.appendChild(testResults.content);
+		
+		// add extensions
+		if (_smartExtensionTabs.length > 0) {
+			_smartExtensionTabs.forEach(function(tab) {
+				if (smart_extensions.hasOwnProperty(tab.id)) {
+					reportBody.appendChild(smart_extensions[tab.id].generateReport());
+				}
+			});
+		}
+		
+		// add additional info details
+		var additionalInfo = createReportAdditionalInfo({addedID: publicationInfo.addedID});
 		
 		// add statistics to the additional info section
 		additionalInfo.appendChild(formatPubInfoEntry({id: 'result', label: 'Statistics', value: createReportStats(testResults.count)}));
 		
 		reportBody.appendChild(additionalInfo);
-		reportBody.appendChild(testResults.content);
 		
 		return reportBody.innerHTML;
 	}
@@ -846,7 +856,7 @@ var smartReport = (function() {
 	
 	return {
 		addExtensionTab: function(tab_info) {
-			_aceExtensionTabs.push(tab_info);
+			_smartExtensionTabs.push(tab_info);
 		},
 		
 		validateConformanceReport: function() {

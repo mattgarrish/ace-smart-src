@@ -5,8 +5,8 @@
 		<meta charset="utf-8"/>
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css"/>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"/>
-		<link rel="stylesheet" type="text/css" href="http://smart.daisy.org/css/report.css"/>
-		<link rel="stylesheet" type="text/css" href="http://smart.daisy.org/css/tabs.css"/>
+		<link rel="stylesheet" type="text/css" href="http://<?php echo $_SERVER["HTTP_HOST"]; ?>/css/report.css"/>
+		<link rel="stylesheet" type="text/css" href="http://<?php echo $_SERVER["HTTP_HOST"]; ?>/css/tabs.css"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	</head>
 	<body typeof="Book" vocab="https://schema.org">
@@ -34,6 +34,6 @@
 				});
 			});
 		</script>
-		<script src="http://smart.daisy.org/js/a11ytabs.js"></script>
+		<script src="http://<?php echo $_SERVER["HTTP_HOST"]; ?>/js/a11ytabs.js"></script>
 	</body>
 </html>

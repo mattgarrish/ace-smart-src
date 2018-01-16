@@ -9,21 +9,49 @@
 	font-weight: normal;
 }
 
+#born_accessible > section {
+	margin-top: 5rem;
+}
+
 #born_accessible fieldset {
 	margin-top: 0;
 	max-width: 90rem !important;
 }
 
-#born_accessible fieldset > .ba_score {
+#born_accessible dt {
+	margin-top: 1rem !important;
+}
+
+#born_accessible dd {
+	font-size: 1.3rem;
+}
+
+#born_accessible fieldset > .ba_label {
 	display: block;
 	padding: 0.5rem 0 0.5rem 2rem;
 }
 
+#born_accessible fieldset > .ba_label > .radio_desc {
+	font-size: 1.4rem;
+}
+
 #born_accessible div.ba-score {
 	margin-top: 2rem;
-	font-size: 120%;
+	font-size: 110%;
+	max-width: 45rem;
 	background-color: rgb(250,250,210);
 	border: double 0.4rem rgb(100,149,237);
 	padding: 1rem;
 	margin-bottom: 5rem;
+}
+
+#born_accessible fieldset > div.ba_note {
+	margin-left: 2.5rem;
+	margin-top: 1rem;
+}
+
+#born_accessible fieldset > div.ba_note > span {
+	display: block;
+	font-size: 1.3rem;
+	font-weight: bold;
 }

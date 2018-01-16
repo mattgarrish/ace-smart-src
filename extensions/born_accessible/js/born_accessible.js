@@ -9,7 +9,9 @@
 */
 
 var bornAccessible = (function() {
+
 	var _baTestData = '';
+	var _extension_tab;
 	
 	function createBornAccessibleScoringTab() {
 		
@@ -25,7 +27,8 @@ var bornAccessible = (function() {
 			success: function( data )
 			{
 				_baTestData = data;
-				generateTests();
+				_extension_tab = document.getElementById('born_accessible'); 
+				generateBornAccessibleTab();
 				
 			},
 			error: function()
@@ -36,9 +39,84 @@ var bornAccessible = (function() {
 	}
 	
 	
-	function generateTests() {
+	function generateBornAccessibleTab() {
+		generateComplexity();
+		addOutputOptions();
+		generateTests();
+	}
+	
+	
+	function addOutputOptions() {
+		var output_fieldset = document.createElement('fieldset');
 		
-		var tab = document.getElementById('born_accessible'); 
+		var output_legend = document.createElement('legend');
+			output_legend.appendChild(document.createTextNode('Output Options:'));
+		
+		output_fieldset.appendChild(output_legend);
+		
+		var display_options = [{id: 'ba_output_report', label: 'Include scoring in final report'},{id: 'ba_output_notes', label: 'Include notes in final report'}];
+		
+		display_options.forEach(function(options) {
+			var label = document.createElement('label');
+				label.setAttribute('class','data');
+			
+			var checkbox = document.createElement('input');
+				checkbox.setAttribute('type','checkbox');
+				checkbox.setAttribute('id',options.id);
+				checkbox.setAttribute('checked','checked');
+			
+			label.appendChild(checkbox);
+			
+			label.appendChild(document.createTextNode((' ') + options.label));
+			
+			output_fieldset.appendChild(label);
+		});
+		
+		_extension_tab.appendChild(output_fieldset);
+	}
+	
+	
+	function generateComplexity() {
+		var fieldset = document.createElement('fieldset');
+			fieldset.id = _baTestData.epubComplexity['$complexityId'];
+		
+		var legend = document.createElement('legend');
+			legend.appendChild(document.createTextNode(_baTestData.epubComplexity.complexityName))
+		
+		fieldset.appendChild(legend);
+		
+		var definition_list = document.createElement('dl');
+		
+		for (var i = 0; i < _baTestData.epubComplexity.complexityLevels.length; i++) {
+			var definition_term = document.createElement('dt');
+			
+			var complexity_radio = document.createElement('input');
+				complexity_radio.setAttribute('type','radio');
+				complexity_radio.setAttribute('name',_baTestData.epubComplexity.complexityLevels[i]['$levelId']);
+				complexity_radio.setAttribute('value',_baTestData.epubComplexity.complexityLevels[i].levelName);
+					
+				if (i == 0) {
+					complexity_radio.setAttribute('checked','checked');
+				}
+				
+			definition_term.appendChild(complexity_radio);
+			definition_term.appendChild(document.createTextNode(' ' + _baTestData.epubComplexity.complexityLevels[i].levelName));
+			
+			definition_list.appendChild(definition_term);
+				
+			var definition_description = document.createElement('dd');
+				definition_description.appendChild(document.createTextNode(_baTestData.epubComplexity.complexityLevels[i].levelDescription));
+			
+			definition_list.appendChild(definition_description);
+		}
+		
+		fieldset.appendChild(definition_list);
+		
+		_extension_tab.appendChild(fieldset);
+	}
+	
+	
+	function generateTests() {
 		
 		for (var i = 0; i < _baTestData.bornAccessibleScoring.sections.length; i++) {
 			var section = document.createElement('section');
@@ -54,6 +132,7 @@ var bornAccessible = (function() {
 			for (var j = 0; j < _baTestData.bornAccessibleScoring.sections[i].sectionItems.length; j++) {
 				var fieldset = document.createElement('fieldset');
 					fieldset.setAttribute('id',_baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']);
+					fieldset.setAttribute('class','test')
 				
 				var legend = document.createElement('legend');
 					legend.appendChild(document.createTextNode(section_number + (j+1) + ' ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemName));
@@ -65,11 +144,11 @@ var bornAccessible = (function() {
 				var has_default = false;
 				
 				if (_baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores.hasOwnProperty('N/A')) {
-					fieldset.appendChild(createRadioScore(
+					fieldset.appendChild(createRadioInput(
 						{
 							name: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
-							score: 'N/A',
-							title: 'N/A' + ' \u2014 ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores['N/A'],
+							value: 'N/A',
+							description: 'N/A' + ' \u2014 ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores['N/A'],
 							checked: true
 						}
 					));
@@ -79,16 +158,34 @@ var bornAccessible = (function() {
 				// add possible numeric scores
 				for (var k = 0; k < 10; k++) {
 					if (_baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores[k]) {
-						fieldset.appendChild(createRadioScore(
+						fieldset.appendChild(createRadioInput(
 							{
 								name: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
-								score: k,
-								title: k + ' \u2014 ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores[k],
+								value: k,
+								description: k + ' \u2014 ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores[k],
 								checked: (!has_default && k == 0) ? true : false
 							}
 						));
 					}
 				}
+				
+				// add note field
+				
+				var note_div = document.createElement('div');
+					note_div.setAttribute('class', 'ba_note');
+				
+				var note_label = document.createElement('span');
+					note_label.appendChild(document.createTextNode('Notes:'));
+				
+				note_div.appendChild(note_label);
+				
+				var note_textarea = document.createElement('textarea');
+					note_textarea.setAttribute('rows','3');
+					note_textarea.setAttribute('cols','30');
+				
+				note_div.appendChild(note_textarea);
+				
+				fieldset.appendChild(note_div);
 				
 				section.appendChild(fieldset);
 			}
@@ -112,7 +209,7 @@ var bornAccessible = (function() {
 			
 			section.appendChild(score_div);
 			
-			tab.appendChild(section);
+			_extension_tab.appendChild(section);
 		}
 			
 		/* watch for scoring changes */
@@ -122,14 +219,14 @@ var bornAccessible = (function() {
 	}
 	
 	
-	function createRadioScore(options) {
+	function createRadioInput(options) {
 		var label = document.createElement('label');
-			label.setAttribute('class','ba_score');
+			label.setAttribute('class','ba_label');
 		
 		var input = document.createElement('input');
 			input.setAttribute('type','radio');
 			input.setAttribute('name',options.name);
-			input.setAttribute('value',options.score);
+			input.setAttribute('value',options.value);
 			
 		if (options.checked) {
 			input.setAttribute('checked','checked');
@@ -139,8 +236,8 @@ var bornAccessible = (function() {
 		label.appendChild(document.createTextNode(' '));
 		
 		var span = document.createElement('span');
-			span.setAttribute('class','test-desc');
-			span.appendChild(document.createTextNode(options.title));
+			span.setAttribute('class','radio-desc');
+			span.appendChild(document.createTextNode(options.description));
 		
 		label.appendChild(span);
 		

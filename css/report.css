@@ -238,3 +238,23 @@ div.dataTables_wrapper div.dataTables_filter label {
 	font-size: 1.3rem !important;
 	font-weight: bold !important;
 }
+
+div.table {
+	display: table;
+	max-width: 50rem;
+	margin-left: 1rem;
+}
+
+div.table > div {
+	display: table-row;
+}
+
+div.table > div:nth-child(2n) {
+	background-color: rgb(240,248,255);
+}
+
+div.table > div > span {
+	display: table-cell;
+	padding: 1rem;
+}
+

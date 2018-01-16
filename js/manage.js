@@ -113,7 +113,12 @@ var smartManage = (function() {
 		
 		if (Object.keys(extension).length > 0) {
 			for (var key in extension) {
-				reportJSON += extension[key].saveData();
+				if (!reportJSON.hasOwnProperty(key)) {
+					reportJSON[key ]= extension[key].saveData();
+				}
+				else {
+					console.log('Extension ' + key + ' is matches an existing report property name. Data cannot be saved until a new name is selected.');
+				}
 			}
 		}
 		
@@ -301,7 +306,9 @@ var smartManage = (function() {
 		/* load extensions */
 		if (Object.keys(extension).length > 0) {
 			for (var key in extension) {
-				extension[key].loadData(reportJSON);
+				if (reportJSON.hasOwnProperty(key)) {
+					extension[key].loadData(reportJSON[key]);
+				}
 			}
 		}
 		

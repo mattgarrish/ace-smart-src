@@ -51,7 +51,7 @@
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="js/jquery.details.min.js"></script>
 		<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
-		<?php echo "<script>var extension = new Object(); var ACE_USER = '" . $user->data()->username . "';</script>"; ?>
+		<?php echo "<script>var smart_extensions = {}; var ACE_USER = '" . $user->data()->username . "';</script>"; ?>
 		<script src="js/format.js"></script>
 	</head>
 	
