@@ -63,14 +63,14 @@ smart_extensions['born_accessible'] = (function() {
 		
 			var JSON = {};
 			
-			var fields = document.querySelectorAll('#born_accessible fieldset.test');
+			var tests = document.querySelectorAll('#born_accessible fieldset.test');
 			
-			for (var i = 0; i < fields.length; i++) {
-				var score = fields[i].querySelector('input:checked').value;
-				var note = fields[i].querySelector('textarea').value;
-				JSON[fields[i].id] = {};
-				JSON[fields[i].id].score = score;
-				JSON[fields[i].id].note = note;
+			for (var i = 0; i < tests.length; i++) {
+				var score = tests[i].querySelector('input:checked').value;
+				var note = tests[i].querySelector('textarea').value;
+				JSON[tests[i].id] = {};
+				JSON[tests[i].id].score = score;
+				JSON[tests[i].id].note = note;
 			}
 			
 			return JSON;

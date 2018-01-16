@@ -42,37 +42,8 @@ var bornAccessible = (function() {
 	function generateBornAccessibleTab() {
 		generateComplexity();
 		addOutputOptions();
+		addFilters();
 		generateTests();
-	}
-	
-	
-	function addOutputOptions() {
-		var output_fieldset = document.createElement('fieldset');
-		
-		var output_legend = document.createElement('legend');
-			output_legend.appendChild(document.createTextNode('Output Options:'));
-		
-		output_fieldset.appendChild(output_legend);
-		
-		var display_options = [{id: 'ba_output_report', label: 'Include scoring in final report'},{id: 'ba_output_notes', label: 'Include notes in final report'}];
-		
-		display_options.forEach(function(options) {
-			var label = document.createElement('label');
-				label.setAttribute('class','data');
-			
-			var checkbox = document.createElement('input');
-				checkbox.setAttribute('type','checkbox');
-				checkbox.setAttribute('id',options.id);
-				checkbox.setAttribute('checked','checked');
-			
-			label.appendChild(checkbox);
-			
-			label.appendChild(document.createTextNode((' ') + options.label));
-			
-			output_fieldset.appendChild(label);
-		});
-		
-		_extension_tab.appendChild(output_fieldset);
 	}
 	
 	
@@ -113,6 +84,70 @@ var bornAccessible = (function() {
 		fieldset.appendChild(definition_list);
 		
 		_extension_tab.appendChild(fieldset);
+	}
+	
+	
+	function addOutputOptions() {
+		var output_fieldset = document.createElement('fieldset');
+		
+		var output_legend = document.createElement('legend');
+			output_legend.appendChild(document.createTextNode('Output Options:'));
+		
+		output_fieldset.appendChild(output_legend);
+		
+		var display_options = [{id: 'ba_output_report', label: 'Include scoring in final report'},{id: 'ba_output_notes', label: 'Include notes in final report'}];
+		
+		display_options.forEach(function(options) {
+			var label = document.createElement('label');
+				label.setAttribute('class','data');
+			
+			var checkbox = document.createElement('input');
+				checkbox.setAttribute('type','checkbox');
+				checkbox.setAttribute('id',options.id);
+				checkbox.setAttribute('checked','checked');
+			
+			label.appendChild(checkbox);
+			
+			label.appendChild(document.createTextNode((' ') + options.label));
+			
+			output_fieldset.appendChild(label);
+		});
+		
+		_extension_tab.appendChild(output_fieldset);
+	}
+	
+	
+	function addFilters() {
+		var filter_fieldset = document.createElement('fieldset');
+		
+		var filter_legend = document.createElement('legend');
+			filter_legend.appendChild(document.createTextNode('Show only tests with score:'));
+		
+		filter_fieldset.appendChild(filter_legend);
+		
+		var scores = ['N/A',0,1,2,3,4];
+		
+		scores.forEach(function(score) {
+			var label = document.createElement('label');
+			
+			var checkbox = document.createElement('input');
+				checkbox.setAttribute('type','checkbox');
+				checkbox.setAttribute('class','test-filter');
+				checkbox.setAttribute('value',score);
+			
+			label.appendChild(checkbox);
+			
+			label.appendChild(document.createTextNode((' ') + score));
+			
+			filter_fieldset.appendChild(label);
+		});
+		
+		_extension_tab.appendChild(filter_fieldset);
+			
+		/* watch for filter changes */
+		$('section#born_accessible input.test-filter').click( function(){
+			bornAccessible.filterTests();
+		});
 	}
 	
 	
@@ -246,7 +281,7 @@ var bornAccessible = (function() {
 	
 	function updateSectionScore(radio_button) {
 		var parent_section = radio_button.closest('section');
-		var test_fields = parent_section.querySelectorAll('fieldset');
+		var test_fields = parent_section.getElementsByTagName('fieldset');
 		var actual_score = 0;
 		var total_score = 0;
 		
@@ -264,6 +299,25 @@ var bornAccessible = (function() {
 		parent_section.querySelector('span.ba-score-value').textContent = percentage_score + '%';
 	}
 	
+	
+	function filterTests() {
+		var filters = document.querySelectorAll('#born_accessible input.test-filter:checked');
+		
+		var scores = {};
+		
+		for (var i = 0; i < filters.length; i++) {
+			scores[filters[i].value] = true;
+		}
+		
+		var tests = document.querySelectorAll('#born_accessible fieldset.test');
+		
+		for (var i = 0; i < tests.length; i++) {
+			var score = tests[i].querySelector('input:checked').value;
+			tests[i].style.display = filters.length == 0 ? 'block' : (scores.hasOwnProperty(score) ? 'block' : 'none');
+		}
+	}
+	
+	
 	return {
 		initialize: function() {
 			createBornAccessibleScoringTab();	
@@ -271,6 +325,10 @@ var bornAccessible = (function() {
 		
 		updateSectionScore: function(radio_button) {
 			updateSectionScore(radio_button);
+		},
+		
+		filterTests: function() {
+			filterTests();
 		}
 	}
 
