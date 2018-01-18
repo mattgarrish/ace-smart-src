@@ -14,7 +14,7 @@
 			if ($ext_module_access) {
 				foreach ($ext_module_access as $module) {
 					if ($extension[$module]) {
-						echo '<link rel="stylesheet" type="text/css" href="extensions/' . $module . '/css/extension.css"/>';
+						echo '<link rel="stylesheet" type="text/css" href="extensions/' . $module . '/css/smart.css"/>';
 					}
 				}
 			}
@@ -159,7 +159,7 @@
 			if ($ext_module_access) {
 				foreach ($ext_module_access as $module) {
 					if ($extension[$module]) {
-						echo '<script src="extensions/' . $module . '/js/extension.js"></script>';
+						echo '<script src="extensions/' . $module . '/js/smart.js"></script>';
 					}
 				}
 				if ($ace_extension_tabs) {

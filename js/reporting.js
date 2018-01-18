@@ -26,6 +26,7 @@ var smartReport = (function() {
 	var _notesToDisplay = 'all';
 	var _reportWin;
 	var _smartExtensionTabs = new Array();
+	var _generateExtension = {};
 	
 	
 	function validateConformanceReport() {
@@ -157,6 +158,8 @@ var smartReport = (function() {
 		
 		var logo = document.createElement('span');
 		
+		var extension_list = '';
+		
 		if (Object.keys(smart_extensions).length > 0) {
 			for (var key in smart_extensions) {
 				if (typeof smart_extensions[key].LOGO !== 'undefined' && smart_extensions[key].LOGO.length == 3) {
@@ -171,6 +174,9 @@ var smartReport = (function() {
 					logo.appendChild(logoLink);
 				}
 			}
+			
+			_smartExtensionTabs.forEach(function(tab) { extension_list += tab.id+','; });
+			extension_list = extension_list.slice(0,-1)
 		}
 		
 		if (reportOutputType == 'preview') {
@@ -203,6 +209,14 @@ var smartReport = (function() {
 				report_timestamp_input.value = report_timestamp;
 			report_form.appendChild(report_timestamp_input);
 			
+			if (_smartExtensionTabs.length > 0) {
+				var report_modules_input = document.createElement('input');
+					report_modules_input.type = 'hidden';
+					report_modules_input.name = 'modules';
+					report_modules_input.value = extension_list;
+				report_form.appendChild(report_modules_input);
+			}
+			
 			document.body.appendChild(report_form);
 			report_form.submit();
 			report_form.parentNode.removeChild(report_form);
@@ -211,20 +225,22 @@ var smartReport = (function() {
 		else {
 			var report_template = '';
 			var xhr = new XMLHttpRequest();
-			
-			xhr.open("GET", 'report.php', true);
+				xhr.open("POST", 'report.php', true);
+				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 			
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState == 4){
 			    	report_template = xhr.responseText;
 			    	report_template = report_template.replace('<title></title>', '<title>' + report_title + '</title>');
-			    	report_template = report_template.replace('<main></main>', '<main>' + report_body + '</main>');
+			    	report_template = report_template.replace('<main class="js-tabs"></main>', '<main class="js-tabs">' + report_body + '</main>');
 			    	report_template = report_template.replace('<span id="date-created"></span>', '<span id="date-created">' + report_timestamp + '</span>');
 			    	document.getElementById('report-html').value = report_template;
 			    }
 			}
 			
-			xhr.send();
+			var params = 'modules='+extension_list.replace(',','%2C');
+			
+			xhr.send(params);
 		}
 	}
 	
@@ -247,7 +263,11 @@ var smartReport = (function() {
 		var tabs = [{id: 'summary', label: 'Summary'}, {id: 'conformance', label: 'Conformance'}];
 		
 		if (_smartExtensionTabs.length > 0) {
-			_smartExtensionTabs.forEach(function(tab) {tabs.push(tab); });
+			_smartExtensionTabs.forEach(function(tab) {
+				if (_generateExtension.hasOwnProperty(tab.id) && _generateExtension[tab.id]) {
+					tabs.push(tab);
+				}
+			});
 		}
 		
 		tabs.push({id: 'additional-info', label: 'Additional Info'});
@@ -280,7 +300,9 @@ var smartReport = (function() {
 		if (_smartExtensionTabs.length > 0) {
 			_smartExtensionTabs.forEach(function(tab) {
 				if (smart_extensions.hasOwnProperty(tab.id)) {
-					reportBody.appendChild(smart_extensions[tab.id].generateReport());
+					if (_generateExtension.hasOwnProperty(tab.id) && _generateExtension[tab.id]) {
+						reportBody.appendChild(smart_extensions[tab.id].generateReport());
+					}
 				}
 			});
 		}
@@ -873,6 +895,10 @@ var smartReport = (function() {
 		
 		setNoteOutput: function(code) {
 			_notesToDisplay = code;
+		},
+		
+		setExtensionTabOutput: function(tab,output) {
+			_generateExtension[tab] = output;
 		}
 	}
 

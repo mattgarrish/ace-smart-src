@@ -75,9 +75,22 @@ h2#title {
 h3 {
 	font-size: 2.3rem;
 	font-weight: normal;
-	color: rgb(0, 0, 150);
-	padding-left: 0.5rem;
-	margin: 3rem 0 2rem 0;
+	color: rgb(0,0,150);
+	margin: 3rem 0 2rem 0.5rem;
+}
+
+h4 {
+	font-size: 2rem;
+	color: rgb(0,0,150);
+	margin: 3rem 0 2rem 0.5rem;
+}
+
+h4:before {
+	content: '§ ';
+}
+
+section > p {
+	margin-left: 2rem;
 }
 
 .pubinfo {
@@ -238,23 +251,3 @@ div.dataTables_wrapper div.dataTables_filter label {
 	font-size: 1.3rem !important;
 	font-weight: bold !important;
 }
-
-div.table {
-	display: table;
-	max-width: 50rem;
-	margin-left: 1rem;
-}
-
-div.table > div {
-	display: table-row;
-}
-
-div.table > div:nth-child(2n) {
-	background-color: rgb(240,248,255);
-}
-
-div.table > div > span {
-	display: table-cell;
-	padding: 1rem;
-}
-

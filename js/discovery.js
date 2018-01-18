@@ -37,9 +37,11 @@ var smartDiscovery = (function() {
 		_PROP_ERROR.accessModeSufficient.duplicate.warn = false;
 	
 	
-	function validateDiscoveryMetadata() {
+	function validateDiscoveryMetadata(clear) {
 	
-		smartError.clearAll('discovery');
+		if (clear) {
+			smartError.clearAll('discovery');
+		}
 		
 		var is_valid = true;
 		
@@ -306,7 +308,7 @@ var smartDiscovery = (function() {
 		},
 		
 		validateDiscoveryMetadata: function() {
-			validateDiscoveryMetadata();
+			validateDiscoveryMetadata(false);
 		},
 		
 		generateDiscoveryMetadata: function() {

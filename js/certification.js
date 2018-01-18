@@ -17,9 +17,11 @@
 
 var smartCertification = (function() {
 	
-	function validateCertificationMetadata() {
+	function validateCertificationMetadata(clear) {
 		
-		smartError.clearAll('certification');
+		if (clear) {
+			smartError.clearAll('certification');
+		}
 		
 		var is_valid = true;
 		
@@ -77,7 +79,7 @@ var smartCertification = (function() {
 	
 	return {
 		validateCertificationMetadata: function() {
-			validateCertificationMetadata();
+			validateCertificationMetadata(false);
 		},
 		
 		generateCertificationMetadata: function() {

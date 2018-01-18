@@ -6,6 +6,13 @@
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css"/>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"/>
 		<link rel="stylesheet" type="text/css" href="http://<?php echo $_SERVER["HTTP_HOST"]; ?>/css/report.css"/>
+		<?php
+			if ($_POST['modules']) {
+				foreach (explode(',', $_POST['modules']) as $module) {
+					echo '<link rel="stylesheet" type="text/css" href="http://' . $_SERVER["HTTP_HOST"] . '/extensions/' . $module . '/css/report.css?' . time() . '"/>';
+				}
+			}
+		?>
 		<link rel="stylesheet" type="text/css" href="http://<?php echo $_SERVER["HTTP_HOST"]; ?>/css/tabs.css"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	</head>
@@ -15,9 +22,7 @@
 			<div id="add-logo"><?php echo $_POST['logo'] ?></div>
 		</header>
 		
-		<main class="js-tabs">
-			<?php echo $_POST['report'] ?>
-		</main>
+		<main class="js-tabs"><?php echo $_POST['report'] ?></main>
 		
 		<footer>
 			<p id="timestamp">Generated <span id="date-created"><?php echo $_POST['timestamp'] ?></span> using <a href="http://smart.daisy.org">Ace SMART</a></p>

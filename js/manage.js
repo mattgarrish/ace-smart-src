@@ -111,10 +111,10 @@ var smartManage = (function() {
 		
 		/* store extension data */
 		
-		if (Object.keys(extension).length > 0) {
-			for (var key in extension) {
+		if (Object.keys(smart_extensions).length > 0) {
+			for (var key in smart_extensions) {
 				if (!reportJSON.hasOwnProperty(key)) {
-					reportJSON[key ]= extension[key].saveData();
+					reportJSON[key ]= smart_extensions[key].saveData();
 				}
 				else {
 					console.log('Extension ' + key + ' is matches an existing report property name. Data cannot be saved until a new name is selected.');
@@ -304,10 +304,10 @@ var smartManage = (function() {
 		}
 		
 		/* load extensions */
-		if (Object.keys(extension).length > 0) {
-			for (var key in extension) {
+		if (Object.keys(smart_extensions).length > 0) {
+			for (var key in smart_extensions) {
 				if (reportJSON.hasOwnProperty(key)) {
-					extension[key].loadData(reportJSON[key]);
+					smart_extensions[key].loadData(reportJSON[key]);
 				}
 			}
 		}
@@ -404,9 +404,9 @@ var smartManage = (function() {
 		document.getElementById('modified').classList.remove(smartFormat.BG.ERR);
 		
 		/* clear extensions */
-		if (Object.keys(extension).length > 0) {
-			for (var key in extension) {
-				extension[key].clear();
+		if (Object.keys(smart_extensions).length > 0) {
+			for (var key in smart_extensions) {
+				smart_extensions[key].clear();
 			}
 		}
 		

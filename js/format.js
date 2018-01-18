@@ -51,7 +51,7 @@ var smartFormat = (function() {
 		BG: _BG,
 		
 		setEPUBVersion: function(newVersion) {
-			console.log(_epubVersion);
+			_epubVersion = newVersion;
 		},
 		
 		
@@ -155,12 +155,10 @@ var smartFormat = (function() {
 			
 			if (options.highlight_parent) {
 				field.parentNode.classList.remove(_BG.PASS,_BG.WARN,_BG.ERR);
-				field.parentNode.classList.add(_BG.PASS);
 			}
 			
 			else {
 				field.classList.remove(_BG.PASS,_BG.WARN,_BG.ERR);
-				field.classList.add(_BG.PASS);
 			}
 		}
 

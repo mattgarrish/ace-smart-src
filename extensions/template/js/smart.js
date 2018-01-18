@@ -1,4 +1,6 @@
 
+'use strict';
+
 // change 'module' to module name in config.php
 smart_extensions['module'] = (function() {
 	/* 
@@ -22,11 +24,11 @@ smart_extensions['module'] = (function() {
 		
 		validate: function() {
 			
-			var valid = true;
+			var is_valid = true;
 			
 			// add any validation calls before generating HTML here
 			
-			return valid;
+			return is_valid;
 		},
 		
 		generateReport: function() {
