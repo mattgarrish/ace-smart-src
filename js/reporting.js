@@ -786,6 +786,7 @@ var smartReport = (function() {
 			
 			/*  add the status radio buttons */
 			var status = document.createElement('fieldset');
+				status.setAttribute('id',sc[i].id+'-legend');
 				status.setAttribute('class','flat status');
 			
 			var status_legend = document.createElement('legend');
@@ -802,6 +803,7 @@ var smartReport = (function() {
 					status_input.setAttribute('name', sc[i].id);
 					status_input.setAttribute('value',stat);
 					status_input.setAttribute('class','sc_status');
+					status_input.setAttribute('aria-labelledby',sc[i].id+'-legend');
 				
 				if (stat == 'unverified') {
 					status_input.setAttribute('checked','checked');

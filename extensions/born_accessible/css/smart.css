@@ -72,7 +72,7 @@
 	margin-top: 1rem;
 }
 
-#born_accessible fieldset > div.ba-note > span {
+#born_accessible fieldset > div.ba-note > label > span {
 	display: block;
 	font-size: 1.3rem;
 	font-weight: bold;

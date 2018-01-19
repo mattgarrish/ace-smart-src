@@ -108,6 +108,7 @@ var bornAccessible = (function() {
 					fieldset.setAttribute('class','test')
 				
 				var legend = document.createElement('legend');
+					legend.setAttribute('id',_baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend')
 					legend.appendChild(document.createTextNode(section_number + (j+1) + ' ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemName));
 				
 				fieldset.appendChild(legend);
@@ -121,7 +122,8 @@ var bornAccessible = (function() {
 						{
 							name: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
 							value: 'N/A',
-							description: 'N/A' + ' \u2014 ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores['N/A']
+							description: 'N/A' + ' \u2014 ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores['N/A'],
+							label: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend'
 						}
 					));
 					has_default = true;
@@ -134,7 +136,8 @@ var bornAccessible = (function() {
 							{
 								name: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
 								value: k,
-								description: k + ' \u2014 ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores[k]
+								description: k + ' \u2014 ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores[k],
+								label: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend'
 							}
 						));
 					}
@@ -145,16 +148,20 @@ var bornAccessible = (function() {
 				var note_div = document.createElement('div');
 					note_div.setAttribute('class', 'ba-note');
 				
-				var note_label = document.createElement('span');
-					note_label.appendChild(document.createTextNode('Notes:'));
+				var note_label = document.createElement('label');
 				
-				note_div.appendChild(note_label);
+				var note_hd = document.createElement('span');
+					note_hd.appendChild(document.createTextNode('Notes:'));
+				
+				note_label.appendChild(note_hd);
 				
 				var note_textarea = document.createElement('textarea');
 					note_textarea.setAttribute('rows','3');
 					note_textarea.setAttribute('cols','30');
 				
-				note_div.appendChild(note_textarea);
+				note_label.appendChild(note_textarea);
+				
+				note_div.appendChild(note_label);
 				
 				fieldset.appendChild(note_div);
 				
@@ -198,6 +205,7 @@ var bornAccessible = (function() {
 			input.setAttribute('type','radio');
 			input.setAttribute('name',options.name);
 			input.setAttribute('value',options.value);
+			input.setAttribute('aria-labelledby',options.label);
 			
 		label.appendChild(input);
 		label.appendChild(document.createTextNode(' '));
