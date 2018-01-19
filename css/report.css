@@ -17,12 +17,9 @@ footer {
 	margin-left: -3rem;
 }
 
-main {
+main.js-tabs {
 	font-size: 1.6rem;
 	padding: 0 1rem;
-}
-
-main.js-tabs {
 	margin-top: 1rem !important;
 }
 
@@ -37,6 +34,10 @@ li.js-tablist__item{
 
 section.js-tabcontent {
 	margin-top: 0rem !important;
+}
+
+a {
+	color: rgb(0,0,220);
 }
 
 div#daisy-credential {
