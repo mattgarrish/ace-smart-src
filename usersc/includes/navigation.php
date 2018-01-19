@@ -100,7 +100,7 @@ $email_act=$results->email_act;
 				<?php }else{ // no one is logged in so display default items ?>
 					<li><a href="<?=$us_url_root?>users/login.php" class=""><i class="fa fa-sign-in"></i> Login</a></li>
 					<!-- <li><a href="<?=$us_url_root?>users/join.php" class=""><i class="fa fa-plus-square"></i> Register</a></li> -->
-					<!-- <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-life-ring"></i> Help <b class="caret"></b></a> -->
+					<li class="dropdown"><!--<a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-life-ring"></i> Help <b class="caret"></b></a> -->
 					<ul class="dropdown-menu">
 					<li><a href="<?=$us_url_root?>users/forgot_password.php"><i class="fa fa-wrench"></i> Forgot Password</a></li>
 					<?php if ($email_act){ //Only display following menu item if activation is enabled ?>
