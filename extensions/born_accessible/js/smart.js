@@ -73,6 +73,8 @@ smart_extensions['born_accessible'] = (function() {
 			
 		},
 		
+		
+		
 		validate: function() {
 			
 			var is_valid = true;
@@ -133,6 +135,8 @@ smart_extensions['born_accessible'] = (function() {
 			
 			return is_valid;
 		},
+		
+		
 		
 		generateReport: function() {
 			
@@ -343,6 +347,8 @@ smart_extensions['born_accessible'] = (function() {
 			return reportHTML;
 		},
 		
+		
+		
 		saveData: function() {
 		
 			var JSON = {info: {}, statistics: {}, scores: []};
@@ -376,6 +382,7 @@ smart_extensions['born_accessible'] = (function() {
 			
 			return JSON;
 		},
+		
 		
 		
 		loadData: function(JSON) {

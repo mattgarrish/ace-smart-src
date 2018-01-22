@@ -9,63 +9,70 @@
 		<label class="data"><input type="checkbox" id="ba-output-notes" checked="checked"/> Include notes in final report</label>
 	</details>
 	
-	<div class="data form-data" id="ba-content-inputs">
-		<label class="data">
-			<span>Images:</span>
-			<input type="text" placeholder="0" id="ba-image-count"/>
-		</label>
-		<label class="data">
-			<span>Pages:</span>
-			<input type="text" placeholder="0" id="ba-page-count"/>
-		</label>
-		<label class="data">
-			<span>Lists:</span>
-			<input type="text" placeholder="0" id="ba-list-count"/>
-		</label>
-		<label class="data">
-			<span>Tables:</span>
-			<input type="text" placeholder="0" id="ba-table-count"/>
-		</label>
-		<label class="data">
-			<span>Heading Level 1:</span>
-			<input type="text" placeholder="0" id="ba-h1-count"/>
-		</label>
-		<label class="data">
-			<span>Heading Level 2:</span>
-			<input type="text" placeholder="0" id="ba-h2-count"/>
-		</label>
-		<label class="data">
-			<span>Heading Level 3:</span>
-			<input type="text" placeholder="0" id="ba-h3-count"/>
-		</label>
-		<label class="data">
-			<span>Heading Level 4:</span>
-			<input type="text" placeholder="0" id="ba-h4-count"/>
-		</label>
-		<label class="data">
-			<span>Heading Level 5:</span>
-			<input type="text" placeholder="0" id="ba-h5-count"/>
-		</label>
-		<label class="data">
-			<span>Heading Level 6:</span>
-			<input type="text" placeholder="0" id="ba-h6-count"/>
-		</label>
-		<label class="data">
-			<span>Executive Summary:</span>
-			<textarea rows="8" id="ba-executive-summary"></textarea>
-		</label>
-	</div>
+	<section id="ba-info">
+		<h3>Report Summary</h3>
+		
+		<div class="data form-data" id="ba-content-inputs">
+			<label class="data">
+				<span>Executive Summary:</span>
+				<textarea rows="8" id="ba-executive-summary"></textarea>
+			</label>
+			<label class="data">
+				<span>Images:</span>
+				<input type="text" placeholder="0" id="ba-image-count"/>
+			</label>
+			<label class="data">
+				<span>Pages:</span>
+				<input type="text" placeholder="0" id="ba-page-count"/>
+			</label>
+			<label class="data">
+				<span>Lists:</span>
+				<input type="text" placeholder="0" id="ba-list-count"/>
+			</label>
+			<label class="data">
+				<span>Tables:</span>
+				<input type="text" placeholder="0" id="ba-table-count"/>
+			</label>
+			<label class="data">
+				<span>Heading Level 1:</span>
+				<input type="text" placeholder="0" id="ba-h1-count"/>
+			</label>
+			<label class="data">
+				<span>Heading Level 2:</span>
+				<input type="text" placeholder="0" id="ba-h2-count"/>
+			</label>
+			<label class="data">
+				<span>Heading Level 3:</span>
+				<input type="text" placeholder="0" id="ba-h3-count"/>
+			</label>
+			<label class="data">
+				<span>Heading Level 4:</span>
+				<input type="text" placeholder="0" id="ba-h4-count"/>
+			</label>
+			<label class="data">
+				<span>Heading Level 5:</span>
+				<input type="text" placeholder="0" id="ba-h5-count"/>
+			</label>
+			<label class="data">
+				<span>Heading Level 6:</span>
+				<input type="text" placeholder="0" id="ba-h6-count"/>
+			</label>
+		</div>
+	</section>
 	
-	<fieldset class="filters">
-		<legend>Show only tests with score:</legend>
-		<label><input type="checkbox" class="test-filter" value="none"/> No value</label>
-		<label><input type="checkbox" class="test-filter" value="N/A"/> N/A</label>
-		<label><input type="checkbox" class="test-filter" value="0"/> 0</label>
-		<label><input type="checkbox" class="test-filter" value="1"/> 1</label>
-		<label><input type="checkbox" class="test-filter" value="2"/> 2</label>
-		<label><input type="checkbox" class="test-filter" value="3"/> 3</label>
-		<label><input type="checkbox" class="test-filter" value="4"/> 4</label>
-	</fieldset>
+	<section id="ba-scoring">
+		<h3>Scoring</h3>
+		<fieldset class="filters">
+			<legend>Show only tests with score:</legend>
+			<label><input type="checkbox" class="test-filter" value="none"/> No value</label>
+			<label><input type="checkbox" class="test-filter" value="N/A"/> N/A</label>
+			<label><input type="checkbox" class="test-filter" value="0"/> 0</label>
+			<label><input type="checkbox" class="test-filter" value="1"/> 1</label>
+			<label><input type="checkbox" class="test-filter" value="2"/> 2</label>
+			<label><input type="checkbox" class="test-filter" value="3"/> 3</label>
+			<label><input type="checkbox" class="test-filter" value="4"/> 4</label>
+		</fieldset>
+	</section>
 	
 	<script src="extensions/born_accessible/js/born_accessible.js"></script>
 	<script>

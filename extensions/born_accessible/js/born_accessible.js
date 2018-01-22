@@ -5,8 +5,19 @@
  * 
  * bornAccessible
  * 
- * Functionality for the born accessible extension tab
+ * Functionality for generating and scoring a publication according to the
+ * born accessible test criteria
+ * 
+ * Public functions:
+ * 
+ * - initialize - generates the scoring sections from the GCA_Consulting.json file
+ * 
+ * - updateSectionScore - called when a score is set/changed to update the overall score for that section
+ * 
+ * - filterTests - filters the visible scores based on user selection
+ * 
 */
+
 
 var bornAccessible = (function() {
 
@@ -84,11 +95,14 @@ var bornAccessible = (function() {
 		
 		fieldset.appendChild(definition_list);
 		
-		_extension_tab.querySelector('#ba-content-inputs').appendChild(fieldset);
+		var info_section = _extension_tab.querySelector('#ba-content-inputs');
+			info_section.insertBefore(fieldset,info_section.firstChild);
 	}
 	
 	
 	function generateTests() {
+		
+		// generate a section for each group of tests
 		
 		for (var i = 0; i < _baTestData.bornAccessibleScoring.sections.length; i++) {
 			var section = document.createElement('section');
@@ -97,12 +111,15 @@ var bornAccessible = (function() {
 			
 			var section_number = (i+1) + '.';
 			
-			var hd = document.createElement('h3');
+			var hd = document.createElement('h4');
 				hd.appendChild(document.createTextNode(section_number + ' ' + _baTestData.bornAccessibleScoring.sections[i].sectionName));
 			
 			section.appendChild(hd);
 			
+			// create a fieldset for each each test
+			
 			for (var j = 0; j < _baTestData.bornAccessibleScoring.sections[i].sectionItems.length; j++) {
+				
 				var fieldset = document.createElement('fieldset');
 					fieldset.setAttribute('id',_baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']);
 					fieldset.setAttribute('class','test')
@@ -129,8 +146,9 @@ var bornAccessible = (function() {
 					has_default = true;
 				}
 				
-				// add possible numeric scores
-				for (var k = 0; k < 10; k++) {
+				// add possible numeric scores from 0-4
+				
+				for (var k = 0; k <= 4; k++) {
 					if (_baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores[k]) {
 						fieldset.appendChild(createRadioInput(
 							{
@@ -167,7 +185,9 @@ var bornAccessible = (function() {
 				
 				section.appendChild(fieldset);
 			}
-				
+			
+			// add cumulative section score
+			
 			var score_div = document.createElement('div');
 				score_div.setAttribute('class','ba-score');
 			
@@ -187,7 +207,7 @@ var bornAccessible = (function() {
 			
 			section.appendChild(score_div);
 			
-			_extension_tab.appendChild(section);
+			_extension_tab.querySelector('section#ba-scoring').appendChild(section);
 		}
 			
 		/* watch for scoring changes */
@@ -218,6 +238,7 @@ var bornAccessible = (function() {
 		
 		return label;
 	}
+	
 	
 	function updateSectionScore(radio_button) {
 		var parent_section = radio_button.closest('section');
