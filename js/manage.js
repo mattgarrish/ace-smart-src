@@ -37,15 +37,31 @@ var smartManage = (function() {
 				reportJSON.configuration.wcag.show_aa = (document.getElementById('show-aa').checked ? 'true' : 'false');
 				reportJSON.configuration.wcag.show_aaa = (document.getElementById('show-aaa').checked ? 'true' : 'false');
 		
-			/* other config info */
+			/* epub format */
 			reportJSON.configuration.epub_format = document.querySelector('input[name="epub-format"]:checked').value;
 			
+			/* excluded content types array */
 			var excluded_test_types = document.querySelectorAll('#exclusions input[type="checkbox"]:checked');
-			if (excluded_test_types.length > 0) {
-				reportJSON.configuration.exclusions = [];
-					for (var k = 0; k < excluded_test_types.length; k++) {
-					   reportJSON.configuration.exclusions.push(excluded_test_types[k].value);
-					}
+			reportJSON.configuration.exclusions = [];
+			
+			if (excluded_test_types) {
+				for (var i = 0; i < excluded_test_types.length; k++) {
+					reportJSON.configuration.exclusions.push(excluded_test_types[i].value);
+				}
+			}
+			
+			/* list of fallbacks */
+			var fallbacks = document.querySelectorAll('#fallbacks > ul#fallback-types > li.listitem');
+			
+			reportJSON.configuration.fallbacks = [];
+			if (fallbacks) {
+				for (var i = 0; i < fallbacks.length; i++) {
+					fallbacks[i].classList.forEach(function(value, key, listObj) {
+						if (value != 'listitem') {
+							reportJSON.configuration.fallbacks.push(value);
+						}
+					});
+				}
 			}
 	
 		/* store publication info */
@@ -121,9 +137,6 @@ var smartManage = (function() {
 				}
 			}
 		}
-		
-		/* store original Ace report data */
-		reportJSON.aceReport = document.getElementById('aceReport').value;
 		
 		writeSavedJSON(JSON.stringify(reportJSON));
 	}
@@ -216,14 +229,6 @@ var smartManage = (function() {
 		
 		resetSMARTInterface(true);
 		
-		/* load the original Ace report data first */
-		
-		if (reportJSON.hasOwnProperty('aceReport') && reportJSON.aceReport) {
-			document.getElementById('aceReport').value = reportJSON.aceReport;
-			smartAce.storeReportJSON(JSON.parse(reportJSON.aceReport));
-			smartAce.loadAceReport();
-		}
-		
 		/* set the success criteria */
 		
 		for (var i = 0; i < reportJSON.conformance.length; i++) {
@@ -296,19 +301,26 @@ var smartManage = (function() {
 		
 		document.querySelector('input[name="epub-format"][value="' + reportJSON.configuration.epub_format + '"]').click();
 		
-		if (reportJSON.configuration.hasOwnProperty('exclusions')) {
-			var excl = document.getElementById('exclusions');
-			reportJSON.configuration.exclusions.forEach(function(val) {
-			   excl.querySelector('input[value="' + val + '"]').click(); 
+		if (reportJSON.configuration.hasOwnProperty('exclusions') && reportJSON.configuration.exclusions) {
+			reportJSON.configuration.exclusions.forEach(function(value) {
+				document.querySelector('#exclusions input[value="' + value + '"]').click(); 
 			});
 		}
 		
-		/* load extensions */
+		if (reportJSON.configuration.hasOwnProperty('fallbacks') && reportJSON.configuration.fallbacks) {
+			document.querySelector('#fallbacks').classList.add('visible');
+			reportJSON.configuration.fallbacks.forEach(function(value) {
+				var listitems = document.querySelectorAll('#fallbacks li.' + value);
+				for (var i = 0; i < listitems.length; i++) {
+					listitems[i].classList.add('visible');
+				}
+			});
+		}
+		
+		/* load extension data */
 		if (Object.keys(smart_extensions).length > 0) {
 			for (var key in smart_extensions) {
-				if (reportJSON.hasOwnProperty(key)) {
-					smart_extensions[key].loadData(reportJSON[key]);
-				}
+				smart_extensions[key].loadData(reportJSON);
 			}
 		}
 		
@@ -372,7 +384,7 @@ var smartManage = (function() {
 		var epub_warning_elements = document.querySelectorAll('section.warning, li.manifest, li.bindings, li.epub-switch, li.epub-trigger');
 		
 		for (var i = 0; i < epub_warning_elements.length; i++) {
-			epub_warning_elements[i].style.display = 'none';
+			epub_warning_elements[i].classList.remove('visible','hidden');
 		}
 		
 		/* clear artefacts from the conformance checks */

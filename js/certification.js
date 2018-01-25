@@ -39,8 +39,10 @@ var smartCertification = (function() {
 		
 		for (var id in links) {
 		
-			if (!document.getElementById(id).value.trim().match(/^https?:\/\//i)) {
-				smartError.logError({tab_id: 'certification', element_id: id, severity: 'err', message: links[id]+' must begin with http:// or https://'});
+			var link_value = document.getElementById(id).value.trim();
+			
+			if (link_value && !link_value.match(/^https?:\/\//i)) {
+				smartError.logError({tab_id: 'certification', element_id: id, severity: 'warn', message: links[id]+' should begin with http:// or https://'});
 				smartFormat.setFieldToError({id: id, is_warning: true, highlight_parent: true});
 				is_valid = false;
 			}

@@ -21,10 +21,10 @@
 		
 		<fieldset id="exclusions" class="flat">
 			<legend>Exclude Tests For:</legend>
-			<label><input type="checkbox" id="img" class="excl-test"/> Images</label>
-			<label><input type="checkbox" id="audio" class="excl-test"/> Audio</label>
-			<label><input type="checkbox" id="video" class="excl-test"/> Video</label>
-			<label><input type="checkbox" id="script" class="excl-test"/> Scripting</label>
+			<label><input type="checkbox" value="img" class="excl-test"/> Images</label>
+			<label><input type="checkbox" value="audio" class="excl-test"/> Audio</label>
+			<label><input type="checkbox" value="video" class="excl-test"/> Video</label>
+			<label><input type="checkbox" value="script" class="excl-test"/> Scripting</label>
 		</fieldset>
 	</div>
 	
@@ -67,7 +67,7 @@
 		
 		<p>The following EPUB-specific features were detected in the publication:</p>
 		
-		<ul>
+		<ul id="fallback-types">
 			<li class="manifest">The use of the <code>fallback</code> attribute in the package document (manifest fallbacks)</li>
 			<li class="bindings">The use of the <code>bindings</code> element for media type-specific fallbacks in the package document</li>
 			<li class="epub-switch">The use of the <code>epub:switch</code> element to provide fallbacks in content documents</li>
@@ -1703,8 +1703,6 @@
 			</ul>
 		</div>
 	</section>
-	
-	<div class="pad-top"><a href="#discovery" class="js-link-to-tab">Continue to Discovery Metadata</a></div>
 	
 	<script src="/js/wcag.js"></script>
 	<script src="/js/conformance.js"></script>

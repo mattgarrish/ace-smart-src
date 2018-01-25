@@ -62,8 +62,15 @@ smart_extensions['module'] = (function() {
 		
 		loadData: function(JSON) {
 			
-			/*  use this function to reload data created in saveData function */ 
-		
+			/*  use this function to reload data created in saveData function */
+			
+			if (JSON.hasOwnProperty('module') && JSON.module) { // change 'module' to extension name
+				// saved report json
+			}
+			
+			else {
+				// ace report json
+			}
 		}
 	}
 	

@@ -128,14 +128,14 @@ var smartError = (function() {
 		},
 		
 		showErrorPane: function() {
-			_errorPane.style.display = 'block';
-			document.body.style.marginBottom = '13rem';
+			_errorPane.classList.add('visible');
+			document.body.classList.add('error-pane-padding');
 			_errorPaneVisible = true;
 		},
 		
 		hideErrorPane: function() {
-			_errorPane.style.display = 'none';
-			document.body.style.marginBottom = '0';
+			_errorPane.classList.remove('visible');
+			document.body.classList.remove('error-pane-padding');
 			_errorPaneVisible = false;
 		}
 		

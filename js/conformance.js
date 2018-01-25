@@ -61,7 +61,12 @@ var smartConformance = (function() {
 		var sup = document.getElementsByClassName('superseded-aa');
 		
 		for (var i = 0; i < sup.length; i++) {
-			sup[i].style.display = (level == 'aa') ? 'block' : 'none';
+			if (level == 'aa') {
+				sup[i].classList.remove('hidden');
+			}
+			else {
+				sup[i].classList.add('hidden');
+			}
 		}
 		
 		smartWCAG.setWCAGClassList();
@@ -74,7 +79,14 @@ var smartConformance = (function() {
 		var success_criteria = document.getElementsByClassName(options.wcag_level);
 		
 		for (var i = 0; i < success_criteria.length; i++) {
-			success_criteria[i].style.display = (options.display ? 'block' : 'none');
+			if (options.display) {
+				success_criteria[i].classList.remove('hidden');
+				success_criteria[i].classList.add('visible');
+			}
+			else {
+				success_criteria[i].classList.remove('visible');
+				success_criteria[i].classList.add('hidden');
+			}
 		};
 		
 		smartWCAG.setWCAGClassList();
@@ -87,12 +99,17 @@ var smartConformance = (function() {
 		var checks = document.querySelectorAll('*[data-scope="' + options.type + '"]');
 		
 		for (var i = 0; i < checks.length; i++) {
-			checks[i].style.display = options.exclude ? 'none' : 'block';
+			if (options.exclude) {
+				checks[i].classList.add('hidden');
+			}
+			else {
+				checks[i].classList.remove('hidden');
+			}
 		}
 		
 		//  check set audio+video SC
 		if (options.type=='audio' || options.type=='video') {
-			var av = (document.getElementById('audio').checked || document.getElementById('video').checked) ? false : true;
+			var av = (document.querySelector('#exclusions input[value="audio"]').checked || document.querySelector('#exclusions input[value="video"]').checked) ? false : true;
 			for (var i = 0; i < _SC_TYPE.av.length; i++) {
 				// don't flip the status unless av is true or the status is currently 'na' (avoids overriding legit status when loading a saved report)
 				var sc_status = document.querySelector('input[name="' + _SC_TYPE.av[i] + '"]:checked').value;
@@ -181,7 +198,7 @@ var smartConformance = (function() {
 			var success_criteria = document.querySelectorAll('.a, .aa, .aaa, .epub');
 			
 			for (var i = 0; i < success_criteria.length; i++) {
-				if (success_criteria[i].style.display !== 'none') {
+				if (!success_criteria[i].classList.contains('hidden')) {
 					document.querySelector('input[name="' + success_criteria[i].id + '"][value="' + status + '"]').click();
 				}
 			}
@@ -203,26 +220,40 @@ var smartConformance = (function() {
 			}
 			
 			/* show/hide the failure message field */
-			document.getElementById(options.name+'-fail').style.display = (options.value == 'fail') ? 'block' : 'none';
+			var failure_message = document.getElementById(options.name+'-fail');
+			
+			if (options.value == 'fail') {
+				failure_message.classList.add('visible');
+			}
+			else {
+				failure_message.classList.remove('visible');
+			}
 			
 			setEvaluationResult();
 		},
 		
 		showSCNoteField: function(sc_status_radio) {
-		    document.getElementById(sc_status_radio.name).style.display = (sc_status_radio.checked) ? 'block' : 'none';
+		    var note = document.getElementById(sc_status_radio.name);
+		    
+		    if (sc_status_radio.checked) {
+				note.classList.add('visible');
+		    }
+		    else {
+			    note.classList.remove('visible');
+		    }
 		},
 		
 		filterSCByStatus: function(radio) {
 			var status_inputs = document.querySelectorAll('input.sc_status[value="' + radio.value + '"]:checked');
 			for (var i = 0; i < status_inputs.length; i++) {
 				var id = status_inputs[i].name;
+				var status_parent_section = document.getElementById(id);
 				if (radio.checked) {
-					document.getElementById(id).style.display = 'none';
+					status_parent_section.classList.add('hidden');
 				}
 				else {
-					var status_parent_section = document.getElementById(id);
 					if (smartWCAG.WCAGClassList.indexOf('|'+status_parent_section.className+'|') !== -1) {
-						status_parent_section.style.display = 'block';
+						status_parent_section.classList.remove('hidden');
 					}
 				}
 			}
@@ -232,10 +263,10 @@ var smartConformance = (function() {
 			var success_criteria = document.querySelectorAll('.sc-body');
 			for (var i = 0; i < success_criteria.length; i++) {
 				if (display) {
-					success_criteria[i].removeAttribute('style');
+					success_criteria[i].classList.remove('hidden');
 				}
 				else {
-					success_criteria[i].style.display = 'none';
+					success_criteria[i].classList.add('hidden');
 				}
 			}
 		},

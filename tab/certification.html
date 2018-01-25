@@ -26,8 +26,6 @@
 	<p>After generating, copy and paste the output in the following field to the package document metadata.</p>
 	
 	<textarea id="certification-metadata" rows="6" aria-label="certification metadata"></textarea>
-	
-	<div class="pad-top"><a href="#generate" class="js-link-to-tab">Continue to Generate Report</a></div>
 </section>
 
 <script src="/js/error.js"></script>
@@ -35,3 +33,11 @@
 <script src="/js/wcag.js"></script>
 <script src="/js/conformance.js"></script>
 <script src="/js/certification.js"></script>
+<script>
+	/* CERTIFICATION TAB */
+	
+	/* watch for click on button to generate certification metadata */
+	$('#generate-certification-metadata').click( function(){
+	smartCertification.generateCertificationMetadata();
+	});
+</script>

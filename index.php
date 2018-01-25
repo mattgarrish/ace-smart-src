@@ -52,7 +52,13 @@
 		<script src="js/jquery.details.min.js"></script>
 		<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
 		<?php echo "<script>var smart_extensions = {}; var ACE_USER = '" . $user->data()->username . "';</script>"; ?>
+		<script src="js/ace.js"></script>
+		<script src="js/manage.js"></script>
+		<script src="js/conformance.js"></script>
+		<script src="js/reporting.js"></script>
+		<script src="js/error.js"></script>
 		<script src="js/format.js"></script>
+		<script src="js/wcag.js"></script>
 	</head>
 	
 	<body class="tabs">
@@ -109,8 +115,6 @@
 				
 				<?php include 'tab/conformance.html' ?>
 				
-				<?php include 'tab/discovery.html' ?>
-				
 				<?php
 					if ($ext_module_access) {
 						foreach ($ext_module_access as $module) {
@@ -122,6 +126,8 @@
 						}
 					}
 				?>
+				
+				<?php include 'tab/discovery.html' ?>
 				
 				<?php include 'tab/certification.html' ?>
 				
@@ -151,9 +157,6 @@
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 		<script src="js/a11ytabs.js"></script>
 		<script src="js/drag-drop.js"></script>
-		<script src="js/ace.js"></script>
-		<script src="js/manage.js"></script>
-		<script src="js/reporting.js"></script>
 		
 		<?php
 			if ($ext_module_access) {

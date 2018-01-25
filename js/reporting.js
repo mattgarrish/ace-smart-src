@@ -450,7 +450,7 @@ var smartReport = (function() {
 		
 		if (link) {
 			credential = document.createElement('a');
-			credental.setAttribute('href', link);
+			credential.setAttribute('href', link);
 			credential.appendChild(document.createTextNode(link));
 		}
 		

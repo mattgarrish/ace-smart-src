@@ -466,15 +466,19 @@ section#verification > div.form-data > fieldset > label {
 
 div.form-data {
 	border-left: 0.6rem double cornflowerblue;
-	padding-left: 1rem;
 	background-color: rgb(240,248,255);
-	padding: 0.3rem 0;
+	padding: 0.3rem 0 0.3rem 1rem;
 	border-radius: 0.5rem;
 	box-shadow: 0 0 0.2rem 0 grey;
 }
 
 div.form-data > fieldset {
 	box-shadow: none !important;
+	border-left: none;
+}
+
+div.form-data > fieldset > legend {
+	padding-top: 0 !important;
 }
 
 details#view-options {
@@ -710,6 +714,10 @@ dt{
 
 /* error pane */
 
+body.error-pane-padding {
+	margin-bottom: 13rem;
+}
+
 section#error-pane{
 	background-color: rgb(50, 50, 50);
 	position: fixed;
@@ -839,6 +847,23 @@ div.data > fieldset.flat > legend {
 	color: rgb(0,0,0) !important;
 	width: 20rem;
 }
+
+
+/* display properties */
+
+
+.visible {
+	display: block !important;
+}
+
+.hidden {
+	display: none !important;
+}
+
+.listitem {
+	display: list-item !important; 
+}
+
 
 /* initial hide alt statements for checks */
 

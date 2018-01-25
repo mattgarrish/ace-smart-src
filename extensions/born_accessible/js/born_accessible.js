@@ -21,7 +21,7 @@
 
 var bornAccessible = (function() {
 
-	var _baTestData = '';
+	var _baTestData = {};
 	var _extension_tab;
 	
 	function createBornAccessibleScoringTab() {
@@ -116,6 +116,9 @@ var bornAccessible = (function() {
 			
 			section.appendChild(hd);
 			
+			var test_div = document.createElement('div');
+				test_div.setAttribute('class','tests')
+			
 			// create a fieldset for each each test
 			
 			for (var j = 0; j < _baTestData.bornAccessibleScoring.sections[i].sectionItems.length; j++) {
@@ -183,7 +186,7 @@ var bornAccessible = (function() {
 				
 				fieldset.appendChild(note_div);
 				
-				section.appendChild(fieldset);
+				test_div.appendChild(fieldset);
 			}
 			
 			// add cumulative section score
@@ -201,17 +204,33 @@ var bornAccessible = (function() {
 				score_span_value.setAttribute('id',_baTestData.bornAccessibleScoring.sections[i]['$sectionId']+'-score');
 				score_span_value.setAttribute('class','ba-score-value');
 				score_span_value.setAttribute('aria-live','polite');
-				score_span_value.appendChild(document.createTextNode('0%'));
 			
 			score_div.appendChild(score_span_value);
 			
-			section.appendChild(score_div);
+			test_div.appendChild(score_div);
+			
+			section.appendChild(test_div);
+			
+			// add the n/a alternative text to show when tests are excluded
+			
+			var na_div = document.createElement('div');
+				na_div.setAttribute('class','not-applicable');
+				na_div.appendChild(document.createTextNode('These tests have been disabled as the specified content was not found in the EPUB publication. To re-enable the tests, refer to the '));
+			
+			var link = document.createElement('a');
+				link.setAttribute('href','#ba-test-exclusions');
+				link.appendChild(document.createTextNode('content exclusion options'))
+			
+			na_div.appendChild(link);
+			na_div.appendChild(document.createTextNode(' at the top of the tab.'));
+			
+			section.appendChild(na_div)
 			
 			_extension_tab.querySelector('section#ba-scoring').appendChild(section);
 		}
-			
+		
 		/* watch for scoring changes */
-		$('section#born_accessible input[type="radio"]').click( function(){
+		$('section#born_accessible fieldset.test input[type="radio"]').click( function(){
 			bornAccessible.updateSectionScore(this);
 		});
 	}
@@ -245,6 +264,7 @@ var bornAccessible = (function() {
 		var test_fields = parent_section.getElementsByTagName('fieldset');
 		var actual_score = 0;
 		var total_score = 0;
+		var isNA = true;
 		
 		for (var i = 0; i < test_fields.length; i++) {
 			var test_score = test_fields[i].querySelector('input:checked');
@@ -252,12 +272,17 @@ var bornAccessible = (function() {
 			if (test_score && test_score.value.toLowerCase() != 'n/a') {
 				actual_score += Number(test_score.value);
 				total_score += 4;
+				isNA = false;
 			}
 		}
 		
-		var percentage_score = (total_score == 0) ? 0 : Math.round((actual_score / total_score) * 100);
+		var display_score = 'N/A';
 		
-		parent_section.querySelector('span.ba-score-value').textContent = percentage_score + '%';
+		if (!isNA) {
+			display_score = (total_score == 0) ? 0 : Math.round((actual_score / total_score) * 100) + '%';
+		}
+		
+		parent_section.querySelector('span.ba-score-value').textContent = display_score;
 	}
 	
 	
@@ -275,10 +300,55 @@ var bornAccessible = (function() {
 		for (var i = 0; i < tests.length; i++) {
 			var score = tests[i].querySelector('input:checked');
 			if (score) {
-				tests[i].style.display = filters.length == 0 ? 'block' : (scores.hasOwnProperty(score.value) ? 'block' : 'none');
+				if (filters.length == 0 || scores.hasOwnProperty(score.value)) {
+					tests[i].classList.remove('hidden');
+				}
+				else {
+					tests[i].classList.add('hidden');
+				}
 			}
 			else {
-				tests[i].style.display = filters.length == 0 ? 'block' : (scores.hasOwnProperty('none') ? 'block' : 'none');
+				if (filters.length == 0 || scores.hasOwnProperty('none')) {
+					tests[i].classList.remove('hidden');
+				}
+				else {
+					tests[i].classList.add('hidden');
+				}
+			}
+		}
+	}
+	
+	
+	function configureContentTypeTests(options) {
+		if (!options || typeof(options) !== 'object') {
+			return;
+		}
+		
+		if (!options.hasOwnProperty('type') || !options.type) {
+			return;
+		}
+		
+		var test_section = document.getElementById('section-'+options.type);
+		
+		if (test_section) {
+		
+			// show/hide the tests
+			if (options.exclude) {
+				test_section.querySelector('div.tests').classList.add('hidden');
+				test_section.querySelector('div.not-applicable').classList.add('visible');
+			}
+			else {
+				test_section.querySelector('div.tests').classList.remove('hidden');
+				test_section.querySelector('div.not-applicable').classList.remove('visible');
+			}
+			
+			if (options.exclude) {
+				// set all the tests to n/a
+				var tests = test_section.querySelectorAll('fieldset.test');
+				
+				for (var i = 0; i < tests.length; i++) {
+					tests[i].querySelector('input[value="N/A"]').click();
+				}
 			}
 		}
 	}
@@ -295,6 +365,14 @@ var bornAccessible = (function() {
 		
 		filterTests: function() {
 			filterTests();
+		},
+		
+		configureContentTypeTests: function(options) {
+			configureContentTypeTests(options);
+		},
+		
+		setExcludedTests: function(JSON) {
+			setExcludedTests(JSON);
 		}
 	}
 
@@ -304,3 +382,22 @@ var bornAccessible = (function() {
 /* load the tab */
 window.onload = bornAccessible.initialize();
 
+
+/*
+ * Event Handlers
+ */
+
+/* watch for output state changes */
+$('section#born_accessible input#ba-output-report').click( function(){
+	smartReport.setExtensionTabOutput('born_accessible',this.checked);
+});
+
+/* watch for filter changes */
+$('section#born_accessible input.test-filter').click( function(){
+	bornAccessible.filterTests();
+});
+
+/* watch for content type exclusions */
+$('section#born_accessible input.ba-excl-test').click( function(){
+	bornAccessible.configureContentTypeTests({type: this.value, exclude: this.checked});
+});

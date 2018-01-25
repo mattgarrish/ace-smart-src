@@ -21,6 +21,7 @@ smart_extensions['born_accessible'] = (function() {
 		'Not specified': 'na'
 	}
 	
+	
 	return {
 	
 		LOGO: _LOGO,
@@ -172,16 +173,17 @@ smart_extensions['born_accessible'] = (function() {
 			var score_list = document.createElement('ul');
 				score_list.setAttribute('class', 'ba-score-list')
 			
-			var test_groups = document.querySelectorAll('#born_accessible section.test');
+			var test_sections = document.querySelectorAll('#born_accessible section.test');
 			
 			var max_score = 0;
 			var actual_score = 0;
 			
-			for (var i = 0; i < test_groups.length; i++) {
+			for (var i = 0; i < test_sections.length; i++) {
 				var max_section_score = 0;
 				var actual_section_score = 0;
+				var isNA = true;
 				
-				var tests = test_groups[i].querySelectorAll('fieldset');
+				var tests = test_sections[i].querySelectorAll('fieldset');
 				
 				var test_group_list = document.createElement('ul');
 				
@@ -226,6 +228,7 @@ smart_extensions['born_accessible'] = (function() {
 					if (score_value != 'N/A' && score_value != 'Not specified') {
 						actual_section_score += Number(score_value);
 						max_section_score += 4;
+						isNA = false;
 					}
 				}
 				
@@ -233,13 +236,17 @@ smart_extensions['born_accessible'] = (function() {
 					ba_score_li.setAttribute('class','ba-score');
 				
 				var ba_score_label = document.createElement('span');
-					ba_score_label.appendChild(document.createTextNode(test_groups[i].querySelector('h3').textContent.replace(/^[0-9.]+ /, '')+':'));
+					ba_score_label.appendChild(document.createTextNode(test_sections[i].querySelector('h4').textContent.replace(/^[0-9.]+ /, '')+':'));
 				ba_score_li.appendChild(ba_score_label);
 				
-				var section_score = (max_section_score == 0) ? 0 : Math.round((actual_section_score / max_section_score) * 100)
+				var section_score = 'N/A';
+				
+				if (!isNA) {
+					section_score = (max_section_score == 0) ? '0%' : Math.round((actual_section_score / max_section_score) * 100) + '%';
+				}
 				
 				var ba_score_value = document.createElement('span');
-					ba_score_value.appendChild(document.createTextNode(section_score+'%'))
+					ba_score_value.appendChild(document.createTextNode(section_score))
 				ba_score_li.appendChild(ba_score_value);
 				
 				ba_score_li.appendChild(test_group_list);
@@ -351,19 +358,37 @@ smart_extensions['born_accessible'] = (function() {
 		
 		saveData: function() {
 		
-			var JSON = {info: {}, statistics: {}, scores: []};
+			var JSON = {configuration: {}, info: {}, statistics: {}, scores: []};
+			
+			// add executive summary
 			
 			JSON.info['ba-executive-summary'] = document.querySelector('#born_accessible #ba-content-inputs textarea').value;
+			
+			// add epub complexity
 			
 			var complexity = document.querySelector('#born_accessible #ba-content-inputs input[name="ba-complexity-level"]:checked');
 			
 			JSON.info['ba-complexity-level'] = complexity ? complexity.id : '';
 			
-			var inputs = document.querySelectorAll('#born_accessible #ba-content-inputs input[type="text"]');
+			// add content stats
 			
-			for (var i = 0; i < inputs.length; i++) {
-				JSON.statistics[inputs[i].id] = inputs[i].value;
+			var stats = document.querySelectorAll('#born_accessible #ba-content-inputs input[type="text"]');
+			
+			for (var i = 0; i < stats.length; i++) {
+				JSON.statistics[stats[i].id] = stats[i].value;
 			}
+			
+			// add test exclusions
+			
+			var exclusions = document.querySelectorAll('#born_accessible #ba-test-exclusions input:checked');
+			
+			JSON.configuration.exclusions = [];
+			
+			for (var i = 0; i < exclusions.length; i++) {
+				JSON.configuration.exclusions.push(exclusions[i].value);
+			}
+			
+			// add test scores
 			
 			var tests = document.querySelectorAll('#born_accessible fieldset.test');
 			
@@ -387,30 +412,53 @@ smart_extensions['born_accessible'] = (function() {
 		
 		loadData: function(JSON) {
 		
-			// load statistics
-			for (var key in JSON.statistics) {
-				document.getElementById(key).value = JSON.statistics[key];
+			if (JSON.hasOwnProperty('born_accessible') && JSON.born_accessible) {
+				// load statistics
+				for (var key in JSON.born_accessible.statistics) {
+					document.getElementById(key).value = JSON.born_accessible.statistics[key];
+				}
+				
+				// load the executive summary
+				document.getElementById('ba-executive-summary').value = JSON.born_accessible.info['ba-executive-summary'];
+				
+				// load complexity
+				if (JSON.born_accessible.info['ba-complexity-level']) {
+					document.querySelector('input[name="ba-complexity-level"][id="' + JSON.born_accessible.info['ba-complexity-level'] + '"]').click();
+				}
+				
+				// set test exclusions
+				
+				if (JSON.born_accessible.configuration.exclusions) {
+					JSON.born_accessible.configuration.exclusions.forEach(function(type) {
+						document.querySelector('#born_accessible #ba-test-exclusions input[value="' + type + '"]').click();
+					});
+				}
+				
+				// load test scores
+				JSON.born_accessible.scores.forEach(function(test) {
+					var field = document.getElementById(test.id);
+					if (test.hasOwnProperty('score') && test.score != '') {
+						field.querySelector('input[value="' + test.score + '"]').click();
+					}
+					if (test.hasOwnProperty('note') && test.note != '') {
+						field.querySelector('textarea').value = test.note;
+					}
+				});
 			}
 			
-			// load the executive summary
-			document.getElementById('ba-executive-summary').value = JSON.info['ba-executive-summary'];
-			
-			// load complexity
-			if (JSON.info['ba-complexity-level']) {
-				document.querySelector('input[name="ba-complexity-level"][id="' + JSON.info['ba-complexity-level'] + '"]').click();
+			else {
+				var test_types = [{id: 'images', aceID: 'images'}, {id: 'audio', aceID: 'audios'}, {id: 'video', aceID: 'videos'}, {id: 'javascript', aceID: 'scripts'}];
+				
+				test_types.forEach(function(test) {
+					if (!JSON.data.hasOwnProperty(test.aceID) || !JSON.data[test.aceID]) {
+						document.querySelector('#ba-test-exclusions input[value="' + test.id + '"]').click();
+					}
+				});
+				
+				if (!JSON.properties.hasOwnProperty('hasMathML') || !JSON.properties.hasMathML) {
+					document.querySelector('#ba-test-exclusions input[value="math"]').click();
+				}
 			}
-			
-			// load test scores
-			JSON.scores.forEach(function(test) {
-				var field = document.getElementById(test.id);
-				if (test.hasOwnProperty('score') && test.score != '') {
-					field.querySelector('input[value="' + test.score + '"]').click();
-				}
-				if (test.hasOwnProperty('note') && test.note != '') {
-					field.querySelector('textarea').value = test.note;
-				}
-			});
 		}
 	}
-	
 })();

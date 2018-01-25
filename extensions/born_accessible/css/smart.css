@@ -20,6 +20,10 @@
 	margin-top: 4rem;
 }
 
+#born_accessible > section#ba-scoring > div.form-data {
+	margin-top: 3rem;
+}
+
 #born_accessible > fieldset + section {
 	margin-top: 5rem;
 }
@@ -46,11 +50,11 @@
 	font-size: 1.3rem;
 }
 
-#born_accessible fieldset.filters > label {
-	padding-left: 3rem;
+#born_accessible fieldset.spaced-values > label {
+	padding-left: 2rem;
 }
 
-#born_accessible fieldset.filters > legend + label {
+#born_accessible fieldset.spaced-values > legend + label {
 	padding-left: 0rem;
 }
 
@@ -94,4 +98,11 @@
 	background-color: rgb(240,248,255);
 	max-width: 39rem;
 	box-shadow: 0 0 0.3rem 0 lightgrey;
+}
+
+#born_accessible div.not-applicable {
+	font-style: italic;
+	padding: 1rem;
+	display: none;
+	width: 80%;
 }

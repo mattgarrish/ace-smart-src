@@ -125,7 +125,7 @@
 	
 	/* watch for filtering of success criteria by content type */
 	$('input.excl-test').click( function(){
-		smartConformance.configureContentTypeTests({type: this.id, exclude: this.checked});
+		smartConformance.configureContentTypeTests({type: this.value, exclude: this.checked});
 	});
 	
 	/* watch for clicks to show/hide success criteria descriptions */
@@ -148,34 +148,6 @@
 		smartConformance.showSCNoteField(this);
 	});
 
-	
-	/* DISCOVERY TAB */
-	
-	/* watch for click to add custom accessibilityFeature */
-	$('#add-a11y-feature').click( function(){
-		smartDiscovery.addCustomFeature();
-		return false;
-	});
-	
-	/* watch for click to add additional accessModeSufficient sets */
-	$('#add-sufficient').click( function(){
-		smartDiscovery.addNewSufficientSet();
-		return false;
-	});
-	
-	/* watch for click to generate discovery metadata */
-	$('#discovery_button').click( function(){
-		smartDiscovery.generateDiscoveryMetadata();
-	});
-	
-	
-	/* CERTIFICATION TAB */
-	
-	/* watch for click on button to generate certification metadata */
-	$('#generate-certification-metadata').click( function(){
-		smartCertification.generateCertificationMetadata();
-	});
-	
 	
 	/* REPORTING TAB */
 	

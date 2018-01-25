@@ -66,7 +66,7 @@ var smartAce = (function() {
 			return;
 		}
 		
-		if (!_aceReport.hasOwnProperty('@context') || _aceReport['@context'] != 'http://ace.daisy.org/ns/ace-report.jsonld') {
+		if (!_aceReport.hasOwnProperty('earl:assertedBy') || _aceReport['earl:assertedBy']['doap:name'] != 'DAISY Ace') {
 			if (!confirm('Could not verify Ace report. Click Ok to process to attempt to process anyway.')) {
 				return;
 			}
@@ -80,10 +80,14 @@ var smartAce = (function() {
 		
 		var reporting_message = configureReporting(inferred_metadata_message);
 		
-		showReportLoadResult({inferred: inferred_metadata_message, reporting: reporting_message});
+		/* load extension data */
+		if (Object.keys(smart_extensions).length > 0) {
+			for (var key in smart_extensions) {
+				smart_extensions[key].loadData(_aceReport);
+			}
+		}
 		
-		/* save the report for reloading */
-		document.getElementById('aceReport').value = JSON.stringify(_aceReport);
+		showReportLoadResult({inferred: inferred_metadata_message, reporting: reporting_message});
 	}
 	
 	
@@ -362,13 +366,8 @@ var smartAce = (function() {
 		for (var id in content_types) {
 			if (excludeContentChecks(id, content_types[id].property)) {
 				var li = document.createElement('li');
-					li.appendChild(document.createTextNode(content_type[id].description))
+					li.appendChild(document.createTextNode(content_types[id].description))
 				alert_list.appendChild(li);
-			}
-			else {
-				if (id == 'img') {
-					buildImageLists();
-				}
 			}
 		}
 		
@@ -506,7 +505,7 @@ var smartAce = (function() {
 	
 	function excludeContentChecks(id, property) {
 		
-		var test_checkbox = document.getElementById(id);
+		var test_checkbox = document.querySelector('#exclusions input[value="' + id + '"]');
 		
 		// clicking the checkbox calls smartConformance.changeContentConformance to modify the form
 		
@@ -524,29 +523,6 @@ var smartAce = (function() {
 				test_checkbox.click();
 			}
 			return false;
-		}
-	}
-	
-	
-	function buildImageLists() {
-		var empty_alt = new Array();
-		var non_empty_alt = new Array();
-		
-		_aceReport['data']['images'].forEach(function(image) {
-			if (image.alt == '') {
-				empty_alt.push(image.location.substr(0,image.location.lastIndexOf('#')) + ': ' + image.src);
-			}
-			else {
-				non_empty_alt.push(image.location.substr(0,image.location.lastIndexOf('#')) + ': ' + image.src + ": '" + image.alt + "'");
-			}
-		});
-		
-		if (empty_alt.length > 0) {
-			setImageStatus({id: 'img-empty', images: empty_alt, leadin: 'The following images have empty alt attributes:'});
-		}
-		
-		if (non_empty_alt.length > 0) {
-			setImageStatus({id: 'img-non-empty', images: non_empty_alt, leadin: 'Verify the following images are not decorative:'});
 		}
 	}
 	
@@ -580,7 +556,7 @@ var smartAce = (function() {
 	
 	function setEPUBFeatureWarnings() {
 		
-		var features = {'manifest': 'hasManifestFallbacks', 'bindings': 'hasBindings', 'switch': 'epub-switches', 'trigger': 'epub-triggers'};
+		var features = {'manifest': 'hasManifestFallbacks', 'bindings': 'hasBindings', 'epub-switch': 'epub-switches', 'epub-trigger': 'epub-triggers'};
 		var warningIsVisible = false;
 		
 		for (var key in features) {
@@ -591,11 +567,12 @@ var smartAce = (function() {
 				var messages = document.getElementsByClassName(key);
 				
 				for (var i = 0; i < messages.length; i++) {
-					messages[i].style.display = 'list-item';
+					messages[i].classList.add('listitem');
 				}
 				
 				if (!warningIsVisible) {
-					document.getElementById('fallbacks').style.display = 'block';
+					document.getElementById('fallbacks').classList.remove('hidden');
+					document.getElementById('fallbacks').classList.add('visible');
 					warningIsVisible = true;
 				}
 			}

@@ -62,27 +62,29 @@
 	
 	<section id="ba-scoring">
 		<h3>Scoring</h3>
-		<fieldset class="filters">
-			<legend>Show only tests with score:</legend>
-			<label><input type="checkbox" class="test-filter" value="none"/> No value</label>
-			<label><input type="checkbox" class="test-filter" value="N/A"/> N/A</label>
-			<label><input type="checkbox" class="test-filter" value="0"/> 0</label>
-			<label><input type="checkbox" class="test-filter" value="1"/> 1</label>
-			<label><input type="checkbox" class="test-filter" value="2"/> 2</label>
-			<label><input type="checkbox" class="test-filter" value="3"/> 3</label>
-			<label><input type="checkbox" class="test-filter" value="4"/> 4</label>
-		</fieldset>
+		
+		<div class="form-data">
+			<fieldset id="ba-test-exclusions" class="spaced-values">
+				<legend>Exclude Tests For:</legend>
+				<label><input type="checkbox" class="ba-excl-test" value="images"/> Images</label>
+				<label><input type="checkbox" class="ba-excl-test" value="audio"/> Audio</label>
+				<label><input type="checkbox" class="ba-excl-test" value="video"/> Video</label>
+				<label><input type="checkbox" class="ba-excl-test" value="math"/> Math</label>
+				<label><input type="checkbox" class="ba-excl-test" value="javascript"/> Scripting</label>
+			</fieldset>
+			
+			<fieldset class="spaced-values">
+				<legend>Show only tests with score:</legend>
+				<label><input type="checkbox" class="test-filter" value="none"/> No value</label>
+				<label><input type="checkbox" class="test-filter" value="N/A"/> N/A</label>
+				<label><input type="checkbox" class="test-filter" value="0"/> 0</label>
+				<label><input type="checkbox" class="test-filter" value="1"/> 1</label>
+				<label><input type="checkbox" class="test-filter" value="2"/> 2</label>
+				<label><input type="checkbox" class="test-filter" value="3"/> 3</label>
+				<label><input type="checkbox" class="test-filter" value="4"/> 4</label>
+			</fieldset>
+		</div>
 	</section>
 	
 	<script src="extensions/born_accessible/js/born_accessible.js"></script>
-	<script>
-		/* watch for output state changes */
-		$('section#born_accessible input#ba-output-report').click( function(){
-			smartReport.setExtensionTabOutput('born_accessible',this.checked);
-		});
-		/* watch for filter changes */
-		$('section#born_accessible input.test-filter').click( function(){
-			bornAccessible.filterTests();
-		});
-	</script>
 </section>

@@ -20,7 +20,7 @@
 		</form>
 		<details id="local-load">
 			<summary>Load report locally</summary>
-			<p>Paste the report JSON into the textbox below to load the report without sending any data to the SMART server.</p>
+			<p>Paste a report into the textbox below to load without sending any data to the SMART server.</p>
 			<textarea id="local-report-json" rows="5" cols="30"></textarea>
 			<div><input type="button" id="local-json-report" value="Load"/></div>
 		</details>
@@ -48,9 +48,5 @@
 			<label class="data"><span>Additional Metadata:</span> <textarea rows="8" aria-describedby="meta-input-desc" id="optional-meta" placeholder="label: value"></textarea></label>
 			<div id="meta-input-desc" hidden="hidden">Use a colon followed by a space to separate the label from the value. Separate metadata items with a return character.</div>
 		</div>
-			
-		<input type="hidden" id="aceReport"/>
 	</form>
-	
-	<div class="pad-top"><a href="#conformance" class="js-link-to-tab">Continue to Conformance Verification</a></div>
 </section>
