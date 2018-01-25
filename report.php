@@ -9,7 +9,7 @@
 		<?php
 			if ($_POST['modules']) {
 				foreach (explode(',', $_POST['modules']) as $module) {
-					echo '<link rel="stylesheet" type="text/css" href="http://' . $_SERVER["HTTP_HOST"] . '/extensions/' . $module . '/css/report.css?' . time() . '"/>';
+					echo '<link rel="stylesheet" type="text/css" href="http://' . $_SERVER["HTTP_HOST"] . '/extensions/' . $module . '/css/report.css"/>'; # . '?' . time() . '"/>';
 				}
 			}
 		?>

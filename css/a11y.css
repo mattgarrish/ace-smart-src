@@ -325,8 +325,8 @@ p.superseded-aa{
 	display: none;
 }
 
-div.pad-top{
-	margin-top: 2rem;
+div.link {
+	margin-top: 3rem;
 }
 
 details + details {

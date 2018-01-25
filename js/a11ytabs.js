@@ -99,7 +99,7 @@ $(document).ready( function() {
 		for (var i = 0; i < $js_tabs.length - 1; i++) {
 		
 			var link_div = document.createElement('div'); 
-				link_div.setAttribute('class','pad-top');
+				link_div.setAttribute('class','link');
 			
 			var next_tab = $js_tabs[i+1];
 			
