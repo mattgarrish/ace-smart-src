@@ -231,35 +231,39 @@ var smartManage = (function() {
 		
 		/* set the success criteria */
 		
-		for (var i = 0; i < reportJSON.conformance.length; i++) {
-			document.querySelector('input[name="'+reportJSON.conformance[i].id+'"][value="'+ reportJSON.conformance[i].status + '"]').click();
-			
-			if (reportJSON.conformance[i].hasOwnProperty('error')) {
-				document.getElementById(reportJSON.conformance[i].id+'-err').value = reportJSON.conformance[i].error;
-			}
-			
-			if (reportJSON.conformance[i].hasOwnProperty('note')) {
-				document.querySelector('input[name="'+reportJSON.conformance[i].id+'-note"]').click();
-				document.getElementById(reportJSON.conformance[i].id+'-info').value = reportJSON.conformance[i].note;
+		if (reportJSON.hasOwnProperty('conformance')) {
+			for (var i = 0; i < reportJSON.conformance.length; i++) {
+				document.querySelector('input[name="'+reportJSON.conformance[i].id+'"][value="'+ reportJSON.conformance[i].status + '"]').click();
+				
+				if (reportJSON.conformance[i].hasOwnProperty('error')) {
+					document.getElementById(reportJSON.conformance[i].id+'-err').value = reportJSON.conformance[i].error;
+				}
+				
+				if (reportJSON.conformance[i].hasOwnProperty('note')) {
+					document.querySelector('input[name="'+reportJSON.conformance[i].id+'-note"]').click();
+					document.getElementById(reportJSON.conformance[i].id+'-info').value = reportJSON.conformance[i].note;
+				}
 			}
 		}
 		
 		/* load the discovery metadata */
 		
-		var discovery_checkbox_fields = ['accessibilityFeature','accessibilityHazard','accessMode','accessibilityAPI','accessibilityControl'];
-		
-		discovery_checkbox_fields.forEach(function(id) {
-			if (reportJSON.discovery.hasOwnProperty(id)) {
-				setDiscoveryMetaCheckbox(id,reportJSON.discovery[id]);
+		if (reportJSON.hasOwnProperty('discovery')) {
+			var discovery_checkbox_fields = ['accessibilityFeature','accessibilityHazard','accessMode','accessibilityAPI','accessibilityControl'];
+			
+			discovery_checkbox_fields.forEach(function(id) {
+				if (reportJSON.discovery.hasOwnProperty(id)) {
+					setDiscoveryMetaCheckbox(id,reportJSON.discovery[id]);
+				}
+			});
+			
+			if (reportJSON.discovery.hasOwnProperty('accessibilitySummary')) {
+				document.getElementById('accessibilitySummary').value = reportJSON.discovery.accessibilitySummary;
 			}
-		});
-		
-		if (reportJSON.discovery.hasOwnProperty('accessibilitySummary')) {
-			document.getElementById('accessibilitySummary').value = reportJSON.discovery.accessibilitySummary;
-		}
-		
-		if (reportJSON.discovery.hasOwnProperty('accessModeSufficient')) {
-			setSufficientModes(reportJSON.discovery.accessModeSufficient);
+			
+			if (reportJSON.discovery.hasOwnProperty('accessModeSufficient')) {
+				setSufficientModes(reportJSON.discovery.accessModeSufficient);
+			}
 		}
 		
 		/* load certification and publication text fields */
@@ -270,51 +274,57 @@ var smartManage = (function() {
 		};
 		
 		for (var key in text_fields) {
-			text_fields[key].forEach(function(id) {
-				document.getElementById(id).value = reportJSON[key][id];
-			})
+			if (reportJSON.hasOwnProperty(key)) {
+				text_fields[key].forEach(function(id) {
+					document.getElementById(id).value = reportJSON[key][id];
+				});
+			}
 		}
 		
-		if (reportJSON.certification.hasOwnProperty('result')) {
-			document.getElementById('conformance-result').value = reportJSON.certification.result;
-			document.getElementById('conformance-result-status').textContent = smartConformance.STATUS[reportJSON.certification.result]
-		}
-		
-		/* load credential */
-		
-		if (reportJSON["certification"].hasOwnProperty("credential")) {
-			document.getElementById('credentialName').value = reportJSON.certification.credential.name;
-			document.getElementById('credentialLink').value = reportJSON.certification.credential.link;
+		if (reportJSON.hasOwnProperty('certification')) {
+			if (reportJSON.certification.hasOwnProperty('result')) {
+				document.getElementById('conformance-result').value = reportJSON.certification.result;
+				document.getElementById('conformance-result-status').textContent = smartConformance.STATUS[reportJSON.certification.result]
+			}
+			
+			/* load credential */
+			
+			if (reportJSON["certification"].hasOwnProperty("credential")) {
+				document.getElementById('credentialName').value = reportJSON.certification.credential.name;
+				document.getElementById('credentialLink').value = reportJSON.certification.credential.link;
+			}
 		}
 		
 		/* load configuration info */
 		
-		document.querySelector('input[name="wcag-level"][value="' + reportJSON.configuration.wcag.level + '"]').click();
-		
-		if (reportJSON.configuration.wcag.show_aa && reportJSON.configuration.wcag.level != 'aa') {
-			document.getElementById('show-aa').click();
-		}
-		
-		if (reportJSON.configuration.wcag.show_aaa) {
-			document.getElementById('show-aaa').click();
-		}
-		
-		document.querySelector('input[name="epub-format"][value="' + reportJSON.configuration.epub_format + '"]').click();
-		
-		if (reportJSON.configuration.hasOwnProperty('exclusions') && reportJSON.configuration.exclusions) {
-			reportJSON.configuration.exclusions.forEach(function(value) {
-				document.querySelector('#exclusions input[value="' + value + '"]').click(); 
-			});
-		}
-		
-		if (reportJSON.configuration.hasOwnProperty('fallbacks') && reportJSON.configuration.fallbacks) {
-			document.querySelector('#fallbacks').classList.add('visible');
-			reportJSON.configuration.fallbacks.forEach(function(value) {
-				var listitems = document.querySelectorAll('#fallbacks li.' + value);
-				for (var i = 0; i < listitems.length; i++) {
-					listitems[i].classList.add('visible');
-				}
-			});
+		if (reportJSON.hasOwnProperty('configuration')) {
+			document.querySelector('input[name="wcag-level"][value="' + reportJSON.configuration.wcag.level + '"]').click();
+			
+			if (reportJSON.configuration.wcag.show_aa && reportJSON.configuration.wcag.level != 'aa') {
+				document.getElementById('show-aa').click();
+			}
+			
+			if (reportJSON.configuration.wcag.show_aaa) {
+				document.getElementById('show-aaa').click();
+			}
+			
+			document.querySelector('input[name="epub-format"][value="' + reportJSON.configuration.epub_format + '"]').click();
+			
+			if (reportJSON.configuration.hasOwnProperty('exclusions') && reportJSON.configuration.exclusions) {
+				reportJSON.configuration.exclusions.forEach(function(value) {
+					document.querySelector('#exclusions input[value="' + value + '"]').click(); 
+				});
+			}
+			
+			if (reportJSON.configuration.hasOwnProperty('fallbacks') && reportJSON.configuration.fallbacks) {
+				document.querySelector('#fallbacks').classList.add('visible');
+				reportJSON.configuration.fallbacks.forEach(function(value) {
+					var listitems = document.querySelectorAll('#fallbacks li.' + value);
+					for (var i = 0; i < listitems.length; i++) {
+						listitems[i].classList.add('visible');
+					}
+				});
+			}
 		}
 		
 		/* load extension data */
