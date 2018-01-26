@@ -9,97 +9,90 @@
 
 	<body class="page">
 		<header>
-			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium"/></span> <span>Ace SMART &#8212; User Guide</span></h1>
+			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium" /></span>
+				<span>Ace <span class="smart_hd">SMART</span> &#8212; User Guide</span></h1>
 			<nav class="menubar">
-				<a href="index.html">Table of Contents</a> 
+				<a href="index.html">Table of Contents</a>
 			</nav>
 		</header>
 		<main>
 			<section id="start">
 				<h2>Evaluation Setup</h2>
-				
 				<section id="ace-load">
 					<h3>Loading the Ace JSON Report</h3>
-					
-					<p>To prepare this site to evaluate a publication, it is first necessary to load the JSON report output by the Ace 
-						automated tool. This report is in the file called <code>report.json</code>. It is not the HTML file that you use 
-						to review the issues found by that tool.</p>
-					
-					<p>To load the JSON file, you can drag it from your file system and drop it in the blue box in the Start tab:</p>
-					
+					<p>To prepare this site to evaluate a publication, it is first necessary to load the JSON report output
+						by the Ace automated tool. This report is in the file called <code>report.json</code>. It is not the
+						HTML file that you use to review the issues found by that tool.</p>
+					<p>To load the JSON file, you can drag it from your file system and drop it in the blue box in the Start
+						tab:</p>
 					<figure>
-						<figcaption id="fig01">The drag and drop area is shaded blue and surrounded by a dashed border.</figcaption>
+						<figcaption id="fig01">The drag and drop area is shaded blue and surrounded by a dashed
+							border.</figcaption>
 						<img src="images/dnd.png" aria-labelledby="fig01" width="600" alt="" />
 					</figure>
-					
-					<p>If you are not able to drag and drop the report, it is also possible to select it from the file system.</p>
-					
+					<p>If you are not able to drag and drop the report, it is also possible to select it from the file
+						system.</p>
 					<figure>
-						<figcaption id="fig02">Within the drag and drop area is a link to a file selection dialog.</figcaption>
-						<img src="images/json-select.png" aria-labelledby="fig02" width="250" alt="" />
+						<figcaption id="fig02">Within the drag and drop area is a link to a file selection
+							dialog.</figcaption>
+						<img src="images/json_select.png" aria-labelledby="fig02" width="250" alt="" />
 					</figure>
-					
-					<p>The reporting tool will attempt to load the JSON report and customize itself based on the information
-						it provides. When it completes, an alert will be generated indicating what optimizations have been made,
-						if any.</p>
-					
+					<p>Loading the report through the drag-and-drop field sends the selected file to the SMART server,
+						however no information about your publication is stored (the data is simply read and returned to the
+						application, as JavaScripts cannot read local files).</p>
+					<p>If you prefer not to send the Ace report over the internet, a local file loading option is
+						provided.</p>
 					<figure>
-						<figcaption id="fig03">The alert shows that checks for images, audio and video have been turned off.</figcaption>
-						<img src="images/ace-alert.png" aria-labelledby="fig03" width="400" alt="" />
+						<figcaption id="fig04">Below the drag and drop area is a link to a local file load field. Expanding
+							reveals a text box where the report can be pasted.</figcaption>
+						<img src="images/local_load_field.png" aria-labelledby="fig04" width="600" alt="" />
 					</figure>
-					
+					<p>Regardless of which file loading method you choose, the SMART tool will attempt to customize itself
+						based on the information in the provided report. When it completes, an alert will be generated
+						indicating what optimizations have been made, if any.</p>
+					<figure>
+						<figcaption id="fig03">The alert shows which content type checks have been disabled followed by a
+							list of inferred discovery metadata.</figcaption>
+						<img src="images/ace_alert.png" aria-labelledby="fig03" width="400" alt="" />
+					</figure>
 					<p>If automatic detection results in incorrect tests being disabled, they can always be re-enabled in the
-						<a href="conformance.html">Conformance Verification tab</a>.</p>
-					
-					<div class="note">
-						<p><strong>Note</strong>: The process for loading an Ace report is the same as for loading a 
-							<a href="manage.html">saved report</a>.</p>
-					</div>
+							<a href="conformance.html">Conformance Verification tab</a>.</p>
 				</section>
-				
 				<section id="pub-info">
 					<h3>Adding Publication Information</h3>
-					
-					<p>The final section on the Start tab describes the publication.</p>
-					
+					<p>The next section on the Start tab describes the publication.</p>
 					<p>The first field in this section identifies the format of the EPUB publication:</p>
-					
 					<figure>
-						<img src="images/epub_format.png" aria-labelledby="fig04" width="330" alt="EPUB format configuration with options for EPUB 2 and 3" />
+						<img src="images/epub_format.png" aria-labelledby="fig04" width="400"
+							alt="EPUB format configuration with options for EPUB 2 and 3" />
 					</figure>
-					
-					<p>The format does not change the evaluation criteria, but it does control the output format of the 
-						optional metadata that can be generated from the tool (i.e., discovery and conformance metadata for the 
-						package document).</p>
-					
+					<p>The format does not change the evaluation criteria, but it does control the output format of the
+						optional metadata that can be generated from the tool (i.e., discovery and conformance metadata for
+						the package document).</p>
 					<p>The rest of the section allows you to input metadata about the publication.</p>
-					
 					<figure>
-						<img src="images/pub-meta.png" width="600" alt="Text inputs for title, author, identifier, publisher, dates, subject and description" />
+						<img src="images/pub_meta.png" width="600"
+							alt="Text inputs for title, author, identifier, publisher, dates, subject and description" />
 					</figure>
-					
 					<p>This metadata is used to accurately identify the publication in the output report.</p>
-					
 					<div class="note">
-						<p><strong>Note</strong>: The addition of metadata can be skipped if you do not intend to generate a final report.
-							To avoid validation errors, however, it is recommended to always input the required fields.</p>
+						<p><strong>Note</strong>: The addition of metadata can be skipped if you do not intend to generate a
+							final report. To avoid validation errors, however, it is recommended to always input the required
+							fields.</p>
 					</div>
-					
-					<p>In addition to the provided fields, it is also possible to add optional metadata using the text box at the end of
-						the form. To add optional metadata, type a human-readable label followed by a colon, a space, and then the
-						value.</p>
-					
+					<p>In addition to the provided fields, it is also possible to add optional metadata using the text box at
+						the end of the form. To add optional metadata, type a human-readable label followed by a colon, a
+						space, and then the value.</p>
 					<figure>
-						<img src="images/pub-meta-optional.png" width="600" alt="Optional metadata box contains the text 'Subject: whaling'" />
+						<img src="images/pub_meta_optional.png" width="600"
+							alt="Optional metadata box contains the text 'Subject: whaling'" />
 					</figure>
-					
 					<div class="note">
-						<p><strong>Note</strong>: As the optional metadata is for human consumption, it is not recommended to use property 
-							names (e.g., use a label like "Created On" instead of "dcterms:created").</p>
+						<p><strong>Note</strong>: As the optional metadata is for human consumption, it is not recommended to
+							use property names (e.g., use a label like "Created On" instead of "dcterms:created").</p>
 					</div>
 				</section>
 			</section>
-			
 			<nav class="user-links">
 				<div class="prev-link"><a href="auto.html">Automated Evaluation</a></div>
 				<div class="next-link"><a href="conformance.html">Conformance Verification</a></div>
@@ -107,7 +100,8 @@
 		</main>
 		<footer>
 			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a
+					href="http://www.daisy.org/terms-use">Terms of Use</a></p>
 		</footer>
 	</body>
 </html>

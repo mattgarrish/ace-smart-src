@@ -10,7 +10,7 @@
 	<body class="page">
 		<header>
 			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium" /></span>
-				<span>Ace SMART &#8212; User Guide</span></h1>
+				<span>Ace <span class="smart_hd">SMART</span> &#8212; User Guide</span></h1>
 			<nav class="menubar">
 				<a href="index.html">Table of Contents</a>
 			</nav>
@@ -19,21 +19,22 @@
 			<section id="ace">
 				<h2>Automated Evaluation</h2>
 				<p>Before beginning the manual evaluation process, ensure that the publication passes the Ace automated
-					evaluation tool without error. (If errors cannot be fixed, they will be reported under the appropriate
-					WCAG success criterion in the SMART interface.)</p>
+					evaluation tool without error. If you are only reporting problems and not correcting, any errors from the
+					Ace tool will be reported under the appropriate WCAG success criterion in the SMART interface.</p>
 				<p>Instruction on how to run Ace and interpret its reports is available from the <a
 						href="https://github.com/daisy/ace-core/">project home page</a>. The latest version of the tool can
 					be downloaded from the <a href="https://github.com/daisy/ace-core/releases">releases page</a>.</p>
 				<p>When the Ace tool is run, it generates two primary documents:</p>
 				<dl>
 					<dt><code>report.html</code></dt>
-					<dd>The HTML report document provides a human-readable report of any issues found, as well as
-						supplementary information like the images, audio and video. To expedite manual evaluations, it will
-						be necessary to refer to the additional information provided in this report, so keep the report open
-						as you proceed.</dd>
+					<dd>The HTML file provides a human-readable report of any issues found, as well as supplementary
+						information like lists of images, audio and video and visualizations of the data structures of the
+						publication. This additional information helps expedite certain manual inspection processes (e.g.,
+						checking whether images are decorative or have meaningful alternative texts), so keep the report open
+						as you proceed with a SMART evaluation.</dd>
 					<dt><code>report.json</code></dt>
-					<dd>The JSON report document provides machine-readable data about the automatic evaluation. It is loaded
-						into the SMART interface to prepare and simplify the manual evaluation process.</dd>
+					<dd>The JSON document provides machine-readable data about the automatic evaluation. This is the file
+						that is loaded into the SMART interface to prepare and simplify the manual evaluation process.</dd>
 				</dl>
 				<div class="note">
 					<p><strong>Note</strong>: Although it is possible to evaluate a publication without using the Ace
@@ -48,7 +49,8 @@
 		</main>
 		<footer>
 			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a
+					href="http://www.daisy.org/terms-use">Terms of Use</a></p>
 		</footer>
 	</body>
 </html>

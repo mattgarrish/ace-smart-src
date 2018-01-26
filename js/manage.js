@@ -45,7 +45,7 @@ var smartManage = (function() {
 			reportJSON.configuration.exclusions = [];
 			
 			if (excluded_test_types) {
-				for (var i = 0; i < excluded_test_types.length; k++) {
+				for (var i = 0; i < excluded_test_types.length; i++) {
 					reportJSON.configuration.exclusions.push(excluded_test_types[i].value);
 				}
 			}

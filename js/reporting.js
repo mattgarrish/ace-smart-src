@@ -260,7 +260,7 @@ var smartReport = (function() {
 			tab_list.setAttribute('class','js-tablist');
 			tab_list.setAttribute('data-existing-hx','h3');
 		
-		var tabs = [{id: 'summary', label: 'Summary'}, {id: 'conformance', label: 'Conformance'}];
+		var tabs = [{id: 'overview', label: 'Overview'}, {id: 'conformance', label: 'Conformance'}];
 		
 		if (_smartExtensionTabs.length > 0) {
 			_smartExtensionTabs.forEach(function(tab) {
@@ -370,11 +370,11 @@ var smartReport = (function() {
 	function createReportSummary() {
 	
 		var summary = document.createElement('section');
-			summary.setAttribute('id', 'summary');
+			summary.setAttribute('id', 'overview');
 			summary.setAttribute('class', 'js-tabcontent');
 		
 		var summaryHD = document.createElement('h3');
-			summaryHD.appendChild(document.createTextNode('Summary'));
+			summaryHD.appendChild(document.createTextNode('Overview'));
 		
 		summary.appendChild(summaryHD);
 		

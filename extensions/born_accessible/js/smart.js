@@ -358,34 +358,34 @@ smart_extensions['born_accessible'] = (function() {
 		
 		saveData: function() {
 		
-			var JSON = {configuration: {}, info: {}, statistics: {}, scores: []};
+			var baJSON = {configuration: {}, info: {}, statistics: {}, scores: []};
 			
 			// add executive summary
 			
-			JSON.info['ba-executive-summary'] = document.querySelector('#born_accessible #ba-content-inputs textarea').value;
+			baJSON.info['ba-executive-summary'] = document.querySelector('#born_accessible #ba-content-inputs textarea').value;
 			
 			// add epub complexity
 			
 			var complexity = document.querySelector('#born_accessible #ba-content-inputs input[name="ba-complexity-level"]:checked');
 			
-			JSON.info['ba-complexity-level'] = complexity ? complexity.id : '';
+			baJSON.info['ba-complexity-level'] = complexity ? complexity.id : '';
 			
 			// add content stats
 			
 			var stats = document.querySelectorAll('#born_accessible #ba-content-inputs input[type="text"]');
 			
 			for (var i = 0; i < stats.length; i++) {
-				JSON.statistics[stats[i].id] = stats[i].value;
+				baJSON.statistics[stats[i].id] = stats[i].value;
 			}
 			
 			// add test exclusions
 			
 			var exclusions = document.querySelectorAll('#born_accessible #ba-test-exclusions input:checked');
 			
-			JSON.configuration.exclusions = [];
+			baJSON.configuration.exclusions = [];
 			
 			for (var i = 0; i < exclusions.length; i++) {
-				JSON.configuration.exclusions.push(exclusions[i].value);
+				baJSON.configuration.exclusions.push(exclusions[i].value);
 			}
 			
 			// add test scores
@@ -402,60 +402,69 @@ smart_extensions['born_accessible'] = (function() {
 				score_info.score = score;
 				score_info.note = note;
 				
-				JSON.scores.push(score_info);
+				baJSON.scores.push(score_info);
 			}
 			
-			return JSON;
+			return baJSON;
 		},
 		
 		
 		
-		loadData: function(JSON) {
+		loadData: function(savedJSON) {
 		
-			if (JSON.hasOwnProperty('born_accessible') && JSON.born_accessible) {
+			if (savedJSON.hasOwnProperty('born_accessible') && savedJSON.born_accessible) {
 				// load statistics
-				for (var key in JSON.born_accessible.statistics) {
-					document.getElementById(key).value = JSON.born_accessible.statistics[key];
+				if (savedJSON.born_accessible.hasOwnProperty('statistics')) {
+					for (var key in savedJSON.born_accessible.statistics) {
+						document.getElementById(key).value = savedJSON.born_accessible.statistics[key];
+					}
 				}
 				
-				// load the executive summary
-				document.getElementById('ba-executive-summary').value = JSON.born_accessible.info['ba-executive-summary'];
-				
-				// load complexity
-				if (JSON.born_accessible.info['ba-complexity-level']) {
-					document.querySelector('input[name="ba-complexity-level"][id="' + JSON.born_accessible.info['ba-complexity-level'] + '"]').click();
+				if (savedJSON.born_accessible.hasOwnProperty('info')) {
+					// load the executive summary
+					if (savedJSON.born_accessible.info.hasOwnProperty('ba-executive-summary')) {
+						document.getElementById('ba-executive-summary').value = savedJSON.born_accessible.info['ba-executive-summary'];
+					}
+					
+					// load complexity
+					if (savedJSON.born_accessible.info['ba-complexity-level']) {
+						document.querySelector('input[name="ba-complexity-level"][id="' + savedJSON.born_accessible.info['ba-complexity-level'] + '"]').click();
+					}
 				}
 				
-				// set test exclusions
-				
-				if (JSON.born_accessible.configuration.exclusions) {
-					JSON.born_accessible.configuration.exclusions.forEach(function(type) {
-						document.querySelector('#born_accessible #ba-test-exclusions input[value="' + type + '"]').click();
-					});
+				if (savedJSON.born_accessible.hasOwnProperty('configuration')) {
+					// set test exclusions
+					if (savedJSON.born_accessible.configuration.hasOwnProperty('exclusions') && savedJSON.born_accessible.configuration.exclusions) {
+						savedJSON.born_accessible.configuration.exclusions.forEach(function(type) {
+							document.querySelector('#born_accessible #ba-test-exclusions input[value="' + type + '"]').click();
+						});
+					}
 				}
 				
 				// load test scores
-				JSON.born_accessible.scores.forEach(function(test) {
-					var field = document.getElementById(test.id);
-					if (test.hasOwnProperty('score') && test.score != '') {
-						field.querySelector('input[value="' + test.score + '"]').click();
-					}
-					if (test.hasOwnProperty('note') && test.note != '') {
-						field.querySelector('textarea').value = test.note;
-					}
-				});
+				if (savedJSON.born_accessible.hasOwnProperty('scores')) {
+					savedJSON.born_accessible.scores.forEach(function(test) {
+						var field = document.getElementById(test.id);
+						if (test.hasOwnProperty('score') && test.score != '') {
+							field.querySelector('input[value="' + test.score + '"]').click();
+						}
+						if (test.hasOwnProperty('note') && test.note != '') {
+							field.querySelector('textarea').value = test.note;
+						}
+					});
+				}
 			}
 			
 			else {
 				var test_types = [{id: 'images', aceID: 'images'}, {id: 'audio', aceID: 'audios'}, {id: 'video', aceID: 'videos'}, {id: 'javascript', aceID: 'scripts'}];
 				
 				test_types.forEach(function(test) {
-					if (!JSON.data.hasOwnProperty(test.aceID) || !JSON.data[test.aceID]) {
+					if (!savedJSON.data.hasOwnProperty(test.aceID) || !savedJSON.data[test.aceID]) {
 						document.querySelector('#ba-test-exclusions input[value="' + test.id + '"]').click();
 					}
 				});
 				
-				if (!JSON.properties.hasOwnProperty('hasMathML') || !JSON.properties.hasMathML) {
+				if (!savedJSON.properties.hasOwnProperty('hasMathML') || !savedJSON.properties.hasMathML) {
 					document.querySelector('#ba-test-exclusions input[value="math"]').click();
 				}
 			}
