@@ -270,7 +270,7 @@ var smartManage = (function() {
 		
 		var text_fields = {
 			publicationInfo: ['title', 'creator', 'identifier', 'modified', 'publisher', 'description', 'date', 'subject', 'optional-meta'],
-			certification: ['certifiedBy','certifierReport']
+			certification: ['certifiedBy','certifierReport','certifierCredential']
 		};
 		
 		for (var key in text_fields) {
@@ -281,18 +281,9 @@ var smartManage = (function() {
 			}
 		}
 		
-		if (reportJSON.hasOwnProperty('certification')) {
-			if (reportJSON.certification.hasOwnProperty('result')) {
-				document.getElementById('conformance-result').value = reportJSON.certification.result;
-				document.getElementById('conformance-result-status').textContent = smartConformance.STATUS[reportJSON.certification.result]
-			}
-			
-			/* load credential */
-			
-			if (reportJSON["certification"].hasOwnProperty("credential")) {
-				document.getElementById('credentialName').value = reportJSON.certification.credential.name;
-				document.getElementById('credentialLink').value = reportJSON.certification.credential.link;
-			}
+		if (reportJSON.hasOwnProperty('certification') && reportJSON.certification.hasOwnProperty('result')) {
+			document.getElementById('conformance-result').value = reportJSON.certification.result;
+			document.getElementById('conformance-result-status').textContent = smartConformance.STATUS[reportJSON.certification.result]
 		}
 		
 		/* load configuration info */
