@@ -288,24 +288,24 @@ var smartReport = (function() {
 		
 		reportBody.appendChild(tab_list);
 		
-		// add the report summary
-		reportBody.appendChild(createReportSummary());
-		
-		// add test result details
+		// create test result details
 		var testResults = createReportTestDetails();
 		
-		reportBody.appendChild(testResults.content);
+		// create extension tabs
+		var tabs = [];
 		
-		// add extensions
 		if (_smartExtensionTabs.length > 0) {
 			_smartExtensionTabs.forEach(function(tab) {
 				if (smart_extensions.hasOwnProperty(tab.id)) {
 					if (_generateExtension.hasOwnProperty(tab.id) && _generateExtension[tab.id]) {
-						reportBody.appendChild(smart_extensions[tab.id].generateReport());
+						tabs.push(smart_extensions[tab.id].generateReport());
 					}
 				}
 			});
 		}
+		
+		// create the report summary - has to occur after generating tabs as extension properties may depend on tab having been created 
+		var reportSummary = createReportSummary();
 		
 		// add additional info details
 		var additionalInfo = createReportAdditionalInfo({addedID: publicationInfo.addedID});
@@ -313,6 +313,10 @@ var smartReport = (function() {
 		// add statistics to the additional info section
 		additionalInfo.appendChild(formatPubInfoEntry({id: 'result', label: 'Statistics', value: createReportStats(testResults.count)}));
 		
+		// build the body
+		reportBody.appendChild(reportSummary);
+		reportBody.appendChild(testResults.content);
+		tabs.forEach(function(tab) { reportBody.appendChild(tab)});
 		reportBody.appendChild(additionalInfo);
 		
 		return reportBody.innerHTML;
@@ -390,7 +394,17 @@ var smartReport = (function() {
 			conf_class.fail = 'fail';
 		
 		summaryTable.appendChild(formatPubInfoEntry({id: 'conformance-result', label: 'Conformance', value: smartConformance.STATUS[wcag_conf], property: 'dcterms:conformsTo', value_bg_class: conf_class[wcag_conf]}));
-	
+		
+		// add user extension propertiesk
+		if (Object.keys(smart_extensions).length > 0) {
+			for (var key in smart_extensions) {
+				var property = smart_extensions[key].addReportSummaryProperty();
+				if (property && typeof(property) === 'object') {
+					summaryTable.appendChild(formatPubInfoEntry(property));
+				}
+			}
+		}
+		
 		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilitySummary', label: 'Summary', value: document.getElementById('accessibilitySummary').value, property: 'accessibilitySummary'}));
 		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityFeatures', label: 'Features', value: compileCheckboxValues('accessibilityFeature')}));
 		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityHazards', label: 'Hazards', value: compileCheckboxValues('accessibilityHazard')}));
@@ -444,18 +458,14 @@ var smartReport = (function() {
 			summaryTable.appendChild(formatPubInfoEntry({id: 'certifiedBy', label: 'Evaluated by', value: certifier}));
 		}
 		
-		var credential;
-		
 		var link = document.getElementById('certifierCredential').value.trim();
 		
 		if (link) {
-			credential = document.createElement('a');
-			credential.setAttribute('href', link);
-			credential.appendChild(document.createTextNode(link));
-		}
-		
-		if (credential) {
-			summaryTable.appendChild(formatPubInfoEntry({id: 'credential', label: 'Additional Credential(s)', value: credential}));
+			var credential = document.createElement('a');
+				credential.setAttribute('href', link);
+				credential.appendChild(document.createTextNode(link));
+			
+			summaryTable.appendChild(formatPubInfoEntry({id: 'credential', label: 'Credential', value: credential}));
 		}
 		
 		summary.appendChild(summaryTable);
@@ -716,7 +726,10 @@ var smartReport = (function() {
 		}
 		
 		var entry = document.createElement('div');
+		
+		if (options.id) {
 			entry.setAttribute('id', options.id);
+		}
 		
 		var label = document.createElement('div');
 			label.setAttribute('class','label');
@@ -737,7 +750,7 @@ var smartReport = (function() {
 			value.appendChild(document.createTextNode(options.value));
 		}
 		
-		else if (options.value.tagName.toLowerCase() == 'ul') {
+		else if (options.value.tagName.toLowerCase().match(/^(a|ul)$/)) {
 			value = document.createElement('div');
 			value.setAttribute('class', options.value_bg_class ? 'value ' + options.value_bg_class : 'value');
 			value.appendChild(options.value);

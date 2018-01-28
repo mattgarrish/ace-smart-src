@@ -47,6 +47,24 @@ smart_extensions['module'] = (function() {
 			return reportHTML;
 		},
 		
+		addReportSummaryProperty: function() {
+			var property = {};
+			
+			/* 
+			 * Adds an entry after the conformance result to the summary table in the report overview tab  
+			 * 
+			 * When adding a property, the following should always be set (with the exception of value_bg_class)
+			 * 
+			 * property.id = ''; unique id
+			 * property.label = ''; label for the property
+			 * property.value = ''; value for the property
+			 * property.property = ''; vocabulary property to attach to value
+			 * property.value_bg_class = ''; modify background colour used for the value
+			 */
+			
+			return property;
+		},
+		
 		saveData: function() {
 		
 			var JSON = {};

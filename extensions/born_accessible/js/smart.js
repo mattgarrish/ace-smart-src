@@ -20,7 +20,7 @@ smart_extensions['born_accessible'] = (function() {
 		'N/A': 'na',
 		'Not specified': 'na'
 	}
-	
+	var _baReportScore = '';
 	
 	return {
 	
@@ -239,11 +239,7 @@ smart_extensions['born_accessible'] = (function() {
 					ba_score_label.appendChild(document.createTextNode(test_sections[i].querySelector('h4').textContent.replace(/^[0-9.]+ /, '')+':'));
 				ba_score_li.appendChild(ba_score_label);
 				
-				var section_score = 'N/A';
-				
-				if (!isNA) {
-					section_score = (max_section_score == 0) ? '0%' : Math.round((actual_section_score / max_section_score) * 100) + '%';
-				}
+				var section_score = (max_section_score == 0) ? 'N/A' : (Math.round((actual_section_score / max_section_score) * 100) + '%');
 				
 				var ba_score_value = document.createElement('span');
 					ba_score_value.appendChild(document.createTextNode(section_score))
@@ -253,11 +249,14 @@ smart_extensions['born_accessible'] = (function() {
 				
 				score_list.appendChild(ba_score_li);
 				
-				max_score += max_section_score;
-				actual_score += actual_section_score;
+				if (!isNA) {
+					max_score += max_section_score;
+					actual_score += actual_section_score;
+				}
 			}
 			
-			var total_score = (max_score == 0) ? 0 : Math.round((actual_score / max_score) * 100);
+			var total_score = (max_score == 0) ? 'N/A' : (Math.round((actual_score / max_score) * 100) + '%');
+			_baReportScore = total_score;
 			
 			var ba_total_score_div  = document.createElement('div');
 				ba_total_score_div.setAttribute('id','ba-total-score');
@@ -269,7 +268,7 @@ smart_extensions['born_accessible'] = (function() {
 			ba_total_score_div.appendChild(score_span_label);
 			
 			var score_span_value = document.createElement('span');
-				score_span_value.appendChild(document.createTextNode(total_score+'%'));
+				score_span_value.appendChild(document.createTextNode(total_score));
 			
 			ba_total_score_div.appendChild(score_span_value);
 			
@@ -354,6 +353,18 @@ smart_extensions['born_accessible'] = (function() {
 			return reportHTML;
 		},
 		
+		
+		addReportSummaryProperty: function() {
+			var property = {};
+			
+				property.id = 'ba-summary-score';
+				property.label = 'Born Accessible Score';
+				property.value = _baReportScore;
+				property.property = '';
+				property.value_bg_class = '';
+			
+			return property;
+		},
 		
 		
 		saveData: function() {
