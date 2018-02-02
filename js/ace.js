@@ -244,7 +244,9 @@ var smartAce = (function() {
 				continue;
 			}
 			
-			checkbox.click();
+			if (!checkbox.checked) {
+				checkbox.click();
+			}
 		}
 	}
 	
