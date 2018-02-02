@@ -180,10 +180,22 @@ var smartManage = (function() {
 	
 	
 	
-	/* opens the saved evaluation window and writes the json data to it */
+	/* creates json download of saved report */
 	function writeSavedJSON(reportJSON) {
-		var evalWin = window.open('saved-evaluation.html','evalWin');
-			evalWin.addEventListener('load', function() { evalWin.init(reportJSON); });
+		var report_form = document.createElement('form');
+			report_form.target = '_blank';    
+			report_form.method = 'POST';
+			report_form.action = 'saved-evaluation.php';
+		
+		var report_input = document.createElement('input');
+			report_input.type = 'hidden';
+			report_input.name = 'report';
+			report_input.value = reportJSON;
+		report_form.appendChild(report_input);
+		
+		document.body.appendChild(report_form);
+		report_form.submit();
+		report_form.parentNode.removeChild(report_form);
 	}
 	
 	
@@ -336,7 +348,7 @@ var smartManage = (function() {
 			if (checkbox === null) {
 				/* ignore except for accessibilityFeature, as indicates a user-defined feature */
 				if (id == 'accessibilityFeature') {
-					disc.addCustomFeature(obj[i]);
+					smartDiscovery.addCustomFeature(obj[i]);
 				}
 			}
 			else {

@@ -230,15 +230,18 @@ var smartAce = (function() {
 		
 		for (var i = 0; i < report_property.length; i++) {
 			
-			var checkbox = document.querySelector('#' + id + ' input[value="' + _SCHEMA_MAP[id][report_property[i].toLowerCase()] + '"]');
+			var value = (_SCHEMA_MAP.hasOwnProperty(id) && _SCHEMA_MAP[id].hasOwnProperty(report_property[i])) ? _SCHEMA_MAP[id][report_property[i].toLowerCase()] : report_property[i];
+			
+			var checkbox = document.querySelector('#' + id + ' input[value="' + value + '"]');
 			
 			if (id == 'accessibilityFeature' && checkbox === null) {
 				smartDiscovery.addCustomFeature(report_property[i]);
 				checkbox = document.querySelector('#' + id + ' input[value="' + report_property[i] + '"]');
 			}
 			
-			if (checkbox == null) {
-				console.log('Failed to load ace metadata string: #' + id + ' input[value="' + report_property[i] + '"]'); 
+			if (checkbox === null) {
+				console.log('Failed to load ace metadata string: #' + id + ' input[value="' + report_property[i] + '"]');
+				continue;
 			}
 			
 			checkbox.click();
