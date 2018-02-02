@@ -164,12 +164,6 @@
 			
 			smartManage.resetSMARTInterface(true);
 			
-			var input_match = data.match(/<pre id="report">([\s\S]*?)<\/pre>/i);
-			
-			if (input_match !== null) {
-				data = input_match[1];
-			}
-			
 			data = JSON.parse(data);
 			
 			if (data.hasOwnProperty('category') && data.category == 'savedReport') {
