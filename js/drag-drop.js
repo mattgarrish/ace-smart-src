@@ -85,7 +85,7 @@
 				// preventing the duplicate submissions if the current one is in progress
 				if( $form.hasClass( 'is-uploading' ) ) return false;
 
-				$form.addClass( 'is-uploading' ).removeClass( 'is-error' );
+				$form.addClass( 'is-uploading' ).removeClass( 'is-error is-success' );
 
 				if( isAdvancedUpload ) // ajax file upload for modern browsers
 				{
@@ -116,8 +116,14 @@
 						},
 						success: function( data )
 						{
-							$form.addClass( 'is-success' );
-							loadReportJSON(data);
+							try {
+								loadReportJSON(data);
+								$form.addClass( 'is-success' );
+							}
+							catch (error) {
+								$form.addClass('is-error');
+								alert('The following error occurred loading the report:\n\n' + error + '\n\nPlease report this problem if it continues to occur.');
+							}
 						},
 						error: function()
 						{
