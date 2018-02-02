@@ -163,7 +163,7 @@
 
 	/* watch for click on button to generate final report */
 	$('#generate-report').click( function(){
-		smartReport.generateConformanceReport();
+		smartReport.generateConformanceReport('report');
 	});
 
 

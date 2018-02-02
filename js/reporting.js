@@ -179,69 +179,56 @@ var smartReport = (function() {
 			extension_list = extension_list.slice(0,-1)
 		}
 		
-		if (reportOutputType == 'preview') {
-			var report_form = document.createElement('form');
-				report_form.target = '_blank';    
-				report_form.method = 'POST';
-				report_form.action = 'report.php';
-			
-			var report_title_input = document.createElement('input');
-				report_title_input.type = 'hidden';
-				report_title_input.name = 'title';
-				report_title_input.value = report_title;
-			report_form.appendChild(report_title_input);
-			
-			var report_logo_input = document.createElement('input');
-				report_logo_input.type = 'hidden';
-				report_logo_input.name = 'logo';
-				report_logo_input.value = logo.innerHTML;
-			report_form.appendChild(report_logo_input);
-			
-			var report_body_input = document.createElement('input');
-				report_body_input.type = 'hidden';
-				report_body_input.name = 'report';
-				report_body_input.value = report_body;
-			report_form.appendChild(report_body_input);
-			
-			var report_timestamp_input = document.createElement('input');
-				report_timestamp_input.type = 'hidden';
-				report_timestamp_input.name = 'timestamp';
-				report_timestamp_input.value = report_timestamp;
-			report_form.appendChild(report_timestamp_input);
-			
-			if (_smartExtensionTabs.length > 0) {
-				var report_modules_input = document.createElement('input');
-					report_modules_input.type = 'hidden';
-					report_modules_input.name = 'modules';
-					report_modules_input.value = extension_list;
-				report_form.appendChild(report_modules_input);
-			}
-			
-			document.body.appendChild(report_form);
-			report_form.submit();
-			report_form.parentNode.removeChild(report_form);
+		// submit the html
+		
+		var report_form = document.createElement('form');
+			report_form.target = '_blank';    
+			report_form.method = 'POST';
+			report_form.action = 'report.php';
+		
+		var report_title_input = document.createElement('input');
+			report_title_input.type = 'hidden';
+			report_title_input.name = 'title';
+			report_title_input.value = report_title;
+		report_form.appendChild(report_title_input);
+		
+		var report_logo_input = document.createElement('input');
+			report_logo_input.type = 'hidden';
+			report_logo_input.name = 'logo';
+			report_logo_input.value = logo.innerHTML;
+		report_form.appendChild(report_logo_input);
+		
+		var report_body_input = document.createElement('input');
+			report_body_input.type = 'hidden';
+			report_body_input.name = 'report';
+			report_body_input.value = report_body;
+		report_form.appendChild(report_body_input);
+		
+		var report_timestamp_input = document.createElement('input');
+			report_timestamp_input.type = 'hidden';
+			report_timestamp_input.name = 'timestamp';
+			report_timestamp_input.value = report_timestamp;
+		report_form.appendChild(report_timestamp_input);
+		
+		if (_smartExtensionTabs.length > 0) {
+			var report_modules_input = document.createElement('input');
+				report_modules_input.type = 'hidden';
+				report_modules_input.name = 'modules';
+				report_modules_input.value = extension_list;
+			report_form.appendChild(report_modules_input);
 		}
 		
-		else {
-			var report_template = '';
-			var xhr = new XMLHttpRequest();
-				xhr.open("POST", 'report.php', true);
-				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-			
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4){
-			    	report_template = xhr.responseText;
-			    	report_template = report_template.replace('<title></title>', '<title>' + report_title + '</title>');
-			    	report_template = report_template.replace('<main class="js-tabs"></main>', '<main class="js-tabs">' + report_body + '</main>');
-			    	report_template = report_template.replace('<span id="date-created"></span>', '<span id="date-created">' + report_timestamp + '</span>');
-			    	document.getElementById('report-html').value = report_template;
-			    }
-			}
-			
-			var params = 'modules='+extension_list.replace(',','%2C');
-			
-			xhr.send(params);
+		if (reportOutputType == 'preview') {
+			var report_flag_input = document.createElement('input');
+				report_flag_input.type = 'hidden';
+				report_flag_input.name = 'preview';
+				report_flag_input.value = 1;
+			report_form.appendChild(report_flag_input);
 		}
+		
+		document.body.appendChild(report_form);
+		report_form.submit();
+		report_form.parentNode.removeChild(report_form);
 	}
 	
 	
