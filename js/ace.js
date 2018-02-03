@@ -19,6 +19,11 @@
 var smartAce = (function() {
 
 	var _aceReport = '';
+	var _loadMessages = {
+			inferred: '',
+			reporting: '',
+			features: []
+	};
 	
 	/* used to process incoming a11y metadata case-insensitively */
 	var _SCHEMA_MAP = {
@@ -57,7 +62,14 @@ var smartAce = (function() {
 			aria: 'ARIA'
 		}
 	};
-
+	
+	
+	function resetMessages() {
+		_loadMessages.inferred = '';
+		_loadMessages.reporting = '';
+		_loadMessages.features = [];
+	}
+	
 	
 	function loadAceReport() {
 	
@@ -72,13 +84,15 @@ var smartAce = (function() {
 			}
 		}
 		
+		resetMessages();
+		
 		setWCAGConformanceLevel();
 		
 		loadMetadata();
 		
-		var inferred_metadata_message = inferAccessibilityMetadata();
+		inferAccessibilityMetadata();
 		
-		var reporting_message = configureReporting(inferred_metadata_message);
+		configureReporting();
 		
 		/* load extension data */
 		if (Object.keys(smart_extensions).length > 0) {
@@ -87,7 +101,7 @@ var smartAce = (function() {
 			}
 		}
 		
-		showReportLoadResult({inferred: inferred_metadata_message, reporting: reporting_message});
+		showReportLoadResult();
 	}
 	
 	
@@ -237,6 +251,7 @@ var smartAce = (function() {
 			if (id == 'accessibilityFeature' && checkbox === null) {
 				smartDiscovery.addCustomFeature(report_property[i]);
 				checkbox = document.querySelector('#' + id + ' input[value="' + report_property[i] + '"]');
+				_loadMessages.features.push(report_property[i]);
 			}
 			
 			if (checkbox === null) {
@@ -333,7 +348,7 @@ var smartAce = (function() {
 			sufficient_message.appendChild(document.createTextNode('accessModeSufficient: '+sufficient));
 		user_message.appendChild(sufficient_message);
 		
-		return user_message.hasChildNodes() ? user_message : '';
+		_loadMessages.inferred = user_message.hasChildNodes() ? user_message : '';
 	
 	}
 	
@@ -351,7 +366,7 @@ var smartAce = (function() {
 	}
 	
 	
-	function configureReporting(inferred_message) {
+	function configureReporting() {
 		
 		if (!_aceReport.hasOwnProperty('data')) {
 			return;
@@ -392,7 +407,7 @@ var smartAce = (function() {
 		
 		setEPUBFeatureWarnings();
 		
-		return alert_list.hasChildNodes() ? alert_list : '';
+		_loadMessages.reporting = alert_list.hasChildNodes() ? alert_list : '';
 	}
 	
 	
@@ -585,35 +600,55 @@ var smartAce = (function() {
 	}
 	
 	
-	function showReportLoadResult(messages) {
+	function showReportLoadResult() {
 		var import_result = document.getElementById('import');
 		
 		var successful_load = document.createElement('p');
 			successful_load.appendChild(document.createTextNode('Ace report successfully imported!'));
 		import_result.appendChild(successful_load);
 		
-		if (messages.reporting.hasChildNodes()) {
+		if (_loadMessages.reporting.hasChildNodes()) {
 			var report_exclusions = document.createElement('p');
-				report_exclusions.appendChild(document.createTextNode('The following content types were not reported present in the publication:'));
+				report_exclusions.appendChild(document.createTextNode('The following content types were not found in the publication:'));
 			import_result.appendChild(report_exclusions);
 			
-			import_result.appendChild(messages.reporting);
+			import_result.appendChild(_loadMessages.reporting);
 			
 			var exclusions_info = document.createElement('p');
 				exclusions_info.appendChild(document.createTextNode('Checks related to them have been turned off. To re-enable these checks, see the Conformance Verification tab.'));
 			import_result.appendChild(exclusions_info);
 		}
 		
-		if (messages.inferred) {
+		if (_loadMessages.inferred) {
 			var inferred_metadata = document.createElement('p');
 				inferred_metadata.appendChild(document.createTextNode('The following accessibiity metadata was set based on the Ace report:'));
 			import_result.appendChild(inferred_metadata);
 			
-			import_result.appendChild(messages.inferred);
+			import_result.appendChild(_loadMessages.inferred);
 			
 			var verify_inferred = document.createElement('p');
 				verify_inferred.appendChild(document.createTextNode('Verify the accuracy of these assumptions in the Discovery Metadata tab.'));
 			import_result.appendChild(verify_inferred);
+		}
+		
+		if (_loadMessages.features) {
+			var feature_metadata = document.createElement('p');
+				feature_metadata.appendChild(document.createTextNode('The following accessibiity features were found in the metadata but do not match known values:'));
+			import_result.appendChild(feature_metadata);
+			
+			var feature_ul = document.createElement('ul');
+			
+			_loadMessages.features.forEach(function(feature) {
+				var feature_li = document.createElement('li');
+					feature_li.appendChild(document.createTextNode(feature));
+				feature_ul.appendChild(feature_li);
+			});
+			
+			import_result.appendChild(feature_ul);
+			
+			var verify_features = document.createElement('p');
+				verify_features.appendChild(document.createTextNode('Verify these features are not typos or invalid.'));
+			import_result.appendChild(verify_features);
 		}
 		
 		import_dialog.dialog('open');
