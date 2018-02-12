@@ -77,6 +77,8 @@ var smartCertification = (function() {
 		metadata += smartFormat.createMetaTag({type: 'link', property: 'a11y:certifierCredential', value: document.getElementById('certifierCredential').value});
 		
 		document.getElementById('certification-metadata').value = metadata;
+		
+		certification_dialog.dialog('open');
 	}
 	
 	return {

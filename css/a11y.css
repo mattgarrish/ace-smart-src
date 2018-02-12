@@ -185,6 +185,14 @@ a:hover{
 	text-decoration: underline;
 }
 
+a:not([href]):hover {
+	text-decoration: none;
+	color: rgb(120,120,120);
+}
+
+a:not([href]) {
+	color: rgb(120,120,120);
+}
 
 /* menubar */
 
@@ -228,12 +236,18 @@ a#clear-button:hover {
 	text-decoration: none;
 }
 
-/* local report loading */
+/* report loading */
 
 #local-load {
 	text-align: left;
 	font-size: 90%;
 	margin-left: 0.4rem;
+}
+
+a#ace-review {
+	float: right;
+	margin-top: -2.5rem;
+	font-size: 85%;
 }
 
 /* conformance guidelines */

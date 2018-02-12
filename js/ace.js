@@ -102,6 +102,11 @@ var smartAce = (function() {
 		}
 		
 		showReportLoadResult();
+		
+		// enable the report review link
+		document.getElementById('ace-review').setAttribute('href','#ace-review');
+		$('#ace-review').click( function(){ import_dialog.dialog('open'); return false; });
+	
 	}
 	
 	

@@ -44,12 +44,38 @@
 		}
 	});
 	
+	var discovery_dialog = $("#discovery-meta").dialog({
+		autoOpen: false,
+		height: 350,
+		modal: true,
+		buttons: {
+			Close: function() {
+				discovery_dialog.dialog( "close" );
+			}
+		}
+	});
+	
+	var certification_dialog = $("#certification-meta").dialog({
+		autoOpen: false,
+		height: 350,
+		modal: true,
+		buttons: {
+			Close: function() {
+				certification_dialog.dialog( "close" );
+			}
+		}
+	});
+	
 	function adjustDialogWidth() {
 		if (document.body.clientWidth < 550) {
 			import_dialog.dialog("option", "width", 300);
+			discovery_dialog.dialog("option", "width", 400);
+			certification_dialog.dialog("option", "width", 400);
 		}
 		else {
 			import_dialog.dialog("option", "width", 550);
+			discovery_dialog.dialog("option", "width", 750);
+			certification_dialog.dialog("option", "width", 750);
 		}
 	}
 	
