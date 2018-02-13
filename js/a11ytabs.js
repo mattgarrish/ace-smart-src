@@ -68,7 +68,7 @@ $(document).ready( function() {
 		
 		/*  highlight current tab or pubinfo by default -- added Matt Garrish */
 		
-		var hash_tab = '#label_' + ((hash == '') ? (window.location.href.match(/report\.html/i) ? 'summary' : 'start') : hash);
+		var hash_tab = '#label_' + ((hash == '') ? (window.location.href.match(/report\.php/i) ? 'overview' : 'start') : hash);
 		$(hash_tab).closest( '.js-tablist__item' ).addClass( 'active' );
 		
 		/*  ----------------------------------------------------------------- */

@@ -76,9 +76,14 @@ var smartCertification = (function() {
 		metadata += smartFormat.createMetaTag({type: 'link', property: 'a11y:certifierReport', value: document.getElementById('certifierReport').value});
 		metadata += smartFormat.createMetaTag({type: 'link', property: 'a11y:certifierCredential', value: document.getElementById('certifierCredential').value});
 		
-		document.getElementById('certification-metadata').value = metadata;
+		if (metadata == '') {
+			alert('No metadata specified. Failed to generate.');
+		}
 		
-		certification_dialog.dialog('open');
+		else {
+			document.getElementById('certification-metadata').value = metadata;
+			certification_dialog.dialog('open');
+		}
 	}
 	
 	return {

@@ -43,7 +43,11 @@ ul.js-tablist {
 
 li.js-tablist__item{
 	width: 13.5rem !important;
-	margin-right: 0.7rem !important;
+	margin-left: 0 !important;
+}
+
+li.active {
+	height: 3rem !important;
 }
 
 section.js-tabcontent {

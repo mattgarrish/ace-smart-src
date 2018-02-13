@@ -177,10 +177,8 @@ var smartDiscovery = (function() {
 		
 		else {
 			discovery_metadata.value = meta_tags;
+			discovery_dialog.dialog('open');
 		}
-		
-		discovery_dialog.dialog('open');
-	
 	}
 	
 	
