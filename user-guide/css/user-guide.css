@@ -15,7 +15,7 @@ footer > * {
 /* prev/next nav */
 
 nav.user-links {
-	width: 100%;
+	max-width: 80rem;
 	padding: 3rem 0 2rem 0;
 }
 

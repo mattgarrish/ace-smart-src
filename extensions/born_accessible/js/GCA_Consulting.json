@@ -1,8 +1,8 @@
 {
-    "version": "0.1",
+    "version": "0.2",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Consulting",
-    "dct:date": "12/29/2017, 09:19:00 AM",
+    "dct:date": "02/22/2018, 08:30:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -43,19 +43,19 @@
                         "itemName" : "Cover Art",
                         "itemScores": {
                             "N/A": "There was no Cover image",
-                            "0": "A cover is present but there is no descriptive text",
-                            "2": "A cover image is present with alt text but it is not described completely",
-                            "4": "The cover image was correctly described using alt text."
+                            "0": "A cover image is present but there is no descriptive text",
+                            "1": "A cover image is present with alt text but it is not described completely, missing key information",
+                            "4": "The cover image was correctly described using alt text"
                         }
                     },
                     {
                         "$itemId": "images-title",
                         "itemName" : "Title Page",
                         "itemScores": {
-                            "N/A": "There was no image for the Title Page, either not present or all in text.",
-                            "0": "A title image is present but there is no descriptive text ",
-                            "2": "A title image is present with alt text but it is not described completely",
-                            "4": "The title image was correctly described using alt text."
+                            "N/A": "There was no image for the Title Page",
+                            "0": "A title image is present but there is no descriptive text",
+                            "1": "A title image is present with alt text but it is not described completely, missing key information",
+                            "4": "The title image was correctly described using alt text"
                         }
                     },
                     {
@@ -64,7 +64,7 @@
                         "itemScores": {
                             "N/A": "There were no Decorative Images found.",
                             "0": "Decorative elements are described or has incorrect aria-role",
-                            "2": "The alt text is correctly empty but no role=\"presentation\"",
+                            "3": "The alt text is correctly empty but no role=\"presentation\"",
                             "4": "All decorative images were correctly identified and marked up correctly with alt=\"\" and role=\"presentation\""
                         }
                     },
@@ -76,7 +76,7 @@
                             "0": "There is no alt text present for any image, or has meaningless text such as \"image\"",
                             "1": "Alt text included for a small percentage of images",
                             "2": "Alt text present in the majority of images",
-                            "3": "Alt text is present in most cases but is problematic; too long, too short, repeats the caption, etc.",
+                            "3": "Alt text is present in all cases but is problematic; too long,  repeats the caption, incorrect/incomplete, etc.",
                             "4": "All images found were described appropriately with alt text"
                         }
                     },
@@ -86,7 +86,7 @@
                         "itemScores": {
                             "N/A": "There were no Images, or the surrounding text adequately described the images.",
                             "0": "Many complex images that would benefit from longer descriptions but there are none",
-                            "1": "Long description included for select images, despite presence of many complex images",
+                            "1": "Long description included for a few select images, despite presence of many complex images",
                             "2": "Long description for the majority of images",
                             "3": "Longer description present in every case but has problematic code.",
                             "4": "Those images which required a longer description were correctly described using appropriate HTML extended description conventions."
@@ -386,7 +386,7 @@
                         "itemScores": {
                             "N/A": "No Links of any kind were found",
                             "0": "Intra-text references are flat, URLs are not hyperlinked",
-                            "1": "Live link is not described to Assistive Technology",
+                            "1": "Live link is not described to assistive technology",
                             "3": "Only some of the intra-text references are live; unlinked flat print index repeated in the EPUB",
                             "4": "All URLs and internal references worked"
                         }
@@ -441,7 +441,6 @@
                             "N/A": "No tables present",
                             "0": "None of the complex tables had table headings",
                             "1": "Some of the complex tables had correct table headings",
-                            "2": "Heading material was not marked up as <thead>",
                             "3": "Most tables had table headers",
                             "4": "Table headings were present where appropriate"
                         }
@@ -451,7 +450,8 @@
                         "itemName" : "Table Summary (for complex tables)",
                         "itemScores": {
                             "N/A": "No tables present",
-                            "0": "None of the tables had table summaries",
+                            "0": "None of the complex tables had table summaries",
+                            "1": "Some of the complex tables had table summaries",
                             "4": "All tables had correct table summaries where appropriate"
                         }
                     },
@@ -551,7 +551,8 @@
                         "$itemId": "required-accessibility-metadata-hazards",
                         "itemName" : "accessibilityHazard",
                         "itemScores": {
-                            "0": "metadata missing or incorrect",
+                            "0": "metadata missing",
+                            "1": "metadata incomplete",
                             "4": "metadata correctly reports all the accessibility hazards of this publication"
                         }
                     },
@@ -606,8 +607,8 @@
                         "$itemId": "publishing-aria-markup-included",
                         "itemName" : "Digital Publishing Specific ARIA Markup",
                         "itemScores": {
-                            "0": "DPUB ARIA markup not present or is present but used incorrectly.",
-                            "2": "DPUB semantic markup present but not entirely accurate or incomplete",
+                            "0": "DPUB ARIA markup not present.",
+                            "1": "DPUB semantic markup present but not entirely accurate or incomplete",
                             "4": "DPUB ARIA semantic markup present and used correctly"
                         }
                     }

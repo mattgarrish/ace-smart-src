@@ -21,8 +21,8 @@
 				<section id="ace-load">
 					<h3>Loading the Ace JSON Report</h3>
 					<p>To prepare this site to evaluate a publication, it is first necessary to load the JSON report output
-						by the Ace automated tool. This report is in the file called <code>report.json</code>. It is not the
-						HTML file that you use to review the issues found by that tool.</p>
+						by the Ace tool. This report is in the file called <code>report.json</code>. It is not the HTML file
+						that you use to review the issues found by that tool.</p>
 					<p>To load the JSON file, you can drag it from your file system and drop it in the blue box in the Start
 						tab:</p>
 					<figure>
@@ -55,8 +55,20 @@
 							list of inferred discovery metadata.</figcaption>
 						<img src="images/ace_alert.png" aria-labelledby="fig03" width="400" alt="" />
 					</figure>
-					<p>If automatic detection results in incorrect tests being disabled, they can always be re-enabled in the
-							<a href="conformance.html">Conformance Verification tab</a>.</p>
+					<div class="note">
+						<p><strong>Note</strong>: If automatic detection results in incorrect tests being disabled, they can
+							be re-enabled in the <a href="conformance.html">Conformance Verification tab</a>.</p>
+					</div>
+					<div class="note">
+						<p><strong>Note</strong>: If accessibility metadata is already present in the publication, the SMART
+							tool will not attempt to infer additional metadata.</p>
+					</div>
+					<p>If you need to review the load report again after closing the dialog, click on the link below the load
+						box.</p>
+					<figure>
+						<figcaption id="fig05">The link to re-open the load report becomes active after the dialog is closed.</figcaption>
+						<img src="images/report_review.png" aria-labelledby="fig05" width="200" alt="" />
+					</figure>
 				</section>
 				<section id="pub-info">
 					<h3>Adding Publication Information</h3>

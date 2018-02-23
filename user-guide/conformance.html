@@ -18,31 +18,33 @@
 		<main>
 			<section id="conformance">
 				<h2>Verifying Conformance</h2>
+				<p>The primary step in evaluating a publication is to verify it meets all the required conformance
+					requirements. The Conformance Verification tab provides a list of requirements that must be passed for
+					each WCAG success criterion and each additional EPUB requirement.</p>
 				<section id="config">
 					<h3>Configuration</h3>
-					<p>The reporting tool is configured by default to verify that publications meets WCAG Level AA
-						requirements.</p>
+					<p>The Conformance Verification tab is configured by default to verify that publications meets WCAG Level
+						AA requirements.</p>
 					<figure>
 						<img src="images/wcag_config.png" width="350"
 							alt="WCAG conformance configuration with options for levels A and AA and a link to additional configuration settings"
 						 />
 					</figure>
-					<p>To check for Level AA conformance, simply switch the setting. The list of success criteria to verify
-						in the next step automatically updates to match the selected setting.</p>
-					<p>The first section allows you to WCAG Level AA and AAA success criteria to the conformance verification
-						tab.</p>
+					<p>To check Level A conformance instead, simply switch the setting. The list of success criteria
+						automatically updates to match the selected setting.</p>
+					<div class="note">
+						<p><strong>Note</strong>: The reporting tool does not include the option to conform to level AAA as
+							this level is more aspirational than achievable.</p>
+					</div>
+					<p>The next field allows you to add WCAG Level AA and AAA success criteria to the list to check.</p>
 					<figure>
 						<img src="images/wcag_optional_config.png" width="350"
 							alt="Configure button followed by save and load buttons" />
 					</figure>
 					<p>Showing these criteria does not change the conformance level being verified, and their status is not
-						checked when the final report is generated. Showing them allows you to indicate that a publication
-						meets requirements beyond the base level being tested. If any of these criteria are set to pass or
-						fail, they will be included in the final report.</p>
-					<div class="note">
-						<p><strong>Note</strong>: To change the WCAG conformance level the publication has to meet, use the
-								<a href="setup.html#wcag-config">options on the Start tab</a>.</p>
-					</div>
+						used in calculating the overall conformance. Showing the criteria simply allows you to indicate that
+						a publication meets requirements beyond the base level being tested. Only criteria set to pass or
+						fail are listed in the final report.</p>
 					<p>It is also possible to hide content-specific success criteria if you know that they do not apply to
 						the publication (e.g., scripting requirements).</p>
 					<figure>
@@ -53,20 +55,24 @@
 						the <a href="setup.html">setup step</a>.</p>
 					<p>Note that deselecting an option only hides the related criteria from view. The criteria are still
 						included in the generated report with a "not applicable" status.</p>
-					<div>
-						<p class="note"><strong>Note</strong>: The reporting tool does not include the option to conform to
-							level AAA, as no content can realistically conform to all the requirements of this level.</p>
-					</div>
 				</section>
 				<section id="eval">
 					<h3>Evaluating a Publication</h3>
-					<p>The next, and primary, step in manually evaluating the publication is to check the required
-						conformance requirements. The <a href="index.html#verification">Conformance Verification</a> tab
-						provides a list of requirements that must be passed for each WCAG success criterion and each
-						additional EPUB requirement.</p>
-					<p>You will need to step through each success criterion and check that it is satisfied by the content.
-						Each criterion includes a status section to simplify tracking the overall conformance, and to
-						facilitate <a href="#generate">generating a report</a> at the end of the evaluation.</p>
+					<p>After configuring the evaluation, you have to step through each success criterion and check that it is
+						satisfied by the content. When checking each criterion, ensure that the publication meets all the
+						specified requirements.</p>
+					<p>Whenever possible, you will be directed where to look for potential problems so that you do not have
+						to review the entire publication (e.g., via the content lists in the Ace HTML report, such as the
+						list of all images).</p>
+					<p>More typically, it will not be possible to pinpoint potential error locations &#8212; you will have to
+						inspect the source markup of the publication for errors. This is especially true for WCAG success
+						criterion 1.3.1, for example, which requires that information and relationships be expressed in the
+						markup. Automatic testing tools have limited capabilities for determining when a structure has been
+						mistagged.</p>
+					<p>Additional links are also provided to help you understand the various success criteria. These include
+						direct links to the WCAG documentation, as well as links to markup best practices. If you are unsure
+						about any aspect of a requirement, take the time to review these documents first.</p>
+					<p>When you evaluate each criterion, set its status section to track overall conformance.</p>
 					<figure>
 						<figcaption>The status section appears after the links to the supporting documentation and includes
 							pass, fail and not applicable options.</figcaption>
@@ -77,23 +83,21 @@
 						<dt id="unverified">Unverified</dt>
 						<dd>
 							<p>All success criteria are set to <i>unverified</i> by default, although this status may be
-								changed when the Ace JSON report is loaded and analyzed (e.g., some criteria might be set to
-									<a href="#na">not applicable</a>).</p>
+								changed when the Ace JSON report is loaded and analyzed.</p>
 							<figure>
 								<img src="images/status_unverified.png" width="350"
 									alt="Status section showing the unverified option set" />
 							</figure>
-							<p>All success criteria for the conformance level specified in the <a href="setup.html"
-									>evaluation setup</a> must be changed to one of the following status options prior to
+							<p>All success criteria for the conformance level specified in the <a href="#config"
+									>configuration options</a> must be changed to pass, fail or not applicable prior to
 								generating the final report. Failure to do so will result in a validation error. Note that
-								Level AAA success criteria may be left unverified, in which case they will not be included in
-								the final report.</p>
+								optional success criteria (i.e., those above the level being tested) may be left unverified,
+								in which case they will not be included in the final report.</p>
 						</dd>
 
 						<dt id="pass">Pass</dt>
 						<dd>
-							<p>After verifying that the requirements of a success criterion are satisfied, set its status to
-									<i>pass</i>.</p>
+							<p>If the requirements of a success criterion are satisfied, set its status to <i>pass</i>.</p>
 							<figure>
 								<img src="images/status_pass.png" width="350"
 									alt="Status section showing the pass option set" />
@@ -113,7 +117,10 @@
 									failure(s)</figcaption>
 								<img src="images/status_fail.png" width="500" alt="" />
 							</figure>
-							<p>Information added to this field is included in the generated report for the publication.</p>
+							<p>Failure notes are included in the final report for the publication by default, but can be
+								excluded to create reports for different audiences (e.g., to provide more detail to a
+								publisher about specific errors in the markup without revealing those details to a general
+								audience).</p>
 						</dd>
 
 						<dt id="na">N/A</dt>
@@ -128,25 +135,14 @@
 								this practice is misleading to anyone reading the final report.</p>
 						</dd>
 					</dl>
-					<p>An optional note field is provided after the status section for recording any general notes you wish
-						to provide. These notes are included in the generated report.</p>
+					<p>An optional note field is provided after the status section for recording general conformance notes.
+						These notes are included in the generated report by default, but can be excluded to create reports
+						for different audiences.</p>
 					<figure>
 						<figcaption>Clicking the "Add note" checkbox reveals the text field where you can write the
 							note.</figcaption>
 						<img src="images/notes.png" width="500" alt="" />
 					</figure>
-					<p>When checking each criterion, ensure that the publication meets all the specified requirements.
-						Whenever possible, you will be directed where to look for potential problems so that you do not have
-						to review the entire publication. This process typically involves referencing content lists in the
-						Ace HTML report, such as the list of all images.</p>
-					<p>In many cases, it will not be possible to help pinpoint potential error locations &#8212; you will
-						have to inspect the source markup of the publication for errors. This is especially true for WCAG
-						success criterion 1.3.1, for example, which requires that information and relationships be expressed
-						in the markup. Automatic testing tools have limited capabilities for determining when a structure has
-						been mistagged.</p>
-					<p>Additional links are also provided to help you understand the various success criteria. These include
-						direct links to the WCAG documentation, as well as links to markup best practices. If you are unsure
-						about any aspect of a requirement, take the time to review these documents first.</p>
 				</section>
 			</section>
 			<nav class="user-links">
@@ -156,7 +152,8 @@
 		</main>
 		<footer>
 			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a
+					href="http://www.daisy.org/terms-use">Terms of Use</a></p>
 		</footer>
 	</body>
 </html>

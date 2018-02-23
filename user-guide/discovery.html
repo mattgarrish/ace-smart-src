@@ -24,28 +24,60 @@
 					pre-populated, as much as possible, from information in the Ace JSON report.</p>
 				<p>There are seven discovery properties:</p>
 				<dl>
-					<dt>Accessibility Feature</dt>
+					<dt>Accessibility Features</dt>
 					<dd>
 						<p>This field describes any features or affordances included in the publication that increase its
 							accessibility.</p>
+						<figure>
+							<img src="images/accessibility_features.png" width="550" alt="Accessibility feature checkboxes"
+							 />
+						</figure>
 						<p>Additional features can be added by clicking the "Add custom field" link.</p>
+						<p>More information about accessibility features is available from the <a
+								href="https://www.w3.org/wiki/WebSchemas/Accessibility#accessibilityFeature_in_detail">Web
+								Schemas wiki</a> and the <a href="http://www.idpf.org/epub/a11y/techniques/#meta-003">EPUB
+								Accessibility techniques</a>.</p>
 					</dd>
 
 					<dt>Accessibility Summary</dt>
 					<dd>
 						<p>Use this field to include a short description of the overall accessibility of the publication, or
 							its failings.</p>
+						<figure>
+							<img src="images/accessibility_summary.png" width="550" alt="Accessibility summary text box"
+							/>
+						</figure>
+						<p>More information about accessibility summaries is available from the <a
+								href="https://www.w3.org/wiki/WebSchemas/Accessibility#accessibilitySummary_in_detail">Web
+								Schemas wiki</a> and the <a href="http://www.idpf.org/epub/a11y/techniques/#meta-005">EPUB
+								Accessibility techniques</a>.</p>
 					</dd>
 
 					<dt>Accessibility Hazard</dt>
 					<dd>
 						<p>This field identifies any known hazards in the content, such as flashing.</p>
+						<figure>
+							<img src="images/accessibility_hazards.png" width="550" alt="Accessibility hazard checkboxes"
+							/>
+						</figure>
+						<p>More information about accessibility hazards is available from the <a
+							href="https://www.w3.org/wiki/WebSchemas/Accessibility#accessibilityHazard_in_detail">Web
+							Schemas wiki</a> and the <a href="http://www.idpf.org/epub/a11y/techniques/#meta-004">EPUB
+								Accessibility techniques</a>.</p>
 					</dd>
 
 					<dt>Access Modes</dt>
 					<dd>
 						<p>Identifies the nature of the content. For exmaple, visual is checked if there are images or video;
 							textual if there is text content; auditory if there is audio.</p>
+						<figure>
+							<img src="images/access_modes.png" width="550" alt="Access mode checkboxes"
+							/>
+						</figure>
+						<p>More information about access modes is available from the <a
+							href="https://www.w3.org/wiki/WebSchemas/Accessibility#accessMode_in_detail">Web
+							Schemas wiki</a> and the <a href="http://www.idpf.org/epub/a11y/techniques/#meta-001">EPUB
+								Accessibility techniques</a>.</p>
 					</dd>
 
 					<dt>Sufficient Access Modes</dt>
@@ -54,29 +86,46 @@
 							number of ways, regardless of the default nature of the content. For example, a publication with
 							text and images will have a purely textual access mode if sufficient text equivalents and
 							descriptions are provided for all visual content.</p>
+						<figure>
+							<img src="images/access_modes_sufficient.png" width="550" alt="Sufficient access modes checkboxes"
+							/>
+						</figure>
+						<p>More information about sufficient access modes is available from the <a
+							href="https://www.w3.org/wiki/WebSchemas/Accessibility#accessModeSufficient_in_detail">Web
+							Schemas wiki</a> and the <a href="http://www.idpf.org/epub/a11y/techniques/#meta-002">EPUB
+								Accessibility techniques</a>.</p>
 					</dd>
 
 					<dt>Accessibility API</dt>
 					<dd>
 						<p>If the publication uses ARIA roles, states and properties to make all custom controls accessible,
 							check this field.</p>
+						<figure>
+							<img src="images/accessibility_api.png" width="550" alt="Accessibility API checkboxes"
+							/>
+						</figure>
+						<p>More information about accessibility APIs is available from the <a
+							href="https://www.w3.org/wiki/WebSchemas/Accessibility#accessibilityAPI_in_detail">Web
+							Schemas wiki</a> and the <a href="http://www.idpf.org/epub/a11y/techniques/#meta-006">EPUB
+								Accessibility techniques</a>.</p>
 					</dd>
 
 					<dt>Accessibility Control</dt>
 					<dd>
 						<p>This field identifies input methods that can be used to control the content. It is typically only
 							necessary to specify if there is scripted content.</p>
+						<figure>
+							<img src="images/accessibility_control.png" width="550" alt="Accessibility control checkboxes"
+							/>
+						</figure>
+						<p>More information about accessibility input controls is available from the <a
+							href="https://www.w3.org/wiki/WebSchemas/Accessibility#accessibilityControl_in_detail">Web
+							Schemas wiki</a> and the <a href="http://www.idpf.org/epub/a11y/techniques/#meta-007">EPUB
+								Accessibility techniques</a>.</p>
 					</dd>
 				</dl>
-				<div class="note">
-					<p><strong>Note</strong>: For more information on how to complete these fields, refer to their <a
-							href="https://schema.org/CreativeWork">schema.org definitions</a> and to the <a
-							href="http://www.idpf.org/epub/a11y/techniques/techniques.html#sec-discovery">descriptions in the
-							EPUB Accessibility Techniques document</a>.</p>
-				</div>
 				<p>If the publication did not contain discovery metadata, or if you made changes to what was found, click the
-					"Generate" button at the bottom of the tab to create a new set of metadata tags. These can be to paste
-					into the publication's package document to replace what was there.</p>
+					"Generate" button at the bottom of the tab to create a new set of metadata tags.</p>
 				<div class="note">
 					<p><strong>Note</strong>: Include discovery metadata even if the publication fails conformance testing.
 						It is a required component of the EPUB Accessibility specification.</p>
@@ -89,7 +138,8 @@
 		</main>
 		<footer>
 			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a
+					href="http://www.daisy.org/terms-use">Terms of Use</a></p>
 		</footer>
 	</body>
 </html>
