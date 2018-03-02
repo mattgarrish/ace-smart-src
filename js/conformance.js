@@ -128,13 +128,13 @@ var smartConformance = (function() {
 	
 	function setEvaluationResult() {
 	
-		var show_aa = smartWCAG.WCAGClassList.indexOf('|aa|') > 0 ? true  : false;
+		var show_aa = smartWCAG.WCAGClassList().indexOf('|aa|') > 0 ? true  : false;
 		
 		var status_label = document.getElementById('conformance-result-status');
 		var status_input = document.getElementById('conformance-result');
 		
 		var unverified = 'section.a input[value="unverified"]:checked, section#eg-2 input[value="unverified"]:checked, section#eg-1 input[value="unverified"]:checked';
-			unverified += smartWCAG.WCAGLevel == 'aa' ? ', section.aa input[value="unverified"]:checked' : '';
+			unverified += smartWCAG.WCAGLevel() == 'aa' ? ', section.aa input[value="unverified"]:checked' : '';
 		
 		var incomplete = document.querySelectorAll(unverified);
 		
@@ -143,11 +143,11 @@ var smartConformance = (function() {
 			return;
 		}
 		
-		if (smartWCAG.WCAGLevel == 'aa' || show_aa) {
+		if (smartWCAG.WCAGLevel() == 'aa' || show_aa) {
 			
 			if (document.querySelectorAll('section.a input[value="fail"]:checked, section.aa input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked').length == 0) {
 				
-				if (smartWCAG.WCAGLevel == 'aa' || document.querySelectorAll('section.aa input[value="unverified"]:checked').length > 0) {
+				if (smartWCAG.WCAGLevel() == 'aa' || document.querySelectorAll('section.aa input[value="unverified"]:checked').length > 0) {
 					status_label.textContent = _STATUS.aa;
 					status_input.value = 'aa';
 					return;
@@ -252,7 +252,7 @@ var smartConformance = (function() {
 					status_parent_section.classList.add('hidden');
 				}
 				else {
-					if (smartWCAG.WCAGClassList.indexOf('|'+status_parent_section.className+'|') !== -1) {
+					if (smartWCAG.WCAGClassList().indexOf('|'+status_parent_section.className+'|') !== -1) {
 						status_parent_section.classList.remove('hidden');
 					}
 				}

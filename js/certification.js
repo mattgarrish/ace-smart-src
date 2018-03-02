@@ -64,7 +64,7 @@ var smartCertification = (function() {
 			}
 		}
 		
-		var conformance_url = 'http://www.idpf.org/epub/a11y/accessibility-20170105.html#wcag-' + smartWCAG.WCAGLevel;
+		var conformance_url = 'http://www.idpf.org/epub/a11y/accessibility-20170105.html#wcag-' + smartWCAG.WCAGLevel();
 		
 		var metadata = '';
 		

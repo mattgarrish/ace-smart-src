@@ -54,11 +54,10 @@
 		<?php echo "<script>var smart_extensions = {}; var ACE_USER = '" . $user->data()->username . "';</script>"; ?>
 		<script src="js/ace.js"></script>
 		<script src="js/manage.js"></script>
-		<script src="js/conformance.js"></script>
-		<script src="js/reporting.js"></script>
 		<script src="js/error.js"></script>
 		<script src="js/format.js"></script>
 		<script src="js/wcag.js"></script>
+		<script src="js/reporting.js"></script>
 	</head>
 	
 	<body class="tabs">

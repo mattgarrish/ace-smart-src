@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Evaluation Setup - Ace SMART</title>
+		<link rel="stylesheet" type="text/css" href="../css/a11y.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-guide.css" />
+	</head>
+
+	<body class="page">
+		<header>
+			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium" /></span>
+				<span>Ace <span class="smart_hd">SMART</span> &#8212; User Guide</span></h1>
+			<nav class="menubar">
+				<a href="index.html">Table of Contents</a>
+			</nav>
+		</header>
+		<main>
+			<section id="pub-info">
+				<h3>Adding Publication Information</h3>
+				<p>The next section on the Start tab describes the publication.</p>
+				<p>The first field in this section identifies the format of the EPUB publication:</p>
+				<figure>
+					<img src="images/epub_format.png" aria-labelledby="fig04" width="400"
+						alt="EPUB format configuration with options for EPUB 2 and 3" />
+				</figure>
+				<p>The format does not change the evaluation criteria, but it does control the output format of the
+					optional metadata that can be generated from the tool (i.e., discovery and conformance metadata for
+					the package document).</p>
+				<p>The rest of the section allows you to input metadata about the publication.</p>
+				<figure>
+					<img src="images/pub_meta.png" width="600"
+						alt="Text inputs for title, author, identifier, publisher, dates, subject and description" />
+				</figure>
+				<p>This metadata is used to accurately identify the publication in the output report.</p>
+				<div class="note">
+					<p><strong>Note</strong>: The addition of metadata can be skipped if you do not intend to generate a
+						final report. To avoid validation errors, however, it is recommended to always input the required
+						fields.</p>
+				</div>
+				<p>In addition to the provided fields, it is also possible to add optional metadata using the text box at
+					the end of the form. To add optional metadata, type a human-readable label followed by a colon, a
+					space, and then the value.</p>
+				<figure>
+					<img src="images/pub_meta_optional.png" width="600"
+						alt="Optional metadata box contains the text 'Subject: whaling'" />
+				</figure>
+				<div class="note">
+					<p><strong>Note</strong>: As the optional metadata is for human consumption, it is not recommended to
+						use property names (e.g., use a label like "Created On" instead of "dcterms:created").</p>
+				</div>
+			</section>
+			<nav class="user-links">
+				<div class="prev-link"><a href="loading.html">Loading the Ace JSON Report</a></div>
+				<div class="next-link"><a href="configuration.html">Configuring an Evaluation</a></div>
+			</nav>
+		</main>
+		<footer>
+			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a
+					href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+		</footer>
+	</body>
+</html>

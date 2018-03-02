@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Verifying Conformance - Ace SMART</title>
+		<link rel="stylesheet" type="text/css" href="../css/a11y.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-guide.css" />
+	</head>
+	
+	<body class="page">
+		<header>
+			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium" /></span>
+				<span>Ace <span class="smart_hd">SMART</span> &#8212; User Guide</span></h1>
+			<nav class="menubar">
+				<a href="index.html">Table of Contents</a>
+			</nav>
+		</header>
+		<main>
+			<section id="conformance-config">
+				<h2>Configuring an Evaluation</h2>
+				<p>The primary step in evaluating a publication is to verify it meets all the required conformance
+					requirements. The Conformance Verification tab provides a list of requirements that must be passed for
+					each WCAG success criterion and each additional EPUB requirement.</p>
+				<p>The Conformance Verification tab is configured by default to verify that publications meets WCAG Level
+					AA requirements.</p>
+				<figure>
+					<img src="images/wcag_config.png" width="350"
+						alt="WCAG conformance configuration with options for levels A and AA and a link to additional configuration settings"
+					/>
+				</figure>
+				<p>To check Level A conformance instead, simply switch the setting. The list of success criteria
+					automatically updates to match the selected setting.</p>
+				<div class="note">
+					<p><strong>Note</strong>: The reporting tool does not include the option to conform to level AAA as
+						this level is more aspirational than achievable.</p>
+				</div>
+				<p>The next field allows you to add WCAG Level AA and AAA success criteria to the list to check.</p>
+				<figure>
+					<img src="images/wcag_optional_config.png" width="350"
+						alt="Configure button followed by save and load buttons" />
+				</figure>
+				<p>Showing these criteria does not change the conformance level being verified, and their status is not
+					used in calculating the overall conformance. Showing the criteria simply allows you to indicate that
+					a publication meets requirements beyond the base level being tested. Only criteria set to pass or
+					fail are listed in the final report.</p>
+				<p>It is also possible to hide content-specific success criteria if you know that they do not apply to
+					the publication (e.g., scripting requirements).</p>
+				<figure>
+					<img src="images/criteria_options.png" width="450"
+						alt="Checkboxes for images, audio, video, scripting, and forms elements" />
+				</figure>
+				<p>These options are automatically updated to reflect the content when the Ace JSON report is loaded in
+					the <a href="setup.html">setup step</a>.</p>
+				<p>Note that deselecting an option only hides the related criteria from view. The criteria are still
+					included in the generated report with a "not applicable" status.</p>
+				
+				<section id="view">
+					<h3>View Options</h3>
+					<p>Clicking on "Additional View options" reveals a set of useful tools that you can use to better
+						tailor the success criteria to your evaluation needs.</p>
+					<figure>
+						<img src="images/sc_view_options.png" width="600"
+							alt="Expanded list of view options"/>
+					</figure>
+					<p>A general description of each of these options follows:</p>
+					<dl>
+						<dt><dfn>Hide success criteria with status</dfn></dt>
+						<dd>
+							<p>This option allows you to temporarily hide all success criteria whose status has
+								been set to one of the specified values. This option allows you to quickly review
+								all failures, for example, or find which success criteria have not been verified
+								or are set to not applicable.</p>
+						</dd>
+						<dt><dfn>Set all success criteria to</dfn></dt>
+						<dd>
+							<p>It is strongly recommended not to use this option unless absolutely needed (i.e., do not
+								use it to set all success criteria to pass and then check whether they actually pass). Picking
+								one of the status values will set all success criteria to that value, no matter their current
+								status.</p>
+						</dd>
+						<dt><dfn>Success criteria descriptions</dfn></dt>
+						<dd>
+							<p>This option is a convenience for advanced evaluators with a strong knowledge of the success
+								criteria requirements. It is used to hide the description that explains what needs to
+								be checked for each success criteria, so that only the success criteria name and status
+								are visible.</p>
+						</dd>
+						<dt><dfn>Help links</dfn></dt>
+						<dd>
+							<p>This option is a convenience for new evaluators. It is used to automatically expand
+								the help link sections in each success criteria (i.e., the links to the knowledge base
+								and to additional WCAG help documents). These sections are collapsed by default.</p>
+						</dd>
+					</dl>
+				</section>
+			</section>
+			<nav class="user-links">
+				<div class="prev-link"><a href="pubinfo.html">Adding Publication Information</a></div>
+				<div class="next-link"><a href="conformance.html">Evaluating a Publication</a></div>
+			</nav>
+		</main>
+		<footer>
+			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a
+				href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+		</footer>
+	</body>
+</html>

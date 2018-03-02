@@ -439,7 +439,13 @@ smart_extensions['born_accessible'] = (function() {
 					
 					// load complexity
 					if (savedJSON.born_accessible.info['ba-complexity-level']) {
-						document.querySelector('input[name="ba-complexity-level"][id="' + savedJSON.born_accessible.info['ba-complexity-level'] + '"]').click();
+						var checkbox = document.querySelector('input[name="ba-complexity-level"][id="' + savedJSON.born_accessible.info['ba-complexity-level'] + '"]');
+						if (checkbox) {
+						    checkbox.click();
+						}
+						else {
+						    console.log('Failed to se born accessible complexity ' + savedJSON.born_accessible.info['ba-complexity-level']);
+						}
 					}
 				}
 				
@@ -447,7 +453,13 @@ smart_extensions['born_accessible'] = (function() {
 					// set test exclusions
 					if (savedJSON.born_accessible.configuration.hasOwnProperty('exclusions') && savedJSON.born_accessible.configuration.exclusions) {
 						savedJSON.born_accessible.configuration.exclusions.forEach(function(type) {
-							document.querySelector('#born_accessible #ba-test-exclusions input[value="' + type + '"]').click();
+							var checkbox = document.querySelector('#born_accessible #ba-test-exclusions input[value="' + type + '"]');
+							if (checkbox) {
+							    checkbox.click();
+							}
+							else {
+							    console.log('Failed to set born accessible exclusion ' + type);
+							}
 						});
 					}
 				}
@@ -457,10 +469,22 @@ smart_extensions['born_accessible'] = (function() {
 					savedJSON.born_accessible.scores.forEach(function(test) {
 						var field = document.getElementById(test.id);
 						if (test.hasOwnProperty('score') && test.score != '') {
-							field.querySelector('input[value="' + test.score + '"]').click();
+							var score_input = field.querySelector('input[value="' + test.score + '"]');
+							if (score_input) {
+							    score_input.click();
+							}
+							else {
+							    console.log('Failed to set score ' + test.score + ' for ' + test.id)
+							}
 						}
 						if (test.hasOwnProperty('note') && test.note != '') {
-							field.querySelector('textarea').value = test.note;
+							var note_field = field.querySelector('textarea');
+							if (note_field) {
+							    note_field.value = test.note
+							}
+							else {
+							    console.log('Failed to find note field for born accessible test ' + test.id);
+							}
 						}
 					});
 				}
@@ -471,12 +495,24 @@ smart_extensions['born_accessible'] = (function() {
 				
 				test_types.forEach(function(test) {
 					if (!savedJSON.data.hasOwnProperty(test.aceID) || !savedJSON.data[test.aceID]) {
-						document.querySelector('#ba-test-exclusions input[value="' + test.id + '"]').click();
+						var checkbox = document.querySelector('#ba-test-exclusions input[value="' + test.id + '"]');
+						if (checkbox) {
+						    checkbox.click();
+						}
+						else {
+						    console.log('Failed to set born accessible exclusion for ' + test.id);
+						}
 					}
 				});
 				
 				if (!savedJSON.properties.hasOwnProperty('hasMathML') || !savedJSON.properties.hasMathML) {
-					document.querySelector('#ba-test-exclusions input[value="math"]').click();
+					var checkbox = document.querySelector('#ba-test-exclusions input[value="math"]');
+					if (checkbox) {
+					    checkbox.click();
+					}
+					else {
+					    console.log('Failed to set born accessible exclusion for MathML.');
+					}
 				}
 			}
 		}

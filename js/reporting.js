@@ -119,7 +119,7 @@ var smartReport = (function() {
 	
 	function checkNoUnverifiedSC() {
 		var unverified_selector = 'section.a input[value="unverified"]:checked';
-			unverified_selector += smartWCAG.WCAGLevel == 'a' ? '' : ', section.aa input[value="unverified"]:checked';
+			unverified_selector += smartWCAG.WCAGLevel() == 'a' ? '' : ', section.aa input[value="unverified"]:checked';
 		
 		var unverified_success_criteria = document.querySelectorAll(unverified_selector);
 		
@@ -545,17 +545,17 @@ var smartReport = (function() {
 			var conf_level = criteria[i].classList.contains('a') ? 'a' : (criteria[i].classList.contains('aa') ? 'aa' : (criteria[i].classList.contains('aaa') ? 'aaa' : 'epub'));
 			
 			// whether to include in stats for meeting the user specified wcag level
-			var log = (conf_level == 'aaa' || smartWCAG.WCAGLevel == 'a' && conf_level != 'a') ? false : true;
+			var log = (conf_level == 'aaa' || smartWCAG.WCAGLevel() == 'a' && conf_level != 'a') ? false : true;
 			
 			var status = document.querySelector('input[name="'+criteria[i].id+'"]:checked').value;
 			
 			// skip AA (if A conformance) and AAA (all the time) SCs if not selected to show in config options
-			if ((conf_level == 'aa' && smartWCAG.WCAGLevel == 'a' && !showAA) || (conf_level == 'aaa' && !showAAA)) {
+			if ((conf_level == 'aa' && smartWCAG.WCAGLevel() == 'a' && !showAA) || (conf_level == 'aaa' && !showAAA)) {
 				continue;
 			}
 			
 			// skip reporting AA (if A conformance) and AAA (all the time) SCs if they are n/a
-			if ((conf_level == 'aaa' || (conf_level == 'aa' && smartWCAG.WCAGLevel == 'a'))
+			if ((conf_level == 'aaa' || (conf_level == 'aa' && smartWCAG.WCAGLevel() == 'a'))
 					&& (status == 'unverified')) {
 				continue;
 			}

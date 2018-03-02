@@ -25,8 +25,8 @@ var smartWCAG = (function() {
 	var _classList = '|a|aa|';
 	
 	return {
-		WCAGLevel: _level,
-		WCAGClassList: _classList,
+		WCAGLevel: function() { return _level },
+		WCAGClassList: function() { return _classList },
 		
 		setWCAGClassList: function() {
 			var new_classList = '|a|';
