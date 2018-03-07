@@ -568,8 +568,8 @@ div.note > p{
 
 div.caution > p{
 	font-size: 95%;
-	text-indent: -5.4rem;
-	margin-left: 5.4rem;
+	text-indent: -6rem;
+	margin-left: 6rem;
 }
 
 img.note-close{

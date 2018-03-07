@@ -139,7 +139,7 @@
 		</section>
 		
 		<form class="report">
-			<section id="error-pane">
+			<section id="error-pane" role="region" aria-labelledby="validation-msg">
 				<a href="#error-pane-close" id="error-pane-close"><img src="images/close-icon.png" alt="Close" class="error-close"/></a>
 				<h2 id="validation-msg">Validation Messages:</h2>
 				<div role="log" aria-labelledby="validation-msg" class="scroll">

@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>Evaluation Setup - Ace SMART</title>
+		<title>Loading the JSON Report - Ace SMART</title>
 		<link rel="stylesheet" type="text/css" href="../css/a11y.css" />
 		<link rel="stylesheet" type="text/css" href="css/user-guide.css" />
 	</head>
@@ -17,41 +17,44 @@
 		</header>
 		<main>
 			<section id="ace-load">
-				<h3>Loading the Ace JSON Report</h3>
+				<h2>Loading the Ace JSON Report</h2>
 				<p>To prepare this site to evaluate a publication, it is first necessary to load the JSON report output
 					by the Ace tool. This report is in the file called <code>report.json</code>. It is not the HTML file
 					that you use to review the issues found by that tool.</p>
 				<p>To load the JSON file, you can drag it from your file system and drop it in the blue box in the Start
 					tab:</p>
 				<figure>
-					<figcaption id="fig01">The drag and drop area is shaded blue and surrounded by a dashed
-						border.</figcaption>
-					<img src="images/dnd.png" aria-labelledby="fig01" width="600" alt="" />
+					<img src="images/dnd.png" width="600"
+						alt="The drag and drop area is shaded blue and surrounded by a dashed border." />
 				</figure>
 				<p>If you are not able to drag and drop the report, it is also possible to select it from the file
 					system.</p>
 				<figure>
-					<figcaption id="fig02">Within the drag and drop area is a link to a file selection
-						dialog.</figcaption>
-					<img src="images/json_select.png" aria-labelledby="fig02" width="250" alt="" />
+					<img src="images/json_select.png" width="250"
+						alt="Within the drag and drop area is a link to a file selection dialog." />
 				</figure>
 				<p>Loading the report through the drag-and-drop field sends the selected file to the SMART server,
 					however no information about your publication is stored (the data is simply read and returned to the
 					application, as JavaScripts cannot read local files).</p>
-				<p>If you prefer not to send the Ace report over the internet, a local file loading option is
+				<p>If you prefer not to send the Ace report over the internet, a local file loading option is also
 					provided.</p>
 				<figure>
-					<figcaption id="fig04">Below the drag and drop area is a link to a local file load field. Expanding
-						reveals a text box where the report can be pasted.</figcaption>
-					<img src="images/local_load_field.png" aria-labelledby="fig04" width="600" alt="" />
+					<img src="images/local_load_field.png" width="600"
+						alt="Below the drag and drop area is a link to a local file load field. Expanding
+						reveals a text box where the report can be pasted." />
 				</figure>
+				<div class="caution">
+					<p><strong>Caution</strong>: When using the local loading option, avoid opening the JSON file in
+						word processing applications, like Microsoft Word, that may reformat the text. Changes to the
+						quote characters (e.g., switching to curly quotes) will prevent the data from loading.</p>
+				</div>
 				<p>Regardless of which file loading method you choose, the SMART tool will attempt to customize itself
 					based on the information in the provided report. When it completes, an alert will be generated
 					indicating what optimizations have been made, if any.</p>
 				<figure>
-					<figcaption id="fig03">The alert shows which content type checks have been disabled followed by a
-						list of inferred discovery metadata.</figcaption>
-					<img src="images/ace_alert.png" aria-labelledby="fig03" width="400" alt="" />
+					<img src="images/ace_alert.png" width="400"
+						alt="The alert shows which content type checks have been disabled followed by a
+						list of inferred discovery metadata." />
 				</figure>
 				<div class="note">
 					<p><strong>Note</strong>: If automatic detection results in incorrect tests being disabled, they can
@@ -64,8 +67,8 @@
 				<p>If you need to review the load report again after closing the dialog, click on the link below the load
 					box.</p>
 				<figure>
-					<figcaption id="fig05">The link to re-open the load report becomes active after the dialog is closed.</figcaption>
-					<img src="images/report_review.png" aria-labelledby="fig05" width="200" alt="" />
+					<img src="images/report_review.png" width="200"
+						alt="The link to re-open the load report becomes active after the dialog is closed." />
 				</figure>
 			</section>
 			<nav class="user-links">

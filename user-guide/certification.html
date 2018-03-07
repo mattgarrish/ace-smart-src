@@ -31,32 +31,42 @@
 						alt="Text field shows that the publication has passed EPUB accessibility requirements and meets WCAG Level AA"
 					 />
 				</figure>
-				<p>If this field shows the value <strong>Incomplete</strong>, not all of the required success criteria have been
-					set. <a href="generate.html">Creating the final report</a> in the next step will also generate a list of any missed
-					success criteria. If the field shows the value <strong>Failed</strong> and you believe this to be incorrect,
-					filter the list of success criteria by their status to find failures.</p>
+				<p>If this field shows the value <strong>Incomplete</strong>, not all of the required success criteria have
+					been set. <a href="generate.html">Creating the final report</a> in the next step will also generate a
+					list of any missed success criteria. If the field shows the value <strong>Failed</strong> and you believe
+					this to be incorrect, <a href="configuration.html#sc-filter">filter the list of success criteria</a> by
+					their status to find failures.</p>
 				<p>Next, provide your name (or the name of your organization) as the certifier of the report.</p>
 				<figure>
 					<img src="images/conf_tester.png" width="550"
 						alt="Text fields for the certifier name and report link URL" />
 				</figure>
 				<p>You can also specify a URL where the final report will be hosted if you intend to put the report on the
-					Web. This URL is only used if you generate metadata for the EPUB publication using the button at the bottom
-					of the tab. If you are not updating the publication, the field can be skipped.</p>
-				<p>Finally, it is possible to include the name and link to a certification credential.</p>
+					Web. This URL is only used if you generate metadata for the EPUB publication using the button at the
+					bottom of the tab. If you are not updating the publication, the field can be skipped.</p>
+				<p>Finally, it is possible to include the name and link to a certification credential that establishes your
+					qualifications for assessing the accessibility of EPUB publications.</p>
 				<figure>
-					<img role="presentation" src="images/conf_credential.png" width="550"
+					<img src="images/conf_credential.png" width="550"
 						alt="Text fields for the certification credential name and link URL" />
 				</figure>
-				<div class="note">
-					<p><strong>Note</strong>: It is not necessary to include DAISY certification in this field. A credential
-						is included in the generated report.</p>
-				</div>
 				<p>To generate a set of metadata that can be pasted into the EPUB publication, use the Generate button at the
-					bottom of the page. Metadata compatible with the EPUB version will be output to the text box at the
 					bottom of the page.</p>
-				<p>If any validation errors are encountered, an alert dialog will appear. Errors will be listed in an error
-					panel that opens at the bottom of the page. Click on a message to go to the location of the error.</p>
+				<figure>
+					<img src="images/generate_button.png" width="125" alt="Generate button" />
+				</figure>
+				<p>Metadata compatible with the EPUB version you specified when <a href="pubinfo.html">setting the
+						publication information</a> will be generated and made available to copy and paste from a new dialog
+					box.</p>
+				<figure>
+					<img src="images/certification_metadata.png" width="650"
+						alt="The certification metadata dialog box overlays
+						the current screen when opened; it contains the metadata inside a textbox and there is a close button."
+					 />
+				</figure>
+				<p>If any validation errors are encountered, an alert dialog will first appear asking you if you wish to
+					continue or exit and check the problems. Errors are listed in the <a href="errors.html">message panel</a>
+					that opens at the bottom of the page.</p>
 			</section>
 			<nav class="user-links">
 				<div class="prev-link"><a href="discovery.html">Discovery Metadata</a></div>
@@ -65,7 +75,8 @@
 		</main>
 		<footer>
 			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a
+					href="http://www.daisy.org/terms-use">Terms of Use</a></p>
 		</footer>
 	</body>
 </html>

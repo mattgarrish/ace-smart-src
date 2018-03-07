@@ -19,41 +19,39 @@
 			<section id="manage">
 				<h2>Managing Reports</h2>
 				<p>There are going to be times when you are not able to complete an evaluation at the same time that you
-					initiate it. Similarly, any time have to close down your browser during the day, any unsaved information
-					is lost. To avoid having to leave your browser open and computer running to work around this dilemma, the
-					reporting tool provides the ability to save and reload in-progress reports.</p>
-				<p>To save the current report, click the Save button at the right side of menu bar.</p>
+					initiate it. If you have to close down your browser at any time before you finish, any unsaved
+					information is lost. To avoid this problem, the SMART tool provides the ability to save and reload
+					in-progress reports.</p>
+				<p>To save your report, click the Save button at the right side of menu bar.</p>
 				<figure>
-					<img src="images/save_button.png" width="300" alt="" />
+					<img src="images/save_button.png" width="300"
+						alt="Save button is located under the current login info and beside the clear button" />
 				</figure>
-				<p>A new window will open with the JSON-encoded report data.</p>
+				<p>Clicking this button generates a JSON-encoded data structure that contains all information about
+					the current state of your report. This file is then downloaded to your browser. Depending on your
+					download preferences in your browser, you will either be prompted to save this file locally or it
+					will automatically be downloaded to a default folder (e.g., Downloads on Windows).</p>
 				<figure>
-					<img src="images/save_page.png" width="500"
-						alt="Save page with instructions on how to save and a textbox with the report data" />
+					<img src="images/save_prompt.png" width="400"
+						alt="Browser file save dialog" />
 				</figure>
-				<p>You can either save this page to disk directly from the browser using its "save as" option, or copy the
-					JSON data from the text field and save it using a text editor.</p>
-				<div class="note">
-					<p><strong>Note</strong>: Do not use a word processor, like Microsoft Word, to save the data, as it may
-						reformat the quote characters and break the JSON encoding.</p>
-				</div>
+				<p>The process to reload the saved data is exactly the same as <a href="loading.html">loading an Ace report</a>.
+					Either drag the file onto the drag and drop area on the Start tab, or use the provided link to select the
+					file. You can also use the local loading option.</p>
 				<div class="caution">
-					<p><strong>Caution</strong>: Do not bookmark the HTML page, as you cannot return to it later to retrieve
-						your data. It is a temporary page, so your report data will no longer be available when you
-						return.</p>
+					<p><strong>Caution</strong>: Loading a saved report clears all current data. If you have started another
+						report, make sure to save it first.</p>
 				</div>
-				<p>The process to reload a report is exactly the same as <a href="setup.html">loading the Ace report</a>.
-					Either drag the saved report onto the file load location on the Start tab, or use the provided link to
-					locate it on the file system.</p>
 			</section>
 			<nav class="user-links">
-				<div class="prev-link"><a href="configure.html">Configuring Reports</a></div>
-				<div class="next-link"><a href="adapt.html">Adapting to Workflows</a></div>
+				<div class="prev-link"><a href="generate.html">Generating Reports</a></div>
+				<div class="next-link"><a href="errors.html">Message Panel</a></div>
 			</nav>
 		</main>
 		<footer>
 			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a
+					href="http://www.daisy.org/terms-use">Terms of Use</a></p>
 		</footer>
 	</body>
 </html>

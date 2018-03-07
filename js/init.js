@@ -46,7 +46,7 @@
 	
 	var discovery_dialog = $("#discovery-meta").dialog({
 		autoOpen: false,
-		height: 350,
+		height: 450,
 		modal: true,
 		buttons: {
 			Close: function() {

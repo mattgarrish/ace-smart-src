@@ -1,4 +1,19 @@
 
+header {
+	position: relative !important;
+	left: auto !important;
+	top: auto !important;
+	right: auto !important;
+}
+
+body.page > main {
+	margin-top: 1rem !important;
+}
+
+footer > * {
+	max-width: 80rem;
+}
+
 section >  section > * {
 	margin-left: 2rem;
 }
@@ -6,10 +21,6 @@ section >  section > * {
 section >  section > h3 {
 	margin-left: inherit !important;
 	padding-left: 1rem !important;
-}
-
-footer > * {
-	max-width: 80rem;
 }
 
 /* prev/next nav */
