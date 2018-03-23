@@ -298,7 +298,11 @@ var smartReport = (function() {
 		var additionalInfo = createReportAdditionalInfo({addedID: publicationInfo.addedID});
 		
 		// add statistics to the additional info section
-		additionalInfo.appendChild(formatPubInfoEntry({id: 'result', label: 'Statistics', value: createReportStats(testResults.count)}));
+		additionalInfo.appendChild(formatPubInfoEntry({
+			id: 'result',
+			label: 'Statistics',
+			value: createReportStats(testResults.count)
+		}));
 		
 		// build the body
 		reportBody.appendChild(reportSummary);
@@ -380,7 +384,12 @@ var smartReport = (function() {
 			conf_class.aa = 'pass';
 			conf_class.fail = 'fail';
 		
-		summaryTable.appendChild(formatPubInfoEntry({id: 'conformance-result', label: 'Conformance', value: smartConformance.STATUS[wcag_conf], property: 'dcterms:conformsTo', value_bg_class: conf_class[wcag_conf]}));
+		summaryTable.appendChild(formatPubInfoEntry({
+			id: 'conformance-result',
+			label: 'Conformance',
+			value: smartConformance.STATUS[wcag_conf], property: 'dcterms:conformsTo',
+			value_bg_class: conf_class[wcag_conf]
+		}));
 		
 		// add user extension propertiesk
 		if (Object.keys(smart_extensions).length > 0) {
@@ -392,10 +401,30 @@ var smartReport = (function() {
 			}
 		}
 		
-		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilitySummary', label: 'Summary', value: document.getElementById('accessibilitySummary').value, property: 'accessibilitySummary'}));
-		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityFeatures', label: 'Features', value: compileCheckboxValues('accessibilityFeature')}));
-		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityHazards', label: 'Hazards', value: compileCheckboxValues('accessibilityHazard')}));
-		summaryTable.appendChild(formatPubInfoEntry({id: 'accessModes', label: 'Access Mode(s)', value: compileCheckboxValues('accessMode')}));
+		summaryTable.appendChild(formatPubInfoEntry({
+			id: 'accessibilitySummary',
+			label: 'Summary', value:
+			document.getElementById('accessibilitySummary').value,
+			property: 'accessibilitySummary'
+		}));
+		
+		summaryTable.appendChild(formatPubInfoEntry({
+			id: 'accessibilityFeatures',
+			label: 'Features',
+			value: compileCheckboxValues('accessibilityFeature')
+		}));
+		
+		summaryTable.appendChild(formatPubInfoEntry({
+			id: 'accessibilityHazards',
+			label: 'Hazards',
+			value: compileCheckboxValues('accessibilityHazard')
+		}));
+		
+		summaryTable.appendChild(formatPubInfoEntry({
+			id: 'accessModes',
+			label: 'Access Mode(s)',
+			value: compileCheckboxValues('accessMode')
+		}));
 		
 		var suffSet = document.querySelectorAll('fieldset#accessModeSufficient fieldset');
 		
@@ -436,13 +465,26 @@ var smartReport = (function() {
 			summaryTable.appendChild(sufficientModes);
 		}
 		
-		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityAPI', label: 'Accessibility APIs', value: compileCheckboxValues('accessibilityAPI')}));
-		summaryTable.appendChild(formatPubInfoEntry({id: 'accessibilityControl', label: 'Accessibility Control', value: compileCheckboxValues('accessibilityControl')}));
+		summaryTable.appendChild(formatPubInfoEntry({
+			id: 'accessibilityAPI',
+			label: 'Accessibility APIs',
+			value: compileCheckboxValues('accessibilityAPI')
+		}));
+		
+		summaryTable.appendChild(formatPubInfoEntry({
+			id: 'accessibilityControl',
+			label: 'Accessibility Control',
+			value: compileCheckboxValues('accessibilityControl')
+		}));
 		
 		var certifier = document.getElementById('certifiedBy').value.trim();
 		
 		if (certifier != '') {
-			summaryTable.appendChild(formatPubInfoEntry({id: 'certifiedBy', label: 'Evaluated by', value: certifier}));
+			summaryTable.appendChild(formatPubInfoEntry({
+				id: 'certifiedBy',
+				label: 'Evaluated by',
+				value: certifier
+			}));
 		}
 		
 		var link = document.getElementById('certifierCredential').value.trim();
@@ -452,7 +494,11 @@ var smartReport = (function() {
 				credential.setAttribute('href', link);
 				credential.appendChild(document.createTextNode(link));
 			
-			summaryTable.appendChild(formatPubInfoEntry({id: 'credential', label: 'Credential', value: credential}));
+			summaryTable.appendChild(formatPubInfoEntry({
+				id: 'credential',
+				label: 'Credential',
+				value: credential
+			}));
 		}
 		
 		summary.appendChild(summaryTable);
@@ -475,16 +521,43 @@ var smartReport = (function() {
 		additionalInfo.appendChild(additionalInfoHD);
 		
 		// add epub version
-		additionalInfo.appendChild(formatPubInfoEntry({id: 'format', label: 'Format', value: 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value}));
+		additionalInfo.appendChild(formatPubInfoEntry({
+			id: 'format',
+			label: 'Format',
+			value: 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value
+		}));
 		
 		if (!options.addedID) {
-			additionalInfo.appendChild(formatPubInfoEntry({id: 'identifier', label: 'Identifier', value: document.getElementById('identifier').value.trim()}));
+			additionalInfo.appendChild(formatPubInfoEntry({
+				id: 'identifier',
+				label: 'Identifier',
+				value: document.getElementById('identifier').value.trim()
+			}));
 		}
 		
-		additionalInfo.appendChild(formatPubInfoEntry({id: 'modified', label: 'Last Modified', value: document.getElementById('modified').value.trim()}));
-		additionalInfo.appendChild(formatPubInfoEntry({id: 'date', label: 'Published', value: document.getElementById('date').value.trim()}));
-		additionalInfo.appendChild(formatPubInfoEntry({id: 'description', label: 'Description', value: document.getElementById('description').value.trim()}));
-		additionalInfo.appendChild(formatPubInfoEntry({id: 'subject', label: 'Subject', value: document.getElementById('subject').value.trim()}));
+		additionalInfo.appendChild(formatPubInfoEntry({
+			id: 'modified',
+			label: 'Last Modified',
+			value: document.getElementById('modified').value.trim()
+		}));
+		
+		additionalInfo.appendChild(formatPubInfoEntry({
+			id: 'date',
+			label: 'Published',
+			value: document.getElementById('date').value.trim()
+		}));
+		
+		additionalInfo.appendChild(formatPubInfoEntry({
+			id: 'description',
+			label: 'Description',
+			value: document.getElementById('description').value.trim()
+		}));
+		
+		additionalInfo.appendChild(formatPubInfoEntry({
+			id: 'subject',
+			label: 'Subject',
+			value: document.getElementById('subject').value.trim()
+		}));
 		
 		var optional_meta = document.getElementById('optional-meta').value.trim();
 		
@@ -492,7 +565,11 @@ var smartReport = (function() {
 			var meta = optional_meta.replace(/\r\n/g,'\n').split('\n');
 			for (var i = 0; i < meta.length; i++) {
 				var part = meta[i].split(': ');
-				additionalInfo.appendChild(formatPubInfoEntry({id: part[0].toLowerCase().replace(/\s/g,''), label: part[0], value: part[1]}));
+				additionalInfo.appendChild(formatPubInfoEntry({
+					id: part[0].toLowerCase().replace(/\s/g,''),
+					label: part[0],
+					value: part[1]
+				}));
 			}
 		}
 		
@@ -680,6 +757,12 @@ var smartReport = (function() {
 		for (var i = 0; i < checkboxes.length; i++) {
 			var property_li = document.createElement('li');
 				property_li.setAttribute('property', id);
+				
+				if (id == 'accessibilityFeature') {
+					// add formal value for machine processing to avoid the plain english description being picked up
+					property_li.setAttribute('content', checkboxes[i].value)
+				}
+				
 				property_li.appendChild(document.createTextNode(checkboxes[i].parentNode.textContent.trim()));
 			
 			value_list.appendChild(property_li); 
