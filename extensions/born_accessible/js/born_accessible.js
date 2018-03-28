@@ -23,6 +23,15 @@ var bornAccessible = (function() {
 
 	var _baTestData = {};
 	var _extension_tab;
+	var _SCORE_TEXT_CSS = {
+		0: 'err',
+		1: 'alert',
+		2: 'alert',
+		3: 'alert',
+		4: 'pass',
+		'N/A': 'na',
+		'Unverified': 'warn'
+	}
 	
 	function createBornAccessibleScoringTab() {
 		
@@ -125,7 +134,7 @@ var bornAccessible = (function() {
 				
 				var fieldset = document.createElement('fieldset');
 					fieldset.setAttribute('id',_baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']);
-					fieldset.setAttribute('class','test')
+					fieldset.setAttribute('class','test warn')
 				
 				var legend = document.createElement('legend');
 					legend.setAttribute('id',_baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend')
@@ -133,35 +142,29 @@ var bornAccessible = (function() {
 				
 				fieldset.appendChild(legend);
 				
-				// add default NA value
+				// add default unverified value
 				
-				var has_default = false;
+				fieldset.appendChild(createRadioInput(
+					{
+						name: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
+						value: 'Unverified',
+						description: 'Unverified',
+						label: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend',
+						checked: true
+					}
+				));
 				
-				if (_baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores.hasOwnProperty('N/A')) {
+				// add possible scores
+				
+				for (var score in _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores) {
 					fieldset.appendChild(createRadioInput(
 						{
 							name: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
-							value: 'N/A',
-							description: 'N/A' + ' \u2014 ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores['N/A'],
+							value: score,
+							description: score + ' \u2014 ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores[score],
 							label: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend'
 						}
 					));
-					has_default = true;
-				}
-				
-				// add possible numeric scores from 0-4
-				
-				for (var k = 0; k <= 4; k++) {
-					if (_baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores[k]) {
-						fieldset.appendChild(createRadioInput(
-							{
-								name: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
-								value: k,
-								description: k + ' \u2014 ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores[k],
-								label: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend'
-							}
-						));
-					}
 				}
 				
 				// add note field
@@ -230,8 +233,9 @@ var bornAccessible = (function() {
 		}
 		
 		/* watch for scoring changes */
-		$('section#born_accessible fieldset.test input[type="radio"]').click( function(){
+		$('section#born_accessible input.test-input').click( function(){
 			bornAccessible.updateSectionScore(this);
+			bornAccessible.setBackgroundStatus(this);
 		});
 	}
 	
@@ -245,7 +249,12 @@ var bornAccessible = (function() {
 			input.setAttribute('name',options.name);
 			input.setAttribute('value',options.value);
 			input.setAttribute('aria-labelledby',options.label);
-			
+			input.setAttribute('class','test-input');
+		
+		if (options.checked) {
+			input.setAttribute('checked','checked');
+		}
+		
 		label.appendChild(input);
 		label.appendChild(document.createTextNode(' '));
 		
@@ -373,6 +382,12 @@ var bornAccessible = (function() {
 		
 		setExcludedTests: function(JSON) {
 			setExcludedTests(JSON);
+		},
+		
+		setBackgroundStatus: function(test_input) {
+			var fieldset = test_input.closest('fieldset');
+				fieldset.classList.remove('na', 'err', 'alert', 'warn', 'pass');
+				fieldset.classList.add(_SCORE_TEXT_CSS[test_input.value]);
 		}
 	}
 
@@ -388,16 +403,16 @@ window.onload = bornAccessible.initialize();
  */
 
 /* watch for output state changes */
-$('section#born_accessible input#ba-output-report').click( function(){
+$('section#born_accessible input#ba-output-report').click(function() {
 	smartReport.setExtensionTabOutput('born_accessible',this.checked);
 });
 
 /* watch for filter changes */
-$('section#born_accessible input.test-filter').click( function(){
+$('section#born_accessible input.test-filter').click(function() {
 	bornAccessible.filterTests();
 });
 
 /* watch for content type exclusions */
-$('section#born_accessible input.ba-excl-test').click( function(){
+$('section#born_accessible input.ba-excl-test').click(function() {
 	bornAccessible.configureContentTypeTests({type: this.value, exclude: this.checked});
 });

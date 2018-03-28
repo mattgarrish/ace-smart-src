@@ -18,7 +18,7 @@ smart_extensions['born_accessible'] = (function() {
 		3: 'mid',
 		4: 'good',
 		'N/A': 'na',
-		'Not specified': 'na'
+		'Unverified': 'unverified'
 	}
 	var _baReportScore = '';
 	
@@ -197,14 +197,12 @@ smart_extensions['born_accessible'] = (function() {
 						score_label_li.appendChild(document.createTextNode(tests[j].querySelector('legend').textContent.replace(/^[0-9.]+ /, '')+':'));
 					score_li.appendChild(score_label_li);
 					
-					var score_value = score ? score.value : 'Not specified';
-					
 					var score_value_li = document.createElement('span');
 					
-					if (_SCORE_TEXT_CSS[score_value]) {
-						score_value_li.classList.add(_SCORE_TEXT_CSS[score_value]);
+					if (_SCORE_TEXT_CSS[score.value]) {
+						score_value_li.classList.add(_SCORE_TEXT_CSS[score.value]);
 					}
-					score_value_li.appendChild(document.createTextNode(score_value));
+					score_value_li.appendChild(document.createTextNode(score.value));
 					
 					score_li.appendChild(score_value_li);
 					
@@ -225,8 +223,8 @@ smart_extensions['born_accessible'] = (function() {
 					
 					test_group_list.appendChild(score_li)
 					
-					if (score_value != 'N/A' && score_value != 'Not specified') {
-						actual_section_score += Number(score_value);
+					if (score.value != 'N/A' && score.value != 'Unverified') {
+						actual_section_score += Number(score.value);
 						max_section_score += 4;
 						isNA = false;
 					}

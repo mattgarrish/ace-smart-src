@@ -807,6 +807,11 @@ label.pad-left{
 	border-color: rgb(255, 255, 180) !important;
 }
 
+.alert {
+	background-color: rgb(255, 246, 232) !important;
+	border-color: rgb(255,160,17) !important;
+}
+
 .na .sc-body {
 	display: none;
 }

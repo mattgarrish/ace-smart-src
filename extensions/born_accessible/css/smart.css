@@ -106,3 +106,19 @@
 	display: none;
 	width: 80%;
 }
+
+#born_accessible .bad {
+	background-color: rgb(255,204,204);
+}
+
+#born_accessible .mid {
+	background-color: rgb(255, 237, 210);
+}
+
+#born_accessible .good {
+	background-color: rgb(204,255,204);
+}
+
+#born_accessible .na {
+	background-color: rgb(241,241,241);
+}
