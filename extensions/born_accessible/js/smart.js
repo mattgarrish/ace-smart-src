@@ -118,19 +118,14 @@ smart_extensions['born_accessible'] = (function() {
 				smartFormat.setFieldToPass({id: 'complexity-levels-section', highlight_parent: false});
 			}
 			
-			// verify all tests have a selected value
+			// verify no tests are unverified
 			
 			var tests = document.querySelectorAll('#born_accessible fieldset.test');
 			
 			for (var i = 0; i < tests.length; i++) {
-				var has_score = tests[i].querySelector('input:checked');
-				if (!has_score) {
-					smartError.logError({tab_id: 'born_accessible', element_id: tests[i].id, severity: 'err', message: 'Born Accessible test "' + tests[i].querySelector('legend').textContent + '" does not have a score.'});
-					smartFormat.setFieldToError({id: tests[i].id, is_warning: false, highlight_parent: false});
+				if (tests[i].querySelector('input.test-input:checked').value == 'Unverified') {
+					smartError.logError({tab_id: 'born_accessible', element_id: tests[i].id, severity: 'err', message: 'Born Accessible test "' + tests[i].querySelector('legend').textContent + '" has not been verified.'});
 					is_valid = false;
-				}
-				else {
-					smartFormat.setFieldToPass({id: tests[i].id, highlight_parent: false});
 				}
 			}
 			
