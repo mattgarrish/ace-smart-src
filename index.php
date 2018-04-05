@@ -101,7 +101,7 @@
 					<a href="#discovery" id="label_discovery" class="js-tablist__link">Discovery</a>
 				</li>
 				<li class="js-tablist__item">
-					<a href="#certification" id="label_certification" class="js-tablist__link">Certification</a>
+					<a href="#evaluation" id="label_evaluation" class="js-tablist__link">Result</a>
 				</li>
 				<li class="js-tablist__item">
 					<a href="#generate" id="label_generate" class="js-tablist__link">Reporting</a>
@@ -128,7 +128,7 @@
 				
 				<?php include 'tab/discovery.html' ?>
 				
-				<?php include 'tab/certification.html' ?>
+				<?php include 'tab/evaluation.html' ?>
 				
 				<?php include 'tab/generate.html' ?>
 			</form>

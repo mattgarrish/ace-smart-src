@@ -356,6 +356,7 @@ hr {
 
 div.conformance-result {
 	padding: 1rem 0 1rem 1.5rem;
+	margin-bottom: 1rem;
 }
 
 span#conformance-result-status {

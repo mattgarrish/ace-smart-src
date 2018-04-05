@@ -1,8 +1,8 @@
 
-<section id="certification" class="js-tabcontent">
-	<h2>Certification Metadata</h2>
+<section id="evaluation" class="js-tabcontent">
+	<h2>Evaluation Result</h2>
 	
-	<p>This section is for reporting conformance and identifying the certifier of this report.</p>
+	<p>This section is for reporting conformance and identifying the evaluator of this report.</p>
 	
 	<p>Use the Generate button at the bottom of the page to create a set metadata tags that can be pasted back into the publication.</p>
 	
@@ -12,20 +12,21 @@
 		<input type="hidden" name="conformance-result" id="conformance-result" value="incomplete"/>
 	</div>
 	
+	<div id="extension-results"></div>
+	
 	<fieldset>
 		<legend>Evaluation Info:</legend>
 		<label class="data"><span>Evaluator:<img src="/images/asterisk.png" alt="required"/></span> <input type="text" id="certifiedBy" aria-required="true"/></label>
-		<label class="data"><span>Credential:</span> <input type="text" id="certifierCredential"/></label>
 		<label class="data"><span>Link to report:</span> <input type="text" id="certifierReport"/></label>
 	</fieldset>
 	
 	<div class="buttons">
-		<input type="button" value="Generate" id="generate-certification-metadata"/>
+		<input type="button" value="Generate" id="generate-evaluation-metadata"/>
 	</div>
 	
-	<section id="certification-meta" aria-label="Certification Metadata" title="Certification Metadata">
+	<section id="evaluation-meta" aria-label="Evaluation Metadata" title="Evaluation Metadata">
 		<p>Copy and paste the following metadata to the EPUB package document.</p>
-		<textarea id="certification-metadata" rows="6" aria-label="certification metadata"></textarea>
+		<textarea id="evaluation-metadata" rows="6" aria-label="evaluation metadata"></textarea>
 	</section>
 </section>
 
@@ -33,12 +34,12 @@
 <script src="/js/format.js"></script>
 <script src="/js/wcag.js"></script>
 <script src="/js/conformance.js"></script>
-<script src="/js/certification.js"></script>
+<script src="/js/evaluation.js"></script>
 <script>
-	/* CERTIFICATION TAB */
+	/* EVALUATION TAB */
 	
-	/* watch for click on button to generate certification metadata */
-	$('#generate-certification-metadata').click( function(){
-		smartCertification.generateCertificationMetadata();
+	/* watch for click on button to generate evaluation metadata */
+	$('#generate-evaluation-metadata').click( function(){
+		smartEvaluation.generateEvaluationMetadata();
 	});
 </script>

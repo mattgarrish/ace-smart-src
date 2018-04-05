@@ -39,7 +39,7 @@ var smartReport = (function() {
 		
 		is_valid = checkNoUnverifiedSC() ? is_valid : false;
 		
-		is_valid = smartCertification.validateCertificationMetadata() ? is_valid : false;
+		is_valid = smartEvaluation.validateEvaluationMetadata() ? is_valid : false;
 		
 		is_valid = smartDiscovery.validateDiscoveryMetadata() ? is_valid : false;
 		
@@ -477,27 +477,13 @@ var smartReport = (function() {
 			value: compileCheckboxValues('accessibilityControl')
 		}));
 		
-		var certifier = document.getElementById('certifiedBy').value.trim();
+		var evaluator = document.getElementById('certifiedBy').value.trim();
 		
-		if (certifier != '') {
+		if (evaluator != '') {
 			summaryTable.appendChild(formatPubInfoEntry({
 				id: 'certifiedBy',
 				label: 'Evaluated by',
-				value: certifier
-			}));
-		}
-		
-		var link = document.getElementById('certifierCredential').value.trim();
-		
-		if (link) {
-			var credential = document.createElement('a');
-				credential.setAttribute('href', link);
-				credential.appendChild(document.createTextNode(link));
-			
-			summaryTable.appendChild(formatPubInfoEntry({
-				id: 'credential',
-				label: 'Credential',
-				value: credential
+				value: evaluator
 			}));
 		}
 		
@@ -960,6 +946,41 @@ var smartReport = (function() {
 	}
 	
 	
+	function addExtensionResult(options) {
+	
+		/* 
+		 * options.label - default label to display (e.g. "Conformance Result:");
+		 * options.default - default score value
+		 * options.score_id - id for updating/accessing the user-facing value
+		 * options.value_id - id for updating/accessing the machine-processable value
+		 */
+		
+		var extResultDiv = document.createElement('div');
+			extResultDiv.setAttribute('class','conformance-result');
+		
+		var extResultLabel = document.createElement('strong');
+			extResultLabel.appendChild(document.createTextNode(options.label));
+		
+		extResultDiv.appendChild(extResultLabel);
+		
+		var extResultScore = document.createElement('span');
+			extResultScore.setAttribute('id',options.score_id);
+			extResultScore.appendChild(document.createTextNode(options.default));
+		
+		extResultDiv.appendChild(extResultScore);
+		
+		var extResultValue = document.createElement('input');
+			extResultValue.setAttribute('type','hidden');
+			extResultValue.setAttribute('name',options.value_id);
+			extResultValue.setAttribute('id',options.value_id);
+			extResultValue.setAttribute('value',options.default.toLowerCase());
+		
+		extResultDiv.appendChild(extResultValue);
+		
+		document.getElementById('extension-results').appendChild(extResultDiv);
+	}
+	
+	
 	
 	return {
 		addExtensionTab: function(tab_info) {
@@ -984,6 +1005,10 @@ var smartReport = (function() {
 		
 		setExtensionTabOutput: function(tab,output) {
 			_generateExtension[tab] = output;
+		},
+		
+		addExtensionResult: function(options) {
+			addExtensionResult(options);
 		}
 	}
 

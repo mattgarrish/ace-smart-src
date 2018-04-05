@@ -64,7 +64,7 @@ var smartError = (function() {
 		
 		clearErrorBGs: function(scope) {
 			var errorFields = { "discovery": ['accessibilityFeature', 'summary-field', 'accessibilityHazard', 'accessMode', 'accessModeSufficient', 'accessibilityAPI', 'accessibilityControl'],
-						   "certification": ['certifiedBy']};
+						   "evaluation": ['certifiedBy']};
 			
 			if (scope != null && scope != '') {
 				errorFields[scope].forEach( function(id) {

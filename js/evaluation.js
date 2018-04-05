@@ -3,30 +3,30 @@
 
 /* 
  * 
- * smartCertification
+ * smartEvaluation
  * 
- * Verifies and outputs certification metadata
+ * Verifies and outputs evaluation metadata
  * 
  * Public functions
  * 
- * - validate - verifies required certification metadata is present and checks format of links
+ * - validate - verifies required evaluation metadata is present and checks format of links
  * 
- * - generateConformanceMetadata - generate package document metadata tags from certifier information 
+ * - generateConformanceMetadata - generate package document metadata tags from evaluator information 
  * 
  */
 
-var smartCertification = (function() {
+var smartEvaluation = (function() {
 	
-	function validateCertificationMetadata(clear) {
+	function validateEvaluationMetadata(clear) {
 		
 		if (clear) {
-			smartError.clearAll('certification');
+			smartError.clearAll('evaluation');
 		}
 		
 		var is_valid = true;
 		
 		if (document.getElementById('certifiedBy').value.trim() == '') {
-			smartError.logError({tab_id: 'certification', element_id: 'certifiedBy', severity: 'err', message: 'Certifier name is a required field.'});
+			smartError.logError({tab_id: 'evaluation', element_id: 'certifiedBy', severity: 'err', message: 'Evaluator name is a required field.'});
 			smartFormat.setFieldToError({id: 'certifiedBy', is_warnign: true, highlight_parent: true});
 			is_valid = false;
 		}
@@ -35,14 +35,14 @@ var smartCertification = (function() {
 			smartFormat.setFieldToPass({id: 'certifiedBy', highlight_parent: true});
 		}
 		
-		var links = { 'certifierReport': 'Report link', 'certifierCredential': 'Credential link' }
+		var links = { 'certifierReport': 'Report link' }
 		
 		for (var id in links) {
 		
 			var link_value = document.getElementById(id).value.trim();
 			
 			if (link_value && !link_value.match(/^https?:\/\//i)) {
-				smartError.logError({tab_id: 'certification', element_id: id, severity: 'warn', message: links[id]+' should begin with http:// or https://'});
+				smartError.logError({tab_id: 'evaluation', element_id: id, severity: 'warn', message: links[id]+' should begin with http:// or https://'});
 				smartFormat.setFieldToError({id: id, is_warning: true, highlight_parent: true});
 				is_valid = false;
 			}
@@ -56,9 +56,9 @@ var smartCertification = (function() {
 	}
 	
 	
-	function generateCertificationMetadata() {
+	function generateEvaluationMetadata() {
 		
-		if (!validateCertificationMetadata()) {
+		if (!validateEvaluationMetadata()) {
 			if (!confirm('Metadata failed validation.\n\nClick Ok to generate, or Cancel to review errors.')) {
 				return;
 			}
@@ -74,25 +74,24 @@ var smartCertification = (function() {
 		
 		metadata += smartFormat.createMetaTag({type: 'meta', property: 'a11y:certifiedBy', value: document.getElementById('certifiedBy').value.trim()});
 		metadata += smartFormat.createMetaTag({type: 'link', property: 'a11y:certifierReport', value: document.getElementById('certifierReport').value});
-		metadata += smartFormat.createMetaTag({type: 'link', property: 'a11y:certifierCredential', value: document.getElementById('certifierCredential').value});
 		
 		if (metadata == '') {
 			alert('No metadata specified. Failed to generate.');
 		}
 		
 		else {
-			document.getElementById('certification-metadata').value = metadata;
-			certification_dialog.dialog('open');
+			document.getElementById('evaluation-metadata').value = metadata;
+			evaluation_dialog.dialog('open');
 		}
 	}
 	
 	return {
-		validateCertificationMetadata: function() {
-			validateCertificationMetadata(false);
+		validateEvaluationMetadata: function() {
+			validateEvaluationMetadata(false);
 		},
 		
-		generateCertificationMetadata: function() {
-			generateCertificationMetadata();
+		generateEvaluationMetadata: function() {
+			generateEvaluationMetadata();
 		}
 	}
 

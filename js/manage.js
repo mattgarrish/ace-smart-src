@@ -115,15 +115,13 @@ var smartManage = (function() {
 		
 		/* store conformance metadata */
 		
-		reportJSON.certification = {};
+		reportJSON.evaluation = {};
 		
-			reportJSON.certification.result = document.getElementById('conformance-result').value;
+			reportJSON.evaluation.result = document.getElementById('conformance-result').value;
 			
-			reportJSON.certification.certifiedBy = document.getElementById('certifiedBy').value;
+			reportJSON.evaluation.certifiedBy = document.getElementById('certifiedBy').value;
 			
-			reportJSON.certification.certifierCredential = document.getElementById('certifierCredential').value;
-			
-			reportJSON.certification.certifierReport = document.getElementById('certifierReport').value;
+			reportJSON.evaluation.certifierReport = document.getElementById('certifierReport').value;
 		
 		/* store extension data */
 		
@@ -278,11 +276,11 @@ var smartManage = (function() {
 			}
 		}
 		
-		/* load certification and publication text fields */
+		/* load evaluation and publication text fields */
 		
 		var text_fields = {
 			publicationInfo: ['title', 'creator', 'identifier', 'modified', 'publisher', 'description', 'date', 'subject', 'optional-meta'],
-			certification: ['certifiedBy','certifierReport','certifierCredential']
+			evaluation: ['certifiedBy','certifierReport']
 		};
 		
 		for (var key in text_fields) {
@@ -293,9 +291,9 @@ var smartManage = (function() {
 			}
 		}
 		
-		if (reportJSON.hasOwnProperty('certification') && reportJSON.certification.hasOwnProperty('result')) {
-			document.getElementById('conformance-result').value = reportJSON.certification.result;
-			document.getElementById('conformance-result-status').textContent = smartConformance.STATUS[reportJSON.certification.result]
+		if (reportJSON.hasOwnProperty('evaluation') && reportJSON.evaluation.hasOwnProperty('result')) {
+			document.getElementById('conformance-result').value = reportJSON.evaluation.result;
+			document.getElementById('conformance-result-status').textContent = smartConformance.STATUS[reportJSON.evaluation.result]
 		}
 		
 		/* load configuration info */

@@ -161,30 +161,30 @@ var smartAce = (function() {
 		
 		document.getElementById('accessibilitySummary').value = formatMetadataProperty('accessibilitySummary','schema:accessibilitySummary');
 		
-		// set certifier metadata
+		// set evaluator metadata
 		
 		document.getElementById('certifiedBy').value = formatMetadataProperty('certifiedBy', 'a11y:certifiedBy');
 		
-		// certifier links that could be in meta or link elements
-		var certifier_links = ['certifierReport', 'certifierCredential'];
+		// evaluator links that could be in meta or link elements
+		var evaluator_links = ['certifierReport'];
 		
-		for (var i = 0; i < certifier_links.length; i++) {
+		for (var i = 0; i < evaluator_links.length; i++) {
 		
-			var certifier_value = '';
+			var evaluator_value = '';
 			
-			if (_aceReport['earl:testSubject'].hasOwnProperty('links') &&_aceReport['earl:testSubject'].links.hasOwnProperty('a11y:'+certifier_links[i])) {
-				certifier_value = _aceReport['earl:testSubject'].links['a11y:'+certifier_links[i]];
+			if (_aceReport['earl:testSubject'].hasOwnProperty('links') &&_aceReport['earl:testSubject'].links.hasOwnProperty('a11y:'+evaluator_links[i])) {
+				evaluator_value = _aceReport['earl:testSubject'].links['a11y:'+evaluator_links[i]];
 			}
 			
-			else if (_aceReport['earl:testSubject'].metadata.hasOwnProperty('a11y:'+certifier_links[i])) {
-				certifier_value = _aceReport['earl:testSubject'].metadata['a11y:'+certifier_links[i]];
+			else if (_aceReport['earl:testSubject'].metadata.hasOwnProperty('a11y:'+evaluator_links[i])) {
+				evaluator_value = _aceReport['earl:testSubject'].metadata['a11y:'+evaluator_links[i]];
 			}
 			
 			else {
 				continue;
 			}
 
-			document.getElementById(certifier_links[i]).value = certifier_value;	
+			document.getElementById(evaluator_links[i]).value = evaluator_value;	
 		}
 	}
 	

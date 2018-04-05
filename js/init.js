@@ -55,13 +55,13 @@
 		}
 	});
 	
-	var certification_dialog = $("#certification-meta").dialog({
+	var evaluation_dialog = $("#evaluation-meta").dialog({
 		autoOpen: false,
 		height: 350,
 		modal: true,
 		buttons: {
 			Close: function() {
-				certification_dialog.dialog( "close" );
+				evaluation_dialog.dialog( "close" );
 			}
 		}
 	});
@@ -70,12 +70,12 @@
 		if (document.body.clientWidth < 550) {
 			import_dialog.dialog("option", "width", 300);
 			discovery_dialog.dialog("option", "width", 400);
-			certification_dialog.dialog("option", "width", 400);
+			evaluation_dialog.dialog("option", "width", 400);
 		}
 		else {
 			import_dialog.dialog("option", "width", 550);
 			discovery_dialog.dialog("option", "width", 750);
-			certification_dialog.dialog("option", "width", 750);
+			evaluation_dialog.dialog("option", "width", 750);
 		}
 	}
 	

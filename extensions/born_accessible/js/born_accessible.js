@@ -62,6 +62,7 @@ var bornAccessible = (function() {
 	function generateBornAccessibleTab() {
 		generateComplexity();
 		generateTests();
+		generateResult();
 		smartReport.setExtensionTabOutput('born_accessible',true);
 	}
 	
@@ -236,6 +237,7 @@ var bornAccessible = (function() {
 		$('section#born_accessible input.test-input').click( function(){
 			bornAccessible.updateSectionScore(this);
 			bornAccessible.setBackgroundStatus(this);
+			bornAccessible.updateResultScore();
 		});
 	}
 	
@@ -265,6 +267,37 @@ var bornAccessible = (function() {
 		label.appendChild(span);
 		
 		return label;
+	}
+	
+	
+	function generateResult() {
+		var config = {
+			label: 'Born Accessible Score:',
+			default: 'N/A',
+			score_id: 'ba_final_score_status',
+			value_id: 'ba_final_score' // currently don't care about this field
+		};
+		smartReport.addExtensionResult(config);
+	}
+	
+	
+	function updateResultScore() {
+		var test_scores = document.querySelectorAll('#born_accessible section.test input:checked');
+		
+		var max_score = 0;
+		var actual_score = 0;
+		
+		for (var i = 0; i < test_scores.length; i++) {
+			if (!test_scores[i].value.match(/^[0-9]+$/)) {
+				continue;
+			}
+			actual_score += Number(test_scores[i].value);
+			max_score += 4;
+		}
+		
+		var total_score = (max_score == 0) ? 'N/A' : (Math.round((actual_score / max_score) * 100) + '%');
+		
+		document.getElementById('ba_final_score_status').textContent = total_score; 
 	}
 	
 	
@@ -388,6 +421,10 @@ var bornAccessible = (function() {
 			var fieldset = test_input.closest('fieldset');
 				fieldset.classList.remove('na', 'err', 'alert', 'warn', 'pass');
 				fieldset.classList.add(_SCORE_TEXT_CSS[test_input.value]);
+		},
+		
+		updateResultScore: function() {
+			updateResultScore();
 		}
 	}
 
