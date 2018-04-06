@@ -273,7 +273,7 @@ var bornAccessible = (function() {
 	function generateResult() {
 		var config = {
 			label: 'Born Accessible Score:',
-			default: 'N/A',
+			default: 'Incomplete',
 			score_id: 'ba_final_score_status',
 			value_id: 'ba_final_score' // currently don't care about this field
 		};
@@ -282,6 +282,13 @@ var bornAccessible = (function() {
 	
 	
 	function updateResultScore() {
+		var incomplete = document.querySelector('#born_accessible section.test input[value="Unverified"]:checked');
+		
+		if (incomplete) {
+			document.getElementById('ba_final_score_status').textContent = "Incomplete";
+			return;
+		}
+		
 		var test_scores = document.querySelectorAll('#born_accessible section.test input:checked');
 		
 		var max_score = 0;
