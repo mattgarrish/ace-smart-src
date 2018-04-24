@@ -1,12 +1,15 @@
 
 <section id="discovery" class="js-tabcontent">
-	<h2>Discovery Metadata</h2>
+	<?php if ($smart) { 
+		echo '<h2>Discovery Metadata</h2>
 	
 	<p>This section allows you to visualize and correct the discovery metadata in the publication. Click on each
-		field's heading for more information about how to apply the metadata.</p>
+		field\'s heading for more information about how to apply the metadata.</p>
 	
 	<p>Use the Generate button at the bottom of the page to create a set of metadata tags that can be pasted back into 
-		the publication.</p>
+		the publication.</p>';
+	
+	} ?>
 	
 	<fieldset id="accessibilityFeature">
 		<legend><a href="http://www.idpf.org/epub/a11y/techniques/#meta-003" target="_blank">Accessibility Features</a> <img src="/images/asterisk.png" alt="required"/></legend>
@@ -118,28 +121,32 @@
 		<p>Copy and paste the following metadata to the EPUB package document.</p>
 		<textarea id="discovery-metadata" rows="15" aria-label="discovery metadata"></textarea>
 	</section>
-</section>
-
-<script src="/js/format.js"></script>
-<script src="/js/error.js"></script>
-<script src="/js/discovery.js"></script>
-<script>
-	/* DISCOVERY TAB */
 	
-	/* watch for click to add custom accessibilityFeature */
-	$('#add-a11y-feature').click( function(){
+	<?php if (!$smart) {
+		echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="http://smart.daisy.org/js/error.js"></script>
+		<script src="http://smart.daisy.org/js/format.js"></script>
+		<script src="http://smart.daisy.org/js/discovery.js"></script>';
+	} ?>
+	
+	<script>
+		/* DISCOVERY TAB */
+		
+		/* watch for click to add custom accessibilityFeature */
+		$('#add-a11y-feature').click( function(){
 		smartDiscovery.addCustomFeature();
 		return false;
-	});
-	
-	/* watch for click to add additional accessModeSufficient sets */
-	$('#add-sufficient').click( function(){
+		});
+		
+		/* watch for click to add additional accessModeSufficient sets */
+		$('#add-sufficient').click( function(){
 		smartDiscovery.addNewSufficientSet();
 		return false;
-	});
-	
-	/* watch for click to generate discovery metadata */
-	$('#discovery_button').click( function(){
+		});
+		
+		/* watch for click to generate discovery metadata */
+		$('#discovery_button').click( function(){
 		smartDiscovery.generateDiscoveryMetadata();
-	});
-</script>
+		});
+	</script>
+</section>

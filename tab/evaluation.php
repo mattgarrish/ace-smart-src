@@ -1,6 +1,8 @@
 
 <section id="evaluation" class="js-tabcontent">
-	<h2>Evaluation Result</h2>
+	<?php if ($smart) {
+		
+	echo '<h2>Evaluation Result</h2>
 	
 	<p>This section is for reporting conformance and identifying the evaluator of this report.</p>
 	
@@ -13,6 +15,9 @@
 	</div>
 	
 	<div id="extension-results"></div>
+	';
+	
+	} ?>
 	
 	<fieldset>
 		<legend>Evaluation Info:</legend>
@@ -28,18 +33,23 @@
 		<p>Copy and paste the following metadata to the EPUB package document.</p>
 		<textarea id="evaluation-metadata" rows="6" aria-label="evaluation metadata"></textarea>
 	</section>
-</section>
-
-<script src="/js/error.js"></script>
-<script src="/js/format.js"></script>
-<script src="/js/wcag.js"></script>
-<script src="/js/conformance.js"></script>
-<script src="/js/evaluation.js"></script>
-<script>
-	/* EVALUATION TAB */
 	
-	/* watch for click on button to generate evaluation metadata */
-	$('#generate-evaluation-metadata').click( function(){
+	<?php if (!$smart) {
+		echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="http://smart.daisy.org/js/error.js"></script>
+		<script src="http://smart.daisy.org/js/format.js"></script>
+		<script src="http://smart.daisy.org/js/wcag.js"></script>
+		<script src="http://smart.daisy.org/js/conformance.js"></script>
+		<script src="http://smart.daisy.org/js/evaluation.js"></script>';
+	} ?>
+	
+	<script>
+		/* EVALUATION TAB */
+		
+		/* watch for click on button to generate evaluation metadata */
+		$('#generate-evaluation-metadata').click( function(){
 		smartEvaluation.generateEvaluationMetadata();
-	});
-</script>
+		});
+	</script>
+
+</section>

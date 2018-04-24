@@ -406,7 +406,8 @@ li.epub-trigger {
 /* fieldsets */
 
 fieldset,
-div.conformance-result {
+div.conformance-result,
+div.onix {
 	max-width: 65rem;
 	border: none;
 	border-left: 0.6rem double cornflowerblue;
@@ -858,6 +859,27 @@ figcaption{
 	font-style: italic;
 	max-width: 50rem;
 	margin-bottom: 1rem;
+}
+
+
+/* onix metadata fields */
+
+fieldset.onix > label {
+	display: block;
+	margin-top: 2rem;
+}
+
+div.onix {
+	margin-top: 2rem;
+	padding: 1rem;
+	font-weight: bold
+}
+
+div.onix input[type='text'],
+div.onix textarea {
+	display: block;
+	width: 65rem;
+	margin-top: 1rem;
 }
 
 

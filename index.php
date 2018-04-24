@@ -1,6 +1,7 @@
 <?php require_once 'users/init.php' ?>
 <?php require_once 'extensions/config.php' ?>
 <?php if (!securePage($_SERVER['PHP_SELF'])) { die(); } ?>
+<?php $smart = true; ?>
 
 <!DOCTYPE html>
 <html lang="en" prefix="dcterms: http://purl.org/dc/terms/ schema: http://schema.org/" typeof="schema:WebPage">
@@ -101,6 +102,9 @@
 					<a href="#discovery" id="label_discovery" class="js-tablist__link">Discovery</a>
 				</li>
 				<li class="js-tablist__item">
+					<a href="#distribution" id="label_distribution" class="js-tablist__link">Distribution</a>
+				</li>
+				<li class="js-tablist__item">
 					<a href="#evaluation" id="label_evaluation" class="js-tablist__link">Result</a>
 				</li>
 				<li class="js-tablist__item">
@@ -126,9 +130,11 @@
 					}
 				?>
 				
-				<?php include 'tab/discovery.html' ?>
+				<?php include 'tab/discovery.php' ?>
 				
-				<?php include 'tab/evaluation.html' ?>
+				<?php include 'tab/distribution.html' ?>
+				
+				<?php include 'tab/evaluation.php' ?>
 				
 				<?php include 'tab/generate.html' ?>
 			</form>
@@ -156,6 +162,9 @@
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 		<script src="js/a11ytabs.js"></script>
 		<script src="js/drag-drop.js"></script>
+		<script src="/js/discovery.js"></script>
+		<script src="/js/evaluation.js"></script>
+		<script src="/js/conformance.js"></script>
 		
 		<?php
 			if ($ext_module_access) {

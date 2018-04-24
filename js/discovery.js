@@ -9,6 +9,8 @@
  * 
  */
 
+var discovery_dialog;
+
 var smartDiscovery = (function() { 
 
 	var _PROP_ERROR = { accessibilityFeature: {}, accessibilityHazard: {}, accessMode: {}, accessibilitySummary: {}, accessModeSufficient: {} };
@@ -177,7 +179,9 @@ var smartDiscovery = (function() {
 		
 		else {
 			discovery_metadata.value = meta_tags;
-			discovery_dialog.dialog('open');
+			if (discovery_dialog) {
+				discovery_dialog.dialog('open');
+			}
 		}
 	}
 	

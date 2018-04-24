@@ -15,6 +15,8 @@
  * 
  */
 
+var evaluation_dialog;
+
 var smartEvaluation = (function() {
 	
 	function validateEvaluationMetadata(clear) {
@@ -68,7 +70,9 @@ var smartEvaluation = (function() {
 		
 		var metadata = '';
 		
-		if (!document.getElementById('conformance-result').value == "fail") {
+		var conformance_result = document.getElementById('conformance-result');
+		
+		if (conformance_result && !conformance_result.value == "fail") {
 			metadata += smartFormat.createMetaTag({type: 'link', property: 'dcterms:conformsTo', value: conformance_url});
 		}
 		
@@ -81,7 +85,9 @@ var smartEvaluation = (function() {
 		
 		else {
 			document.getElementById('evaluation-metadata').value = metadata;
-			evaluation_dialog.dialog('open');
+			if (evaluation_dialog) {
+				evaluation_dialog.dialog('open');
+			}
 		}
 	}
 	

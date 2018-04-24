@@ -44,7 +44,7 @@
 		}
 	});
 	
-	var discovery_dialog = $("#discovery-meta").dialog({
+	discovery_dialog = $("#discovery-meta").dialog({
 		autoOpen: false,
 		height: 450,
 		modal: true,
@@ -55,7 +55,7 @@
 		}
 	});
 	
-	var evaluation_dialog = $("#evaluation-meta").dialog({
+	evaluation_dialog = $("#evaluation-meta").dialog({
 		autoOpen: false,
 		height: 350,
 		modal: true,
@@ -66,16 +66,29 @@
 		}
 	});
 	
+	onix_dialog = $("#distribution-meta").dialog({
+		autoOpen: false,
+		height: 350,
+		modal: true,
+		buttons: {
+			Close: function() {
+				onix_dialog.dialog( "close" );
+			}
+		}
+	});
+	
 	function adjustDialogWidth() {
 		if (document.body.clientWidth < 550) {
 			import_dialog.dialog("option", "width", 300);
 			discovery_dialog.dialog("option", "width", 400);
 			evaluation_dialog.dialog("option", "width", 400);
+			onix_dialog.dialog("option", "width", 400);
 		}
 		else {
 			import_dialog.dialog("option", "width", 550);
 			discovery_dialog.dialog("option", "width", 750);
 			evaluation_dialog.dialog("option", "width", 750);
+			onix_dialog.dialog("option", "width", 750);
 		}
 	}
 	
@@ -174,6 +187,14 @@
 		smartConformance.showSCNoteField(this);
 	});
 
+	
+	/* DISTRIBUTION TAB */
+	
+	/* watch for click to generate discovery metadata */
+	$('#distribution_button').click( function(){
+		smartDistribution.generateONIXMetadata();
+	});
+	
 	
 	/* REPORTING TAB */
 	

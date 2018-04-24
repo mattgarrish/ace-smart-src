@@ -1,0 +1,76 @@
+
+<section id="distribution" class="js-tabcontent">
+	<h2>ONIX Metadata</h2>
+	
+	<p>This section allows you to generate accessibility metadata for use in an ONIX record.</p>
+	
+	<p>Use the Generate button at the bottom of the page to create a set of metadata tags.</p>
+	
+	<div class="onix">
+		<label for="onix00">00 - Accessibility Summary</label>
+		<textarea id="onix00" rows="5"></textarea>
+	</div>
+	
+	<fieldset class="onix">
+		<legend>Check all applicable fields</legend>
+		<label><input type="checkbox" name="onix-chkbox" value="01"/> 01 - LIA Compliance</label>
+		<label><input type="checkbox" name="onix-chkbox" value="02"/> 02 - Accessibility Specification 1.0 A</label>
+		<label><input type="checkbox" name="onix-chkbox" value="03"/> 03 - Accessibility Specification 1.0 AA</label>
+		<label><input type="checkbox" name="onix-chkbox" value="09"/> 09 - Inaccessible</label>
+		<label><input type="checkbox" name="onix-chkbox" value="10"/> 10 - No reading system accessibility options disabled (except)</label>
+		<label><input type="checkbox" name="onix-chkbox" value="11"/> 11 - Table of contents navigation</label>
+		<label><input type="checkbox" name="onix-chkbox" value="12"/> 12 - Index navigation</label>
+		<label><input type="checkbox" name="onix-chkbox" value="13"/> 13 - Reading order</label>
+		<label><input type="checkbox" name="onix-chkbox" value="14"/> 14 - Short alterntive descriptions</label>
+		<label><input type="checkbox" name="onix-chkbox" value="15"/> 15 - Full alternative descriptions</label>
+		<label><input type="checkbox" name="onix-chkbox" value="16"/> 16 - Visualised data also available as non-graphical data</label>
+		<label><input type="checkbox" name="onix-chkbox" value="17"/> 17 - Accessible math content</label>
+		<label><input type="checkbox" name="onix-chkbox" value="18"/> 18 - Accessible chem content</label>
+		<label><input type="checkbox" name="onix-chkbox" value="19"/> 19 - Print-equivalent page numbering</label>
+		<label><input type="checkbox" name="onix-chkbox" value="20"/> 20 - Synchronised pre-recorded audio</label>
+		<label><input type="checkbox" name="onix-chkbox" value="21"/> 21 - Text-to-speech hinting provided</label>
+		<label><input type="checkbox" name="onix-chkbox" value="22"/> 22 - Language tagging provided</label>
+		<label><input type="checkbox" name="onix-chkbox" value="24"/> 24 - Dyslexia readability</label>
+	</fieldset>
+	
+	<div class="onix">
+		<label for="onix94">94 - Compliance web page for detailed accessibility information</label>
+		<input type="text" id="onix94"/>
+	</div>
+	
+	<div class="onix">
+		<label for="onix95">95 - Trusted intermediary’s web page for detailed accessibility information</label>
+		<input type="text" id="onix95"/>
+	</div>
+	
+	<div class="onix">
+		<label for="onix96">96 - Publisher’s web page for detailed accessibility information</label>
+		<input type="text" id="onix96"/>
+	</div>
+	
+	<div class="onix">
+		<label for="onix97">97 - Compatibility tested</label>
+		<input type="text" id="onix97"/>
+	</div>
+	
+	<div class="onix">
+		<label for="onix98">98 - Trusted Intermediary contact</label>
+		<input type="text" id="onix98"/>
+	</div>
+	
+	<div class="onix">
+		<label for="onix99">99 - Publisher contact for further accessibility information</label>
+		<input type="text" id="onix99"/>
+	</div>
+	
+	<div class="buttons">
+		<input type="button" id="distribution_button" value="Generate"/>
+	</div>
+	
+	<section id="distribution-meta" aria-label="ONIX Metadata" title="ONIX Metadata">
+		<p>Copy and paste the following metadata to the ONIX record.</p>
+		<textarea id="distribution-metadata" rows="15" aria-label="distribution metadata"></textarea>
+	</section>
+</section>
+
+<script src="/js/distribution.js"></script>
