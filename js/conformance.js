@@ -143,6 +143,9 @@ var smartConformance = (function() {
 			return;
 		}
 		
+		var onix_a = document.querySelector('input[name="onix-chkbox"][value="02"]');
+		var onix_aa = document.querySelector('input[name="onix-chkbox"][value="03"]');
+		
 		if (smartWCAG.WCAGLevel() == 'aa' || show_aa) {
 			
 			if (document.querySelectorAll('section.a input[value="fail"]:checked, section.aa input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked').length == 0) {
@@ -150,6 +153,8 @@ var smartConformance = (function() {
 				if (smartWCAG.WCAGLevel() == 'aa' || document.querySelectorAll('section.aa input[value="unverified"]:checked').length > 0) {
 					status_label.textContent = _STATUS.aa;
 					status_input.value = 'aa';
+					if (!onix_aa.checked) { onix_aa.click(); }
+					if (onix_a.checked) { onix_a.click(); }
 					return;
 				}
 			}
@@ -158,11 +163,15 @@ var smartConformance = (function() {
 		if (document.querySelectorAll('section.a input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked').length == 0) {
 			status_label.textContent = _STATUS.a;
 			status_input.value = 'a';
+			if (onix_aa.checked) { onix_aa.click(); }
+			if (!onix_a.checked) { onix_a.click(); }
 		}
 		
 		else {
 			status_label.textContent = _STATUS.fail;
 			status_input.value = 'fail';
+			if (onix_aa.checked) { onix_aa.click(); }
+			if (onix_a.checked) { onix_a.click(); }
 		}
 	}
 	

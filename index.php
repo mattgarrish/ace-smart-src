@@ -130,11 +130,11 @@
 					}
 				?>
 				
-				<?php include 'tab/discovery.php' ?>
+				<?php include 'tab/discovery.html' ?>
 				
 				<?php include 'tab/distribution.html' ?>
 				
-				<?php include 'tab/evaluation.php' ?>
+				<?php include 'tab/evaluation.html' ?>
 				
 				<?php include 'tab/generate.html' ?>
 			</form>

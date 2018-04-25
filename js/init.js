@@ -55,6 +55,17 @@
 		}
 	});
 	
+	onix_dialog = $("#distribution-meta").dialog({
+		autoOpen: false,
+		height: 450,
+		modal: true,
+		buttons: {
+			Close: function() {
+				onix_dialog.dialog( "close" );
+			}
+		}
+	});
+	
 	evaluation_dialog = $("#evaluation-meta").dialog({
 		autoOpen: false,
 		height: 350,
@@ -62,17 +73,6 @@
 		buttons: {
 			Close: function() {
 				evaluation_dialog.dialog( "close" );
-			}
-		}
-	});
-	
-	onix_dialog = $("#distribution-meta").dialog({
-		autoOpen: false,
-		height: 350,
-		modal: true,
-		buttons: {
-			Close: function() {
-				onix_dialog.dialog( "close" );
 			}
 		}
 	});
