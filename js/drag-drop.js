@@ -122,7 +122,7 @@
 							}
 							catch (error) {
 								$form.addClass('is-error');
-								alert('The following error occurred loading the report:\n\n' + error + '\n\nPlease report this problem if it continues to occur.');
+								alert('The following error occurred loading the report:\n\n' + (error.stack ? error.stack : error) + '\n\nPlease report this problem if it continues to occur.');
 							}
 						},
 						error: function()

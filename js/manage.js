@@ -110,8 +110,25 @@ var smartManage = (function() {
 				reportJSON.discovery[id] = saveDiscoveryMeta(id);
 			});
 			
-			reportJSON.discovery.accessibilitySummary = document.getElementById('accessibilitySummary').value;
+			reportJSON.discovery.accessibilitySummary = document.getElementById('accessibilitySummary').value.trim();
 			reportJSON.discovery.accessModeSufficient = saveSufficientSets();
+		
+		/* store onix metadata */
+		
+		reportJSON.distribution = {};
+		
+			reportJSON.distribution.onix = {};
+			reportJSON.distribution.onix['00'] = document.getElementById('onix00').value.trim();
+			for (var o = 10; o < 25; o++) {
+				var onix_id = o < 10 ? '0' + String(o) : o;
+				var onix_chkbox = document.querySelector('input[name="onix-chkbox"][value="' + onix_id + '"]');
+				if (onix_chkbox) {
+					reportJSON.distribution.onix[onix_id] = onix_chkbox.checked;
+				}
+			}
+			for (var p = 94; p < 100; p++) {
+				reportJSON.distribution.onix[p] = document.getElementById('onix'+p).value.trim();
+			}
 		
 		/* store conformance metadata */
 		
@@ -273,6 +290,23 @@ var smartManage = (function() {
 			
 			if (reportJSON.discovery.hasOwnProperty('accessModeSufficient')) {
 				setSufficientModes(reportJSON.discovery.accessModeSufficient);
+			}
+		}
+		
+		/* load onix metadata */
+		
+		if (reportJSON.hasOwnProperty('distribution')) {
+			if (reportJSON.distribution.hasOwnProperty('onix')) {
+				for (var onix_id in reportJSON.distribution.onix) {
+					if (onix_id == 0 || onix_id > 90) {
+						document.getElementById('onix' + onix_id).value = reportJSON.distribution.onix[onix_id];
+					}
+					else {
+						if (reportJSON.distribution.onix[onix_id]) {
+							document.querySelector('input[name="onix-chkbox"][value="' + onix_id + '"]').click();
+						}
+					}
+				}
 			}
 		}
 		

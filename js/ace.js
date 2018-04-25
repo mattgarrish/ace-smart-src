@@ -314,21 +314,27 @@ var smartAce = (function() {
 				if (_aceReport['data']['images'][i].hasOwnProperty('alt') && _aceReport['data']['images'][i]['alt'] != '') {
 					hasAltText = true;
 					user_message.appendChild(setCheckbox('accessibilityFeature','alternativeText'));
+					setONIXCheckbox('14');
 					break;
 				}
-			}		
+			}
 		}
 		
 		if (_aceReport['properties']['hasMathML']) {
 			user_message.appendChild(setCheckbox('accessibilityFeature','MathML'));
+			setONIXCheckbox('17');
 		}
 		
 		if (_aceReport['properties']['hasPageBreaks']) {
 			user_message.appendChild(setCheckbox('accessibilityFeature','printPageNumbers'));
+			setONIXCheckbox('19');
 		}
 		
 		user_message.appendChild(setCheckbox('accessibilityFeature','readingOrder'));
+		setONIXCheckbox('13');
+		
 		user_message.appendChild(setCheckbox('accessibilityFeature','tableOfContents'));
+		setONIXCheckbox('11');
 		
 		// assuming any publication being assessed in not purely image-based
 		user_message.appendChild(setCheckbox('accessMode','textual'));
@@ -353,6 +359,11 @@ var smartAce = (function() {
 			sufficient_message.appendChild(document.createTextNode('accessModeSufficient: '+sufficient));
 		user_message.appendChild(sufficient_message);
 		
+		if (_aceReport['earl:testSubject']['metadata'].hasOwnProperty('media:duration')) {
+			user_message.appendChild(setCheckbox('accessibilityFeature','synchronizedAudioText'));
+			setONIXCheckbox('20');
+		}
+		
 		_loadMessages.inferred = user_message.hasChildNodes() ? user_message : '';
 	
 	}
@@ -363,6 +374,11 @@ var smartAce = (function() {
 		var li = document.createElement('li');
 			li.appendChild(document.createTextNode(property + ': ' + meta_id));
 		return li;
+	}
+	
+	
+	function setONIXCheckbox(onix_id) {
+		document.querySelector('input[name="onix-chkbox"][value="' + onix_id + '"]').click();
 	}
 	
 	
@@ -403,7 +419,7 @@ var smartAce = (function() {
 			alert_list.appendChild(li);
 		}
 		
-		if (!_aceReport['earl:testSubject']['metadata'].hasOwnProperty('media:narrator')) {
+		if (!_aceReport['earl:testSubject']['metadata'].hasOwnProperty('media:duration')) {
 			document.querySelector('input[name="eg-2"][value="na"]').click();
 			var li = document.createElement('li');
 				li.appendChild(document.createTextNode('media overlays'))
