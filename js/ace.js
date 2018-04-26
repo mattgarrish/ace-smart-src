@@ -378,7 +378,7 @@ var smartAce = (function() {
 	
 	
 	function setONIXCheckbox(onix_id) {
-		document.querySelector('input[name="onix-chkbox"][value="' + onix_id + '"]').click();
+		document.getElementById('onix' + onix_id).click();
 	}
 	
 	

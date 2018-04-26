@@ -64,6 +64,7 @@ var smartError = (function() {
 		
 		clearErrorBGs: function(scope) {
 			var errorFields = { "discovery": ['accessibilityFeature', 'summary-field', 'accessibilityHazard', 'accessMode', 'accessModeSufficient', 'accessibilityAPI', 'accessibilityControl'],
+							"distribution": ['onix00', 'onix01', 'onix02', 'onix03', 'onix09', 'onix10', 'onix11', 'onix12', 'onix13', 'onix14', 'onix15', 'onix16', 'onix17', 'onix18', 'onix19', 'onix20', 'onix21', 'onix22', 'onix24', 'onix94', 'onix95', 'onix96', 'onix97', 'onix98', 'onix99'],
 						   "evaluation": ['certifiedBy']};
 			
 			if (scope != null && scope != '') {

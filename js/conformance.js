@@ -143,8 +143,8 @@ var smartConformance = (function() {
 			return;
 		}
 		
-		var onix_a = document.querySelector('input[name="onix-chkbox"][value="02"]');
-		var onix_aa = document.querySelector('input[name="onix-chkbox"][value="03"]');
+		var onix_a = document.getElementById('onix02');
+		var onix_aa = document.getElementById('onix03');
 		
 		if (smartWCAG.WCAGLevel() == 'aa' || show_aa) {
 			

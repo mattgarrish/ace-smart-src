@@ -14,10 +14,19 @@ var smartDistribution = (function() {
 	
 	function validateONIXMetadata() {
 		
+		smartError.clearAll('distribution');
+		
 		var is_valid = true;
 		
-		if (document.querySelector('input[name="onix-chkbox"][value="01"]:checked') && document.querySelector('input[name="onix-chkbox"][value="09"]:checked')) {
-			alert('Publication cannot be both LIA compliant and inaccessible.');
+		if ((document.getElementById('onix01').checked || document.getElementById('onix02').checked || document.getElementById('onix03').checked) && document.getElementById('onix09').checked) {
+			smartError.logError({tab_id: 'distribution', element_id: 'onix09', severity: 'err', message: 'Publication cannot be marked both as conforming to accessibility standard(s) and as inaccessible.'});
+			smartFormat.setFieldToError({id: 'onix09', is_warning: false, highlight_parent: true});
+			is_valid = false;
+		} 
+		
+		if (document.getElementById('onix02').checked || document.getElementById('onix03').checked) {
+			smartError.logError({tab_id: 'distribution', element_id: 'onix02', severity: 'err', message: 'Publication cannot be marked both as conforming to both Level A and AA of the EPUB Accessibility specification.'});
+			smartFormat.setFieldToError({id: 'onix02', is_warning: false, highlight_parent: true});
 			is_valid = false;
 		} 
 		
@@ -25,7 +34,8 @@ var smartDistribution = (function() {
 			var url = document.getElementById('onix'+i).value;
 			if (url) {
 				if (!url.match(/^https?:\/\//i)) {
-					alert('ONIX Field ' + i + ' must be a URL that starts with http:// or https://');
+					smartError.logError({tab_id: 'distribution', element_id: 'onix'+i, severity: 'err', message: 'ONIX Field ' + i + ' must be a URL that starts with http:// or https://'});
+					smartFormat.setFieldToError({id: 'onix'+i, is_warning: false, highlight_parent: true});
 					is_valid = false;
 				}
 			}
@@ -44,20 +54,24 @@ var smartDistribution = (function() {
 		
 		var onix_metadata = '';
 		
+		/*  add summary */
 		var a11y_summary = document.getElementById('onix00').value.trim();
 		
 		if (a11y_summary) {
 			onix_metadata += formatONIXEntry( {value: '00', description: a11y_summary } );
 		}
 		
-		var checked_onix_fields = document.querySelectorAll('input[name="onix-chkbox"]:checked');
-		
-		if (checked_onix_fields) {
-			for (var i = 0; i < checked_onix_fields.length; i++) {
-				onix_metadata += formatONIXEntry( {value: checked_onix_fields[i].value } );
+		/* add any checked fields */
+		for (var i = 1; i < 25; i++) {
+			var onix_id = (i < 10 ? '0'+String(i) : i);
+			var checkbox = document.getElementById('onix'+onix_id);
+			
+			if (checkbox && checkbox.checked) {
+				onix_metadata += formatONIXEntry( {value: onix_id } );
 			}
 		}
 		
+		/* add any text input fields */
 		for (var i = 94; i < 100; i++) {
 			var data_field = document.getElementById('onix'+i).value.trim();
 			if (data_field) {
