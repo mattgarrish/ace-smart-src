@@ -120,7 +120,8 @@ var smartManage = (function() {
 			reportJSON.distribution.onix = {};
 			reportJSON.distribution.onix['00'] = document.getElementById('onix00').value.trim();
 			for (var o = 10; o < 25; o++) {
-				var onix_chkbox = document.getElementById('onix' + (o < 10 ? '0' + String(o) : o));
+				var onix_id = o < 10 ? '0' + String(o) : o;
+				var onix_chkbox = document.getElementById('onix' + onix_id);
 				if (onix_chkbox) {
 					reportJSON.distribution.onix[onix_id] = onix_chkbox.checked;
 				}
