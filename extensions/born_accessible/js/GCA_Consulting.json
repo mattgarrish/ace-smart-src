@@ -1,8 +1,8 @@
 {
-    "version": "0.3",
+    "version": "0.4",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "06/19/2018, 11:00:00 AM",
+    "dct:date": "06/25/2018, 08:00:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -378,7 +378,8 @@
                         "$itemId": "navigation-dc-source",
                         "itemName" : "dc:Source (page metadata)",
                         "itemScores": {
-                            "1": "Not present in OPF file (no print equivalent should site itself)",
+                            "N/A": "No page numbers / no print equivalent",
+                            "1": "Not present in OPF file (no print equivalent should cite itself when providing page numbers)",
                             "4": "present in OPF file - required for page lists"
                         }
                     },
