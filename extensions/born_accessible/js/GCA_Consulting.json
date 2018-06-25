@@ -1,8 +1,8 @@
 {
-    "version": "0.2",
+    "version": "0.3",
     "dct:title": "GCA Consulting",
-    "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Consulting",
-    "dct:date": "02/22/2018, 08:30:00 AM",
+    "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
+    "dct:date": "06/19/2018, 11:00:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -373,7 +373,36 @@
                             "2": "The navigation includes some hidden elements",
                             "4": "Extended contents (h3 and up) are hidden but available for accessibility reasons"
                         }
-                    }
+                    },
+                    {
+                        "$itemId": "navigation-dc-source",
+                        "itemName" : "dc:Source (page metadata)",
+                        "itemScores": {
+                            "1": "Not present in OPF file (no print equivalent should site itself)",
+                            "4": "present in OPF file - required for page lists"
+                        }
+                    },
+                    {
+                        "$itemId": "navigation-pagebreaks",
+                        "itemName" : "Page Breaks",
+                        "itemScores": {
+                            "N/A": "No pages / no print equivalent",
+                            "0": "No accessible pagebreaks",
+                            "1": "Page breaks present but missing title or aria-label",
+                            "2": "Page breaks present but missing doc-pagebreak semantics",
+                            "4": "Page breaks contains epub:type=pagebreak, role=doc-pagebreak and labelled correctly"
+                       }
+                    },
+                    {
+                        "$itemId": "navigation-pagelist",
+                        "itemName" : "Page List",
+                        "itemScores": {
+                            "N/A": "No pages",
+                            "0": "Missing page list in nav doc",
+                            "2": "Page list present but incomplete or incorrectly marked up",
+                             "4": "All Pages referenced correctly with epub:type=page-list in Nav document"
+                       }
+                    }                    
                 ]
             },
             {
