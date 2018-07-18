@@ -1,8 +1,8 @@
 {
-    "version": "0.4",
+    "version": "0.6",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "06/25/2018, 08:00:00 AM",
+    "dct:date": "07/13/2018, 11:40:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -184,7 +184,8 @@
                             "2": "Transcript or sign-language interpretation is partial or incomplete.",
                             "3": "Transcript or sign-language interpretation present but via auto-generated subtitles, say, in a YouTube link.",
                             "4": "Captioning/Transcripts of the Video was present."
-                        }
+                        },
+                        "wcagScoreFrom": ["sc-1.2.2"]
                     },
                     {
                         "$itemId": "video-descriptions",
@@ -194,7 +195,8 @@
                             "0": "There are no audio descriptions for the time-based/synchronized media",
                             "2": "Audio descriptions is partial or incomplete for the time-based/synchronized media.",
                             "4": "Audio Descriptions of the media was present and correct."
-                        }
+                        },
+                        "wcagScoreFrom": ["sc-1.2.3"]
                     },
                     {
                         "$itemId": "video-background-noise",
@@ -218,7 +220,8 @@
                         "0": "The reading order does not follow the structure of the book",
                         "1": "Small issues with reading order (ie. asides not defined correctly and read as part of the main)",
                         "4": "All content read in the correct order."
-                    }
+                    },
+                    "wcagScoreFrom": ["sc-1.3.2","sc-2.4.3"]
                 },
                     {
                         "$itemId": "general-structural-hiearchy",
@@ -252,18 +255,6 @@
                         }
                     },
                     {
-                        "$itemId": "general-page-lists",
-                        "itemName" : "Page Lists",
-                        "itemScores": {
-                            "N/A": "No print counterpart, not required. (no dc:source)",
-                            "0": "No page list present at all",
-                            "1": "Well-developed page list but not compiled in the toc.xhtml, especially problematic because of unlinked index with print page numbers as references",
-                            "2": "Well-developed page list but not compiled in the toc.xhtml",
-                            "3": "Well-developed page list but no dc:source declared in the OPF or Page list present but marked up in a problematic way",
-                            "4": "Page List present and navigable"
-                        }
-                    },
-                    {
                         "$itemId": "general-landmarks",
                         "itemName" : "Landmarks",
                         "itemScores": {
@@ -281,7 +272,8 @@
                             "N/A": "No background coloring or images requiring coloring contrast",
                             "0": "Color contrast failed minimum levels required. (AA – Requirement)",
                             "4": "All overlapping colors were correctly contrasted"
-                        }
+                        },
+                        "wcagScoreFrom": ["sc-1.4.3"]
                     },
                     {
                         "$itemId": "general-emphasis-bolding",
@@ -300,7 +292,8 @@
                         "itemScores": {
                             "0": "Used incorrectly; i.e. book name used in every HTML file's title instead of the name of that chapter or section",
                             "4": "title of each html file named correctly"
-                        }
+                        },
+                        "wcagScoreFrom": ["sc-2.4.2"]
                     },
                     {
                         "$itemId": "general-inline-styling",
@@ -336,7 +329,8 @@
                             "0": "No languages are declared in the EPUB",
                             "1": "Language declared in either the OPF/HTML file but not both",
                             "4": "Language declared correctly in OPF and in HTML files"
-                        }
+                        },
+                        "wcagScoreFrom": ["sc-3.1.1"]
                     },
                     {
                         "$itemId": "language-shifts",
@@ -346,7 +340,8 @@
                             "0": "Changes in language were incorrectly marked up (AA Compliance)",
                             "2": "Some of the language shifts are marked but not all",
                             "4": "All language shifts throughout the publication were marked correctly. (Note: Common foreign words and phrases do not need a language shift)"
-                        }
+                        },
+                        "wcagScoreFrom": ["sc-3.1.2"]
                     }
                 ]
             },
@@ -419,7 +414,8 @@
                             "1": "Live link is not described to assistive technology",
                             "3": "Only some of the intra-text references are live; unlinked flat print index repeated in the EPUB",
                             "4": "All URLs and internal references worked"
-                        }
+                        },
+                        "wcagScoreFrom": ["sc-2.4.4"]
                     },
                     {
                         "$itemId": "links-visual-cues",
@@ -637,6 +633,7 @@
                         "$itemId": "publishing-aria-markup-included",
                         "itemName" : "Digital Publishing Specific ARIA Markup",
                         "itemScores": {
+                           "N/A": "Outstanding IOS iBooks issue with DPUB-ARIA",
                             "0": "DPUB ARIA markup not present.",
                             "1": "DPUB semantic markup present but not entirely accurate or incomplete",
                             "4": "DPUB ARIA semantic markup present and used correctly"

@@ -248,6 +248,8 @@ smart_extensions['born_accessible'] = (function() {
 				}
 			}
 			
+			// add total score
+			
 			var total_score = (max_score == 0) ? 'N/A' : (Math.round((actual_score / max_score) * 100) + '%');
 			_baReportScore = total_score;
 			
@@ -267,18 +269,9 @@ smart_extensions['born_accessible'] = (function() {
 			
 			test_scores.appendChild(ba_total_score_div);
 			
-			test_scores.appendChild(score_list);
+						var complexity_selected = document.querySelector('input[name="ba-complexity-level"]:checked');
 			
-			reportHTML.appendChild(test_scores);
-			
-			var stat_section = document.createElement('section');
-				stat_section.setAttribute('id','born-accessible-stats');
-			
-			var stat_hd = document.createElement('h4');
-				stat_hd.appendChild(document.createTextNode('Statistics'))
-			stat_section.appendChild(stat_hd);
-			
-			var complexity_selected = document.querySelector('input[name="ba-complexity-level"]:checked');
+			// add complexity level
 			
 			var complexity_level = complexity_selected ? complexity_selected.parentNode.textContent : 'Not specified';
 			
@@ -294,7 +287,20 @@ smart_extensions['born_accessible'] = (function() {
 				complexity_score.appendChild(document.createTextNode(complexity_level));
 			complexity_div.appendChild(complexity_score);
 			
-			stat_section.appendChild(complexity_div);
+			test_scores.appendChild(complexity_div);
+			
+			// add individual scores
+			
+			test_scores.appendChild(score_list);
+			
+			reportHTML.appendChild(test_scores);
+			
+			var stat_section = document.createElement('section');
+				stat_section.setAttribute('id','born-accessible-stats');
+			
+			var stat_hd = document.createElement('h4');
+				stat_hd.appendChild(document.createTextNode('Statistics'))
+			stat_section.appendChild(stat_hd);
 			
 			var stat_table = document.createElement('table');
 			

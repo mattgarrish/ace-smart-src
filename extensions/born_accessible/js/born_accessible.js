@@ -51,8 +51,9 @@ var bornAccessible = (function() {
 				generateBornAccessibleTab();
 				
 			},
-			error: function()
-			{
+			error: function(xhr, status, error) {
+				var err = eval("(" + xhr.responseText + ")");
+				console.log(err.Message);
 				alert('Failed to load born accessible test data.' );
 			}
 		});
@@ -191,6 +192,12 @@ var bornAccessible = (function() {
 				fieldset.appendChild(note_div);
 				
 				test_div.appendChild(fieldset);
+				
+				if (_baTestData.bornAccessibleScoring.sections[i].sectionItems[j].hasOwnProperty('wcagScoreFrom')) {
+					for (var k = 0; k < _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['wcagScoreFrom'].length; k++) {
+						setWCAGEventHandler(_baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'], _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['wcagScoreFrom'][k], _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['itemName']);
+					}
+				}
 			}
 			
 			// add cumulative section score
@@ -238,6 +245,33 @@ var bornAccessible = (function() {
 			bornAccessible.updateSectionScore(this);
 			bornAccessible.setBackgroundStatus(this);
 			bornAccessible.updateResultScore();
+		});
+	}
+	
+	
+	function setWCAGEventHandler(gcaID, wcagID, testName) {
+	
+		$('input.sc_status[name="' + wcagID + '"]').click( function() {
+		
+			var current_ba_status = document.querySelector('fieldset#' + gcaID + ' input.test-input:checked').value;
+			
+			if (current_ba_status != 'Unverified') {
+				if ((this.value == 'fail' && String(current_ba_status) == '0') || (this.value == 'pass' && String(current_ba_status) == '4')) {
+					return;
+				}
+			
+				else if (!confirm('The related Born Accessible test "' + testName + '" has already been set to ' + (current_ba_status == 0 ? 'fail' : (current_ba_status == 4 ? 'pass' : 'to a different value')) + '.\n\nClick Ok to override or Cancel to leave as is.')) {
+					return;
+				}
+			}
+			
+			if (this.value == 'pass') {
+				document.querySelector('fieldset#' + gcaID + ' input.test-input[value="4"]').click(); 
+			}
+			
+			else if (this.value == 'fail') {
+				document.querySelector('fieldset#' + gcaID + ' input.test-input[value="0"]').click(); 
+			}
 		});
 	}
 	

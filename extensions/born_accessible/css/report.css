@@ -64,13 +64,14 @@
 }
 
 #born_accessible .ba-primary {
-	font-size: 1.8rem;
+	font-size: 1.6rem;
 	margin: 0 0 2rem 2rem;
 	font-weight: bold;
 }
 
-#born_accessible .ba-primary > span:last-child {
-	margin-left: 3rem;
+#born_accessible .ba-primary span:first-child {
+    width: 24rem;
+    display: inline-block;
 }
 
 #born_accessible table {
