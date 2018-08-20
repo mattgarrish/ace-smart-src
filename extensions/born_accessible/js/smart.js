@@ -63,13 +63,10 @@ smart_extensions['born_accessible'] = (function() {
 			}
 			
 			// unset all the tests
-			var fields = document.querySelectorAll('#born_accessible fieldset.test');
+			var fields = document.querySelectorAll('#born_accessible fieldset.test input[type="radio"][value="Unverified"]');
 			
 			for (var i = 0; i < fields.length; i++) {
-				var checked_score = fields[i].querySelector('input:checked');
-				if (checked_score) { checked_score.checked = false; }
-				
-				fields[i].querySelector('textarea').value = '';
+				fields[i].click();
 			}
 			
 		},
@@ -123,7 +120,14 @@ smart_extensions['born_accessible'] = (function() {
 			var tests = document.querySelectorAll('#born_accessible fieldset.test');
 			
 			for (var i = 0; i < tests.length; i++) {
-				if (tests[i].querySelector('input.test-input:checked').value == 'Unverified') {
+				var checked_radio = tests[i].querySelector('input.test-input:checked');
+				
+				if (!checked_radio) {
+					smartError.logError({tab_id: 'born_accessible', element_id: tests[i].id, severity: 'err', message: 'Born Accessible test "' + tests[i].querySelector('legend').textContent + '" has no result.'});
+					is_valid = false;
+				}
+				
+				else if (checked_radio.value == 'Unverified') {
 					smartError.logError({tab_id: 'born_accessible', element_id: tests[i].id, severity: 'err', message: 'Born Accessible test "' + tests[i].querySelector('legend').textContent + '" has not been verified.'});
 					is_valid = false;
 				}
@@ -184,6 +188,10 @@ smart_extensions['born_accessible'] = (function() {
 				
 				for (var j = 0; j < tests.length; j++) {
 					var score = tests[j].querySelector('input:checked');
+					
+					if (!score) {
+						continue;
+					}
 					
 					var score_li = document.createElement('li');
 						score_li.setAttribute('class','ba-score');
