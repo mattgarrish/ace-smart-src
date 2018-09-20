@@ -1,27 +1,90 @@
 <?php require_once 'users/init.php' ?>
 <?php require_once 'extensions/config.php' ?>
+<?php require_once 'modules/db.php' ?>
 <?php if (!securePage($_SERVER['PHP_SELF'])) { die(); } ?>
-<?php $smart = true; ?>
+<?php
+	
+	$db = new SMART_DB();
+	$db->connect();
+	
+	if (isset($_POST['action']) && $_POST['action'] == 'delete') {
+		if ($db->prepare("UPDATE reports SET status = ?, report = ?, modified = ? WHERE username = ? AND id = ?")) {
+			$del_date = '0000-00-00 00:00:00';
+			$del_data = '';
+			$del_status = 'deleted';
+			$db->bind_param("ssssi", array($del_status, $del_data, $del_date, $user->data()->username, $_POST['id']));
+		    $db->execute();
+		    $db->close();
+		}
+	}
+	
+	$report_max = 0;
+
+    if ($user->data()->license != 'unlimited') {
+    	$report_max = str_replace('max','',$user->data()->license);
+    }
+	
+	if (!$user->data()->license) {
+		// boot the user out
+		die();
+	}
+	
+	$is_licensed = false;
+	$reports_remaining = 0;
+	
+	if ($user->data()->license == 'unlimited') {
+		$is_licensed = true;
+	}
+	
+	else {
+		$this_month = date('Y-m-01') . ' 00:00:00';
+		
+		$sql = 'SELECT COUNT(title) AS report_count FROM reports ';
+		
+		$arg = '';
+		
+		if ($user->data()->company) {
+			$arg = $user->data()->company;
+			$sql .= 'WHERE company = ?';
+		}
+		
+		else {
+			$arg = $user->data()->username;
+			$sql .= 'WHERE username = ?';
+		}
+		
+		$sql .= ' AND created >= ?';
+		
+		if ($db->prepare($sql)) {
+			
+			$db->bind_param('ss', array($arg, $this_month));
+		    
+		    $db->execute();
+			
+			$result = $db->get_result();
+			
+		    $reports_remaining = $report_max - $result['report_count'];
+		    
+		    $db->close();
+		}
+		
+		if ($report_max > 0) {
+			$is_licensed = true;
+		}
+	}
+?>
 
 <!DOCTYPE html>
 <html lang="en" prefix="dcterms: http://purl.org/dc/terms/ schema: http://schema.org/" typeof="schema:WebPage">
 	<head>
 		<meta charset="utf-8"/>
 		<title>Ace SMART</title>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />		
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" href="css/a11y.css"/>
 		<link rel="stylesheet" type="text/css" href="css/tabs.css"/>
-		<?php
-			if ($ext_module_access) {
-				foreach ($ext_module_access as $module) {
-					if ($extension[$module]) {
-						echo '<link rel="stylesheet" type="text/css" href="extensions/' . $module . '/css/smart.css"/>';
-					}
-				}
-			}
-		?>
 		<link rel="stylesheet" type="text/css" href="css/drag-drop.css"/>
-		
+    	<link rel="stylesheet" type="text/css" href="css/datatables.min.css"/>		
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		
 		<!-- DC metadata --> 
@@ -51,17 +114,14 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="js/jquery.details.min.js"></script>
-		<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
-		<?php echo "<script>var smart_extensions = {}; var ACE_USER = '" . $user->data()->username . "';</script>"; ?>
-		<script src="js/ace.js"></script>
-		<script src="js/manage.js"></script>
-		<script src="js/error.js"></script>
-		<script src="js/format.js"></script>
-		<script src="js/wcag.js"></script>
-		<script src="js/reporting.js"></script>
+		
+		<!-- DataTables -->
+		<script type="text/javascript" src="js/datatables.min.js"></script>
+		<script type="text/javascript" src="js/datatables-init.js"></script>
+		<script type="text/javascript" src="js/js.cookie.js"></script>
 	</head>
 	
-	<body class="tabs">
+	<body>
 		<header>
 			<div class="id">You are logged in as <code><a target="_blank" href="users/account.php"><?php echo $user->data()->username; ?></a></code> <a class="logout" href="users/logout.php">Log out</a></div>
 			
@@ -70,119 +130,131 @@
 			<nav class="menubar">
 				<a href="user-guide/" target="_blank">User Guide</a> 
 				<a href="faq.html" target="_blank">FAQ</a>
-				<a href="#" id="save-button">Save</a>
-				<a href="#" id="clear-button">Clear</a>
 			</nav>
 		</header>
 		
 		<main class="js-tabs">
-			<ul class="js-tablist" data-existing-hx="h3">
-				<li class="js-tablist__item">
-					<a href="#start" id="label_start" class="js-tablist__link">Start</a>
-				</li>
-				<li class="js-tablist__item">
-					<a href="#conformance" id="label_conformance" class="js-tablist__link">Conformance</a>
-				</li>
-				<?php
-					$ace_extension_tabs = array();
-					
-					if ($ext_module_access) {
-						foreach ($ext_module_access as $module) {
-							if ($extension[$module]['tab']) {
-								foreach ($extension[$module]['tab'] as $key => $value) {
-									echo '<li class="js-tablist__item"><a href="#' . $key . '" id="label_' . $key . '" class="js-tablist__link">' . $value . '</a></li>';
-									$ext_js_object = "{id: '" . $key . "', label: '" . str_replace("'", "\\'", $value) . "'}";
-									array_push($ace_extension_tabs, $ext_js_object);
-								}
-							}
-						}
-					}
-				?>
-				<li class="js-tablist__item">
-					<a href="#discovery" id="label_discovery" class="js-tablist__link">Discovery</a>
-				</li>
-				<li class="js-tablist__item">
-					<a href="#distribution" id="label_distribution" class="js-tablist__link">Distribution</a>
-				</li>
-				<li class="js-tablist__item">
-					<a href="#evaluation" id="label_evaluation" class="js-tablist__link">Result</a>
-				</li>
-				<li class="js-tablist__item">
-					<a href="#generate" id="label_generate" class="js-tablist__link">Reporting</a>
-				</li>
-			</ul>
-	
-			<?php include 'tab/start.html' ?>
+			<h2>Welcome to Ace SMART</h2>
 			
-			<form class="report">
+			<section id="load">
+				<h3 class="welcome">Start an Evaluation</h3>
 				
-				<?php include 'tab/conformance.html' ?>
+				<?php if ($is_licensed && ($user->data()->license == 'unlimited' || $reports_remaining > 0)) {
 				
-				<?php
-					if ($ext_module_access) {
-						foreach ($ext_module_access as $module) {
-							if ($extension[$module]['tab']) {
-								foreach ($extension[$module]['tab'] as $key => $value) {
-									include 'extensions/' . $module . '/tab/' . $key . '.html';
-								}
-							}
+						if ($user->data()->license != 'unlimited') {
+							echo '<p class="license">Note: Your license allows ' . $reports_remaining . ' more evaluations this month.</p>';
 						}
-					}
 				?>
 				
-				<?php include 'tab/discovery.html' ?>
+				<div class="container js">
+					<form method="post" action="smart.php" enctype="multipart/form-data" novalidate="novalidate" class="box" id="nextStep">
+						<div class="box__input">
+							<input type="file" name="ace-report" id="file" class="box__file"/>
+							<label class="dnd" for="file"><strong>Select an Ace report</strong><span class="box__dragndrop"> or drag one here</span>.</label>
+							<button type="submit" class="box__button">Load</button>
+						</div>
+						
+						<div class="box__uploading">Uploading&#8230;</div>
+						<div class="box__success">Done! <a href="" class="box__restart" role="button">Load a different report?</a></div>
+						<div class="box__error">Error! <span></span>. <a href="" class="box__restart" role="button">Try again!</a></div>
+						<input type="hidden" name="id" id="id" value=""/>
+						<input type="hidden" name="action" id="action" value="load"/>
+					</form>
+				</div>
+				<?php } 
 				
-				<?php include 'tab/distribution.html' ?>
+					else {
+						echo '<p class="overlimit">You have reached your report limit for this month.</p>';
+					}
+				?>
+			</section>
+			
+			<section id="history">
+				<h3 class="welcome">Evaluation History</h3>
 				
-				<?php include 'tab/evaluation.html' ?>
-				
-				<?php include 'tab/generate.html' ?>
-			</form>
+				<table id="reports" class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Started</th>
+							<th>Last Saved</th>
+							<th>Options</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+							if ($db->prepare("SELECT id, title, created, modified, status FROM reports WHERE username = ? ORDER BY created DESC")) {
+							
+								if ($db->bind_param("s", array($user->data()->username))) {
+								
+							    	if ($db->execute()) {
+							    	
+										$result = $db->get_results();
+										
+										foreach ($result as $row) {
+											echo '<tr>';
+											echo '<td>' . $row['title'] . '</td>';
+											echo '<td>' . $row['created'] . '</td>';
+											
+											echo '<td>';
+											
+											if ($row['modified'] != '0000-00-00 00:00:00') {
+												echo $row['modified'];
+											}
+											else {
+												switch ($row['status']) { 
+													case 'unsaved':
+														echo 'Not saved';
+														break;
+													case 'local':
+														echo 'Saved locally';
+														break;
+													case 'deleted':
+														echo 'Deleted';
+														break;
+												}
+											}
+											
+											echo '</td><td>';
+											
+											switch ($row['status']) {
+												case 'local':
+												case 'deleted':
+													echo '<input type="image" src="images/resume.svg" height="40" id="reload_' . $row['id'] . '" alt="Resume" title="Resume"/>';
+													break;
+												
+												default:
+													echo '<input type="image" src="images/resume.svg" height="40" id="resume_' . $row['id'] . '" alt="Resume" title="Resume"/>';
+													echo '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
+											
+											}
+											
+											echo '</td>';
+											echo '</tr>';
+										}
+										
+									    $db->close();
+							    	}
+								}
+							}
+						?>
+					
+					</tbody>
+				</table>
+			</section>
 		</main>
 		
-		<section id="import" aria-label="Ace Import Details" title="Ace Import Details">
-		
+		<section id="import" aria-label="Resume from local report" title="Resume from local report">
+			<input type="file" name="local-report" id="local-report"/>
 		</section>
-		
-		<form class="report">
-			<section id="error-pane" role="region" aria-labelledby="validation-msg">
-				<a href="#error-pane-close" id="error-pane-close"><img src="images/close-icon.png" alt="Close" class="error-close"/></a>
-				<h2 id="validation-msg">Validation Messages:</h2>
-				<div role="log" aria-labelledby="validation-msg" class="scroll">
-					<ul id="error-msg"></ul>
-				</div>
-			</section>
-		</form>
 		
 		<footer>
 			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2017</span> <a target="_blank" href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
 			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+			<p><small>Icons by <a href="https://www.iconfinder.com/flaticondesign">Icon Studio</a> used under <a href="https://creativecommons.org/licenses/by/3.0/">CC-By 3.0</small></a>
 		</footer>
 		
-		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-		<script src="js/a11ytabs.js"></script>
 		<script src="js/drag-drop.js"></script>
-		<script src="/js/discovery.js"></script>
-		<script src="/js/evaluation.js"></script>
-		<script src="/js/conformance.js"></script>
-		
-		<?php
-			if ($ext_module_access) {
-				foreach ($ext_module_access as $module) {
-					if ($extension[$module]) {
-						echo '<script src="extensions/' . $module . '/js/smart.js"></script>';
-					}
-				}
-				if ($ace_extension_tabs) {
-					echo '<script>';
-					foreach ($ace_extension_tabs as $tab) {
-						echo 'smartReport.addExtensionTab(' . $tab . ');';
-					}
-					echo '</script>';
-				}
-			}
-		?>
-		
-		<script src="js/init.js"></script>
-</body>
+		<script src="js/init-index.js"></script>
+	</body>
 </html>

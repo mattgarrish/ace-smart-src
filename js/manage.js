@@ -15,15 +15,17 @@
  * 
  * = loadLocalReport - reads the json from from the text box and calls loadConformanceReport to populate the form
  * 
- * - resetSMARTInterface - resets the smart tool to its initial unloaded state
- * 
  */
 
 var smartManage = (function() {
 	
-	function saveConformanceReport() {
+	var _saved = false;
+	
+	function saveConformanceReport(location) {
 	
 		var reportJSON = {};
+		
+		_saved = false;
 		
 		reportJSON.version = '1.0';
 		reportJSON.category = 'savedReport';
@@ -153,7 +155,10 @@ var smartManage = (function() {
 			}
 		}
 		
-		writeSavedJSON(JSON.stringify(reportJSON));
+		(location == 'local') ? 
+			writeSavedJSON(JSON.stringify(reportJSON)) : 
+			storeSavedJSON(JSON.stringify(reportJSON));
+		
 	}
 	
 	
@@ -200,19 +205,80 @@ var smartManage = (function() {
 		var report_form = document.createElement('form');
 			report_form.target = '_blank';    
 			report_form.method = 'POST';
-			report_form.action = 'saved-evaluation.php';
+			report_form.action = 'save.php';
 		
-		var report_input = document.createElement('input');
-			report_input.type = 'hidden';
-			report_input.name = 'report';
-			report_input.value = reportJSON;
-		report_form.appendChild(report_input);
+		var report_data = document.createElement('input');
+			report_data.type = 'hidden';
+			report_data.name = 'report';
+			report_data.value = reportJSON;
+		report_form.appendChild(report_data);
+		
+		var report_title = document.createElement('input');
+			report_title.type = 'hidden';
+			report_title.name = 'title';
+			report_title.value = document.getElementById('title').value;
+		report_form.appendChild(report_title);
+		
+		var report_location = document.createElement('input');
+			report_location.type = 'hidden';
+			report_location.name = 'location';
+			report_location.value = 'file';
+		report_form.appendChild(report_location);
 		
 		document.body.appendChild(report_form);
 		report_form.submit();
 		report_form.parentNode.removeChild(report_form);
+
+    	saveChanges = false;
+		save_dialog.dialog('close');
+	
 	}
 	
+	
+	/* ajax call to store data on the server */
+	function storeSavedJSON(reportJSON) {
+		$.ajax(
+		{
+			url: 			'save.php',
+			type:			'POST',
+			data: 			jQuery.param({ 
+								'u': ACE_USER,
+								'c': ACE_USER_CO,
+								't': document.getElementById('title').value,
+								'id': ACE_ID,
+								'report': reportJSON,
+								'location': 'db'
+							}),
+			contentType:    'application/x-www-form-urlencoded; charset=UTF-8',
+			cache:			false,
+			processData:	false,
+			complete: function()
+			{
+				// no actions defined
+			},
+			success: function( data )
+			{
+				try {
+					var response = JSON.parse(data);
+					if (response.error) {
+						alert( 'Sorry, an error occurred saving the report. Please try again.' );
+					}
+					else {
+    					saveChanges = false;
+						save_dialog.dialog('close');
+						alert(response.status);
+					}
+				}
+				
+				catch (error) {
+					alert( 'Sorry, the server returned an invalid response. Please try again.');
+				}
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert( 'Sorry, an error occurred contacting the server. Please try again.' );
+			}
+		});
+	}
 	
 	
 	function loadLocalReport() {
@@ -234,8 +300,7 @@ var smartManage = (function() {
 		}
 		
 		else {
-			smartAce.storeReportJSON(report_json);
-			smartAce.loadAceReport();
+			// TODO: throw error if an ace report
 		}
 		
 		report_textarea.value = '';
@@ -249,12 +314,6 @@ var smartManage = (function() {
 			alert('Invalid report - missing category identifier. Unable to load.');
 			return;
 		}
-		
-		if (!confirm('This action will delete the current evaluation and cannot be undone. Click Ok to continue.')) {
-			return;
-		}
-		
-		resetSMARTInterface(true);
 		
 		/* set the success criteria */
 		
@@ -368,8 +427,6 @@ var smartManage = (function() {
 				smart_extensions[key].loadData(reportJSON);
 			}
 		}
-		
-		alert('Report successfully loaded!');
 	}
 	
 	
@@ -412,81 +469,10 @@ var smartManage = (function() {
 	}
 	
 	
-	function resetSMARTInterface(quiet) {
-		
-		if (!quiet) {
-			if (!confirm('WARNING: All currently entered data will be deleted. This operation cannot be undone.\n\nClick Ok to continue.')) {
-				return;
-			}
-		}
-		
-		/* clear all forms */
-		for (var x = 0; x < document.forms.length; x++) {
-			document.forms[x].reset();
-		}
-		
-		/* hide epub feature warnings (top of conformance page) */
-		var epub_warning_elements = document.querySelectorAll('section.warning, li.manifest, li.bindings, li.epub-switch, li.epub-trigger');
-		
-		for (var i = 0; i < epub_warning_elements.length; i++) {
-			epub_warning_elements[i].classList.remove('visible','hidden');
-		}
-		
-		/* clear artefacts from the conformance checks */
-		var success_criteria = document.querySelectorAll('section.a, section.aa, section.aaa, section.epub');
-		
-		for (var i = 0; i < success_criteria.length; i++) {
-			// reset the status to remove background colours
-			document.querySelector('input[name="' + success_criteria[i].id + '"][value="unverified"]').click();
-			
-			// click the notes twice because reset removes check without hiding note
-			var note = document.querySelector('input[name="' + success_criteria[i].id + '-note"]');
-				note.click();
-				note.click();
-		}
-		
-		/* clear artefacts from the discovery metadata */
-		var discovery_fields = document.querySelectorAll('#discovery fieldset');
-		
-		for (var i = 0; i < discovery_fields.length; i++) {
-			discovery_fields[i].classList.remove(smartFormat.BG.ERR, smartFormat.BG.WARN, smartFormat.BG.PASS, smartFormat.BG.NA);
-			var custom_elements = discovery_fields[i].getElementsByClassName('custom');
-			for (var j = 0; j < custom_elements.length; j++) {
-				custom_elements[j].parentNode.removeChild(custom_elements[j]);
-			}
-		}
-		
-		/* clear warnings from the publication info */
-		document.getElementById('title').classList.remove(smartFormat.BG.ERR);
-		document.getElementById('modified').classList.remove(smartFormat.BG.ERR);
-		
-		/* clear extensions */
-		if (Object.keys(smart_extensions).length > 0) {
-			for (var key in smart_extensions) {
-				smart_extensions[key].clear();
-			}
-		}
-		
-		/* clear the error pane */
-		
-		smartError.clearAll();
-		smartError.hideErrorPane();
-		
-		/* clear the import messages */
-		
-		var import_dlg = document.getElementById('import');
-		
-		while(import_dlg.firstChild) {
-			import_dlg.removeChild(import_dlg.firstChild);
-		}
-	}
-	
-	
-	
 	return {
 	
-		saveConformanceReport: function() {
-			saveConformanceReport();
+		saveConformanceReport: function(location) {
+			saveConformanceReport(location);
 		},
 		
 		loadLocalReport: function(){
@@ -495,10 +481,6 @@ var smartManage = (function() {
 		
 		loadConformanceReport: function(data){
 			loadConformanceReport(data);
-		},
-		
-		resetSMARTInterface: function(quiet) {
-			resetSMARTInterface(quiet);
 		}
 	}
 

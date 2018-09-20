@@ -79,7 +79,7 @@ var smartAce = (function() {
 		}
 		
 		if (!_aceReport.hasOwnProperty('earl:assertedBy') || _aceReport['earl:assertedBy']['doap:name'] != 'DAISY Ace') {
-			if (!confirm('Could not verify Ace report. Click Ok to process to attempt to process anyway.')) {
+			if (!confirm('Could not verify Ace report. Click Ok to attempt to process anyway.')) {
 				return;
 			}
 		}
@@ -104,8 +104,11 @@ var smartAce = (function() {
 		showReportLoadResult();
 		
 		// enable the report review link
-		document.getElementById('ace-review').setAttribute('href','#ace-review');
-		$('#ace-review').click( function(){ import_dialog.dialog('open'); return false; });
+		//document.getElementById('ace-review').setAttribute('href','#ace-review');
+		//$('#ace-review').click( function(){ import_dialog.dialog('open'); return false; });
+		
+		// add to user's tally
+		logReport();
 	
 	}
 	
@@ -674,6 +677,57 @@ var smartAce = (function() {
 		
 		import_dialog.dialog('open');
 	}
+	
+	
+	function logReport() {
+	
+		// add report to the user's total
+		
+		$.ajax(
+		{
+			url: 			'log.php',
+			type:			'POST',
+			data: 			jQuery.param({ 
+								'u': ACE_USER,
+								'c': ACE_USER_CO,
+								't': document.getElementById('title').value
+							}),
+			contentType:    'application/x-www-form-urlencoded; charset=UTF-8',
+			cache:			false,
+			processData:	false,
+			complete: function()
+			{
+				// no actions defined
+			},
+			success: function( data )
+			{
+				try {
+					data = JSON.parse(data);
+					if (data.error) {
+						alert( 'Sorry, an error occurred logging the report. Please try again.' );
+						abort();
+					}
+					ACE_ID = data.id;
+				}
+				
+				catch (error) {
+					alert( 'Sorry, an error occurred opening the report. Please try again.' + data );
+					abort();
+				}
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert(thrownError);
+				alert( 'Sorry, an error occurred contacting the server. Please try again.' );
+				abort();
+			}
+		});
+	}
+	
+	
+	function abort() {
+		window.location.href = 'index.php';
+	}
+
 	
 	return {
 		storeReportJSON: function(json) {

@@ -403,20 +403,20 @@ var smartReport = (function() {
 		
 		summaryTable.appendChild(formatPubInfoEntry({
 			id: 'accessibilitySummary',
-			label: 'Summary', value:
+			label: 'Accessibility Summary', value:
 			document.getElementById('accessibilitySummary').value,
 			property: 'accessibilitySummary'
 		}));
 		
 		summaryTable.appendChild(formatPubInfoEntry({
 			id: 'accessibilityFeatures',
-			label: 'Features',
+			label: 'Accessibility Features',
 			value: compileCheckboxValues('accessibilityFeature')
 		}));
 		
 		summaryTable.appendChild(formatPubInfoEntry({
 			id: 'accessibilityHazards',
-			label: 'Hazards',
+			label: 'Accessibility Hazards',
 			value: compileCheckboxValues('accessibilityHazard')
 		}));
 		

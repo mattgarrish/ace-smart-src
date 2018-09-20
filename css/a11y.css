@@ -214,7 +214,7 @@ nav.menubar > a:not([href]) {
 }
 
 a#save-button,
-a#clear-button {
+a#close-button {
 	font-size: 1.1rem !important;
 	float: right;
 	background-color: rgb(248,248,255);
@@ -225,12 +225,12 @@ a#clear-button {
 	margin-right: 4.5rem;
 }
 
-a#clear-button {
+a#close-button {
 	margin-right: 1rem;
 }
 
 a#save-button:hover,
-a#clear-button:hover {
+a#close-button:hover {
 	color: rgb(220,0,0);
 	border-color: rgb(220,0,0);
 	text-decoration: none;
@@ -888,6 +888,44 @@ div.onix textarea {
 div.data > fieldset.flat > legend {
 	color: rgb(0,0,0) !important;
 	width: 20rem;
+}
+
+section#save > fieldset {
+    background-color: inherit !important;
+    border-left: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin-top: -1rem !important;
+}
+
+/* management */
+
+h3.welcome {
+	font-size: 2rem;
+	padding-left: 0.5rem;
+}
+
+h3.welcome:before {
+	content: '§  ';
+	font-weight: bold;
+}
+
+section#load {
+	margin-top: 3rem;
+}
+
+section#history {
+	margin-top: 5rem;
+}
+
+p.license {
+	font-size: 1.4rem;
+	font-style: italic;
+	margin-left: 2rem;
+}
+
+input[type='image'] {
+	padding-left: 0.3rem;
 }
 
 

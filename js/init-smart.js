@@ -6,7 +6,30 @@
 	 */
 	
 	// add reporting fields to the conformance success criteria
-	window.onload = smartReport.addSuccessCriteriaReporting();
+	window.onload = function() {
+		smartReport.addSuccessCriteriaReporting();
+		loadReportJSON();
+		
+		// reset saveChanges after loading the form to prevent false positives when closing
+		saveChanges = false;
+	}
+	
+	function loadReportJSON() {
+		
+		var raw_report = document.getElementById('report_data').textContent;
+		
+		var data = JSON.parse(raw_report);
+		
+		if (data.hasOwnProperty('category') && data.category == 'savedReport') {
+			smartManage.loadConformanceReport(data);
+		}
+		
+		else {
+			smartAce.storeReportJSON(data);
+			smartAce.loadAceReport();
+		}
+	}
+
 	
 	
 	
@@ -33,6 +56,7 @@
 	 */
 
 	// initialize dialogs
+	
 	var import_dialog = $("#import").dialog({
 		autoOpen: false,
 		height: 350,
@@ -40,6 +64,20 @@
 		buttons: {
 			Close: function() {
 				import_dialog.dialog( "close" );
+			}
+		}
+	});
+	
+	var save_dialog = $("#save").dialog({
+		autoOpen: false,
+		height: 220,
+		modal: true,
+		buttons: {
+			"Save": function() {
+				smartManage.saveConformanceReport($('input[name="location"]:checked').val())
+			},
+			"Close": function() {
+				save_dialog.dialog( "close" );
 			}
 		}
 	});
@@ -83,12 +121,14 @@
 			discovery_dialog.dialog("option", "width", 400);
 			evaluation_dialog.dialog("option", "width", 400);
 			onix_dialog.dialog("option", "width", 400);
+			save_dialog.dialog("option", "width", 400);
 		}
 		else {
 			import_dialog.dialog("option", "width", 550);
 			discovery_dialog.dialog("option", "width", 750);
 			evaluation_dialog.dialog("option", "width", 750);
 			onix_dialog.dialog("option", "width", 750);
+			save_dialog.dialog("option", "width", 400);
 		}
 	}
 	
@@ -111,14 +151,13 @@
 	
 	/* watch for save button click */
 	$('#save-button').click( function(){
-		smartManage.saveConformanceReport();
+		save_dialog.dialog('open');
 		return false;
 	});
 	
-	/* watch for clear button click */
-	$('#clear-button').click( function(){
-		smartManage.resetSMARTInterface();
-		return false; 
+	/* watch for close button click */
+	$('#close-button').click( function(){
+		document.location.href = 'index.php';
 	});
 	
 	/* watch for error pane close click */
@@ -212,5 +251,16 @@
 	$('#generate-report').click( function(){
 		smartReport.generateConformanceReport('report');
 	});
-
-
+	
+	
+	/* Save changes prompt */
+	
+	$(":input").change(function() {
+		saveChanges = true;
+	});
+	
+	$(window).on("beforeunload",function(){
+		if (saveChanges) {
+			return "You appear to have unsaved changes.";
+		}
+	});

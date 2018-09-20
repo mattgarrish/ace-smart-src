@@ -205,6 +205,6 @@ to		{ transform: translateY( -50% ) scale( 1 ); }
 	background-color: #0f3c4b;
 }
 
-.dnd strong {
+#nextStep strong {
 	color: rgb(0,0,220);
 }
