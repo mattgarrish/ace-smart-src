@@ -1,74 +1,11 @@
 <?php require_once 'users/init.php' ?>
-<?php require_once 'extensions/config.php' ?>
-<?php require_once 'modules/db.php' ?>
 <?php if (!securePage($_SERVER['PHP_SELF'])) { die(); } ?>
-<?php
 
-	$db = new SMART_DB();
-	
-	if (!$db->connect()) {
-		header("Location: index.php?error=db");
-		die();
-	}
-	
-	$smart = true;
-	$report = '';
-	
-	if ($_POST['action']) {
-		
-		if ($_POST['action'] == 'load') {
-			if ($_FILES['ace-report']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['ace-report']['tmp_name'])) {
-				$report = file_get_contents($_FILES['ace-report']['tmp_name']); 
-			}
-		}
-		
-		else if ($_POST['action'] == 'resume' && $_POST['id']) {
-			
-			if ($_FILES['ace-report']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['ace-report']['tmp_name'])) {
-				$report = file_get_contents($_FILES['ace-report']['tmp_name']); 
-			}
-			
-			else {
-			
-				if ($db->prepare("SELECT report FROM reports WHERE username = ? AND id = ?")) {
-				
-					if (!$db->bind_param("si", array($user->data()->username, $_POST['id']))) {
-						header("Location: index.php");
-						die();
-					}
-					
-					if (!$db->execute()) {
-						header("Location: index.php");
-						die();
-					}
-					
-					$result = $db->get_result();
-					
-					$report = $result['report'];
-					
-					$db->close();
-				
-				}
-			}
-		}
-		
-		else {
-			header("Location: index.php");
-			die();
-		}
-	}
-	
-	else {
-		header("Location: index.php");
-		die();
-	}
-	
-	if ($report == '') {
-		header("Location: index.php");
-		die();
-	}
-?>
+<?php require_once 'php/modules/db.php' ?>
+<?php require_once 'php/modules/extensions.php' ?>
+<?php require_once 'php/includes/smart.php' ?>
 
+<?php require_once 'extensions/config.php' ?>
 
 <!DOCTYPE html>
 <html lang="en" prefix="dcterms: http://purl.org/dc/terms/ schema: http://schema.org/" typeof="schema:WebPage">
@@ -78,15 +15,8 @@
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" href="css/a11y.css"/>
 		<link rel="stylesheet" type="text/css" href="css/tabs.css"/>
-		<?php
-			if ($ext_module_access) {
-				foreach ($ext_module_access as $module) {
-					if ($extension[$module]) {
-						echo '<link rel="stylesheet" type="text/css" href="extensions/' . $module . '/css/smart.css"/>';
-					}
-				}
-			}
-		?>
+		
+		<?php $ext->print_css($ext_module_access); ?>
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		
@@ -153,21 +83,7 @@
 				<li class="js-tablist__item">
 					<a href="#conformance" id="label_conformance" class="js-tablist__link">Conformance</a>
 				</li>
-				<?php
-					$ace_extension_tabs = array();
-					
-					if ($ext_module_access) {
-						foreach ($ext_module_access as $module) {
-							if ($extension[$module]['tab']) {
-								foreach ($extension[$module]['tab'] as $key => $value) {
-									echo '<li class="js-tablist__item"><a href="#' . $key . '" id="label_' . $key . '" class="js-tablist__link">' . $value . '</a></li>';
-									$ext_js_object = "{id: '" . $key . "', label: '" . str_replace("'", "\\'", $value) . "'}";
-									array_push($ace_extension_tabs, $ext_js_object);
-								}
-							}
-						}
-					}
-				?>
+				<?php $ace_extension_tabs = $ext->print_tabs($ext_module_access); ?>
 				<li class="js-tablist__item">
 					<a href="#discovery" id="label_discovery" class="js-tablist__link">Discovery</a>
 				</li>
@@ -188,17 +104,7 @@
 				
 				<?php include 'tab/conformance.html' ?>
 				
-				<?php
-					if ($ext_module_access) {
-						foreach ($ext_module_access as $module) {
-							if ($extension[$module]['tab']) {
-								foreach ($extension[$module]['tab'] as $key => $value) {
-									include 'extensions/' . $module . '/tab/' . $key . '.html';
-								}
-							}
-						}
-					}
-				?>
+				<?php $ext->add_tab_includes($ext_module_access) ?>
 				
 				<?php include 'tab/discovery.html' ?>
 				
@@ -243,22 +149,7 @@
 		<script src="js/evaluation.js"></script>
 		<script src="js/conformance.js"></script>
 		
-		<?php
-			if ($ext_module_access) {
-				foreach ($ext_module_access as $module) {
-					if ($extension[$module]) {
-						echo '<script src="extensions/' . $module . '/js/smart.js"></script>';
-					}
-				}
-				if ($ace_extension_tabs) {
-					echo '<script>';
-					foreach ($ace_extension_tabs as $tab) {
-						echo 'smartReport.addExtensionTab(' . $tab . ');';
-					}
-					echo '</script>';
-				}
-			}
-		?>
+		<?php $ext->print_scripts($ace_extension_tabs); ?>
 		
 		<script src="js/init-smart.js"></script>
 </body>

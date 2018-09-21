@@ -1,77 +1,11 @@
 <?php require_once 'users/init.php' ?>
-<?php require_once 'extensions/config.php' ?>
-<?php require_once 'modules/db.php' ?>
 <?php if (!securePage($_SERVER['PHP_SELF'])) { die(); } ?>
-<?php
-	
-	$db = new SMART_DB();
-	$db->connect();
-	
-	if (isset($_POST['action']) && $_POST['action'] == 'delete') {
-		if ($db->prepare("UPDATE reports SET status = ?, report = ?, modified = ? WHERE username = ? AND id = ?")) {
-			$del_date = '0000-00-00 00:00:00';
-			$del_data = '';
-			$del_status = 'deleted';
-			$db->bind_param("ssssi", array($del_status, $del_data, $del_date, $user->data()->username, $_POST['id']));
-		    $db->execute();
-		    $db->close();
-		}
-	}
-	
-	$report_max = 0;
 
-    if ($user->data()->license != 'unlimited') {
-    	$report_max = str_replace('max','',$user->data()->license);
-    }
-	
-	if (!$user->data()->license) {
-		// boot the user out
-		die();
-	}
-	
-	$is_licensed = false;
-	$reports_remaining = 0;
-	
-	if ($user->data()->license == 'unlimited') {
-		$is_licensed = true;
-	}
-	
-	else {
-		$this_month = date('Y-m-01') . ' 00:00:00';
-		
-		$sql = 'SELECT COUNT(title) AS report_count FROM reports ';
-		
-		$arg = '';
-		
-		if ($user->data()->company) {
-			$arg = $user->data()->company;
-			$sql .= 'WHERE company = ?';
-		}
-		
-		else {
-			$arg = $user->data()->username;
-			$sql .= 'WHERE username = ?';
-		}
-		
-		$sql .= ' AND created >= ?';
-		
-		if ($db->prepare($sql)) {
-			
-			$db->bind_param('ss', array($arg, $this_month));
-		    
-		    $db->execute();
-			
-			$result = $db->get_result();
-			
-		    $reports_remaining = $report_max - $result['report_count'];
-		    
-		    $db->close();
-		}
-		
-		if ($report_max > 0) {
-			$is_licensed = true;
-		}
-	}
+<?php include 'php/modules/evaluations.php' ?>
+<?php include 'php/includes/delete_evaluation.php' ?>
+<?php
+	$license = new SMART_EVALUATION(array('username' => $user->data()->username, 'company' => $user->data()->company, 'license' => $user->data()->license));
+	$license->check_valid();
 ?>
 
 <!DOCTYPE html>
@@ -139,34 +73,7 @@
 			<section id="load">
 				<h3 class="welcome">Start an Evaluation</h3>
 				
-				<?php if ($is_licensed && ($user->data()->license == 'unlimited' || $reports_remaining > 0)) {
-				
-						if ($user->data()->license != 'unlimited') {
-							echo '<p class="license">Note: Your license allows ' . $reports_remaining . ' more evaluations this month.</p>';
-						}
-				?>
-				
-				<div class="container js">
-					<form method="post" action="smart.php" enctype="multipart/form-data" novalidate="novalidate" class="box" id="nextStep">
-						<div class="box__input">
-							<input type="file" name="ace-report" id="file" class="box__file"/>
-							<label class="dnd" for="file"><strong>Select an Ace report</strong><span class="box__dragndrop"> or drag one here</span>.</label>
-							<button type="submit" class="box__button">Load</button>
-						</div>
-						
-						<div class="box__uploading">Uploading&#8230;</div>
-						<div class="box__success">Done! <a href="" class="box__restart" role="button">Load a different report?</a></div>
-						<div class="box__error">Error! <span></span>. <a href="" class="box__restart" role="button">Try again!</a></div>
-						<input type="hidden" name="id" id="id" value=""/>
-						<input type="hidden" name="action" id="action" value="load"/>
-					</form>
-				</div>
-				<?php } 
-				
-					else {
-						echo '<p class="overlimit">You have reached your report limit for this month.</p>';
-					}
-				?>
+				<?php $license->add_evaluation() ?>
 			</section>
 			
 			<section id="history">
@@ -182,63 +89,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php
-							if ($db->prepare("SELECT id, title, created, modified, status FROM reports WHERE username = ? ORDER BY created DESC")) {
-							
-								if ($db->bind_param("s", array($user->data()->username))) {
-								
-							    	if ($db->execute()) {
-							    	
-										$result = $db->get_results();
-										
-										foreach ($result as $row) {
-											echo '<tr>';
-											echo '<td>' . $row['title'] . '</td>';
-											echo '<td>' . $row['created'] . '</td>';
-											
-											echo '<td>';
-											
-											if ($row['modified'] != '0000-00-00 00:00:00') {
-												echo $row['modified'];
-											}
-											else {
-												switch ($row['status']) { 
-													case 'unsaved':
-														echo 'Not saved';
-														break;
-													case 'local':
-														echo 'Saved locally';
-														break;
-													case 'deleted':
-														echo 'Deleted';
-														break;
-												}
-											}
-											
-											echo '</td><td>';
-											
-											switch ($row['status']) {
-												case 'local':
-												case 'deleted':
-													echo '<input type="image" src="images/resume.svg" height="40" id="reload_' . $row['id'] . '" alt="Resume" title="Resume"/>';
-													break;
-												
-												default:
-													echo '<input type="image" src="images/resume.svg" height="40" id="resume_' . $row['id'] . '" alt="Resume" title="Resume"/>';
-													echo '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
-											
-											}
-											
-											echo '</td>';
-											echo '</tr>';
-										}
-										
-									    $db->close();
-							    	}
-								}
-							}
-						?>
-					
+						<?php $license->list_evaluations(); ?>
 					</tbody>
 				</table>
 			</section>
