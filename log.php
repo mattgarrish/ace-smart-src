@@ -1,4 +1,4 @@
-<?php require_once 'modules/db.php' ?>
+<?php require_once 'php/db.php' ?>
 <?php
 
 	$user = $_POST['u'] ? $_POST['u'] : '';
@@ -11,7 +11,7 @@
 	$db = new SMART_DB();
 	$db->connect();
 	
-	if ($db->prepare("INSERT INTO reports (username, company, title, created, modified, status) VALUES (?, ?, ?, ?, ?, ?)")) {
+	if ($db->prepare("INSERT INTO evaluations (username, company, title, created, modified, status) VALUES (?, ?, ?, ?, ?, ?)")) {
 	
 		if (!$db->bind_param("ssssss", array($user, $company, $title, $now, $modified, $status))) {
 		    echo '{ "error": "Failed to bind parameters ' . json_encode($stmt->error) . '" }';
@@ -27,7 +27,7 @@
 	    
 	    $id = $db->insert_id();
 	    
-	    echo '{ "report": "New report logged", "id": "' . $id . '" }';
+	    echo '{ "evaluation": "New evaluation logged", "id": "' . $id . '" }';
 	}
 	
 	else {

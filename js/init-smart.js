@@ -20,8 +20,8 @@
 		
 		var data = JSON.parse(raw_report);
 		
-		if (data.hasOwnProperty('category') && data.category == 'savedReport') {
-			smartManage.loadConformanceReport(data);
+		if (data.hasOwnProperty('category') && data.category == 'savedEvaluation') {
+			smartManage.loadConformanceEvaluation(data);
 		}
 		
 		else {
@@ -74,7 +74,7 @@
 		modal: true,
 		buttons: {
 			"Save": function() {
-				smartManage.saveConformanceReport($('input[name="location"]:checked').val())
+				smartManage.saveConformanceEvaluation($('input[name="location"]:checked').val())
 			},
 			"Close": function() {
 				save_dialog.dialog( "close" );
@@ -167,11 +167,6 @@
 	
 	
 	/* START TAB */
-	
-	/* watch for local load of a report */
-	$('#local-load input[type="button"]').click( function(){
-		smartManage.loadLocalReport();
-	});
 	
 	/* watch for EPUB format changes */
 	$('input[name="epub-format"]').click( function(){

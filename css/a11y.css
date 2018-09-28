@@ -826,8 +826,8 @@ label.pad-left{
 
 
 /* manage options */
-#save-report label,
-#load-report label {
+#save-eval label,
+#load-eval label {
 	display: block;
 }
 
@@ -890,7 +890,7 @@ div.data > fieldset.flat > legend {
 	width: 20rem;
 }
 
-section#save > fieldset {
+#save > fieldset {
     background-color: inherit !important;
     border-left: none !important;
     border-radius: 0 !important;

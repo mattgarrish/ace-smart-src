@@ -111,7 +111,7 @@ var smartConformance = (function() {
 		if (options.type=='audio' || options.type=='video') {
 			var av = (document.querySelector('#exclusions input[value="audio"]').checked || document.querySelector('#exclusions input[value="video"]').checked) ? false : true;
 			for (var i = 0; i < _SC_TYPE.av.length; i++) {
-				// don't flip the status unless av is true or the status is currently 'na' (avoids overriding legit status when loading a saved report)
+				// don't flip the status unless av is true or the status is currently 'na' (avoids overriding legit status when loading a saved evaluation)
 				var sc_status = document.querySelector('input[name="' + _SC_TYPE.av[i] + '"]:checked').value;
 				if (av || sc_status == 'unverified') {
 					document.querySelector('input[name="' + _SC_TYPE.av[i] + '"][value="' + (av ? 'unverified' : 'na') + '"]').click();

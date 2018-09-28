@@ -1,11 +1,18 @@
 <?php require_once 'users/init.php' ?>
 <?php if (!securePage($_SERVER['PHP_SELF'])) { die(); } ?>
 
-<?php include 'php/modules/evaluations.php' ?>
-<?php include 'php/includes/delete_evaluation.php' ?>
+<?php include 'php/evaluations.php' ?>
 <?php
-	$license = new SMART_EVALUATION(array('username' => $user->data()->username, 'company' => $user->data()->company, 'license' => $user->data()->license));
-	$license->check_valid();
+	$eval = new SMART_EVALUATION(array(
+		'username' => $user->data()->username,
+		'company' => $user->data()->company,
+		'license' => $user->data()->license
+	));
+	$eval->check_valid();
+	
+	if (isset($_POST['action']) && $_POST['action'] == 'delete') {
+		$eval->delete_evaluation($_POST['id']);
+	}
 ?>
 
 <!DOCTYPE html>
@@ -53,6 +60,9 @@
 		<script type="text/javascript" src="js/datatables.min.js"></script>
 		<script type="text/javascript" src="js/datatables-init.js"></script>
 		<script type="text/javascript" src="js/js.cookie.js"></script>
+		
+		<!-- messages -->
+		<script src="js/messages.js"></script>
 	</head>
 	
 	<body>
@@ -73,31 +83,36 @@
 			<section id="load">
 				<h3 class="welcome">Start an Evaluation</h3>
 				
-				<?php $license->add_evaluation() ?>
+				<?php $eval->add_evaluation() ?>
 			</section>
 			
 			<section id="history">
 				<h3 class="welcome">Evaluation History</h3>
 				
-				<table id="reports" class="table table-striped table-bordered">
+				<table id="evaluations" class="table table-striped table-bordered">
 					<thead>
 						<tr>
 							<th>Title</th>
 							<th>Started</th>
 							<th>Last Saved</th>
+							<th>Status</th>
 							<th>Options</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php $license->list_evaluations(); ?>
+						<?php $eval->list_evaluations(); ?>
 					</tbody>
 				</table>
 			</section>
 		</main>
 		
-		<section id="import" aria-label="Resume from local report" title="Resume from local report">
-			<input type="file" name="local-report" id="local-report"/>
-		</section>
+		<div id="import" aria-label="Resume from local evaluation" title="Resume from local evaluation">
+			<input type="file" name="local-eval" id="local-eval"/>
+		</div>
+		
+		<div id="error" aria-label="Error" title="Error">
+			<p id="error-msg"></p>
+		</div>
 		
 		<footer>
 			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2017</span> <a target="_blank" href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>

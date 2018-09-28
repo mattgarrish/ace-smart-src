@@ -5,7 +5,7 @@ DT.prototype.initialize = function(options) {
     this.searchable = options.searchable !== undefined ? Boolean(options.searchable) : true;
     this.setDefaultSort = options.setDefaultSort !== undefined ? Boolean(options.setDefaultSort) : true;
     this.changeDefaultSort = options.changeDefaultSort !== undefined ? Boolean(options.changeDefaultSort) : true;
-    this.srchLabel = (options.srchLabel == undefined || options.srchLabel == null || options.srchLabel == '') ? 'Find report ' : options.srchLabel;
+    this.srchLabel = (options.srchLabel == undefined || options.srchLabel == null || options.srchLabel == '') ? 'Find evaluation ' : options.srchLabel;
     this.srchPlaceholder = (options.srchPlaceholder == undefined || options.srchLabel == null || options.srchPlaceholder == '') ? 'Enter a publication title' : options.srchPlaceholder;
     
     this.enhance();
@@ -53,7 +53,7 @@ DT.prototype.makeDynamic = function(tblID) {
                 "oLanguage": {
                     "sSearch": this.srchLabel,
                     "sSearchPlaceholder": this.srchPlaceholder,
-					"sEmptyTable": "No saved reports"
+					"sEmptyTable": "No saved evaluations"
                 }
             });
     }
@@ -78,7 +78,7 @@ DT.prototype.makeDynamic = function(tblID) {
                 "oLanguage": {
                     "sSearch": this.srchLabel,
                     "sSearchPlaceholder": this.srchPlaceholder,
-					"sEmptyTable": "No saved reports"
+					"sEmptyTable": "No saved evaluations"
                 }
             });
         }
@@ -93,7 +93,7 @@ DT.prototype.makeDynamic = function(tblID) {
                 "oLanguage": {
                     "sSearch": this.srchLabel,
                     "sSearchPlaceholder": this.srchPlaceholder,
-					"sEmptyTable": "No saved reports"
+					"sEmptyTable": "No saved evaluations"
                 }
             });
         }

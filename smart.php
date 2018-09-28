@@ -1,11 +1,23 @@
 <?php require_once 'users/init.php' ?>
 <?php if (!securePage($_SERVER['PHP_SELF'])) { die(); } ?>
 
-<?php require_once 'php/modules/db.php' ?>
-<?php require_once 'php/modules/extensions.php' ?>
-<?php require_once 'php/includes/smart.php' ?>
-
 <?php require_once 'extensions/config.php' ?>
+
+<?php require_once 'php/evaluations.php' ?>
+<?php require_once 'php/extensions.php' ?>
+
+<?php
+	if (!$_POST['action']) { header("Location: index.php"); die(); }
+	
+	$eval = new SMART_EVALUATION(array(
+		'username' => $user->data()->username,
+		'company' => $user->data()->company,
+		'action' => $_POST['action'],
+		'id' => $_POST['id']
+	));
+	
+	$ext = new SMART_EXTENSIONS($user->data()->modules, $extension);
+?>
 
 <!DOCTYPE html>
 <html lang="en" prefix="dcterms: http://purl.org/dc/terms/ schema: http://schema.org/" typeof="schema:WebPage">
@@ -16,7 +28,7 @@
 		<link rel="stylesheet" type="text/css" href="css/a11y.css"/>
 		<link rel="stylesheet" type="text/css" href="css/tabs.css"/>
 		
-		<?php $ext->print_css($ext_module_access); ?>
+		<?php $ext->print_css(); ?>
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		
@@ -45,7 +57,7 @@
 		</script>
 		
 		<script id="report_data" type="application/json">
-			<?= $report ?>
+			<?= $eval->load_evaluation() ?>
 		</script>
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -83,7 +95,7 @@
 				<li class="js-tablist__item">
 					<a href="#conformance" id="label_conformance" class="js-tablist__link">Conformance</a>
 				</li>
-				<?php $ace_extension_tabs = $ext->print_tabs($ext_module_access); ?>
+				<?php $ace_extension_tabs = $ext->print_tabs(); ?>
 				<li class="js-tablist__item">
 					<a href="#discovery" id="label_discovery" class="js-tablist__link">Discovery</a>
 				</li>
@@ -104,7 +116,7 @@
 				
 				<?php include 'tab/conformance.html' ?>
 				
-				<?php $ext->add_tab_includes($ext_module_access) ?>
+				<?php $ext->add_tab_includes() ?>
 				
 				<?php include 'tab/discovery.html' ?>
 				
@@ -116,17 +128,17 @@
 			</form>
 		</main>
 		
-		<section id="save" aria-label="Save report" title="Save report">
+		<div id="save" aria-label="Save report" title="Save report">
 			<p>Please select where you would like to save the report:<p>
 			<fieldset>
 				<div><input type="radio" name="location" value="remote" checked="checked"/> Ace SMART server</div>
 				<div><input type="radio" name="location" value="local"/> Local file system</div>
 			</fieldset>
-		</section>
+		</div>
 		
-		<section id="import" aria-label="Ace Import Details" title="Ace Import Details">
+		<div id="import" aria-label="Ace Import Details" title="Ace Import Details">
 		
-		</section>
+		</div>
 		
 		<form class="report">
 			<section id="error-pane" role="region" aria-labelledby="validation-msg">
@@ -149,7 +161,7 @@
 		<script src="js/evaluation.js"></script>
 		<script src="js/conformance.js"></script>
 		
-		<?php $ext->print_scripts($ace_extension_tabs); ?>
+		<?php $ext->print_scripts(); ?>
 		
 		<script src="js/init-smart.js"></script>
 </body>
