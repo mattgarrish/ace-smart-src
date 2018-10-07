@@ -106,9 +106,6 @@ var smartAce = (function() {
 		// enable the report review link
 		//document.getElementById('ace-review').setAttribute('href','#ace-review');
 		//$('#ace-review').click( function(){ import_dialog.dialog('open'); return false; });
-		
-		// add to user's tally
-		logReport();
 	
 	}
 	
@@ -655,7 +652,7 @@ var smartAce = (function() {
 			import_result.appendChild(verify_inferred);
 		}
 		
-		if (_loadMessages.features) {
+		if (_loadMessages.features.length > 0) {
 			var feature_metadata = document.createElement('p');
 				feature_metadata.appendChild(document.createTextNode('The following accessibiity features were found in the metadata but do not match known values:'));
 			import_result.appendChild(feature_metadata);
@@ -676,56 +673,6 @@ var smartAce = (function() {
 		}
 		
 		import_dialog.dialog('open');
-	}
-	
-	
-	function logReport() {
-	
-		// add report to the user's total
-		
-		$.ajax(
-		{
-			url: 			'log.php',
-			type:			'POST',
-			data: 			jQuery.param({ 
-								'u': ACE_USER,
-								'c': ACE_USER_CO,
-								't': document.getElementById('title').value
-							}),
-			contentType:    'application/x-www-form-urlencoded; charset=UTF-8',
-			cache:			false,
-			processData:	false,
-			complete: function()
-			{
-				// no actions defined
-			},
-			success: function( data )
-			{
-				try {
-					data = JSON.parse(data);
-					if (data.error) {
-						alert( 'Sorry, an error occurred logging the report. Please try again.' );
-						abort();
-					}
-					ACE_ID = data.id;
-				}
-				
-				catch (error) {
-					alert( 'Sorry, an error occurred opening the report. Please try again.' + data );
-					abort();
-				}
-			},
-			error: function (xhr, ajaxOptions, thrownError) {
-				alert(thrownError);
-				alert( 'Sorry, an error occurred contacting the server. Please try again.' );
-				abort();
-			}
-		});
-	}
-	
-	
-	function abort() {
-		window.location.href = 'index.php';
 	}
 
 	

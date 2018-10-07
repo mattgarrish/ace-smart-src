@@ -890,7 +890,8 @@ div.data > fieldset.flat > legend {
 	width: 20rem;
 }
 
-#save > fieldset {
+#save fieldset,
+#confirm fieldset {
     background-color: inherit !important;
     border-left: none !important;
     border-radius: 0 !important;

@@ -200,52 +200,53 @@ var smartManage = (function() {
 	
 	/* creates json download of saved report */
 	function writeSavedJSON(evaluationJSON) {
-		var report_form = document.createElement('form');
-			report_form.target = '_blank';    
-			report_form.method = 'POST';
-			report_form.action = 'save.php';
+		var eval_form = document.createElement('form');
+			eval_form.target = '_blank';    
+			eval_form.method = 'POST';
+			eval_form.action = 'save.php';
 		
-		var report_user = document.createElement('input');
-			report_user.type = 'hidden';
-			report_user.name = 'u';
-			report_user.value = ACE_USER;
-		report_form.appendChild(report_user);
+		var eval_user = document.createElement('input');
+			eval_user.type = 'hidden';
+			eval_user.name = 'u';
+			eval_user.value = ACE_USER;
+		eval_form.appendChild(eval_user);
 		
-		var report_company = document.createElement('input');
-			report_company.type = 'hidden';
-			report_company.name = 'c';
-			report_company.value = ACE_USER_CO;
-		report_form.appendChild(report_company);
+		var eval_company = document.createElement('input');
+			eval_company.type = 'hidden';
+			eval_company.name = 'c';
+			eval_company.value = ACE_USER_CO;
+		eval_form.appendChild(eval_company);
 		
-		var report_title = document.createElement('input');
-			report_title.type = 'hidden';
-			report_title.name = 't';
-			report_title.value = document.getElementById('title').value;
-		report_form.appendChild(report_title);
+		var eval_title = document.createElement('input');
+			eval_title.type = 'hidden';
+			eval_title.name = 't';
+			eval_title.value = document.getElementById('title').value;
+		eval_form.appendChild(eval_title);
 		
-		var report_id = document.createElement('input');
-			report_id.type = 'hidden';
-			report_id.name = 'id';
-			report_id.value = ACE_ID;
-		report_form.appendChild(report_id);
+		var eval_id = document.createElement('input');
+			eval_id.type = 'hidden';
+			eval_id.name = 'id';
+			eval_id.value = ACE_ID;
+		eval_form.appendChild(eval_id);
 		
-		var report_data = document.createElement('input');
-			report_data.type = 'hidden';
-			report_data.name = 'evaluation';
-			report_data.value = evaluationJSON;
-		report_form.appendChild(report_data);
+		var eval_data = document.createElement('input');
+			eval_data.type = 'hidden';
+			eval_data.name = 'evaluation';
+			eval_data.value = evaluationJSON;
+		eval_form.appendChild(eval_data);
 		
-		var report_location = document.createElement('input');
-			report_location.type = 'hidden';
-			report_location.name = 'location';
-			report_location.value = 'file';
-		report_form.appendChild(report_location);
+		var eval_location = document.createElement('input');
+			eval_location.type = 'hidden';
+			eval_location.name = 'location';
+			eval_location.value = 'file';
+		eval_form.appendChild(eval_location);
 		
-		document.body.appendChild(report_form);
-		report_form.submit();
-		report_form.parentNode.removeChild(report_form);
+		document.body.appendChild(eval_form);
+		eval_form.submit();
+		eval_form.parentNode.removeChild(eval_form);
 
     	saveChanges = false;
+    	firstSave = false;
 		save_dialog.dialog('close');
 	
 	}
@@ -281,6 +282,7 @@ var smartManage = (function() {
 					}
 					else {
     					saveChanges = false;
+    					firstSave = false;
 						save_dialog.dialog('close');
 						alert(response.status);
 					}

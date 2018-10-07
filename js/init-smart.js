@@ -255,6 +255,9 @@
 	});
 	
 	$(window).on("beforeunload",function(){
+		if (firstSave) {
+			return "This evaluation has not been saved. It cannot be resumed if you leave without saving."
+		}
 		if (saveChanges) {
 			return "You appear to have unsaved changes.";
 		}

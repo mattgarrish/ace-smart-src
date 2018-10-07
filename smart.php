@@ -12,9 +12,12 @@
 	$eval = new SMART_EVALUATION(array(
 		'username' => $user->data()->username,
 		'company' => $user->data()->company,
+		'license' => $user->data()->license,
 		'action' => $_POST['action'],
 		'id' => $_POST['id']
 	));
+	
+	$eval->check_license();
 	
 	$ext = new SMART_EXTENSIONS($user->data()->modules, $extension);
 ?>
@@ -64,7 +67,7 @@
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="js/jquery.details.min.js"></script>
 		<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
-		<?php echo "<script>var smart_extensions = {}; var ACE_USER = '" . $user->data()->username . "'; var ACE_USER_CO = '" . $user->data()->company . "'; var ACE_ACTION = '" . $_POST['action'] . "'; var ACE_ID = '" . $_POST['id'] . "'; var saveChanges = false;</script>"; ?>
+		<?php echo "<script>var smart_extensions = {}; var ACE_USER = '" . $user->data()->username . "'; var ACE_USER_CO = '" . $user->data()->company . "'; var ACE_ACTION = '" . $_POST['action'] . "'; var ACE_ID = '" . $eval->get_eval_id() . "'; var saveChanges = false; var firstSave = " . $eval->need_to_save() . ";</script>"; ?>
 		<script src="js/ace.js"></script>
 		<script src="js/manage.js"></script>
 		<script src="js/error.js"></script>
@@ -131,8 +134,8 @@
 		<div id="save" aria-label="Save report" title="Save report">
 			<p>Please select where you would like to save the report:<p>
 			<fieldset>
-				<div><input type="radio" name="location" value="remote" checked="checked"/> Ace SMART server</div>
-				<div><input type="radio" name="location" value="local"/> Local file system</div>
+				<div><label><input type="radio" name="location" value="remote" checked="checked"/> Ace SMART server</div>
+				<div><label><input type="radio" name="location" value="local"/> Local file system</div>
 			</fieldset>
 		</div>
 		

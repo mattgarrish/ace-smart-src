@@ -6,12 +6,21 @@
 	$eval = new SMART_EVALUATION(array(
 		'username' => $user->data()->username,
 		'company' => $user->data()->company,
-		'license' => $user->data()->license
+		'license' => $user->data()->license,
+		'id' => isset($_POST['id']) ? $_POST['id'] : 0
 	));
-	$eval->check_valid();
 	
-	if (isset($_POST['action']) && $_POST['action'] == 'delete') {
-		$eval->delete_evaluation($_POST['id']);
+	$eval->check_license();
+	
+	if (isset($_POST['action'])) {
+		if ($_POST['action'] == 'delete') {
+			$eval->delete_evaluation();
+		}
+		
+		else if ($_POST['action'] == 'fulldelete') {
+			$eval->delete_record();
+			echo $_POST['id'];
+		}
 	}
 ?>
 
@@ -83,7 +92,7 @@
 			<section id="load">
 				<h3 class="welcome">Start an Evaluation</h3>
 				
-				<?php $eval->add_evaluation() ?>
+				<?php $eval->add_evaluation_form() ?>
 			</section>
 			
 			<section id="history">

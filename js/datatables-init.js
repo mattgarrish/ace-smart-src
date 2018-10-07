@@ -53,7 +53,7 @@ DT.prototype.makeDynamic = function(tblID) {
                 "oLanguage": {
                     "sSearch": this.srchLabel,
                     "sSearchPlaceholder": this.srchPlaceholder,
-					"sEmptyTable": "No saved evaluations"
+					"sEmptyTable": "No evaluations initiated"
                 }
             });
     }
@@ -78,7 +78,7 @@ DT.prototype.makeDynamic = function(tblID) {
                 "oLanguage": {
                     "sSearch": this.srchLabel,
                     "sSearchPlaceholder": this.srchPlaceholder,
-					"sEmptyTable": "No saved evaluations"
+					"sEmptyTable": "No evaluations initiated"
                 }
             });
         }
@@ -93,7 +93,7 @@ DT.prototype.makeDynamic = function(tblID) {
                 "oLanguage": {
                     "sSearch": this.srchLabel,
                     "sSearchPlaceholder": this.srchPlaceholder,
-					"sEmptyTable": "No saved evaluations"
+					"sEmptyTable": "No evaluations initiated"
                 }
             });
         }

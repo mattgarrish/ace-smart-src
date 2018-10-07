@@ -12,7 +12,7 @@
 	}
 	
 	$now = date("Y-m-d H:i:s");
-	$status = 'remote';
+	$status = ($_POST['location'] == 'db') ? 'remote' : 'local';
 	$evaluation = '';
 	
 	$db = new SMART_DB();
@@ -56,12 +56,10 @@
 	
 	else {
 		
-		$title = $_POST['t'] ? $_POST['t'] : 'ace-smart-evaluation-';
+		$title = $_POST['t'] ? $_POST['t'] : 'ace-smart-evaluation';
 		
 		$dateTime = new DateTime();
-		$title .= $dateTime->format('Ymd');
-		
-		$title .= '.json';
+		$title .= '-' . $dateTime->format('Ymd') . '.json';
 		
 		header('Content-Disposition: attachment; filename="' . $title . '"');
 		header('Content-Type: application/json');
