@@ -375,6 +375,13 @@ li{
 	margin-top: 0.7rem;
 }
 
+
+/* tables */
+
+td.option {
+	min-width: 10rem;
+}
+
 p.instr {
 	margin-top: 4rem;
 }

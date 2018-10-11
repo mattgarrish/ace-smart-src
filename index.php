@@ -11,17 +11,6 @@
 	));
 	
 	$eval->check_license();
-	
-	if (isset($_POST['action'])) {
-		if ($_POST['action'] == 'delete') {
-			$eval->delete_evaluation();
-		}
-		
-		else if ($_POST['action'] == 'fulldelete') {
-			$eval->delete_record();
-			echo $_POST['id'];
-		}
-	}
 ?>
 
 <!DOCTYPE html>
@@ -72,6 +61,22 @@
 		
 		<!-- messages -->
 		<script src="js/messages.js"></script>
+		
+		<?php
+			if (isset($_POST['action'])) {
+				if ($_POST['action'] == 'delete') {
+					if (!$eval->delete_evaluation()) {
+						echo '<script>alert(smart_errors.en.delfail);</script>';
+					}
+				}
+				
+				else if ($_POST['action'] == 'fulldelete') {
+					if (!$eval->delete_record()) {
+						echo '<script>alert(smart_errors.en.recfail);</script>';
+					}
+				}
+			}
+		?>
 	</head>
 	
 	<body>
@@ -115,7 +120,7 @@
 			</section>
 		</main>
 		
-		<div id="import" aria-label="Resume from local evaluation" title="Resume from local evaluation">
+		<div id="import" aria-label="Resume from locally-saved file" title="Resume from locally-saved file">
 			<input type="file" name="local-eval" id="local-eval"/>
 		</div>
 		

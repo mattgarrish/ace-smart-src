@@ -11,7 +11,7 @@
 		die();
 	}
 	
-	$now = date("Y-m-d H:i:s");
+	$now = gmdate("Y-m-d H:i:s");
 	$status = ($_POST['location'] == 'db') ? 'remote' : 'local';
 	$evaluation = '';
 	
@@ -63,7 +63,7 @@
 		
 		header('Content-Disposition: attachment; filename="' . $title . '"');
 		header('Content-Type: application/json');
-		header('Content-Length: ' . strlen($_POST['evaluation']));
+		# header('Content-Length: ' . strlen($_POST['evaluation']));
 		header('Connection: close');
 		
 		echo $_POST['evaluation'];

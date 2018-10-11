@@ -13,7 +13,7 @@
 		private $eval_max = 0;
 		private $eval_remaining = 0;
 		private $db = '';
-		private $toSave = false;
+		private $to_save = false;
 		
 		function __construct($arg) {
 			
@@ -55,7 +55,7 @@
 		
 		private function check_remaining_evaluations() {
 		
-			$this_month = date('Y-m-01') . ' 00:00:00';
+			$this_month = gmdate('Y-m-01') . ' 00:00:00';
 			
 			$sql = 'SELECT COUNT(title) AS eval_count FROM evaluations ';
 			
@@ -158,7 +158,7 @@ HTML;
 									break;
 							}
 							
-							echo '</td><td>';
+							echo '</td><td class="option">';
 							
 							switch ($row['status']) {
 								case 'local':
@@ -211,7 +211,7 @@ HTML;
 				
 				if ($this->action == 'load') {
 				
-					$this->toSave = true;
+					$this->to_save = true;
 					
 					if (!$this->db->prepare("SELECT uid FROM evaluations WHERE username = ? AND uid = ?")) {
 						$this->abort('uidselect');
@@ -236,7 +236,7 @@ HTML;
 					}
 					
 					$title = is_array($json->{'earl:testSubject'}->{'metadata'}->{'dc:title'}) ? $json->{'earl:testSubject'}->{'metadata'}->{'dc:title'}[0] : $json->{'earl:testSubject'}->{'metadata'}->{'dc:title'};
-					$now = date("Y-m-d H:i:s");
+					$now = gmdate("Y-m-d H:i:s");
 					$modified = '0000-00-00 00:00:00';
 					$status = 'unsaved';
 					
@@ -291,7 +291,7 @@ HTML;
 				$this->db->close();
 				
 				if ($this->action == 'okload') {
-					$this->toSave = true;
+					$this->to_save = true;
 				}
 			
 			}
@@ -309,7 +309,7 @@ HTML;
 		
 		
 		public function need_to_save() {
-			return $this->toSave ? 'true' : 'false'; 
+			return $this->to_save ? 'true' : 'false'; 
 		}
 		
 		
@@ -328,20 +328,40 @@ HTML;
 			$del_data = '';
 			$del_status = 'deleted';
 			
-			if ($this->db->prepare("UPDATE evaluations SET status = ?, evaluation = ?, modified = ? WHERE username = ? AND id = ?")) {
-				$this->db->bind_param("ssssi", array($del_status, $del_data, $del_date, $this->username, $this->eval_id));
-				$this->db->execute();
-				$this->db->close();
+			if (!$this->db->prepare("UPDATE evaluations SET status = ?, evaluation = ?, modified = ? WHERE username = ? AND id = ?")) {
+				return false;
 			}
+			
+			if (!$this->db->bind_param("ssssi", array($del_status, $del_data, $del_date, $this->username, $this->eval_id))) {
+				return false;
+			}
+			
+			if (!$this->db->execute()) {
+				return false;
+			}
+			
+			$this->db->close();
+			
+			return true;
 		}
 		
 		public function delete_record() {
 			
-			if ($this->db->prepare("DELETE FROM evaluations WHERE username = ? AND id = ? LIMIT 1")) {
-				$this->db->bind_param("si", array($this->username, $this->eval_id));
-				$this->db->execute();
-				$this->db->close();
+			if (!$this->db->prepare("DELETE FROM evaluations WHERE username = ? AND id = ? LIMIT 1")) {
+				return false;
 			}
+			
+			if (!$this->db->bind_param("si", array($this->username, $this->eval_id))) {
+				return false;
+			}
+			
+			if (!$this->db->execute()) {
+				return false;
+			}
+			
+			$this->db->close();
+			
+			return true;
 		}
 	}
 ?>

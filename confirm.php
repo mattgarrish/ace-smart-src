@@ -4,31 +4,32 @@
 <?php require_once 'php/db.php' ?>
 <?php
 
-	if (!isset($_GET['uid'])) {
-		header("Location: index.php?err=noconfirm");
+	function abort($code) {
+		header("Location: index.php?err=" . $code);
 		die();
+	}
+	
+	
+	if (!isset($_GET['uid'])) {
+		abort('noconfirm');
 	}
 	
 	$db = new SMART_DB();
 	
 	if (!$db->connect()) {
-		header("Location: index.php?err=confconn");
-		die();
+		abort('confconn');
 	}
 	
 	if (!$db->prepare("SELECT title, created FROM evaluations WHERE username = ? AND uid = ? AND id != ? ORDER BY created DESC")) {
-		header("Location: index.php?err=confprep");
-		die();
+		abort('confprep');
 	}
 
 	if (!$db->bind_param("ssi", array($user->data()->username, $_GET['uid'], $_GET['id']))) {
-		header("Location: index.php?err=confbind");
-		die();
+		abort('confbind');
 	}
 	
     if (!$db->execute()) {
-		header("Location: index.php?err=confexec");
-		die();
+		abort('confexec');
     }
     
     $result = $db->get_results();
