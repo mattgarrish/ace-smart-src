@@ -1,4 +1,13 @@
 
+	// drag-drop form for next page
+	var nextStep = document.getElementById('nextStep');
+	
+	/* 
+	 * DIALOG CONFIGURATION
+	 */
+
+	// initialize dialogs
+	
 	var import_dialog = $("#import").dialog({
 		autoOpen: false,
 		height: 145,
@@ -7,7 +16,7 @@
 		buttons: {
 			'Open': function() {
 				$('#file').prop("files", document.getElementById('local-eval').files);
-				document.getElementById('nextStep').submit();
+				nextStep.submit();
 			},
 			'Close': function() {
 				import_dialog.dialog( "close" );
@@ -27,7 +36,60 @@
 		}
 	});
 	
-	var nextStep = document.getElementById('nextStep');
+	
+	/* 
+	 * DATA TABLES
+	 */
+	
+	var dt = new DT();
+	
+	$(document).ready(function(){
+		setView('');
+	});
+	
+	function setView(tblType) {
+		dt.setTableType(tblType);
+		var options = {
+			"searchable": true,
+			"setDefaultSort": true,
+			"changeDefaultSort": false,
+			"tableType": tblType
+		}
+		dt.initialize(options);
+	}
+	
+	
+	/*
+	 * ERROR REPORTING
+	 */
+	
+	var error_code = getParameterByName('err');
+	
+	if (error_code) {
+		var smart_lang = 'en';
+		var error_msg = smart_errors[smart_lang][error_code] ? smart_errors[smart_lang][error_code] : smart_messages[smart_lang]['unknown'];
+		document.getElementById('error-msg').textContent = error_msg;
+		error_dialog.dialog('open');
+	}
+
+	
+	function getParameterByName(name, url) {
+		if (!url) url = window.location.href;
+		name = name.replace(/[\[\]]/g, '\\$&');
+		var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+		results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, ' '));
+	}
+	
+		
+	/* 
+	 * EVENT HANDLING
+	 */
+	
+	
+	/* evaluation option button clicks */
 	
 	$('input[type="image"]').click( function(){
 		
@@ -57,42 +119,22 @@
 		}
 	});
 	
-	var dt = new DT();
 	
-	$(document).ready(function(){
-		setView('');
-	});
+	/* add new evaluation */
 	
-	function setView(tblType) {
-		dt.setTableType(tblType);
-		var options = {
-			"searchable": true,
-			"setDefaultSort": true,
-			"changeDefaultSort": false,
-			"tableType": tblType
+	$('#new_eval').click( function(){
+		event.preventDefault();
+		
+		var title = prompt('Please specify a title for the new evaluation:');
+		
+		title = title.trim();
+		
+		if (!title) {
+			alert('New evaluations cannot be started without a title.');
+			return;
 		}
-		dt.initialize(options);
-	}
-	
-	
-	// error reporting
-	
-	var error_code = getParameterByName('err');
-	
-	if (error_code) {
-		var smart_lang = 'en';
-		var error_msg = smart_errors[smart_lang][error_code] ? smart_errors[smart_lang][error_code] : smart_messages[smart_lang]['unknown'];
-		document.getElementById('error-msg').textContent = error_msg;
-		error_dialog.dialog('open');
-	}
-
-	
-	function getParameterByName(name, url) {
-		if (!url) url = window.location.href;
-		name = name.replace(/[\[\]]/g, '\\$&');
-		var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-		results = regex.exec(url);
-		if (!results) return null;
-		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, ' '));
-	}
+		
+		document.getElementById('title').value = title;
+		document.getElementById('action').value = 'new';
+		nextStep.submit();
+	});

@@ -30,4 +30,5 @@ var smart_errors = new Object();
 	smart_errors.en.confprep = 'An error occurred confirming the evaluation. Please try again.';
 	smart_errors.en.confbind = 'An error occurred while preparing to confirm the evaluation. Please try again.';
 	smart_errors.en.confexec = 'An error occurred retrieving confirmation information. Please try again.';
+	smart_errors.en.notitle = 'Blank evaluations require a title. Please try again.';
 	

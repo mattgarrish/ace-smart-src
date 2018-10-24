@@ -11,44 +11,47 @@
 		die();
 	}
 	
-	$now = gmdate("Y-m-d H:i:s");
-	$status = ($_POST['location'] == 'db') ? 'remote' : 'local';
-	$evaluation = '';
+	if (!isset($_POST['shared']) || !$_POST['shared']) {
 	
-	$db = new SMART_DB();
-	
-	if (!$db->connect()) {
-		echo '{ "error": "Save functionality is currently unavailable. Please try again." }';
-		die();
-	}
-	
-	if (!$db->prepare("UPDATE evaluations SET modified = ?, status = ?, evaluation = ? WHERE username = ? AND id = ?")) {
-		echo '{ "error": "Failed to save evaluation. Please try again." }';
-		die();
-	}
-
-	if ($_POST['location'] == 'db') {
+		$now = gmdate("Y-m-d H:i:s");
+		$status = ($_POST['location'] == 'db') ? 'remote' : 'local';
+		$evaluation = '';
 		
-		if (!isset($_POST['evaluation'])) {
-			echo '{ "error": "Invalid evaluation. Please try again." }';
+		$db = new SMART_DB();
+		
+		if (!$db->connect()) {
+			echo '{ "error": "Save functionality is currently unavailable. Please try again." }';
 			die();
 		}
 		
-		$evaluation = $_POST['evaluation'];
+		if (!$db->prepare("UPDATE evaluations SET modified = ?, status = ?, evaluation = ? WHERE username = ? AND id = ?")) {
+			echo '{ "error": "Failed to save evaluation. Please try again." }';
+			die();
+		}
+	
+		if ($_POST['location'] == 'db') {
+			
+			if (!isset($_POST['evaluation'])) {
+				echo '{ "error": "Invalid evaluation. Please try again." }';
+				die();
+			}
+			
+			$evaluation = $_POST['evaluation'];
+		}
+		
+		if (!$db->bind_param("ssssi", array($now, $status, $evaluation, $_POST['u'], $_POST['id']))) {
+			echo '{ "error": "An error occurred while preparing to save evaluation. Please try again." }';
+			die();
+		}
+		
+	    if (!$db->execute()) {
+			echo '{ "error": "An error occurred saving the evaluation. Please try again." }';
+			die();
+	    }
+	    
+	    $db->close();
+		
 	}
-	
-	if (!$db->bind_param("ssssi", array($now, $status, $evaluation, $_POST['u'], $_POST['id']))) {
-		echo '{ "error": "An error occurred while preparing to save evaluation. Please try again." }';
-		die();
-	}
-	
-    if (!$db->execute()) {
-		echo '{ "error": "An error occurred saving the evaluation. Please try again." }';
-		die();
-    }
-    
-    $db->close();
-	
 	
 	if ($_POST['location'] == 'db') {
 		echo '{ "status": "Evaluation successfully saved." }';

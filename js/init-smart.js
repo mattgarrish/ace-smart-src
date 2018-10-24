@@ -20,8 +20,13 @@
 		
 		var data = JSON.parse(raw_report);
 		
-		if (data.hasOwnProperty('category') && data.category == 'savedEvaluation') {
-			smartManage.loadConformanceEvaluation(data);
+		if (data.hasOwnProperty('category')) {
+			if (data.category == 'savedEvaluation') {
+				smartManage.loadConformanceEvaluation(data);
+			}
+			else if (data.category == 'newEvaluation') {
+				smartManage.newConformanceEvaluation(data.title);
+			}
 		}
 		
 		else {
@@ -151,7 +156,12 @@
 	
 	/* watch for save button click */
 	$('#save-button').click( function(){
-		save_dialog.dialog('open');
+		if (ACE_SHARED) {
+			smartManage.saveConformanceEvaluation('local');
+		}
+		else {
+			save_dialog.dialog('open');
+		}
 		return false;
 	});
 	
@@ -171,6 +181,11 @@
 	/* watch for EPUB format changes */
 	$('input[name="epub-format"]').click( function(){
 		smartFormat.setEPUBVersion(this.value);
+	});
+	
+	/* watch for timestamp add */
+	$('#add-timestamp').click( function(){
+		document.getElementById('modified').value = smartFormat.convertUTCDateToString(Date.now());
 	});
 	
 	

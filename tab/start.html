@@ -18,7 +18,10 @@
 			<label class="data"><span>Identifier:</span> <input type="text" id="identifier"/></label>
 			<label class="data"><span>Publisher:</span> <input type="text" id="publisher"/></label>
 			<label class="data"><span>Date Published:</span> <input type="text" id="date"/></label>
-			<label class="data"><span>Last Modified:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="modified"/></label>
+			<div class="combo">
+				<label><span>Last Modified:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="modified"/></label>
+				<label><input type="button" id="add-timestamp" value="Set to now"/></label>
+			</div>
 			<label class="data"><span>Subject:</span> <input type="text" id="subject"/></label>
 			<label class="data"><span>Description:</span> <input type="text" id="description"/></label>
 			<label class="data"><span>Additional Metadata:</span> <textarea rows="8" aria-describedby="meta-input-desc" id="optional-meta" placeholder="label: value"></textarea></label>

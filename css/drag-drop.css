@@ -208,3 +208,10 @@ to		{ transform: translateY( -50% ) scale( 1 ); }
 #nextStep strong {
 	color: rgb(0,0,220);
 }
+
+.new-eval {
+	text-align: left;
+	font-size: 90%;
+	margin-left: 0.5rem;
+	margin-top: 0;
+}

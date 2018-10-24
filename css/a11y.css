@@ -306,7 +306,7 @@ div.buttons{
 	padding: 4rem 1rem 2rem 1rem;
 }
 
-input[type="button"] {
+input.button_hlt {
 	font-weight: bold;
 	padding: 0.6rem 0.2rem;
 	width: 10rem;
@@ -317,7 +317,7 @@ input[type="button"] {
 	box-shadow: 0 0 1rem 0 skyblue;
 }
 
-input[type="button"]:hover {
+input.button_hlt:hover {
 	box-shadow: 0 0 1rem 0 cadetblue;
 }
 
@@ -642,6 +642,10 @@ label.data > textarea{
 	display: inline-block;
 }
 
+div.combo {
+	margin: 1rem;
+}
+
 /* n/a notes */
 
 p.img,
@@ -660,13 +664,15 @@ label.data{
 }
 
 label.data > span,
-div.data > span{
+div.data > span,
+div.combo > label:first-child span {
 	display: inline-block;
 	width: 20rem;
 	vertical-align: top;
 }
 
-label.data > input[type = 'text']{
+label.data > input[type = 'text'],
+div.combo > label > input[type='text'] {
 	width: 40rem;
 }
 

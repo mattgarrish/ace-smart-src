@@ -7,8 +7,10 @@
 	
 		private $username = '';
 		private $company = '';
+		private $shared = false;
 		private $license = '';
 		private $action = '';
+		private $title = '';
 		private $eval_id = 0;
 		private $eval_max = 0;
 		private $eval_remaining = 0;
@@ -19,9 +21,11 @@
 			
 			$this->username = $arg['username'];
 			$this->company = isset($arg['company']) ? $arg['company'] : '';
+			$this->shared = isset($arg['shared']) && $arg['shared'] == 1 ? true : false;
 			$this->license = isset($arg['license']) ? $arg['license'] : '';
 			
 			$this->action = isset($arg['action']) ? $arg['action'] : '';
+			$this->title = isset($arg['title']) ? $arg['title'] : '';
 			$this->eval_id = isset($arg['id']) ? $arg['id'] : 0;
 			
 			$this->db = new SMART_DB();
@@ -109,7 +113,10 @@
 					<form method="post" action="smart.php" enctype="multipart/form-data" novalidate="novalidate" class="box" id="nextStep">
 						<div class="box__input">
 							<input type="file" name="ace-report" id="file" class="box__file"/>
-							<label class="dnd" for="file"><strong>Select an Ace report</strong><span class="box__dragndrop"> or drag one here</span>.</label>
+							<label class="dnd" for="file">
+								<strong>Select an Ace report</strong>
+								<span class="box__dragndrop"> or drag one here</span>.<br/>
+							</label>
 							<button type="submit" class="box__button">Load</button>
 						</div>
 						
@@ -118,7 +125,9 @@
 						<div class="box__error">Error! <span></span>. <a href="" class="box__restart" role="button">Try again!</a></div>
 						<input type="hidden" name="id" id="id" value=""/>
 						<input type="hidden" name="action" id="action" value="load"/>
+						<input type="hidden" name="title" id="title" value=""/>
 					</form>
+					<p class="new-eval">Or <a id="new_eval" href="#new_eval">start a blank evaluation</a></p>
 				</div>
 HTML;
 			}
@@ -127,6 +136,19 @@ HTML;
 		
 		public function list_evaluations() {
 		
+			if ($this->shared) {
+				echo <<<HTML
+	<tr>
+		<td>Reload a previous report</td>
+		<td>-</td>
+		<td>-</td>
+		<td>-</td>
+		<td><input type="image" src="images/resume.svg" height="40" id="reload_0" alt="Resume" title="Resume"/>
+	</tr>
+HTML;
+				return;
+			}
+			
 			if ($this->db->prepare("SELECT id, title, created, modified, status FROM evaluations WHERE username = ? AND company = ? ORDER BY created DESC")) {
 			
 				if ($this->db->bind_param("ss", array($this->username, $this->company))) {
@@ -189,8 +211,41 @@ HTML;
 				
 			$evaluation = '';
 			
-			if ($this->action == 'load' || ($this->action == 'reload' && $this->eval_id)) {
+			$now = gmdate("Y-m-d H:i:s");
+			$modified = '0000-00-00 00:00:00';
+			$status = 'unsaved';
 			
+			if ($this->action == 'new') {
+			
+				if (!$this->title) {
+					$this->abort('notitle');
+				}
+				
+				$evaluation = '{ "category": "newEvaluation", "title": ' . json_encode($this->title) . ' }';
+				
+				$this->to_save = true;
+				
+				if (!$this->db->prepare("INSERT INTO evaluations (username, company, title, created, modified, status, evaluation) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
+					$this->abort('newins');
+				}
+				
+				if (!$this->db->bind_param("sssssss", array($this->username, $this->company, $this->title, $now, $modified, $status, $evaluation))) {
+					$this->abort('newbind');
+				}
+				
+				if (!$this->db->execute()) {
+					$this->abort('newexec');
+				}
+				
+				$this->eval_id = $this->db->insert_id();
+			}
+			
+			else if ( 
+					  ($this->action == 'load')
+					  || ($this->action == 'reload' && $this->eval_id)
+					  || ($this->action == 'reload' && $this->shared)
+					 ) {
+				
 				if ($_FILES['ace-report']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['ace-report']['tmp_name'])) {
 					$evaluation = file_get_contents($_FILES['ace-report']['tmp_name']); 
 				}
@@ -236,9 +291,6 @@ HTML;
 					}
 					
 					$title = is_array($json->{'earl:testSubject'}->{'metadata'}->{'dc:title'}) ? $json->{'earl:testSubject'}->{'metadata'}->{'dc:title'}[0] : $json->{'earl:testSubject'}->{'metadata'}->{'dc:title'};
-					$now = gmdate("Y-m-d H:i:s");
-					$modified = '0000-00-00 00:00:00';
-					$status = 'unsaved';
 					
 					if (!$this->db->bind_param("sssssss", array($this->username, $this->company, $identifier, $title, $now, $modified, $status))) {
 						$this->abort('evalbind');

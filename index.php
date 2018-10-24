@@ -6,6 +6,7 @@
 	$eval = new SMART_EVALUATION(array(
 		'username' => $user->data()->username,
 		'company' => $user->data()->company,
+		'shared' => $user->data()->shared,
 		'license' => $user->data()->license,
 		'id' => isset($_POST['id']) ? $_POST['id'] : 0
 	));

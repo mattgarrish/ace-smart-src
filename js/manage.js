@@ -217,6 +217,14 @@ var smartManage = (function() {
 			eval_company.value = ACE_USER_CO;
 		eval_form.appendChild(eval_company);
 		
+		if (ACE_SHARED) {
+			var eval_shared = document.createElement('input');
+				eval_shared.type = 'hidden';
+				eval_shared.name = 'shared';
+				eval_shared.value = 1;
+			eval_form.appendChild(eval_shared);
+		}
+		
 		var eval_title = document.createElement('input');
 			eval_title.type = 'hidden';
 			eval_title.name = 't';
@@ -261,6 +269,7 @@ var smartManage = (function() {
 			data: 			jQuery.param({ 
 								'u': ACE_USER,
 								'c': ACE_USER_CO,
+								'shared': ACE_SHARED,
 								't': document.getElementById('title').value,
 								'id': ACE_ID,
 								'evaluation': evaluationJSON,
@@ -301,11 +310,6 @@ var smartManage = (function() {
 	
 	function loadConformanceEvaluation(evaluationJSON) {
 	
-		if (!evaluationJSON.hasOwnProperty('category') || evaluationJSON.category != 'savedEvaluation') {
-			alert('Invalid report - missing category identifier. Unable to load.');
-			return;
-		}
-		
 		/* set the success criteria */
 		
 		if (evaluationJSON.hasOwnProperty('conformance')) {
@@ -459,6 +463,10 @@ var smartManage = (function() {
 		}
 	}
 	
+	function newConformanceEvaluation(title) {
+		document.getElementById('title').value = title;
+	}
+	
 	
 	return {
 	
@@ -468,6 +476,10 @@ var smartManage = (function() {
 		
 		loadConformanceEvaluation: function(data){
 			loadConformanceEvaluation(data);
+		},
+		
+		newConformanceEvaluation: function(title){
+			newConformanceEvaluation(title);
 		}
 	}
 
