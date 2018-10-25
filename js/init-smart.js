@@ -7,7 +7,20 @@
 	
 	// add reporting fields to the conformance success criteria
 	window.onload = function() {
+	
 		smartReport.addSuccessCriteriaReporting();
+		
+		/* watch for changes to success criteria status radio buttons */
+		$('input.sc_status').click( function(){
+			smartConformance.setSCStatus({name: this.name, value: this.value});
+		});
+		
+		/* watch for clicks to show/hide success criteria note fields */
+		$('input.show-note').click( function(){
+			smartConformance.showSCNoteField(this);
+		});
+		
+		
 		loadReportJSON();
 		
 		// reset saveChanges after loading the form to prevent false positives when closing
@@ -224,16 +237,6 @@
 	/* watch for clicks to expand/collapse help links */
 	$('input[name="link-exp"]').click( function(){
 		smartConformance.showSCHelpLinks(this.value == 'true' ? true : false);
-	});
-	
-	/* watch for changes to success criteria status radio buttons */
-	$('input.sc_status').click( function(){
-		smartConformance.setSCStatus({name: this.name, value: this.value});
-	});
-	
-	/* watch for clicks to show/hide success criteria note fields */
-	$('input.show-note').click( function(){
-		smartConformance.showSCNoteField(this);
 	});
 
 	
