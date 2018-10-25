@@ -118,6 +118,7 @@
 						<?php $eval->list_evaluations(); ?>
 					</tbody>
 				</table>
+				<p><small>All times are in UTC.</small><p>
 			</section>
 		</main>
 		
