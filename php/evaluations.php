@@ -221,15 +221,17 @@ HTML;
 					$this->abort('notitle');
 				}
 				
+				$this->id = $this->generate_uuid();
+				
 				$evaluation = '{ "category": "newEvaluation", "title": ' . json_encode($this->title) . ' }';
 				
 				$this->to_save = true;
 				
-				if (!$this->db->prepare("INSERT INTO evaluations (username, company, title, created, modified, status, evaluation) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
+				if (!$this->db->prepare("INSERT INTO evaluations (username, company, uid, title, created, modified, status, evaluation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 					$this->abort('newins');
 				}
 				
-				if (!$this->db->bind_param("sssssss", array($this->username, $this->company, $this->title, $now, $modified, $status, $evaluation))) {
+				if (!$this->db->bind_param("ssssssss", array($this->username, $this->company, $this->id, $this->title, $now, $modified, $status, $evaluation))) {
 					$this->abort('newbind');
 				}
 				
@@ -272,9 +274,9 @@ HTML;
 						$this->abort('uidselect');
 					}
 					
-					$identifier = is_array($json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'}) ? $json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'}[0] : $json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'};
+					$this->id = is_array($json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'}) ? $json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'}[0] : $json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'};
 					
-					if (!$this->db->bind_param("ss", array($this->username, $identifier))) {
+					if (!$this->db->bind_param("ss", array($this->username, $this->id))) {
 						$this->abort('uidbind');
 					}
 					
@@ -292,7 +294,7 @@ HTML;
 					
 					$title = is_array($json->{'earl:testSubject'}->{'metadata'}->{'dc:title'}) ? $json->{'earl:testSubject'}->{'metadata'}->{'dc:title'}[0] : $json->{'earl:testSubject'}->{'metadata'}->{'dc:title'};
 					
-					if (!$this->db->bind_param("sssssss", array($this->username, $this->company, $identifier, $title, $now, $modified, $status))) {
+					if (!$this->db->bind_param("sssssss", array($this->username, $this->company, $this->id, $title, $now, $modified, $status))) {
 						$this->abort('evalbind');
 					}
 					
@@ -316,7 +318,7 @@ HTML;
 							$this->abort('reportexec');
 						}
 						
-						header("Location: confirm.php?id=" . $this->eval_id . "&uid=" . $identifier);
+						header("Location: confirm.php?id=" . $this->eval_id . "&uid=" . $this->id);
 						die();
 					}
 				}
@@ -414,6 +416,28 @@ HTML;
 			$this->db->close();
 			
 			return true;
+		}
+		
+		private function generate_uuid() {
+			return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+				// 32 bits for "time_low"
+				mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+				
+				// 16 bits for "time_mid"
+				mt_rand( 0, 0xffff ),
+				
+				// 16 bits for "time_hi_and_version",
+				// four most significant bits holds version number 4
+				mt_rand( 0, 0x0fff ) | 0x4000,
+				
+				// 16 bits, 8 bits for "clk_seq_hi_res",
+				// 8 bits for "clk_seq_low",
+				// two most significant bits holds zero and one for variant DCE1.1
+				mt_rand( 0, 0x3fff ) | 0x8000,
+				
+				// 48 bits for "node"
+				mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
+			);
 		}
 	}
 ?>
