@@ -382,6 +382,11 @@ td.option {
 	min-width: 10rem;
 }
 
+td.center {
+	text-align: center;
+}
+
+
 p.instr {
 	margin-top: 4rem;
 }

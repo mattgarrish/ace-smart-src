@@ -160,23 +160,23 @@ HTML;
 						foreach ($result as $row) {
 							echo '<tr>';
 							echo '<td>' . $row['title'] . '</td>';
-							echo '<td>' . $row['created'] . '</td>';
-							echo '<td>' .  $row['modified'] . '</td>';
+							echo '<td class="center">' . $row['created'] . '</td>';
+							echo '<td class="center">' .  $row['modified'] . '</td>';
 							
-							echo '<td>';
+							echo '<td class="center">';
 							
 							switch ($row['status']) { 
 								case 'remote':
 									echo 'Saved';
 									break;
 								case 'local':
-									echo 'Saved locally';
+									echo 'Saved Locally';
 									break;
 								case 'deleted':
 									echo 'Deleted';
 									break;
 								case 'unsaved':
-									echo 'Not saved';
+									echo 'Not Saved';
 									break;
 							}
 							
