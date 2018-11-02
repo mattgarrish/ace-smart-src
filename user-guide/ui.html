@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>The SMART User Interface - Ace SMART</title>
+		<link rel="stylesheet" type="text/css" href="../css/a11y.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-guide.css" />
+	</head>
+
+	<body class="page">
+		<header>
+			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium" /></span>
+				<span>Ace <span class="smart_hd">SMART</span> &#8212; User Guide</span></h1>
+			<nav class="menubar">
+				<a href="index.html">Table of Contents</a>
+			</nav>
+		</header>
+		<main>
+			<section id="pub-info">
+				<h2>The SMART User Interface</h2>
+				<p>The SMART interface is composed of a set of tabs, each of which handles a specific aspect of
+					accessibility conformance and reporting. The first tab presented when you begin a new report shows
+					the metadata that was discovered in the EPUB publication (if you created a <a href="load-blank.html"
+						>blank evaluation</a>, only the title will be present).</p>
+				<section id="errors">
+					<h2>Message Panel</h2>
+					<p>The message panel appears at the bottom of the SMART interface whenever you generate metadata or
+						a report and validation issues are discovered.</p>
+					<figure>
+						<img src="images/message_panel.png" width="600"
+							alt="The message panel is separated from the main content by a black bar with the title Validation Messages"
+						 />
+					</figure>
+					<p>The panel contains a list of validation warnings and errors that were discovered. The severity of
+						each message is indicated in square brackets at the start.</p>
+					<figure>
+						<img src="images/error_message.png" width="250"
+							alt="An error message is indicated by the text [ERROR]" />
+					</figure>
+					<div class="note">
+						<p><strong>Note</strong>: While warnings may be ignored if they are determined not to apply,
+							errors should always be corrected before using the generated metadata or report.</p>
+					</div>
+					<p>To go to the location of the warning or error, click on its message. Errors and warnings are also
+						distinguished visually in each tab by red and yellow backgrounds, respectively. The
+							<code>aria-invalid</code> attribute is also used to convey this information to assistive
+						technologies.</p>
+					<p>To close the message panel, click the X button in the left-hand corner.</p>
+					<figure>
+						<img src="images/message_panel_close.png" width="50" alt="Close button" />
+					</figure>
+					<p>To re-open the message panel, re-run the metadata or report generation operation you were trying
+						to perform. The panel will re-appear with updated messages.</p>
+				</section>
+			</section>
+			<nav class="user-links">
+				<div class="prev-link"><a href="eval-blank.html">Creating a Blank Evaluation</a></div>
+				<div class="next-link"><a href="pub-info.html">Adding Publication Information</a></div>
+			</nav>
+		</main>
+		<footer>
+			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a
+					href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+		</footer>
+	</body>
+</html>

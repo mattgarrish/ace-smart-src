@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Loading an Ace Report - Ace SMART</title>
+		<link rel="stylesheet" type="text/css" href="../css/a11y.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-guide.css" />
+	</head>
+
+	<body class="page">
+		<header>
+			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium" /></span>
+				<span>Ace <span class="smart_hd">SMART</span> &#8212; User Guide</span></h1>
+			<nav class="menubar">
+				<a href="index.html">Table of Contents</a>
+			</nav>
+		</header>
+		<main>
+			<section id="ace-load">
+				<h2>Loading an Ace Report</h2>
+				<p>The most common way to begin a new evaluation of a publication is by loading the JSON report output
+					by the Ace tool. This report is contained in the file named <code>report.json</code> (see <a
+						href="auto.html">Automated Inspection</a> for more information about this file).</p>
+				<p>To load the report, you can drag the file from your file system and drop it in the blue box under the
+						"<strong>Start an Evaluation</strong>" heading:</p>
+				<figure>
+					<img src="images/dnd.png" width="600"
+						alt="The drag and drop area is shaded blue and surrounded by a dashed border." />
+				</figure>
+				<p>If you are not able to drag and drop the report, it is also possible to select it from the file
+					system.</p>
+				<figure>
+					<img src="images/json_select.png" width="250"
+						alt="Within the drag and drop area is a link to a file selection dialog." />
+				</figure>
+				<p>Once a file is dropped into the application, or selected from the file system, the SMART tool will
+					automatically send the data to the server to load a new evaluation form. The SMART tool will attempt
+					to customize evaluation interface based on the information in the report, and, when complete, an
+					alert will be generated indicating what optimizations have been made, if any.</p>
+				<figure>
+					<img src="images/ace_alert.png" width="400"
+						alt="The alert shows which content type checks have been disabled followed by a
+						list of inferred discovery metadata."
+					 />
+				</figure>
+				<div class="note">
+					<p><strong>Note</strong>: If automatic detection results in incorrect tests being disabled, they can
+						be re-enabled in the <a href="conformance.html">Conformance Verification tab</a>.</p>
+				</div>
+				<div class="note">
+					<p><strong>Note</strong>: If accessibility metadata is already present in the publication, the SMART
+						tool will not attempt to infer additional metadata.</p>
+				</div>
+			</section>
+			<nav class="user-links">
+				<div class="prev-link"><a href="auto.html">Automated Inspection</a></div>
+				<div class="next-link"><a href="load-blank.html">Loading a Blank Evaluation</a></div>
+			</nav>
+		</main>
+		<footer>
+			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a
+					href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+		</footer>
+	</body>
+</html>

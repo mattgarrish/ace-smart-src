@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>Automated Evaluation - Ace SMART</title>
+		<title>Automated Inspection - Ace SMART</title>
 		<link rel="stylesheet" type="text/css" href="../css/a11y.css" />
 		<link rel="stylesheet" type="text/css" href="css/user-guide.css" />
 	</head>
@@ -17,37 +17,41 @@
 		</header>
 		<main>
 			<section id="ace">
-				<h2>Automated Evaluation</h2>
-				<p>Before beginning the manual evaluation process, ensure that your publication passes the Ace automated
-					evaluation tool without error.</p>
+				<h2>Automated Inspection</h2>
 				<div class="note">
-					<p><strong>Note</strong>: If you are only creating an evaluation report, any unfixed Ace errors will be
-						listed under the appropriate WCAG success criterion.</p>
+					<p><strong>Note</strong>: Information on how to install and use Ace is available from the <a
+							href="https://github.com/daisy/ace-core/">project home page</a>.</p>
 				</div>
-				<p>Instruction on how to run Ace and interpret its reports is available from the <a
-						href="https://github.com/daisy/ace-core/">project home page</a>. The latest version of the tool can
-					be downloaded from the <a href="https://github.com/daisy/ace-core/releases">releases page</a>.</p>
-				<p>When the Ace tool is run, it generates two primary documents:</p>
+				<p>The SMART tool is typically used in conjunction with the Ace automated accessibility checker, with
+					the automated tool being run first to discover any issues that can be detected by machine. It is
+					recommended to continue validating your publication using Ace until no more errors are reported, as
+					it is possible that some errors will mask others (this is especially true for invalid markup).</p>
+				<p>The Ace tool generates two documents that are primarily important to SMART evaluations:</p>
 				<dl>
-					<dt><code>report.html</code></dt>
-					<dd>The HTML file provides a human-readable report of any issues found, as well as supplementary
-						information like lists of images, audio and video and visualizations of the data structures of the
-						publication. This additional information helps expedite certain manual inspection processes (e.g.,
-						checking whether images are decorative or have meaningful alternative texts), so keep the report open
-						as you proceed with a SMART evaluation.</dd>
 					<dt><code>report.json</code></dt>
-					<dd>The JSON document provides machine-readable data about the automatic evaluation. This is the file
-						that is loaded into the SMART interface to prepare and simplify the manual evaluation process.</dd>
+					<dd>This file provides machine-readable data about the automatic evaluation.</dd>
+					<dt><code>report.html</code></dt>
+					<dd>This document provides a human-readable report of any issues found, as well as supplementary
+						information like lists of images, audio and video and visualizations of the data structures of
+						the publication.</dd>
 				</dl>
 				<div class="note">
-					<p><strong>Note</strong>: Although it is possible to evaluate a publication without using the Ace
-						automated evaluation tool, it is not recommended. The automated tool cannot check every failure, but
-						it prevents oversights of the common errors it can detect.</p>
+					<p><strong>Note</strong>: If you are using the Ace graphical user interface, you will need to use
+						the Export option to obtain these files.</p>
+				</div>
+				<p>The <code>report.json</code> file is the one that will be loaded into the SMART interface to prepare
+					the manual evaluation process. Do not discared the <code>report.html</code> file, however, as it
+					contains additional information that helps expedite certain manual inspection processes (e.g.,
+					checking whether images are decorative or have meaningful alternative texts).</p>
+				<div class="note">
+					<p><strong>Note</strong>: The same information contained in the <code>report.html</code> file is
+						available in the Ace graphical user interface; it does not matter which way you prefer to view
+						the information.</p>
 				</div>
 			</section>
 			<nav class="user-links">
 				<div class="prev-link"><a href="overview.html">Overview</a></div>
-				<div class="next-link"><a href="loading.html">Loading the Ace JSON Report</a></div>
+				<div class="next-link"><a href="load-ace.html">Loading an Ace Report</a></div>
 			</nav>
 		</main>
 		<footer>

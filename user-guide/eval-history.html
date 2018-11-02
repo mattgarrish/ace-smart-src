@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Evaluation History - Ace SMART</title>
+		<link rel="stylesheet" type="text/css" href="../css/a11y.css" />
+		<link rel="stylesheet" type="text/css" href="css/user-guide.css" />
+	</head>
+
+	<body class="page">
+		<header>
+			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium" /></span>
+				<span>Ace <span class="smart_hd">SMART</span> &#8212; User Guide</span></h1>
+			<nav class="menubar">
+				<a href="index.html">Table of Contents</a>
+			</nav>
+		</header>
+		<main>
+			<section id="manage">
+				<h2>Evaluation History</h2>
+				<p>Your evaluation history is available from the starting page that loads immediately after you log in.
+					It is provided in a table below the section to start new evaluations.</p>
+				<figure>
+					<img src="images/eval_history.png" width="550" alt="Evaluation history table with three entries" />
+				</figure>
+				<p>The columns of the table provide the following information about the evaluations:</p>
+				<dl>
+					<dt>Title</dt>
+					<dd>
+						<p>The title column shows the publication title that was found when the Ace report metadata was
+							loaded. (It is currently not possible to change the title after loading.)</p>
+					</dd>
+					<dt>Started</dt>
+					<dd>
+						<p>The started column shows the date and time when the evaluation was created.</p>
+					</dd>
+					<dt>Last Saved</dt>
+					<dd>
+						<p>The last saved column shows the date and time when you last saved the evaluation. If the
+							field has the value "0000-00-00 00:00:00", it indicates that the evaluation was never saved
+							or that it has been deleted (for remotely-saved evaluations).</p>
+					</dd>
+					<dt>Status</dt>
+					<dd>
+						<p>The status column identifies the last known action taken. It will have one of the following
+							values:</p>
+						<ul>
+							<li>Saved &#8212; the file was last saved to the SMART server.</li>
+							<li>Saved Locally &#8212; the file was last saved to your computer.</li>
+							<li>Deleted &#8212; the evaluation data was deleted from the SMART server.</li>
+							<li>Unsaved &#8212; the evaluation has not yet been, or was not, saved.</li>
+						</ul>
+					</dd>
+					<dt>Options</dt>
+					<dd>
+						<p>The options column provides one or buttons to manage your evaluation. Depending on the
+							current status, you will be provided buttons to <a href="eval-resume.html">resume the
+								evaluation</a> and/or <a href="eval-delete.html">delete the evaluation</a>.</p>
+					</dd>
+				</dl>
+				<p>By default, the table is ordered so that evaluations are listed from the most recently started to
+					the oldest. Clicking on any of the column headers will re-order the table by that field.</p>
+				<figure>
+					<img src="images/history_resort.png" width="350" alt="Evaluation history table sorted by title" />
+				</figure>
+				<p>There is also a search box at the top of the table that will filter the evaluations to only
+					those that match the text you enter.</p>
+				<figure>
+					<img src="images/history_filter.png" width="550" alt="Evaluation history table with three entries" />
+				</figure>
+			</section>
+			<nav class="user-links">
+				<div class="prev-link"><a href="eval-save.html">Saving an Evaluation</a></div>
+				<div class="next-link"><a href="eval-resume.html">Resuming an Evaluation</a></div>
+			</nav>
+		</main>
+		<footer>
+			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
+			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a
+					href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+		</footer>
+	</body>
+</html>

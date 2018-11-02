@@ -65,3 +65,7 @@ div.caution > p {
 figure {
 	margin-left: 6rem !important;
 }
+
+nav[role="doc-toc"] > ol {
+	list-style-type: decimal !important;
+}
