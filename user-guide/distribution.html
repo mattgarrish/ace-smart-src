@@ -6,7 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="../css/a11y.css" />
 		<link rel="stylesheet" type="text/css" href="css/user-guide.css" />
 	</head>
-	
+
 	<body class="page">
 		<header>
 			<h1><span><img class="logo" src="../images/daisy_logo.png" alt="DAISY Consortium" /></span>
@@ -18,7 +18,29 @@
 		<main>
 			<section id="distribution">
 				<h2>Distribution Metadata</h2>
-				<p></p>
+				<p>The Distribution tab provides the ability to create a set of metadata for use in ONIX 3 records for
+					distribution in vendor systems.</p>
+				<div class="note">
+					<p><strong>Note</strong>: Onix metadata is not used in the final accessibility report. This tab can
+						be skipped if you do not need an ONIX record for distribution.</p>
+				</div>
+				<p>The tab consists of a set of text fields and checkboxes that correspond to each of the accessibility
+					fields listed in <a href="https://ns.editeur.org/onix/en/196">ONIX Code List 196</a>.</p>
+				<figure>
+					<img src="images/onix.png" width="400" alt="ONIX metadata fields" />
+				</figure>
+				<p>Similar to the <a href="discovery.html">discovery metadata</a>, the fields are pre-populated based on
+					information found in the Ace report.</p>
+				<div class="note">
+					<p><strong>Note</strong>: If you are unsure how to complete the fields, more information is
+						available from the <a href="http://kb.daisy.org/publishing/docs/metadata/onix.html">DAISY
+							Knowledge Base</a>.</p>
+				</div>
+				<p>After you have completed the section, click the Generate button at the bottom of the page to create
+					the metadata. A new dialog will appear from which you can copy the tags.</p>
+				<figure>
+					<img src="images/onix_generated.png" width="600" alt="ONIX markup" />
+				</figure>
 			</section>
 			<nav class="user-links">
 				<div class="prev-link"><a href="discovery.html">Discovery Metadata</a></div>
@@ -28,7 +50,7 @@
 		<footer>
 			<p>Copyright &#169; 2017 <a href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
 			<p><a href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a
-				href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+					href="http://www.daisy.org/terms-use">Terms of Use</a></p>
 		</footer>
 	</body>
 </html>
