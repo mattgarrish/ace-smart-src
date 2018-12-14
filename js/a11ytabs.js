@@ -66,7 +66,13 @@ $(document).ready( function() {
 		
 		
 		
-		/*  highlight current tab or pubinfo by default -- added Matt Garrish */
+/*  
+ * 
+ * 
+ * highlight current tab or pubinfo by default -- added Matt Garrish
+ * 
+ * 
+ */
 		
 		var hash_tab = '#label_' + ((hash == '') ? (window.location.href.match(/report\.php/i) ? 'overview' : 'start') : hash);
 		$(hash_tab).closest( '.js-tablist__item' ).addClass( 'active' );
@@ -247,7 +253,13 @@ $(document).ready( function() {
 				if ( $( document.activeElement ).is( $parent.find('.js-tablist__link') ) ){
 				   $focus_on_tab_only = true;
 				   }
-				 
+
+/* 
+ * 
+ * 
+ * Removed code intercepting up/down left/right home/end keys - Matt Garrish 
+ * 
+ * 
 				// catch keyboard event only if focus is on tab
 				if ($focus_on_tab_only && !event.ctrlKey) {
 					// strike up or left in the tab
@@ -276,6 +288,7 @@ $(document).ready( function() {
 					}
 				
 				}
+ */ 
  
 		} )
 		.on( "keydown", ".js-tabcontent", function( event ) {

@@ -19,7 +19,7 @@
 	<head>
 		<meta charset="utf-8"/>
 		<title>Ace SMART</title>
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />		
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />		
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 		<link rel="stylesheet" type="text/css" href="css/a11y.css"/>
 		<link rel="stylesheet" type="text/css" href="css/tabs.css"/>
@@ -89,6 +89,7 @@
 			<nav class="menubar">
 				<a href="user-guide/" target="_blank">User Guide</a> 
 				<a href="faq.html" target="_blank">FAQ</a>
+				<span style="float: right; padding-right: 4.5rem"><a href="old/index.php">Restore old SMART site</a></span>
 			</nav>
 		</header>
 		

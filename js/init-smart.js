@@ -34,7 +34,8 @@
 		var data = JSON.parse(raw_report);
 		
 		if (data.hasOwnProperty('category')) {
-			if (data.category == 'savedEvaluation') {
+			// Note that savedReport is the old identifier from the original site - can be removed once fully obsolete
+			if (data.category == 'savedEvaluation' || data.category == 'savedReport') {
 				smartManage.loadConformanceEvaluation(data);
 			}
 			else if (data.category == 'newEvaluation') {

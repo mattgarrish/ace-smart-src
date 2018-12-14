@@ -262,7 +262,8 @@ HTML;
 					$this->abort('unknownload');
 				}
 				
-				if ($this->action == 'reload' && (!$json->{'category'} || $json->{'category'} != 'savedEvaluation')) {
+				// the savedReport category was used in the original site - remove after it becomes fully obsolete
+				if ($this->action == 'reload' && (!$json->{'category'} || $json->{'category'} != 'savedEvaluation' || $json->{'category'} != 'savedReport')) {
 					$this->abort('unknownreload');
 				}
 				

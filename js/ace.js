@@ -602,8 +602,8 @@ var smartAce = (function() {
 		
 		for (var key in features) {
 			
-			if  ((_aceReport['properties'].hasOwnProperty(features[key]) && _aceReport['properties'][features[key]])
-					|| _aceReport['data'].hasOwnProperty(features[key])) {
+			// if bindings or manifest fallbacks are present, they are set to true in the properties section - switches and triggers get listed under the data section
+			if  ((_aceReport['properties'].hasOwnProperty(features[key]) && _aceReport['properties'][features[key]]) || _aceReport['data'].hasOwnProperty(features[key])) {
 				
 				var messages = document.getElementsByClassName(key);
 				

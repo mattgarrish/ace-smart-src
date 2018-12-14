@@ -145,7 +145,7 @@ var smartReport = (function() {
 	function generateConformanceReport(reportOutputType) {
 		
 		if (!validateConformanceReport()) {
-			if (!confirm('Report did not validate successfully!\n\nClick Ok to generate anyway, or Cancel to exit.')) {
+			if (!confirm('Your evaluation contains usage errors/warnings. These may be due to incomplete fields or incorrectly applied metadata.\n\nClick Ok to ignore these issues and generate the final report, or Cancel to exit and correct.')) {
 				return;
 			}
 		}
@@ -655,7 +655,7 @@ var smartReport = (function() {
 				
 				// add the reason 
 				if ((err != '') && (_notesToDisplay == 'all' || _notesToDisplay == 'failures')) {
-					var lines = err.replace(/</g,'&lt;').trim().split(/[\r\n]+/);
+					var lines = err.trim().split(/[\r\n]+/);
 					lines.forEach(function(line) {
 						if (line) {
 							var notePara = document.createElement('p');

@@ -405,12 +405,12 @@ var smartManage = (function() {
 				});
 			}
 			
-			if (evaluationJSON.configuration.hasOwnProperty('fallbacks') && evaluationJSON.configuration.fallbacks) {
+			if (evaluationJSON.configuration.hasOwnProperty('fallbacks') && evaluationJSON.configuration.fallbacks.length > 0) {
 				document.querySelector('#fallbacks').classList.add('visible');
 				evaluationJSON.configuration.fallbacks.forEach(function(value) {
 					var listitems = document.querySelectorAll('#fallbacks li.' + value);
 					for (var i = 0; i < listitems.length; i++) {
-						listitems[i].classList.add('visible');
+						listitems[i].classList.add('listitem');
 					}
 				});
 			}
