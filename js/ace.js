@@ -432,6 +432,7 @@ var smartAce = (function() {
 	}
 	
 	
+	// analyzes the assertions in the ace report and sets the correspoding success criteria status
 	function setSuccessCriteriaStatus() {
 		
 		if (_aceReport['earl:result']['earl:outcome'] == 'pass') {

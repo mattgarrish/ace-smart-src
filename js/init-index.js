@@ -44,16 +44,15 @@
 	var dt = new DT();
 	
 	$(document).ready(function(){
-		setView('');
+		setView();
 	});
 	
-	function setView(tblType) {
-		dt.setTableType(tblType);
+	function setView() {
 		var options = {
 			"searchable": true,
 			"setDefaultSort": true,
 			"changeDefaultSort": false,
-			"tableType": tblType
+			"tableType": ''
 		}
 		dt.initialize(options);
 	}
@@ -66,7 +65,6 @@
 	var error_code = getParameterByName('err');
 	
 	if (error_code) {
-		var smart_lang = 'en';
 		var error_msg = smart_errors[smart_lang][error_code] ? smart_errors[smart_lang][error_code] : smart_messages[smart_lang]['unknown'];
 		document.getElementById('error-msg').textContent = error_msg;
 		error_dialog.dialog('open');

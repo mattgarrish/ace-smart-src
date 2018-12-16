@@ -35,3 +35,12 @@ var smart_errors = new Object();
 	smart_errors.en.confexec = 'An error occurred retrieving confirmation information. Please try again.';
 	smart_errors.en.notitle = 'Blank evaluations require a title. Please try again.';
 	
+var smart_discovery_meta = new Object();
+	smart_discovery_meta.en = new Object();
+	smart_discovery_meta.en.accessibilityFeature = 'At least one accessibility feature must be specified.';
+	smart_discovery_meta.en.accessibilityHazard = 'A hazard indication is required. If uncertain whether there are hazards in the content, select the "unknown" value.';
+	smart_discovery_meta.en.accessMode = 'At least one access mode must be selected.';
+	smart_discovery_meta.en.accessibilitySummary = 'An accessibility summary is required. The summary must not be empty or contain only white space.';
+	smart_discovery_meta.en.accessModeSufficient_missing = 'Sufficient access mode "%%val%%" checked but is not listed as an access mode. It is not common for a publication to have a sufficient access mode that is not also an access mode.';
+	smart_discovery_meta.en.accessModeSufficient_none = 'Sufficient access modes for reading the publication not specified.';
+	smart_discovery_meta.en.accessModeSufficient_duplicate = 'Duplicate sets of sufficient access modes specified.';

@@ -51,13 +51,15 @@
 			gtag('config', 'UA-327448-4');
 		</script>
 		
+		<script>var smart_lang = 'en';</script>
+		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="js/jquery.details.min.js"></script>
 		
 		<!-- DataTables -->
 		<script type="text/javascript" src="js/datatables.min.js"></script>
-		<script type="text/javascript" src="js/datatables-init.js"></script>
+		<script type="text/javascript" src="js/init-datatables.js"></script>
 		<script type="text/javascript" src="js/js.cookie.js"></script>
 		
 		<!-- messages -->

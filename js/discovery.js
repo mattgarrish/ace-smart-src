@@ -15,27 +15,27 @@ var smartDiscovery = (function() {
 
 	var _PROP_ERROR = { accessibilityFeature: {}, accessibilityHazard: {}, accessMode: {}, accessibilitySummary: {}, accessModeSufficient: {} };
 		
-		_PROP_ERROR.accessibilityFeature.msg = 'At least one accessibility feature must be specified.';
+		_PROP_ERROR.accessibilityFeature.msg = smart_discovery_meta[smart_lang].accessibilityFeature;
 		_PROP_ERROR.accessibilityFeature.warn = false;
 		
-		_PROP_ERROR.accessibilityHazard.msg = 'A hazard indication is required. If uncertain whether there are hazards in the content, select the "unknown" value.';
+		_PROP_ERROR.accessibilityHazard.msg = smart_discovery_meta[smart_lang].accessibilityHazard;
 		_PROP_ERROR.accessibilityHazard.warn = false;
 		
-		_PROP_ERROR.accessMode.msg = 'At least one access mode must be selected.';
+		_PROP_ERROR.accessMode.msg = smart_discovery_meta[smart_lang].accessMode;
 		_PROP_ERROR.accessMode.warn = false;
 		
-		_PROP_ERROR.accessibilitySummary.msg = 'An accessibility summary is required. The summary must not be empty or contain only white space.';
+		_PROP_ERROR.accessibilitySummary.msg = smart_discovery_meta[smart_lang].accessibilitySummary;
 		_PROP_ERROR.accessibilitySummary.warn = false;
 		
 		_PROP_ERROR.accessModeSufficient = { missing: {}, none: {}, duplicate: {} };
 		
-		_PROP_ERROR.accessModeSufficient.missing.msg = 'Sufficient access mode "%%val%%" checked but is not listed as an access mode. It is not common for a publication to have a sufficient access mode that is not also an access mode.';
+		_PROP_ERROR.accessModeSufficient.missing.msg = smart_discovery_meta[smart_lang].accessModeSufficient_missing;
 		_PROP_ERROR.accessModeSufficient.missing.warn = true;
 		 
-		_PROP_ERROR.accessModeSufficient.none.msg = 'Sufficient access modes for reading the publication not specified.';
+		_PROP_ERROR.accessModeSufficient.none.msg = smart_discovery_meta[smart_lang].accessModeSufficient_none;
 		_PROP_ERROR.accessModeSufficient.none.warn = true;
 
-		_PROP_ERROR.accessModeSufficient.duplicate.msg = 'Duplicate sets of sufficient access modes specified.';
+		_PROP_ERROR.accessModeSufficient.duplicate.msg = smart_discovery_meta[smart_lang].accessModeSufficient_duplicate;
 		_PROP_ERROR.accessModeSufficient.duplicate.warn = false;
 	
 	
