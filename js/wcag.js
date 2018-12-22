@@ -14,9 +14,12 @@
  * 
  * Public functions:
  * 
- * - setWCAGClassList - sets _classList based on the currently selected options
+ * - setWCAGClassList - sets _classList based on the currently selected options, 
+ * 						where _classList is a pipe-delimited list of all the 
+ * 						wcag levels to show success criteria for
  * 
- * - setWCAGLevel - set _level to the user's current choice
+ * - setWCAGLevel - set _level to the user's current choice, where _level is the 
+ * 					wcag level the user is testing the publication against
  * 
  */
 

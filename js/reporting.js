@@ -9,25 +9,24 @@
  * 
  * Public functions:
  * 
- * - validateConformanceReport - validates the output report
+ * - validateConformanceReport - validates the evaluation for missed tests and invalid metadata
+ * 							   - the function is now run automatically when generating a preview or final report 
  * 
- * - generateConformanceReport - creates the final output report
+ * - generateConformanceReport - creates the final report
+ * 							   - the report is either viewable in report.php or downloaded from that page
  * 
- * - addSuccessCriteriaReporting - dynamically adds the status and note fields to success criteria
- * 
- * - setReportOutputLocation - sets _reportOutputLocation - whether the user want the report output to a new window or textbox
- * 
- * - setNoteOutput - sets _notesToDisplay - which kinds of notes the user wants included in the report
+ * - setNoteOutput 			   - sets _notesToDisplay - which kinds of notes the user wants included in the report
  * 
  */
 
 var smartReport = (function() {
 	
 	var _notesToDisplay = 'all';
-	var _reportWin;
 	var _smartExtensionTabs = new Array();
 	var _generateExtension = {};
 	
+	
+	/* iterates over the valdation functions for each tab to determine if there are any issues with the evaluation */
 	
 	function validateConformanceReport() {
 		
@@ -54,6 +53,8 @@ var smartReport = (function() {
 	}
 	
 	
+	/* checks the metadata input in the publication info tab */
+	
 	function validatePublicationMetadata() {
 		var is_valid = true;
 		
@@ -63,6 +64,14 @@ var smartReport = (function() {
 		return is_valid;
 	}
 	
+	
+	/* 
+	 * checks that the title and last modified fields have been set
+	 * as these are needed to identify the publication and what version
+	 * (by its date) was tested (e.g., in case someone reviewing the report
+	 * has a newer, possibly improved, version)
+	 * 
+	 */
 	
 	function validateRequiredPubMetadata() {
 		var is_valid = true;
@@ -87,6 +96,12 @@ var smartReport = (function() {
 	}
 	
 	
+	/* 
+	 * this function only checks the optional metadata input box to
+	 * ensure that any inputted text has been formatted properly
+	 * - it does not verify the optional metadata fields
+	 */
+	
 	function validateOptionalPubMetadata() {
 		var is_valid = true;
 		
@@ -94,8 +109,10 @@ var smartReport = (function() {
 		var optional_meta_value = optional_meta_element.value.trim();
 		
 		if (optional_meta_value != '') {
+		
 			var meta_lines = optional_meta_value.replace(/\r\n/g,'\n').split('\n');
 			var meta_error = false;
+			
 			for (var i = 0; i < meta_lines.length; i++) {
 				if (!meta_lines[i].match(/: /)) {
 					smartError.logError({tab_id: 'start', element_id: 'optional-meta', severity: 'err', message: 'Missing a colon separator on line ' + (i+1)});
@@ -104,6 +121,7 @@ var smartReport = (function() {
 					meta_error = true;
 				}
 			}
+			
 			if (!meta_error) {
 				smartFormat.setFieldToPass({id: 'optional-meta', highlight_parent: true});
 			}
@@ -116,6 +134,12 @@ var smartReport = (function() {
 		return is_valid;
 	}
 	
+	
+	/* 
+	 * iterates over all the success criteria and checks that none still 
+	 * have their status set to unverified
+	 * 
+	 */
 	
 	function checkNoUnverifiedSC() {
 		var unverified_selector = 'section.a input[value="unverified"]:checked';
@@ -139,7 +163,7 @@ var smartReport = (function() {
 	
 	
 	/* 
-	 * Creates the final conformance report for the publication
+	 * Creates the html conformance report for the publication
 	 */
 	
 	function generateConformanceReport(reportOutputType) {
@@ -152,13 +176,18 @@ var smartReport = (function() {
 		
 		var title = document.getElementById('title').value;
 		
+		/* get the HTML report markup */
 		var report_body = createReportBody();
+		
 		var report_title = 'EPUB Accessibility Conformance Report for ' + title;
+		
 		var report_timestamp = smartFormat.generateTimestamp('at');
 		
 		var logo = document.createElement('span');
 		
 		var extension_list = '';
+		
+		/* include logos from extension organizations - currently not used */
 		
 		if (Object.keys(smart_extensions).length > 0) {
 			for (var key in smart_extensions) {
@@ -179,7 +208,7 @@ var smartReport = (function() {
 			extension_list = extension_list.slice(0,-1)
 		}
 		
-		// submit the html
+		// submit the html to report.php to present it to the user
 		
 		var report_form = document.createElement('form');
 			report_form.target = '_blank';    
@@ -231,6 +260,8 @@ var smartReport = (function() {
 		report_form.parentNode.removeChild(report_form);
 	}
 	
+	
+	/* generates the html that goes into the body of the final report */
 	
 	function createReportBody() {
 		var reportBody = document.createElement('body');
@@ -314,6 +345,8 @@ var smartReport = (function() {
 	}
 	
 	
+	/* creates the report heading - the title of the publication */
+	
 	function createReportHeader() {
 		var reportHD = document.createElement('h2');
 			reportHD.setAttribute('id', 'title');
@@ -322,6 +355,8 @@ var smartReport = (function() {
 		return reportHD;
 	}
 	
+	
+	/* creates the line under the heading with the key publication info */
 	
 	function createReportPublicationInfo() {
 		var publicationInfo = {};
@@ -361,6 +396,8 @@ var smartReport = (function() {
 		return publicationInfo;
 	}
 	
+	
+	/* creates the summary table of accessibility metadata on the first tab */
 	
 	function createReportSummary() {
 	
@@ -426,6 +463,8 @@ var smartReport = (function() {
 			value: compileCheckboxValues('accessMode')
 		}));
 		
+		
+		// compile the sufficient access modes
 		var suffSet = document.querySelectorAll('fieldset#accessModeSufficient fieldset');
 		
 		var sufficient_ul = document.createElement('ul');
@@ -493,75 +532,7 @@ var smartReport = (function() {
 	}
 	
 	
-	function createReportAdditionalInfo(options) {
-		options = typeof(options) === 'object' ? options : {};
-		options.addedID = options.hasOwnProperty('addedID') ? options.addedID : false;
-		
-		var additionalInfo = document.createElement('section');
-			additionalInfo.setAttribute('id','additional-info');
-			additionalInfo.setAttribute('class', 'info js-tabcontent');
-		
-		var additionalInfoHD = document.createElement('h3');
-			additionalInfoHD.appendChild(document.createTextNode('Additional Information'));
-		
-		additionalInfo.appendChild(additionalInfoHD);
-		
-		// add epub version
-		additionalInfo.appendChild(formatPubInfoEntry({
-			id: 'format',
-			label: 'Format',
-			value: 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value
-		}));
-		
-		if (!options.addedID) {
-			additionalInfo.appendChild(formatPubInfoEntry({
-				id: 'identifier',
-				label: 'Identifier',
-				value: document.getElementById('identifier').value.trim()
-			}));
-		}
-		
-		additionalInfo.appendChild(formatPubInfoEntry({
-			id: 'modified',
-			label: 'Last Modified',
-			value: document.getElementById('modified').value.trim()
-		}));
-		
-		additionalInfo.appendChild(formatPubInfoEntry({
-			id: 'date',
-			label: 'Published',
-			value: document.getElementById('date').value.trim()
-		}));
-		
-		additionalInfo.appendChild(formatPubInfoEntry({
-			id: 'description',
-			label: 'Description',
-			value: document.getElementById('description').value.trim()
-		}));
-		
-		additionalInfo.appendChild(formatPubInfoEntry({
-			id: 'subject',
-			label: 'Subject',
-			value: document.getElementById('subject').value.trim()
-		}));
-		
-		var optional_meta = document.getElementById('optional-meta').value.trim();
-		
-		if (optional_meta != '') {
-			var meta = optional_meta.replace(/\r\n/g,'\n').split('\n');
-			for (var i = 0; i < meta.length; i++) {
-				var part = meta[i].split(': ');
-				additionalInfo.appendChild(formatPubInfoEntry({
-					id: part[0].toLowerCase().replace(/\s/g,''),
-					label: part[0],
-					value: part[1]
-				}));
-			}
-		}
-		
-		return additionalInfo;
-	}
-	
+	/* compile the table of success criteria statuses */
 	
 	function createReportTestDetails() {
 	
@@ -713,6 +684,85 @@ var smartReport = (function() {
 	}
 	
 	
+	/* generates the addition info tab */
+	
+	function createReportAdditionalInfo(options) {
+	
+		options = typeof(options) === 'object' ? options : {};
+		options.addedID = options.hasOwnProperty('addedID') ? options.addedID : false;
+		
+		var additionalInfo = document.createElement('section');
+			additionalInfo.setAttribute('id','additional-info');
+			additionalInfo.setAttribute('class', 'info js-tabcontent');
+		
+		var additionalInfoHD = document.createElement('h3');
+			additionalInfoHD.appendChild(document.createTextNode('Additional Information'));
+		
+		additionalInfo.appendChild(additionalInfoHD);
+		
+		// add epub version
+		additionalInfo.appendChild(formatPubInfoEntry({
+			id: 'format',
+			label: 'Format',
+			value: 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value
+		}));
+		
+		
+		// add the identifier if it's not already under the heading
+		if (!options.addedID) {
+			additionalInfo.appendChild(formatPubInfoEntry({
+				id: 'identifier',
+				label: 'Identifier',
+				value: document.getElementById('identifier').value.trim()
+			}));
+		}
+		
+		additionalInfo.appendChild(formatPubInfoEntry({
+			id: 'modified',
+			label: 'Last Modified',
+			value: document.getElementById('modified').value.trim()
+		}));
+		
+		additionalInfo.appendChild(formatPubInfoEntry({
+			id: 'date',
+			label: 'Published',
+			value: document.getElementById('date').value.trim()
+		}));
+		
+		additionalInfo.appendChild(formatPubInfoEntry({
+			id: 'description',
+			label: 'Description',
+			value: document.getElementById('description').value.trim()
+		}));
+		
+		additionalInfo.appendChild(formatPubInfoEntry({
+			id: 'subject',
+			label: 'Subject',
+			value: document.getElementById('subject').value.trim()
+		}));
+		
+		var optional_meta = document.getElementById('optional-meta').value.trim();
+		
+		
+		// process any metadata in the addition metadata box
+		if (optional_meta != '') {
+			var meta = optional_meta.replace(/\r\n/g,'\n').split('\n');
+			for (var i = 0; i < meta.length; i++) {
+				var part = meta[i].split(': ');
+				additionalInfo.appendChild(formatPubInfoEntry({
+					id: part[0].toLowerCase().replace(/\s/g,''),
+					label: part[0],
+					value: part[1]
+				}));
+			}
+		}
+		
+		return additionalInfo;
+	}
+	
+	
+	/* get the count of pass/fail/na/unverified SCs */
+	
 	function createReportStats(count) {
 		var stats = '';
 		
@@ -735,6 +785,7 @@ var smartReport = (function() {
 	
 	
 	/* return discovery metadata sets */
+	
 	function compileCheckboxValues(id) {
 		var checkboxes = document.getElementById(id).querySelectorAll('input:checked');
 		
@@ -770,6 +821,7 @@ var smartReport = (function() {
 	
 	
 	function formatPubInfoEntry(options) {
+	
 		options = typeof(options) === 'object' ? options : {};
 		options.id = options.id ? options.id : '';
 		options.label = options.label ? options.label : '';
@@ -822,6 +874,8 @@ var smartReport = (function() {
 	}
 	
 	
+	/* generates a segment for the line under the heading */
+	
 	function formatReportTitleSubSpan(options) {
 		var span = document.createElement('span');
 			span.setAttribute('id', options.property);
@@ -836,115 +890,7 @@ var smartReport = (function() {
 	
 	
 	
-	
-	
-	/* 
-	 * Dynamically generates the status radio buttons and note fields for 
-	 * evaluating the success criteria
-	 */
-	
-	function addSCStatusFields() {
-	
-		var sc = document.querySelectorAll('.a, .aa, .aaa, .epub');
-		
-		for (var i = 0; i < sc.length; i++) {
-		
-			/* add wrapper div with reporting class for hiding later */
-			var report = document.createElement('div');
-				report.setAttribute('class','reporting');
-			
-			/*  add the status radio buttons */
-			var status = document.createElement('fieldset');
-				status.setAttribute('id',sc[i].id+'-legend');
-				status.setAttribute('class','flat status');
-			
-			var status_legend = document.createElement('legend');
-				status_legend.appendChild(document.createTextNode('Status:'));
-			
-			status.appendChild(status_legend);
-			
-			var stats = {'unverified': 'Unverified', 'pass': 'Pass', 'fail': 'Fail', 'na': 'N/A'};
-			
-			for (var stat in stats) {
-				var status_label = document.createElement('label');
-				var status_input = document.createElement('input');
-					status_input.setAttribute('type','radio');
-					status_input.setAttribute('name', sc[i].id);
-					status_input.setAttribute('value',stat);
-					status_input.setAttribute('class','sc_status');
-					status_input.setAttribute('aria-labelledby',sc[i].id+'-legend');
-				
-				if (stat == 'unverified') {
-					status_input.setAttribute('checked','checked');
-				}
-				
-				status_label.appendChild(status_input);
-				status_label.appendChild(document.createTextNode(' ' + stats[stat]));
-				status.appendChild(status_label);
-				status.appendChild(document.createTextNode(' '));
-			}
-			
-			/* add the failure textarea */
-			
-			var err = document.createElement('div');
-				err.setAttribute('id',sc[i].id+'-fail');
-				err.setAttribute('class','failure');
-			
-			var err_p = document.createElement('p');
-			
-			var err_label = document.createElement('label');
-				err_label.setAttribute('for',sc[i].id+'-err');
-				err_label.appendChild(document.createTextNode('Describe failure(s):'));
-			
-			err.appendChild(err_label);
-			
-			var err_textarea = document.createElement('textarea');
-				err_textarea.setAttribute('id',sc[i].id+'-err');
-				err_textarea.setAttribute('rows','5');
-				err_textarea.setAttribute('cols','80');
-			
-			err.appendChild(err_textarea);
-			
-			status.appendChild(err);
-			
-			report.appendChild(status);
-			
-			/* add the note checkbox and textarea */
-			
-			var note_p = document.createElement('p');
-			
-			var note_label = document.createElement('label');
-			
-			var note_input = document.createElement('input');
-				note_input.setAttribute('type','checkbox');
-				note_input.setAttribute('name',sc[i].id+'-note');
-				note_input.setAttribute('class','show-note');
-			
-			note_label.appendChild(note_input);
-			note_label.appendChild(document.createTextNode(' Add Note'));
-			
-			note_p.appendChild(note_label);
-			
-			report.appendChild(note_p);
-			
-			var note_div = document.createElement('div');
-				note_div.setAttribute('id',sc[i].id+'-note');
-				note_div.setAttribute('class','info');
-			
-			var note_textarea = document.createElement('textarea');
-				note_textarea.setAttribute('id',sc[i].id+'-info');
-				note_textarea.setAttribute('rows','5');
-				note_textarea.setAttribute('cols','80');
-				note_textarea.setAttribute('aria-label','Note');
-			
-			note_div.appendChild(note_textarea);
-			
-			report.appendChild(note_div);
-			
-			sc[i].appendChild(report);
-		}
-	}
-	
+	/* adds the result from an extension module to the first tab */
 	
 	function addExtensionResult(options) {
 	
@@ -993,10 +939,6 @@ var smartReport = (function() {
 		
 		generateConformanceReport: function(location) {
 			generateConformanceReport(location);
-		},
-		
-		addSuccessCriteriaReporting: function() {
-			addSCStatusFields();
 		},
 		
 		setNoteOutput: function(code) {

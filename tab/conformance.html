@@ -13,12 +13,6 @@
 			<label><input type="radio" name="wcag-level" value="aa" checked="checked"/> Level AA</label>
 		</fieldset>
 		
-		<fieldset class="flat">
-			<legend>Show Optional Criteria:</legend>
-			<label><input type="checkbox" id="show-aa" class="optional-criteria" disabled="disabled"/> Level AA</label>
-			<label><input type="checkbox" id="show-aaa" class="optional-criteria"/> Level AAA</label>
-		</fieldset>
-		
 		<fieldset id="exclusions" class="flat">
 			<legend>Exclude Tests For:</legend>
 			<label><input type="checkbox" value="img" class="excl-test"/> Images</label>
@@ -29,7 +23,13 @@
 	</div>
 	
 	<details id="view-options">
-		<summary>Additional View Options</summary>
+		<summary>Additional Options</summary>
+		
+		<fieldset class="flat">
+			<legend>Show Optional Criteria:</legend>
+			<label><input type="checkbox" id="show-aa" class="optional-criteria" disabled="disabled"/> Level AA</label>
+			<label><input type="checkbox" id="show-aaa" class="optional-criteria"/> Level AAA</label>
+		</fieldset>
 		
 		<fieldset class="flat">
 			<legend>Hide success criteria with status:</legend>

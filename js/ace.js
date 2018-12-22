@@ -18,7 +18,10 @@
 
 var smartAce = (function() {
 
+	/* holds the ace report json */
 	var _aceReport = '';
+	
+	/* holds status messages to report to the user after loading */
 	var _loadMessages = {
 			inferred: '',
 			reporting: '',
@@ -64,12 +67,10 @@ var smartAce = (function() {
 	};
 	
 	
-	function resetMessages() {
-		_loadMessages.inferred = '';
-		_loadMessages.reporting = '';
-		_loadMessages.features = [];
-	}
-	
+	/* 
+	 * loadAceReport processes the incoming Ace JSON report
+	 * and configures/populates the evaluation
+	 */
 	
 	function loadAceReport() {
 	
@@ -78,20 +79,16 @@ var smartAce = (function() {
 			return;
 		}
 		
-		if (!_aceReport.hasOwnProperty('earl:assertedBy') || _aceReport['earl:assertedBy']['doap:name'] != 'DAISY Ace') {
-			if (!confirm('Could not verify Ace report. Click Ok to attempt to process anyway.')) {
-				return;
-			}
-		}
-		
-		resetMessages();
-		
+		/* extract and set the conformance level if the publication already contains conformsTo metadata */
 		setWCAGConformanceLevel();
 		
+		/* iterate over the report metadata and set fields */
 		loadMetadata();
 		
+		/* attempt to infer SC and discovery metadata from the data */
 		inferAccessibilityMetadata();
 		
+		/* disable SC for any inapplicable content types */
 		configureReporting();
 		
 		/* load extension data */
@@ -101,14 +98,16 @@ var smartAce = (function() {
 			}
 		}
 		
+		/* display information about the load to the user */
 		showReportLoadResult();
-		
-		// enable the report review link
-		//document.getElementById('ace-review').setAttribute('href','#ace-review');
-		//$('#ace-review').click( function(){ import_dialog.dialog('open'); return false; });
 	
 	}
 	
+	
+	/* 
+	 * check the ace metadata for a dcterms:conformsTo property and set
+	 * the WCAG level if it matches the epub accessibility conformance URL
+	 */
 	
 	function setWCAGConformanceLevel() {
 		
@@ -134,6 +133,10 @@ var smartAce = (function() {
 		}
 	}
 	
+	
+	/* 
+	 * iterates over the metadata extracted from the package document and updates the pub info tab
+	 */
 	
 	function loadMetadata() {
 	
@@ -189,6 +192,10 @@ var smartAce = (function() {
 	}
 	
 	
+	/* 
+	 * processes each metadata property to return the appropriate string value
+	 */
+	
 	function formatMetadataProperty(id, property) {
 	
 		if (!_aceReport['earl:testSubject']['metadata'].hasOwnProperty(property)) {
@@ -201,6 +208,14 @@ var smartAce = (function() {
 		
 		// for these properties, only the first instance found is used when there are multiple available
 		var select_first_instance = {"dc:title": true, "dc:identifier": true};
+		
+		/* 
+		 * if the specified property contains an array of values, selects either
+		 * the first value (for those defined above) or concatenates the values
+		 * together into a comma-separated list
+		 * 
+		 * for single values, identifiers are processed differently to format URNs
+		 */
 		
 		if (Array.isArray(report_property)) {
 			
@@ -235,6 +250,12 @@ var smartAce = (function() {
 		return formatted_value;
 	}
 	
+	
+	/* 
+	 * runs through any accessibility metadata extracted from the publication
+	 * and checks off or fills in the appropriate field in the discovery
+	 * metadata tab  
+	 */
 	
 	function setDiscoveryCheckboxes(id, property) {
 		
@@ -271,30 +292,42 @@ var smartAce = (function() {
 	}
 	
 	
+	/* 
+	 * because sufficient access modes are a list of 1..n access modes
+	 * these have to be separately processed from the rest of the metadata
+	 * by splitting/looping over the values in each set
+	 */
+	
 	function setSufficientSets() {
 		
 		if (!_aceReport['earl:testSubject']['metadata'].hasOwnProperty('schema:accessModeSufficient')) {
 			return;
 		}
 		
+		// if there is only one set, pushes it into an array so that the following loop never fails
 		var report_sets = Array.isArray(_aceReport['earl:testSubject']['metadata']['schema:accessModeSufficient']) ?
 						_aceReport['earl:testSubject']['metadata']['schema:accessModeSufficient'] :
 						[ _aceReport['earl:testSubject']['metadata']['schema:accessModeSufficient'] ];
 	
 		for (var i = 0; i < report_sets.length; i++) {
-			/* add additional sets so there is always one blank to work with */
-			if (i > 0) {
-				smartDiscovery.addNewSufficientSet();
-			}
-			
+		
 			var access_modes = report_sets[i].split(/[\s,]+/);
 			
 			for (var j = 0; j < access_modes.length; j++) {
 				document.querySelector('#set' + (i+1) + ' input[value="' + access_modes[j] + '"]').click();
 			}
+			
+			/* add an additional set so the user always has one blank one left to work with */
+			if (i > 0) {
+				smartDiscovery.addNewSufficientSet();
+			}
 		}
 	}
 	
+	
+	/* 
+	 * attempts to infer accessibility features from the metadata
+	 */
 	
 	function inferAccessibilityMetadata() {
 	
@@ -330,9 +363,11 @@ var smartAce = (function() {
 			setONIXCheckbox('19');
 		}
 		
+		/* can typically be assumed that every epub has a reading order */
 		user_message.appendChild(setCheckbox('accessibilityFeature','readingOrder'));
 		setONIXCheckbox('13');
 		
+		/* can typically be assumed that every epub has a table of contents */
 		user_message.appendChild(setCheckbox('accessibilityFeature','tableOfContents'));
 		setONIXCheckbox('11');
 		
@@ -359,6 +394,7 @@ var smartAce = (function() {
 			sufficient_message.appendChild(document.createTextNode('accessModeSufficient: '+sufficient));
 		user_message.appendChild(sufficient_message);
 		
+		/* check if media overlays are present */
 		if (_aceReport['earl:testSubject']['metadata'].hasOwnProperty('media:duration')) {
 			user_message.appendChild(setCheckbox('accessibilityFeature','synchronizedAudioText'));
 			setONIXCheckbox('20');
@@ -369,6 +405,7 @@ var smartAce = (function() {
 	}
 	
 	
+	/* generic function that just clicks whatever checkbox is passed in */
 	function setCheckbox(property, meta_id) {
 		document.querySelector('input[type="checkbox"][value="' + meta_id + '"]').click();
 		var li = document.createElement('li');
@@ -377,16 +414,22 @@ var smartAce = (function() {
 	}
 	
 	
+	/* onix IDs are prefixed, so appends the prefix as part of clicking the checkbox */
 	function setONIXCheckbox(onix_id) {
 		document.getElementById('onix' + onix_id).click();
 	}
 	
 	
+	/* check of a mode within an accessModeSufficient fieldset */
 	function setSufficientMode(set_id, meta_id) {
 		document.querySelector('fieldset#set' + set_id + ' input[type="checkbox"][value="' + meta_id + '"]').click();
 	}
 	
 	
+	/* 
+	 * disables categories of success criteria depending on what they test for
+	 * and whether that content is present in the epub
+	 */
 	function configureReporting() {
 		
 		if (!_aceReport.hasOwnProperty('data')) {
@@ -502,6 +545,7 @@ var smartAce = (function() {
 	}
 	
 	
+	/* generic function to check the applicable status field within a success criterion */
 	function setSCStatus(id, status, msg) {
 		document.querySelector('input[name="'+id+'"][value="' + status + '"]').click();
 		if (status == 'fail') {
@@ -510,6 +554,9 @@ var smartAce = (function() {
 	}
 	
 	
+	/*
+	 * extracts all the ace assertions (failures) into a simpler to manage form
+	 */
 	function compileAssertions() {
 		
 		var ace_failures = {};
@@ -537,6 +584,7 @@ var smartAce = (function() {
 					ace_failures[_aceReport.assertions[i].assertions[j]['earl:test']['dct:title']] = '';
 				}
 				
+				// simplifies the ace structure so the assertion code is the key and a pared-down error message is the value
 				ace_failures[_aceReport.assertions[i].assertions[j]['earl:test']['dct:title']] += _aceReport.assertions[i].assertions[j]['earl:result']['dct:description'].replace(/Fix (any|all) of the following:\s+/i,'') + ' (' + _aceReport.assertions[i]['earl:testSubject'].url + ').\n';
 			}
 		}
@@ -545,15 +593,19 @@ var smartAce = (function() {
 	}
 	
 	
+	/* 
+	 * generic function that sets content checks (audio, video, images, etc.) to n/a if no matching content in the publication
+	 */
+	
 	function excludeContentChecks(id, property) {
 		
+		// get the checkbox in the exclusions list for the specified id
 		var test_checkbox = document.querySelector('#exclusions input[value="' + id + '"]');
-		
-		// clicking the checkbox calls smartConformance.changeContentConformance to modify the form
 		
 		if (!_aceReport['data'].hasOwnProperty(property)) {
 			if (!test_checkbox.checked) {
 				// check to make the applicable success criteria n/a
+				// clicking the checkbox calls smartConformance.changeContentConformance to modify the form
 				test_checkbox.click();
 			}
 			return true;
@@ -596,8 +648,13 @@ var smartAce = (function() {
 	}
 	
 	
+	/* 
+	 * inspects the ace report to see if any epub-specific features have been included in the publication
+	 * and, if so, sets the warning in the conformance tab to alert the user to their presence
+	 */
 	function setEPUBFeatureWarnings() {
 		
+		// checks for: manifest fallbacks, bindings, epub:switch, and epub:trigger
 		var features = {'manifest': 'hasManifestFallbacks', 'bindings': 'hasBindings', 'epub-switch': 'epub-switches', 'epub-trigger': 'epub-triggers'};
 		var warningIsVisible = false;
 		
@@ -622,12 +679,18 @@ var smartAce = (function() {
 	}
 	
 	
+	/* 
+	 * generates the inforation to display in the pop-up dialog that appears 
+	 * after the ace report import is finished
+	 */
 	function showReportLoadResult() {
 		var import_result = document.getElementById('import');
 		
 		var successful_load = document.createElement('p');
 			successful_load.appendChild(document.createTextNode('Ace report successfully imported!'));
 		import_result.appendChild(successful_load);
+		
+		// alert user to any content checks that have been set to n/a
 		
 		if (_loadMessages.reporting.hasChildNodes()) {
 			var report_exclusions = document.createElement('p');
@@ -641,6 +704,8 @@ var smartAce = (function() {
 			import_result.appendChild(exclusions_info);
 		}
 		
+		// alert the user to any discovery metadata that was inferred from the ace report
+		
 		if (_loadMessages.inferred) {
 			var inferred_metadata = document.createElement('p');
 				inferred_metadata.appendChild(document.createTextNode('The following accessibiity metadata was set based on the Ace report:'));
@@ -652,6 +717,8 @@ var smartAce = (function() {
 				verify_inferred.appendChild(document.createTextNode('Verify the accuracy of these assumptions in the Discovery Metadata tab.'));
 			import_result.appendChild(verify_inferred);
 		}
+		
+		// alert the user if there are accessibility features that don't match any of the known/accepted values
 		
 		if (_loadMessages.features.length > 0) {
 			var feature_metadata = document.createElement('p');

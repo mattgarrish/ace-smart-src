@@ -60,6 +60,9 @@
 	
 	/*
 	 * ERROR REPORTING
+	 * 
+	 * - detects errors in the query string coming back from failed report loads:
+	 *   https://smart.daisy.org/index.php?err=foo
 	 */
 	
 	var error_code = getParameterByName('err');
@@ -118,7 +121,7 @@
 	});
 	
 	
-	/* add new evaluation */
+	/* add a new blank evaluation */
 	
 	$('#new_eval').click( function(){
 		event.preventDefault();
@@ -128,7 +131,7 @@
 		title = title.trim();
 		
 		if (!title) {
-			alert('New evaluations cannot be started without a title.');
+			alert('A new evaluation cannot be started without a title.');
 			return;
 		}
 		

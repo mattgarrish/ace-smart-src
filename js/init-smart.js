@@ -5,10 +5,10 @@
 	 *  REPORTING
 	 */
 	
-	// add reporting fields to the conformance success criteria
 	window.onload = function() {
 	
-		smartReport.addSuccessCriteriaReporting();
+		/* add reporting fields to the conformance success criteria */
+		smartConformance.addSuccessCriteriaReporting();
 		
 		/* watch for changes to success criteria status radio buttons */
 		$('input.sc_status').click( function(){
@@ -20,26 +20,38 @@
 			smartConformance.showSCNoteField(this);
 		});
 		
+		/* configure and populate the evaluation */
+		evaluationSetup();
 		
-		loadReportJSON();
-		
-		// reset saveChanges after loading the form to prevent false positives when closing
+		/* 
+		 * reset saveChanges after configuring the evaluation,
+		 * otherwise users are always alerted to save changes to their 
+		 * evaluations when exiting
+		 */
 		saveChanges = false;
 	}
 	
-	function loadReportJSON() {
+	function evaluationSetup() {
 		
+		/* json to load is always written to the script element with id=report_data */
 		var raw_report = document.getElementById('report_data').textContent;
 		
 		var data = JSON.parse(raw_report);
 		
+		/* 
+		 * only saved/new evaluations have a category property in their root data structure,
+		 * so can act accordingly based on its presence
+		 */
+		 
 		if (data.hasOwnProperty('category')) {
-			// Note that savedReport is the old identifier from the original site - can be removed once fully obsolete
+			/* note that 'savedReport' is the old identifier (before the evaluation management
+			 * code was added) - it can be removed once fully obsolete */
 			if (data.category == 'savedEvaluation' || data.category == 'savedReport') {
 				smartManage.loadConformanceEvaluation(data);
 			}
 			else if (data.category == 'newEvaluation') {
-				smartManage.newConformanceEvaluation(data.title);
+				// only the title to set if a new blank evaluation
+				document.getElementById('title').value = data.title;
 			}
 		}
 		
@@ -76,6 +88,7 @@
 
 	// initialize dialogs
 	
+	/* import_dialog is used to show the user the results of importing their ace report */
 	var import_dialog = $("#import").dialog({
 		autoOpen: false,
 		height: 350,
@@ -87,6 +100,7 @@
 		}
 	});
 	
+	/* save_dialog provides the option to save evaluations remotely/locally */
 	var save_dialog = $("#save").dialog({
 		autoOpen: false,
 		height: 220,
@@ -101,6 +115,7 @@
 		}
 	});
 	
+	/* discovery_dialog is used to show the generated discovery tab metadata (it is initialized in the smartDiscovery module) */
 	discovery_dialog = $("#discovery-meta").dialog({
 		autoOpen: false,
 		height: 450,
@@ -112,6 +127,7 @@
 		}
 	});
 	
+	/* onix_dialog is used to show the generated distribution tab metadata (it is initialized in the smartReport module) */
 	onix_dialog = $("#distribution-meta").dialog({
 		autoOpen: false,
 		height: 450,
@@ -123,6 +139,7 @@
 		}
 	});
 	
+	/* evaluation_dialog is used to show the generated evaluation tab metadata (it is initialized in the smartEvaluation module) */
 	evaluation_dialog = $("#evaluation-meta").dialog({
 		autoOpen: false,
 		height: 350,
@@ -168,8 +185,19 @@
 	
 	/* INTERFACE */
 	
+	/* watch for validate button click */
+	$('#validate-button').click( function(){
+		if (smartReport.validateConformanceReport()) {
+			alert('No errors or warnings found.');
+		}
+		else {
+			alert('Evaluation contains errors or warnings.\n\nPlease see the error panel for more information.');
+		}
+	});
+	
 	/* watch for save button click */
 	$('#save-button').click( function(){
+		/* shared accounts cannot save remotely */
 		if (ACE_SHARED) {
 			smartManage.saveConformanceEvaluation('local');
 		}
@@ -256,12 +284,12 @@
 		smartReport.setNoteOutput(this.value);
 	});
 	
-	/* watch for click on button to generate final report */
+	/* watch for click on button to generate final report preview */
 	$('#preview-report').click( function(){
 		smartReport.generateConformanceReport('preview'); 
 	});
 
-	/* watch for click on button to generate final report */
+	/* watch for click on button to generate final report download */
 	$('#generate-report').click( function(){
 		smartReport.generateConformanceReport('report');
 	});
@@ -269,11 +297,19 @@
 	
 	/* Save changes prompt */
 	
+	/* 
+	 * if any form fields are changed, saveChanges is set to true to prompt
+	 * the user that they might be exiting without saving their work
+	 */
 	$(":input").change(function() {
 		saveChanges = true;
 	});
 	
 	$(window).on("beforeunload",function(){
+		/* 
+		 * these message are not displayed, but do trigger the browser default
+		 * prompt about leaving with unsaved changes
+		 */
 		if (firstSave) {
 			return "This evaluation has not been saved. It cannot be resumed if you leave without saving."
 		}

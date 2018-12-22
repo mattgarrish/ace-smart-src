@@ -13,6 +13,8 @@
  * 
  * Public functions:
  * 
+ * - addSuccessCriteriaReporting - dynamically adds the status and note fields to success criteria
+ * 
  * - setWCAGConformanceLevel - updates the displayed conformance tests to the user-selected level
  * 
  * - displaySuccessCriteria - show/hide success criteria for the specified wcag level (used to show both current level and optional criteria)
@@ -72,6 +74,114 @@ var smartConformance = (function() {
 		smartWCAG.setWCAGClassList();
 		
 		document.getElementById('show-aa').disabled = (level == 'aa') ? true : false;
+	}
+	
+	
+	/* 
+	 * Dynamically generates the status radio buttons and note fields for 
+	 * evaluating the success criteria
+	 */
+	
+	function addSCStatusFields() {
+	
+		var sc = document.querySelectorAll('.a, .aa, .aaa, .epub');
+		
+		for (var i = 0; i < sc.length; i++) {
+		
+			/* add wrapper div with reporting class for hiding later */
+			var report = document.createElement('div');
+				report.setAttribute('class','reporting');
+			
+			/*  add the status radio buttons */
+			var status = document.createElement('fieldset');
+				status.setAttribute('id',sc[i].id+'-legend');
+				status.setAttribute('class','flat status');
+			
+			var status_legend = document.createElement('legend');
+				status_legend.appendChild(document.createTextNode('Status:'));
+			
+			status.appendChild(status_legend);
+			
+			var stats = {'unverified': 'Unverified', 'pass': 'Pass', 'fail': 'Fail', 'na': 'N/A'};
+			
+			for (var stat in stats) {
+				var status_label = document.createElement('label');
+				var status_input = document.createElement('input');
+					status_input.setAttribute('type','radio');
+					status_input.setAttribute('name', sc[i].id);
+					status_input.setAttribute('value',stat);
+					status_input.setAttribute('class','sc_status');
+					status_input.setAttribute('aria-labelledby',sc[i].id+'-legend');
+				
+				if (stat == 'unverified') {
+					status_input.setAttribute('checked','checked');
+				}
+				
+				status_label.appendChild(status_input);
+				status_label.appendChild(document.createTextNode(' ' + stats[stat]));
+				status.appendChild(status_label);
+				status.appendChild(document.createTextNode(' '));
+			}
+			
+			/* add the failure textarea */
+			
+			var err = document.createElement('div');
+				err.setAttribute('id',sc[i].id+'-fail');
+				err.setAttribute('class','failure');
+			
+			var err_p = document.createElement('p');
+			
+			var err_label = document.createElement('label');
+				err_label.setAttribute('for',sc[i].id+'-err');
+				err_label.appendChild(document.createTextNode('Describe failure(s):'));
+			
+			err.appendChild(err_label);
+			
+			var err_textarea = document.createElement('textarea');
+				err_textarea.setAttribute('id',sc[i].id+'-err');
+				err_textarea.setAttribute('rows','5');
+				err_textarea.setAttribute('cols','80');
+			
+			err.appendChild(err_textarea);
+			
+			status.appendChild(err);
+			
+			report.appendChild(status);
+			
+			/* add the note checkbox and textarea */
+			
+			var note_p = document.createElement('p');
+			
+			var note_label = document.createElement('label');
+			
+			var note_input = document.createElement('input');
+				note_input.setAttribute('type','checkbox');
+				note_input.setAttribute('name',sc[i].id+'-note');
+				note_input.setAttribute('class','show-note');
+			
+			note_label.appendChild(note_input);
+			note_label.appendChild(document.createTextNode(' Add Note'));
+			
+			note_p.appendChild(note_label);
+			
+			report.appendChild(note_p);
+			
+			var note_div = document.createElement('div');
+				note_div.setAttribute('id',sc[i].id+'-note');
+				note_div.setAttribute('class','info');
+			
+			var note_textarea = document.createElement('textarea');
+				note_textarea.setAttribute('id',sc[i].id+'-info');
+				note_textarea.setAttribute('rows','5');
+				note_textarea.setAttribute('cols','80');
+				note_textarea.setAttribute('aria-label','Note');
+			
+			note_div.appendChild(note_textarea);
+			
+			report.appendChild(note_div);
+			
+			sc[i].appendChild(report);
+		}
 	}
 	
 	
@@ -181,6 +291,10 @@ var smartConformance = (function() {
 		
 		setWCAGConformanceLevel: function(level) {
 			setWCAGConformanceLevel(level);
+		},
+		
+		addSuccessCriteriaReporting: function() {
+			addSCStatusFields();
 		},
 		
 		displaySuccessCriteria: function(options) {

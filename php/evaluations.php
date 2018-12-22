@@ -32,6 +32,12 @@
 			$this->db->connect();
 		}
 		
+		
+		/*
+		 * Check that the user is licensed
+		 * - has to have the value 'unlimited' or 'max#' where # is the number of evaluation per month allowed
+		 */
+		
 		public function check_license() {
 		
 			if (!$this->license) {
@@ -56,6 +62,11 @@
 				die();
 			}
 		}
+		
+		
+		/*
+		 * Checks if the user has already exceeded their monthly alloted number of evaluations
+		 */
 		
 		private function check_remaining_evaluations() {
 		
@@ -90,7 +101,12 @@
 			    $this->db->close();
 			}
 		}
-	
+		
+		
+		/*
+		 * adds the ace report upload form to start a new evaluation
+		 * otherwise displays a message that limit has been exceeded 
+		 */
 		
 		public function add_evaluation_form() {
 		
@@ -133,6 +149,10 @@ HTML;
 			}
 		}
 		
+		
+		/*
+		 * generates the evaluation history table
+		 */
 		
 		public function list_evaluations() {
 		
@@ -207,6 +227,17 @@ HTML;
 			}
 		}
 		
+		
+		/*
+		 *
+		 * handles all evaluation initiation attempts:
+		 * - loading a new evaluation from an ace report
+		 * - clicking the load new blank evaluation link
+		 * - resuming an evaluation stored on the server
+		 * - resuming a locally-saved evaluation
+		 *
+		 */
+		
 		public function load_evaluation() {
 				
 			$evaluation = '';
@@ -215,6 +246,7 @@ HTML;
 			$modified = '0000-00-00 00:00:00';
 			$status = 'unsaved';
 			
+			// action=new results from the user clicking the link to start a new blank evaluation
 			if ($this->action == 'new') {
 			
 				if (!$this->title) {
@@ -223,10 +255,12 @@ HTML;
 				
 				$this->id = $this->generate_uuid();
 				
+				// create a basic json structure to store the blank evaluation title so the next page has something to process
 				$evaluation = '{ "category": "newEvaluation", "title": ' . json_encode($this->title) . ' }';
 				
 				$this->to_save = true;
 				
+				// create a default entry in the database
 				if (!$this->db->prepare("INSERT INTO evaluations (username, company, uid, title, created, modified, status, evaluation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 					$this->abort('newins');
 				}
@@ -242,39 +276,51 @@ HTML;
 				$this->eval_id = $this->db->insert_id();
 			}
 			
+			/* 
+			 * action=load occurs when an ace report is uploaded
+			 * action=reload occurs when the user uploads a locally-saved evaluation
+			 */
+			
 			else if ( 
 					  ($this->action == 'load')
 					  || ($this->action == 'reload' && $this->eval_id)
 					  || ($this->action == 'reload' && $this->shared)
 					 ) {
 				
+				// get the uploaded file contents when available
 				if ($_FILES['ace-report']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['ace-report']['tmp_name'])) {
 					$evaluation = file_get_contents($_FILES['ace-report']['tmp_name']); 
 				}
 				
 				$json = json_decode($evaluation);
 				
+				// bail out if a file wasn't available or didn't contain json
 				if (!$json) {
 					$this->abort('nojson');
 				}
 				
-				if ($this->action == 'load' && (!$json->{'earl:assertedBy'}->{'doap:name'} || $json->{'earl:assertedBy'}->{'doap:name'} != 'DAISY Ace')) {
+				// verify that the uploaded json is an ace report using the @context (only checks the non-variable part of the url)
+				if ($this->action == 'load' && (!$json->{'@context'} || strpos($json->{'@context'}, 'http://daisy.github.io/ace') === false)) {
 					$this->abort('unknownload');
 				}
 				
-				// the savedReport category was used in the original site - remove after it becomes fully obsolete
-				if ($this->action == 'reload' && (!$json->{'category'} || $json->{'category'} != 'savedEvaluation' || $json->{'category'} != 'savedReport')) {
+				// verify that the uploaded json is a saved evaluation by checking the category property
+				// - 'savedReport' was used for saving in the original site, but was changed because it's the evaluation being saved not the output report - it can be removed after it becomes fully obsolete
+				else if ($this->action == 'reload' && (!$json->{'category'} || ($json->{'category'} != 'savedEvaluation' && $json->{'category'} != 'savedReport'))) {
 					$this->abort('unknownreload');
 				}
 				
+				// as ace reports represent a new evaluation, loading one additionally needs an entry added to the database to track/save the user's work
 				if ($this->action == 'load') {
 				
 					$this->to_save = true;
 					
+					// first check is whether the user has already started an evaluation for a publication with the identifier in the ace report
 					if (!$this->db->prepare("SELECT uid FROM evaluations WHERE username = ? AND uid = ?")) {
 						$this->abort('uidselect');
 					}
 					
+					// get the publication identifier from the ace report
 					$this->id = is_array($json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'}) ? $json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'}[0] : $json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'};
 					
 					if (!$this->db->bind_param("ss", array($this->username, $this->id))) {
@@ -289,13 +335,19 @@ HTML;
 					
 					$this->db->close();
 					
-					if (!$this->db->prepare("INSERT INTO evaluations (username, company, uid, title, created, modified, status) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
+					// if a matching uid is found, the ace json gets stored with the new entry so that the
+					// user can be prompted to confirm they actually intended to start a new evaluation
+					
+					$add_eval = $result['uid'] ? $evaluation : ''; 
+					
+					// next insert a new entry into the database for the publication
+					if (!$this->db->prepare("INSERT INTO evaluations (username, company, uid, title, created, modified, status, evaluation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 						$this->abort('evalins');
 					}
 					
 					$title = is_array($json->{'earl:testSubject'}->{'metadata'}->{'dc:title'}) ? $json->{'earl:testSubject'}->{'metadata'}->{'dc:title'}[0] : $json->{'earl:testSubject'}->{'metadata'}->{'dc:title'};
 					
-					if (!$this->db->bind_param("sssssss", array($this->username, $this->company, $this->id, $title, $now, $modified, $status))) {
+					if (!$this->db->bind_param("sssssss", array($this->username, $this->company, $this->id, $title, $now, $modified, $status, $add_eval))) {
 						$this->abort('evalbind');
 					}
 					
@@ -305,28 +357,22 @@ HTML;
 					
 					$this->eval_id = $this->db->insert_id();
 					
+					// now redirect the user to the confirmation page if there was a matching uid
 					if ($result['uid']) {
-					
-						if (!$this->db->prepare("UPDATE evaluations SET evaluation = ? WHERE username = ? AND id = ?")) {
-							$this->abort('reportins');
-						}
-						
-						if (!$this->db->bind_param("ssi", array($evaluation, $this->username, $this->eval_id))) {
-							$this->abort('reportbind');
-						}
-						
-						if (!$this->db->execute()) {
-							$this->abort('reportexec');
-						}
-						
 						header("Location: confirm.php?id=" . $this->eval_id . "&uid=" . $this->id);
 						die();
 					}
 				}
 			}
 			
+			/* 
+			 * action=resume occurs when an evaluation saved in the db is being restored
+			 * action=okload occurs after the user confirms they want to load an evaluation with the same uid as another (see action=load)
+			 */
+			
 			else if (($this->action == 'resume' && $this->eval_id) || $this->action == 'okload') {
 				
+				// get the stored json from the database
 				if (!$this->db->prepare("SELECT evaluation FROM evaluations WHERE username = ? AND id = ?")) {
 					$this->abort('resselect');
 				}
@@ -346,6 +392,8 @@ HTML;
 				$this->db->close();
 				
 				if ($this->action == 'okload') {
+					// with okload, the user hasn't ever saved the new evaluation (it was stored as part of action=load)
+					// setting this to true will prompt them to save before they try to exit, if they haven't
 					$this->to_save = true;
 				}
 			
@@ -362,21 +410,28 @@ HTML;
 			echo $evaluation;
 		}
 		
-		
+		// used to tell the js on the smart.php page that the user has never saved their evaluation
+		// so even if they try to leave without modifying any fields they will get prompted to save
 		public function need_to_save() {
 			return $this->to_save ? 'true' : 'false'; 
 		}
 		
 		
+		// returns the evaluation ID from the database
 		public function get_eval_id() {
 			return $this->eval_id;
 		}
 		
+		
+		// generic function to return the user to the start page with the relevant error code
 		private function abort($code) {
 			header("Location: index.php?err=" . $code);
 			die();
 		}
 		
+		
+		// wipes the evaluation field in the database clean when requested by the user
+		// users cannot delete the entire entry for an evaluation, as they have to be retained for tracking purposes
 		public function delete_evaluation() {
 			
 			$del_date = '0000-00-00 00:00:00';
@@ -400,6 +455,9 @@ HTML;
 			return true;
 		}
 		
+		
+		// the only time a record can be deleted is if the user accidentally loads an ace report again
+		// if when prompted they chose to delete the evaluation instead of continuing, this function is called 
 		public function delete_record() {
 			
 			if (!$this->db->prepare("DELETE FROM evaluations WHERE username = ? AND id = ? LIMIT 1")) {
@@ -419,6 +477,8 @@ HTML;
 			return true;
 		}
 		
+		
+		// create a default uuid for blank evaluations
 		private function generate_uuid() {
 			return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
 				// 32 bits for "time_low"

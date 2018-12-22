@@ -44,7 +44,7 @@ HTML;
 				});
 			});
 		</script>
-		<script src="http://{$_SERVER["HTTP_HOST"]}/js/a11ytabs.js"></script>
+		<script src="https://{$_SERVER["HTTP_HOST"]}/js/a11ytabs.js"></script>
 	</body>
 </html>
 HTML;

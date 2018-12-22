@@ -17,17 +17,49 @@
 
 var smartManage = (function() {
 	
-	var _saved = false;
+	/* 
+	 * creates the json object that is then saved either into the db
+	 * on the server or downloaded to the users computer
+	 * 
+	 * the resulting object is structured as follows:
+	 * 
+	 * {
+	 *     "version": "1.0",
+	 *     "category": "savedEvaluation",
+	 *     "created": "...",
+	 *     "configuration": {
+	 *        ...
+	 *     },
+	 *     "publicationInfo": {
+	 *        ...
+	 *     },
+	 *     "conformance": [
+	 *        ...
+	 *     ],
+	 *     "discovery": {
+	 *        ...
+	 *     },
+	 *     "distribution": {
+	 *        ...
+	 *     },
+	 *     "evaluation": {
+	 *        ...
+	 *     }
+	 *     ... extensions ...
+	 * }
+	 * 
+	 * 
+	 */
 	
 	function saveConformanceEvaluation(location) {
 	
 		var evaluationJSON = {};
 		
-		_saved = false;
-		
 		evaluationJSON.version = '1.0';
 		evaluationJSON.category = 'savedEvaluation';
-		evaluationJSON.created = smartFormat.generateTimestamp('dash');
+		
+		var now = new Date();
+		evaluationJSON.created = now.toISOString();
 		
 		/* store report configuration info */
 		
@@ -64,7 +96,7 @@ var smartManage = (function() {
 				}
 			}
 	
-		/* store publication info */
+		/* add publication info */
 		
 		evaluationJSON.publicationInfo = {};
 		evaluationJSON.publicationInfo.title = document.getElementById('title').value;
@@ -77,7 +109,7 @@ var smartManage = (function() {
 		evaluationJSON.publicationInfo.subject = document.getElementById('subject').value;
 		evaluationJSON.publicationInfo['optional-meta'] = document.getElementById('optional-meta').value;
 		
-		/* store success criteria state */
+		/* add success criteria state */
 		
 		var success_criteria = document.querySelectorAll('.a, .aa, .aaa, .epub');
 		
@@ -100,7 +132,7 @@ var smartManage = (function() {
 				}
 			}
 		
-		/* store discovery metadata */
+		/* add discovery metadata */
 		
 		evaluationJSON.discovery = {};
 		
@@ -113,7 +145,7 @@ var smartManage = (function() {
 			evaluationJSON.discovery.accessibilitySummary = document.getElementById('accessibilitySummary').value.trim();
 			evaluationJSON.discovery.accessModeSufficient = saveSufficientSets();
 		
-		/* store onix metadata */
+		/* add onix metadata */
 		
 		evaluationJSON.distribution = {};
 		
@@ -130,7 +162,7 @@ var smartManage = (function() {
 				evaluationJSON.distribution.onix[p] = document.getElementById('onix'+p).value.trim();
 			}
 		
-		/* store conformance metadata */
+		/* add conformance metadata */
 		
 		evaluationJSON.evaluation = {};
 		
@@ -140,7 +172,7 @@ var smartManage = (function() {
 			
 			evaluationJSON.evaluation.certifierReport = document.getElementById('certifierReport').value;
 		
-		/* store extension data */
+		/* add extension data */
 		
 		if (Object.keys(smart_extensions).length > 0) {
 			for (var key in smart_extensions) {
@@ -153,6 +185,8 @@ var smartManage = (function() {
 			}
 		}
 		
+		/* store the json to the location specified by the user */
+		
 		(location == 'local') ? 
 			writeSavedJSON(JSON.stringify(evaluationJSON)) : 
 			storeSavedJSON(JSON.stringify(evaluationJSON));
@@ -162,6 +196,7 @@ var smartManage = (function() {
 	
 	
 	/* returns an array of checked discovery metadata values */
+	
 	function saveDiscoveryMeta(id) {
 		var metaArray = [];
 		var checkedItems = document.querySelectorAll('fieldset#' + id + ' input:checked');
@@ -177,6 +212,7 @@ var smartManage = (function() {
 	
 	
 	/* returns an object containing sets of sufficientAccessModes */
+	
 	function saveSufficientSets(id) {
 		var setObject = {};
 		
@@ -198,7 +234,11 @@ var smartManage = (function() {
 	
 	
 	
-	/* creates json download of saved report */
+	/* 
+	 * creates the json download of saved evaluation
+	 * - dynamically creates a form with the json and posts it to save.php to initiate the download in a new tab
+	 */
+	
 	function writeSavedJSON(evaluationJSON) {
 		var eval_form = document.createElement('form');
 			eval_form.target = '_blank';    
@@ -260,8 +300,13 @@ var smartManage = (function() {
 	}
 	
 	
-	/* ajax call to store data on the server */
+	/* 
+	 * ajax call to store the evaluation json on the server
+	 * - basically the same as the download function, but uses an ajax call to send the data to save.php and store in the db without leaving the current page
+	 */
+	
 	function storeSavedJSON(evaluationJSON) {
+		
 		$.ajax(
 		{
 			url: 			'save.php',
@@ -298,7 +343,7 @@ var smartManage = (function() {
 				}
 				
 				catch (error) {
-					alert( 'Sorry, the server returned an invalid response. Please try again.');
+					alert( 'Sorry, an unexpected error occurred. Please try again.');
 				}
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
@@ -308,9 +353,11 @@ var smartManage = (function() {
 	}
 	
 	
+	/* reloads the saved evaluation json */
+	
 	function loadConformanceEvaluation(evaluationJSON) {
 	
-		/* set the success criteria */
+		/* load the success criteria */
 		
 		if (evaluationJSON.hasOwnProperty('conformance')) {
 			for (var i = 0; i < evaluationJSON.conformance.length; i++) {
@@ -389,11 +436,11 @@ var smartManage = (function() {
 		if (evaluationJSON.hasOwnProperty('configuration')) {
 			document.querySelector('input[name="wcag-level"][value="' + evaluationJSON.configuration.wcag.level + '"]').click();
 			
-			if (evaluationJSON.configuration.wcag.show_aa && evaluationJSON.configuration.wcag.level != 'aa') {
+			if ((evaluationJSON.configuration.wcag.show_aa && evaluationJSON.configuration.wcag.show_aa == 'true') && evaluationJSON.configuration.wcag.level != 'aa') {
 				document.getElementById('show-aa').click();
 			}
 			
-			if (evaluationJSON.configuration.wcag.show_aaa) {
+			if (evaluationJSON.configuration.wcag.show_aaa && evaluationJSON.configuration.wcag.show_aaa == 'true') {
 				document.getElementById('show-aaa').click();
 			}
 			
@@ -425,6 +472,7 @@ var smartManage = (function() {
 	}
 	
 	
+	/* generic function that clicks a checkbox for a metadata field */
 	
 	function setDiscoveryMetaCheckbox(id,obj) {
 		for (var i = 0; i < obj.length; i++) {
@@ -442,6 +490,7 @@ var smartManage = (function() {
 	}
 	
 	
+	/* generic function to set the modes for an accessModeSufficient set */
 	
 	function setSufficientModes(modeSets) {
 		/* add any additional sets before loading */
@@ -463,10 +512,6 @@ var smartManage = (function() {
 		}
 	}
 	
-	function newConformanceEvaluation(title) {
-		document.getElementById('title').value = title;
-	}
-	
 	
 	return {
 	
@@ -476,10 +521,6 @@ var smartManage = (function() {
 		
 		loadConformanceEvaluation: function(data){
 			loadConformanceEvaluation(data);
-		},
-		
-		newConformanceEvaluation: function(title){
-			newConformanceEvaluation(title);
 		}
 	}
 

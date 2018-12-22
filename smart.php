@@ -88,8 +88,9 @@
 			<nav class="menubar">
 				<a href="user-guide/" target="_blank">User Guide</a> 
 				<a href="faq.html" target="_blank">FAQ</a>
-				<a href="#" id="save-button">Save</a>
 				<a href="#" id="close-button">Close</a>
+				<a href="#" id="save-button">Save</a>
+				<a href="#" id="validate-button">Validate</a>
 			</nav>
 		</header>
 		
