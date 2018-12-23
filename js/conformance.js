@@ -49,7 +49,9 @@ var smartConformance = (function() {
 		_STATUS.a = 'Pass - EPUB + WCAG Level A';
 		_STATUS.aa = 'Pass - EPUB + WCAG Level AA';
 		
-		
+	
+	/* changes the visible success criteria based on the user setting */
+	
 	function setWCAGConformanceLevel(level) {
 	
 		smartWCAG.setWCAGLevel(level);
@@ -58,7 +60,7 @@ var smartConformance = (function() {
 			displaySuccessCriteria({wcag_level: 'aa', display: (level == 'aa' ? true : false)});
 		}
 		
-		// show "supserseded by" notes
+		// show notes for success criteria that are superseded by a higher-level requirement
 		
 		var sup = document.getElementsByClassName('superseded-aa');
 		
@@ -74,6 +76,26 @@ var smartConformance = (function() {
 		smartWCAG.setWCAGClassList();
 		
 		document.getElementById('show-aa').disabled = (level == 'aa') ? true : false;
+	}
+	
+	
+	/* makes success criteria visible/hidden based on their class */
+	
+	function displaySuccessCriteria(options) {
+		var success_criteria = document.getElementsByClassName(options.wcag_level);
+		
+		for (var i = 0; i < success_criteria.length; i++) {
+			if (options.display) {
+				success_criteria[i].classList.remove('hidden');
+				success_criteria[i].classList.add('visible');
+			}
+			else {
+				success_criteria[i].classList.remove('visible');
+				success_criteria[i].classList.add('hidden');
+			}
+		};
+		
+		smartWCAG.setWCAGClassList();
 	}
 	
 	
@@ -182,24 +204,6 @@ var smartConformance = (function() {
 			
 			sc[i].appendChild(report);
 		}
-	}
-	
-	
-	function displaySuccessCriteria(options) {
-		var success_criteria = document.getElementsByClassName(options.wcag_level);
-		
-		for (var i = 0; i < success_criteria.length; i++) {
-			if (options.display) {
-				success_criteria[i].classList.remove('hidden');
-				success_criteria[i].classList.add('visible');
-			}
-			else {
-				success_criteria[i].classList.remove('visible');
-				success_criteria[i].classList.add('hidden');
-			}
-		};
-		
-		smartWCAG.setWCAGClassList();
 	}
 	
 	

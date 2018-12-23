@@ -1,4 +1,12 @@
 
+/*
+ * =========   WARNING  ==========
+ * 
+ * DO NOT MOVE THIS FILE TO PRODUCTION WITHOUT CHANGING THE
+ * CONNECTION DATABASE FROM smart_dev_users to smart_users
+ *
+ */
+
 <?php 
 
 	class SMART_DB {

@@ -337,8 +337,9 @@ HTML;
 					
 					// if a matching uid is found, the ace json gets stored with the new entry so that the
 					// user can be prompted to confirm they actually intended to start a new evaluation
+					// - shared account do no go through this check to avoid users seeing any info about other evaluations
 					
-					$add_eval = $result['uid'] ? $evaluation : ''; 
+					$add_eval = ($result['uid'] && !$this->shared) ? $evaluation : ''; 
 					
 					// next insert a new entry into the database for the publication
 					if (!$this->db->prepare("INSERT INTO evaluations (username, company, uid, title, created, modified, status, evaluation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
@@ -347,7 +348,7 @@ HTML;
 					
 					$title = is_array($json->{'earl:testSubject'}->{'metadata'}->{'dc:title'}) ? $json->{'earl:testSubject'}->{'metadata'}->{'dc:title'}[0] : $json->{'earl:testSubject'}->{'metadata'}->{'dc:title'};
 					
-					if (!$this->db->bind_param("sssssss", array($this->username, $this->company, $this->id, $title, $now, $modified, $status, $add_eval))) {
+					if (!$this->db->bind_param("ssssssss", array($this->username, $this->company, $this->id, $title, $now, $modified, $status, $add_eval))) {
 						$this->abort('evalbind');
 					}
 					
@@ -358,7 +359,7 @@ HTML;
 					$this->eval_id = $this->db->insert_id();
 					
 					// now redirect the user to the confirmation page if there was a matching uid
-					if ($result['uid']) {
+					if ($result['uid'] && !$this->shared) {
 						header("Location: confirm.php?id=" . $this->eval_id . "&uid=" . $this->id);
 						die();
 					}
