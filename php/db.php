@@ -1,12 +1,4 @@
 
-/*
- * =========   WARNING  ==========
- * 
- * DO NOT MOVE THIS FILE TO PRODUCTION WITHOUT CHANGING THE
- * CONNECTION DATABASE FROM smart_dev_users to smart_users
- *
- */
-
 <?php 
 
 	class SMART_DB {
@@ -16,7 +8,7 @@
 		
 		public function connect() {
 			if ($this->mysqli && $this->mysqli->ping()) { return true; }
-			return ($this->mysqli = new mysqli("localhost", "smart", "D1@2i3s4y5SMART", "smart_dev_users")) ? true : false;
+			return ($this->mysqli = new mysqli("localhost",  $_SERVER['DB_USER'],  $_SERVER['DB_PASS'], $_SERVER['DB'])) ? true : false;
 		}
 		
 		public function prepare($sql) {
