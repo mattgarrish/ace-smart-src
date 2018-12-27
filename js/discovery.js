@@ -7,6 +7,16 @@
  * 
  * Validates and generates discovery metadata
  * 
+ * Public functions
+ * 
+ * - validateDiscoveryMetadata - checks discovery metadata for errors and warnings
+ * 
+ * - generateDiscoveryMetadata - generates the set of tags for the package document 
+ * 
+ * - addCustomFeature - adds a custom accessibilityFeature to the form
+ *  
+ * - addNewSufficientSet - adds an additional blank set for accessModeSufficient
+ * 
  */
 
 var discovery_dialog;
@@ -39,6 +49,7 @@ var smartDiscovery = (function() {
 		_PROP_ERROR.accessModeSufficient.duplicate.warn = false;
 	
 	
+	/* checks that at least one item has been checked for required metadata */
 	function validateDiscoveryMetadata(clear) {
 	
 		if (clear) {
@@ -74,6 +85,7 @@ var smartDiscovery = (function() {
 	}
 	
 	
+	/* checks that at least one checkbox in the specified fieldset is checked */
 	function verifyOneItemChecked(id, found) {
 		var checked_items = document.querySelectorAll('fieldset#' + id + ' input:checked')
 		
@@ -90,6 +102,7 @@ var smartDiscovery = (function() {
 	}
 	
 	
+	/* checks that sufficient modes are set and don't repeat themselves */
 	function verifySufficientModes() {
 		var fieldsets = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset');
 		var sufficient_mode_sets = [];
@@ -139,6 +152,7 @@ var smartDiscovery = (function() {
 	}
 	
 	
+	/* generates accessibility metadata tags for the package document */
 	function generateDiscoveryMetadata() {
 	
 		if (!validateDiscoveryMetadata()) {
@@ -186,6 +200,7 @@ var smartDiscovery = (function() {
 	}
 	
 	
+	/* generates a meta tag for the specified property */
 	function addMetaTag(property, id) {
 		var checked_values = document.getElementById(id).querySelectorAll('input:checked');
 		var meta_tag = '';
@@ -198,6 +213,7 @@ var smartDiscovery = (function() {
 	}
 	
 	
+	/* concatenates the sufficient modes into a comma-separate string and generates the meta tag */
 	function addSufficientSetTags(property) {
 		var meta_tags = '';
 		var fieldsets = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset');
@@ -221,6 +237,7 @@ var smartDiscovery = (function() {
 	}
 	
 	
+	/* adds a new user-defined accessibility feature to the form */
 	function addCustomFeature(feature_name) {
 		
 		if (!feature_name) {
@@ -260,6 +277,7 @@ var smartDiscovery = (function() {
 	}
 	
 	
+	/* adds an additional sufficient set to the form */
 	function addNewSufficientSet() {
 	
 		var set_count = document.getElementById('accessModeSufficient').getElementsByTagName('fieldset').length + 1;
@@ -276,6 +294,7 @@ var smartDiscovery = (function() {
 		var new_column_wrapper_div = document.createElement('div');
 			new_column_wrapper_div.setAttribute('class','cols');
 		
+		// list of access modes to add to the set
 		var access_modes = ['auditory','tactile','textual','visual'];
 		
 		for (var i = 0; i < access_modes.length; i++) {

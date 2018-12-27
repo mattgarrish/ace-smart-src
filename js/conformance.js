@@ -36,6 +36,7 @@
  */
 
 var smartConformance = (function() {
+
 	var _SC_TYPE = new Object();
 		_SC_TYPE.img = ['sc-1.4.9'];
 		_SC_TYPE.audio = ['sc-1.4.2', 'sc-1.4.7'];
@@ -48,7 +49,7 @@ var smartConformance = (function() {
 		_STATUS.fail = 'Failed';
 		_STATUS.a = 'Pass - EPUB + WCAG Level A';
 		_STATUS.aa = 'Pass - EPUB + WCAG Level AA';
-		
+	
 	
 	/* changes the visible success criteria based on the user setting */
 	
@@ -207,9 +208,11 @@ var smartConformance = (function() {
 	}
 	
 	
+	/* shows/hides sets of content-specific tests */
 	function configureContentTypeTests(options) {
 	
-		// hide partial sc checks
+		// select all content-specific tests
+		// applicable tests are identified by a data-scope attribute - e.g. data-scope="audio"
 		var checks = document.querySelectorAll('*[data-scope="' + options.type + '"]');
 		
 		for (var i = 0; i < checks.length; i++) {
@@ -240,6 +243,7 @@ var smartConformance = (function() {
 	}
 	
 	
+	/* sets the appropriate status for the publication based on the how the success criteria have been evaluated */
 	function setEvaluationResult() {
 	
 		var show_aa = smartWCAG.WCAGClassList().indexOf('|aa|') > 0 ? true  : false;
@@ -247,6 +251,7 @@ var smartConformance = (function() {
 		var status_label = document.getElementById('conformance-result-status');
 		var status_input = document.getElementById('conformance-result');
 		
+		// make sure there aren't any unverified success criteria
 		var unverified = 'section.a input[value="unverified"]:checked, section#eg-2 input[value="unverified"]:checked, section#eg-1 input[value="unverified"]:checked';
 			unverified += smartWCAG.WCAGLevel() == 'aa' ? ', section.aa input[value="unverified"]:checked' : '';
 		
@@ -260,21 +265,23 @@ var smartConformance = (function() {
 		var onix_a = document.getElementById('onix02');
 		var onix_aa = document.getElementById('onix03');
 		
-		if (smartWCAG.WCAGLevel() == 'aa' || show_aa) {
+		var level_a_fail = document.querySelectorAll('section.a input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked');
+		
+		// checks that there aren't any failures if AA is specified
+		// or if showing optional AA success criteria and all have been checked 
+		if (smartWCAG.WCAGLevel() == 'aa' || (show_aa && document.querySelectorAll('section.aa input[value="unverified"]:checked').length == 0)) {
 			
-			if (document.querySelectorAll('section.a input[value="fail"]:checked, section.aa input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked').length == 0) {
-				
-				if (smartWCAG.WCAGLevel() == 'aa' || document.querySelectorAll('section.aa input[value="unverified"]:checked').length > 0) {
-					status_label.textContent = _STATUS.aa;
-					status_input.value = 'aa';
-					if (!onix_aa.checked) { onix_aa.click(); }
-					if (onix_a.checked) { onix_a.click(); }
-					return;
-				}
+			if (level_a_fail.length == 0 && document.querySelectorAll('section.aa input[value="fail"]:checked').length == 0) {
+				status_label.textContent = _STATUS.aa;
+				status_input.value = 'aa';
+				if (!onix_aa.checked) { onix_aa.click(); }
+				if (onix_a.checked) { onix_a.click(); }
+				return;
 			}
 		}
 		
-		if (document.querySelectorAll('section.a input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked').length == 0) {
+		// otherwise not having an else if here allows verification to fall through to A, even if testing AA
+		if (level_a_fail.length == 0) {
 			status_label.textContent = _STATUS.a;
 			status_input.value = 'a';
 			if (onix_aa.checked) { onix_aa.click(); }

@@ -27,8 +27,6 @@
  * 
  * - toTitleCase - converts a string to title case - capitalizes each word
  * 
- * - generateTimestamp - returns a human-readable timestamp for the current date and time
- * 
  * - setFieldToError - highlights warnings/errors and sets aria-invalid
  * 
  * - setFieldToPass - highlights passes and unsets aria-invalid
@@ -50,11 +48,13 @@ var smartFormat = (function() {
 	return {
 		BG: _BG,
 		
+		/* stores the epub version for use by the other formatting functions */
 		setEPUBVersion: function(newVersion) {
 			_epubVersion = newVersion;
 		},
 		
 		
+		/* creates a meta/link link tag with the specified property */
 		createMetaTag: function(options) {
 			options = typeof(options) === 'object' ? options : {};
 			options.type = options.type ? options.type : 'meta';
@@ -78,16 +78,19 @@ var smartFormat = (function() {
 		},
 		
 		
+		/* escapes a value so it can be safely used in an xml element */
 		elementValueEscape: function(value) {
 			return value.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 		},
 		
 		
+		/* escapes a value so it can be safely used in an xml attribute */
 		attributeValueEscape: function(value) {
 			return value.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\r?\n/g, ' ');
 		},
 		
 		
+		/* convers a utc date (dcterms:modified) to a human-readable string */
 		convertUTCDateToString: function (utcDate) {
 			var date_options = { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };  
 			
@@ -95,6 +98,7 @@ var smartFormat = (function() {
 		},
 		
 		
+		/* reformts URNs - adds ISBN in front for urn:isbn, otherwise strips urn:xxx: leaving just the identifier */
 		formatIdentifier: function (identifier) {
 			if (identifier.match(/urn:isbn:/i)) {
 				identifier = 'ISBN ' + identifier.replace('urn:isbn:','');
@@ -106,20 +110,13 @@ var smartFormat = (function() {
 		},
 		
 		
+		/* converts the provided string to title case */
 		toTitleCase: function(str) {
 			return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		},
 		
 		
-		generateTimestamp: function(seperator, date) {
-			var today = date ? new Date(date) : new Date();
-			var timestamp= today.toLocaleString('en-us', { month: 'long' }) + ' ' + today.getDate() + ', ' + today.getFullYear();
-				timestamp += (seperator == 'dash') ? '-' : ' at ' 
-				timestamp += today.getHours().pad(2) + ':' + today.getMinutes().pad(2) + ':' + today.getSeconds().pad(2);
-			return timestamp;
-		},
-		
-		
+		/* formats the background color and aria-invalid status for errors */
 		setFieldToError: function(options) {
 			options = typeof(options) === 'object' ? options : {};
 			if (!options.hasOwnProperty('id') || !options.id) {
@@ -143,6 +140,7 @@ var smartFormat = (function() {
 		},
 		
 		
+		/* sets the background color and aria-invalid status for passes */
 		setFieldToPass: function(options) {
 			options = typeof(options) === 'object' ? options : {};
 			if (!options.hasOwnProperty('id') || !options.id) {
@@ -161,14 +159,6 @@ var smartFormat = (function() {
 				field.classList.remove(_BG.PASS,_BG.WARN,_BG.ERR);
 			}
 		}
-
 	}
 
 })();
-
-
-
-/* zero pad times */
-Number.prototype.pad = function (len) {
-	return (new Array(len+1).join("0") + this).slice(-len);
-}

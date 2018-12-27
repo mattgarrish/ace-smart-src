@@ -1,6 +1,10 @@
 
 <?php 
 
+	/*
+	 * Encapsultes database functions to simplify catching and handling of errors
+	 */
+	
 	class SMART_DB {
 	
 		private $mysqli = NULL;
@@ -8,6 +12,8 @@
 		
 		public function connect() {
 			if ($this->mysqli && $this->mysqli->ping()) { return true; }
+			// username, password and database are stored as server environment variables for security
+			// and so file can be deployed without having to modify the connection db each time
 			return ($this->mysqli = new mysqli("localhost",  $_SERVER['DB_USER'],  $_SERVER['DB_PASS'], $_SERVER['DB'])) ? true : false;
 		}
 		

@@ -9,9 +9,9 @@
  * 
  * Public functions
  * 
- * - validate - verifies required evaluation metadata is present and checks format of links
+ * - validateEvaluationMetadata - verifies required evaluation metadata is present and checks format of links
  * 
- * - generateConformanceMetadata - generate package document metadata tags from evaluator information 
+ * - generateEvaluationMetadata - generate package document metadata tags from evaluator information 
  * 
  */
 
@@ -19,6 +19,7 @@ var evaluation_dialog;
 
 var smartEvaluation = (function() {
 	
+	/* checks the evaluator name the report link */
 	function validateEvaluationMetadata(clear) {
 		
 		if (clear) {
@@ -27,6 +28,7 @@ var smartEvaluation = (function() {
 		
 		var is_valid = true;
 		
+		// check that the certifier's name has been set
 		if (document.getElementById('certifiedBy').value.trim() == '') {
 			smartError.logError({tab_id: 'evaluation', element_id: 'certifiedBy', severity: 'err', message: 'Evaluator name is a required field.'});
 			smartFormat.setFieldToError({id: 'certifiedBy', is_warnign: true, highlight_parent: true});
@@ -37,6 +39,7 @@ var smartEvaluation = (function() {
 			smartFormat.setFieldToPass({id: 'certifiedBy', highlight_parent: true});
 		}
 		
+		//check that tht certifier report link begins with http(s)://
 		var links = { 'certifierReport': 'Report link' }
 		
 		for (var id in links) {
@@ -58,6 +61,7 @@ var smartEvaluation = (function() {
 	}
 	
 	
+	/* generates the set of tags for use in the package document - dcterms:conformsTo, a11y:certifiedBy, a11y:certifierReport */
 	function generateEvaluationMetadata() {
 		
 		if (!validateEvaluationMetadata()) {
@@ -66,6 +70,7 @@ var smartEvaluation = (function() {
 			}
 		}
 		
+		/* conformance URL needs to be updated each time there is a revision to the specification */
 		var conformance_url = 'http://www.idpf.org/epub/a11y/accessibility-20170105.html#wcag-' + smartWCAG.WCAGLevel();
 		
 		var metadata = '';

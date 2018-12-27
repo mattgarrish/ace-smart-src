@@ -181,7 +181,12 @@ var smartReport = (function() {
 		
 		var report_title = 'EPUB Accessibility Conformance Report for ' + title;
 		
-		var report_timestamp = smartFormat.generateTimestamp('at');
+		var today = new Date();
+		var timestamp= today.toLocaleString('en-us', { month: 'long' }) + ' ' + today.getDate() + ', ' + today.getFullYear();
+			timestamp += ' at '; 
+			timestamp += today.getHours().pad(2) + ':' + today.getMinutes().pad(2) + ':' + today.getSeconds().pad(2);
+		
+		var report_timestamp = timestamp;
 		
 		var logo = document.createElement('span');
 		
@@ -819,6 +824,7 @@ var smartReport = (function() {
 	}
 	
 	
+	/* generates the html markup for the info table in the first tab */
 	
 	function formatPubInfoEntry(options) {
 	
@@ -955,3 +961,9 @@ var smartReport = (function() {
 	}
 
 })();
+
+
+/* zero pad times */
+Number.prototype.pad = function (len) {
+	return (new Array(len+1).join("0") + this).slice(-len);
+}
