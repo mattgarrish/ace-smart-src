@@ -1,14 +1,10 @@
 
 'use strict';
 
+var a11y_tabs_license = 'jQuery Accessible tab panel system, using ARIA -- Website: http://a11y.nicolas-hoffmann.net/tabs/ -- License MIT: https://github.com/nico3333fr/jquery-accessible-tabs-aria/blob/master/LICENSE';
+
 $(document).ready( function() {
 
-	var license = '\
-	 * jQuery Accessible tab panel system, using ARIA   \
-	 * Website: http://a11y.nicolas-hoffmann.net/tabs/  \
-	 * License MIT: https://github.com/nico3333fr/jquery-accessible-tabs-aria/blob/master/LICENSE \
-	';
-	
 	// Store current URL hash.
 	var hash = window.location.hash.replace( "#", "" );
 	
