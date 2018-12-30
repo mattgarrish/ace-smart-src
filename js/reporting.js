@@ -147,7 +147,7 @@ var smartReport = (function() {
 		
 		var unverified_success_criteria = document.querySelectorAll(unverified_selector);
 		
-		if (unverified_success_criteria) {
+		if (unverified_success_criteria.length > 0) {
 			for (var i = 0; i < unverified_success_criteria.length; i++) {
 				smartError.logError({tab_id: 'conformance', element_id: unverified_success_criteria[i].name, severity: 'err', message: 'Success criteria ' + unverified_success_criteria[i].name.replace('sc-','') + ' is unverified.'});
 			}
@@ -940,7 +940,7 @@ var smartReport = (function() {
 		},
 		
 		validateConformanceReport: function() {
-			validateConformanceReport();
+			return validateConformanceReport();
 		},
 		
 		generateConformanceReport: function(location) {

@@ -46,7 +46,7 @@ var smartEvaluation = (function() {
 		
 			var link_value = document.getElementById(id).value.trim();
 			
-			if (link_value && !link_value.match(/^https?:\/\//i)) {
+			if (link_value != '' && !link_value.match(/^https?:\/\//i)) {
 				smartError.logError({tab_id: 'evaluation', element_id: id, severity: 'warn', message: links[id]+' should begin with http:// or https://'});
 				smartFormat.setFieldToError({id: id, is_warning: true, highlight_parent: true});
 				is_valid = false;
@@ -98,7 +98,7 @@ var smartEvaluation = (function() {
 	
 	return {
 		validateEvaluationMetadata: function() {
-			validateEvaluationMetadata(false);
+			return validateEvaluationMetadata(false);
 		},
 		
 		generateEvaluationMetadata: function() {

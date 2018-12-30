@@ -331,7 +331,7 @@ var smartDiscovery = (function() {
 		},
 		
 		validateDiscoveryMetadata: function() {
-			validateDiscoveryMetadata(false);
+			return validateDiscoveryMetadata(false);
 		},
 		
 		generateDiscoveryMetadata: function() {
