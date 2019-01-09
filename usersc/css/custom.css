@@ -21,3 +21,11 @@ span.smart_hd {
 .navbar-inverse {
     background-color: rgb(27,95,161) !important;
 }
+
+div#agreement {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #fff;
+    border: 1px solid #dce4ec;
+    border-radius: 4px;
+}

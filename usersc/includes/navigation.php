@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Signup
 $lang = array_merge($lang,array(
-	"SIGNUP_TEXT"			=> "Register",
+	"SIGNUP_TEXT"			=> "Sign Up",
 	"SIGNUP_BUTTONTEXT"		=> "Register Me",
 	"SIGNUP_AUDITTEXT"		=> "Registered",
 	));
