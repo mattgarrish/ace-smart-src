@@ -38,8 +38,9 @@ $settings = $settingsQ->first();
         	for use by any interested party and provides full access to the application, but limits users to two evaluations per
         	month.</p>
         
-        <p>Unlimited access is available to <a href="http://www.daisy.org/joining">members of the DAISY Consortium</a>. Please 
-        	<a href="http://www.daisy.org/contact">contact</a> the DAISY Consortium for access if you are already a member.</p>
+        <p>Unlimited access is available to <a href="http://www.daisy.org/joining">members and friends of the DAISY Consortium</a>.
+        	 Please <a href="http://www.daisy.org/contact">contact</a> the DAISY Consortium for access if you are already a member
+        	 or friend.</p>
 
         <div class="form-group">
 
