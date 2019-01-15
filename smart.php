@@ -16,7 +16,8 @@
 		'license' => $user->data()->license,
 		'title' => $_POST['title'],
 		'action' => $_POST['action'],
-		'id' => $_POST['id']
+		'id' => $_POST['id'],
+		'pubid' => $_POST['pubid']
 	));
 	
 	$eval->check_license();

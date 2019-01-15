@@ -11,6 +11,7 @@
 		private $license = '';
 		private $action = '';
 		private $title = '';
+		private $pub_id = 0;
 		private $eval_id = 0;
 		private $eval_max = 0;
 		private $eval_remaining = 0;
@@ -26,6 +27,7 @@
 			
 			$this->action = isset($arg['action']) ? $arg['action'] : '';
 			$this->title = isset($arg['title']) ? $arg['title'] : '';
+			$this->pub_id = isset($arg['pubid']) ? $arg['pubid'] : 0;
 			$this->eval_id = isset($arg['id']) ? $arg['id'] : 0;
 			
 			$this->db = new SMART_DB();
@@ -253,7 +255,7 @@ HTML;
 					$this->abort('notitle');
 				}
 				
-				$this->id = $this->generate_uuid();
+				$this->pub_id = $this->generate_uuid();
 				
 				// create a basic json structure to store the blank evaluation title so the next page has something to process
 				$evaluation = '{ "category": "newEvaluation", "title": ' . json_encode($this->title) . ' }';
@@ -265,7 +267,7 @@ HTML;
 					$this->abort('newins');
 				}
 				
-				if (!$this->db->bind_param("ssssssss", array($this->username, $this->company, $this->id, $this->title, $now, $modified, $status, $evaluation))) {
+				if (!$this->db->bind_param("ssssssss", array($this->username, $this->company, $this->pub_id, $this->title, $now, $modified, $status, $evaluation))) {
 					$this->abort('newbind');
 				}
 				
@@ -283,13 +285,19 @@ HTML;
 			
 			else if ( 
 					  ($this->action == 'load')
+					  || ($this->action == 'autoload')
 					  || ($this->action == 'reload' && $this->eval_id)
 					  || ($this->action == 'reload' && $this->shared)
 					 ) {
 				
-				// get the uploaded file contents when available
-				if ($_FILES['ace-report']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['ace-report']['tmp_name'])) {
+				// get the report/evaluation from uploaded file contents when available
+				if ($_FILES['ace-report'] && $_FILES['ace-report']['error'] == UPLOAD_ERR_OK && is_uploaded_file($_FILES['ace-report']['tmp_name'])) {
 					$evaluation = file_get_contents($_FILES['ace-report']['tmp_name']); 
+				}
+				
+				// otherwise get the ace report from the autoload string
+				else if ($_POST['ace-report']) {
+					$evaluation = htmlspecialchars_decode($_POST['ace-report']); 
 				}
 				
 				$json = json_decode($evaluation);
@@ -300,7 +308,7 @@ HTML;
 				}
 				
 				// verify that the uploaded json is an ace report using the @context (only checks the non-variable part of the url)
-				if ($this->action == 'load' && (!$json->{'@context'} || strpos($json->{'@context'}, 'http://daisy.github.io/ace') === false)) {
+				if (($this->action == 'load' || $this->action == 'autoload') && (!$json->{'@context'} || strpos($json->{'@context'}, 'http://daisy.github.io/ace') === false)) {
 					$this->abort('unknownload');
 				}
 				
@@ -311,7 +319,7 @@ HTML;
 				}
 				
 				// as ace reports represent a new evaluation, loading one additionally needs an entry added to the database to track/save the user's work
-				if ($this->action == 'load') {
+				if ($this->action == 'load' || $this->action == 'autoload') {
 				
 					$this->to_save = true;
 					
@@ -320,10 +328,12 @@ HTML;
 						$this->abort('uidselect');
 					}
 					
-					// get the publication identifier from the ace report
-					$this->id = is_array($json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'}) ? $json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'}[0] : $json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'};
+					if ($this->action != 'autoload' || $_POST['op'] != 'lia') {
+						// get the publication identifier from the ace report
+						$this->pub_id = is_array($json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'}) ? $json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'}[0] : $json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'};
+					}
 					
-					if (!$this->db->bind_param("ss", array($this->username, $this->id))) {
+					if (!$this->db->bind_param("ss", array($this->username, $this->pub_id))) {
 						$this->abort('uidbind');
 					}
 					
@@ -339,7 +349,9 @@ HTML;
 					// user can be prompted to confirm they actually intended to start a new evaluation
 					// - shared account do no go through this check to avoid users seeing any info about other evaluations
 					
-					$add_eval = ($result['uid'] && !$this->shared) ? $evaluation : ''; 
+					$prompt_pub = ($result['uid'] && !$this->shared) ? true : false;
+					
+					$add_eval = $prompt_pub ? $evaluation : ''; 
 					
 					// next insert a new entry into the database for the publication
 					if (!$this->db->prepare("INSERT INTO evaluations (username, company, uid, title, created, modified, status, evaluation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
@@ -348,7 +360,7 @@ HTML;
 					
 					$title = is_array($json->{'earl:testSubject'}->{'metadata'}->{'dc:title'}) ? $json->{'earl:testSubject'}->{'metadata'}->{'dc:title'}[0] : $json->{'earl:testSubject'}->{'metadata'}->{'dc:title'};
 					
-					if (!$this->db->bind_param("ssssssss", array($this->username, $this->company, $this->id, $title, $now, $modified, $status, $add_eval))) {
+					if (!$this->db->bind_param("ssssssss", array($this->username, $this->company, $this->pub_id, $title, $now, $modified, $status, $add_eval))) {
 						$this->abort('evalbind');
 					}
 					
@@ -359,8 +371,8 @@ HTML;
 					$this->eval_id = $this->db->insert_id();
 					
 					// now redirect the user to the confirmation page if there was a matching uid
-					if ($result['uid'] && !$this->shared) {
-						header("Location: confirm.php?id=" . $this->eval_id . "&uid=" . $this->id);
+					if ($prompt_pub) {
+						header("Location: confirm.php?id=" . $this->eval_id . "&uid=" . $this->pub_id);
 						die();
 					}
 				}
