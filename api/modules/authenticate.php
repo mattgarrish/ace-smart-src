@@ -10,15 +10,9 @@
 		private $auth_str = NULL;
 		
 		function __construct($arg) {
+			
 			$this->auth_str = isset($arg['auth_str']) ? $arg['auth_str'] : $this->auth_str;
-		}
-		
-		public function get_username() {
-			return $this->username;
-		}
-		
-		public function verify() {
-		
+			
 			if (!$this->auth_str) {
 				abort('Basic authentication credentials not provided', 401);
 			}
@@ -35,6 +29,14 @@
 				abort('Password identifier not provided', 401);
 			}
 			
+		}
+		
+		public function get_username() {
+			return $this->username;
+		}
+		
+		public function verify() {
+		
 			$db = new SMART_DB();
 			
 			if (!$db->connect()) {
