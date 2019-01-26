@@ -8,15 +8,15 @@
 		private $pubid = 0;
 		private $username = NULL;
 		
-		public function init($u) {
+		function __construct($arg) {
 		
-			$this->pubid = isset($_GET['pubid']) ? trim($_GET['pubid']) : '';
+			$this->pubid = isset($arg['pubid']) ? trim($arg['pubid']) : '';
 			
 			if (!$this->pubid) {
 				abort('Publication identifier not provided', 400);
 			}
 			
-			$this->username = $u;
+			$this->username = $arg['username'];
 		
 		}
 		

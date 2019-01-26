@@ -7,20 +7,25 @@
 	
 		private $username = NULL;
 		private $password = NULL;
+		private $auth_str = NULL;
+		
+		function __construct($arg) {
+			$this->auth_str = isset($arg['auth_str']) ? $arg['auth_str'] : $this->auth_str;
+		}
 		
 		public function get_username() {
 			return $this->username;
 		}
 		
-		public function verify($auth_str) {
+		public function verify() {
 		
-			if (!$auth_str) {
+			if (!$this->auth_str) {
 				abort('Basic authentication credentials not provided', 401);
 			}
 			
 			// username and password are passed in authorization basic header
 			
-			list($this->username, $this->password) = explode(':' , base64_decode(substr($auth_str, 6)));
+			list($this->username, $this->password) = explode(':' , base64_decode(substr($this->auth_str, 6)));
 			
 			if (!isset($this->username)) {
 				abort('Username not provided', 401);
