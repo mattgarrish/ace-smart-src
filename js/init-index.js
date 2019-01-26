@@ -98,7 +98,11 @@
 		var eval_id = this.id.replace(/^[_a-z]+/i,'');
 		
 		if (operation == 'del') {
-			if (confirm('You are about to delete the stored evaluation data from the server. This action cannot be undone.\n\nClick Ok to continue.')) {
+			var action = document.getElementById('alert_full_delete') ? 
+				'You are about to permanently delete the evaluation.' : 
+				'You are about to delete the stored evaluation data from the server.';
+			
+			if (confirm(action + ' This action cannot be undone.\n\nClick Ok to continue.')) {
 				document.getElementById('id').value = eval_id;
 				document.getElementById('action').value = 'delete';
 				nextStep.action = 'index.php';

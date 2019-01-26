@@ -211,12 +211,19 @@ HTML;
 									break;
 								
 								case 'unsaved':
+									if ($this->license == 'unlimited') {
+										echo '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
+									}
 									break;
 								
 								default:
 									echo '<input type="image" src="images/resume.svg" height="40" id="resume_' . $row['id'] . '" alt="Resume" title="Resume"/>';
 									echo '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
 							
+							}
+							
+							if ($this->license == 'unlimited') {
+								echo '<input type="hidden" id="alert_full_delete" value="1"/>';
 							}
 							
 							echo '</td>';
@@ -446,7 +453,35 @@ HTML;
 		// wipes the evaluation field in the database clean when requested by the user
 		// users cannot delete the entire entry for an evaluation, as they have to be retained for tracking purposes
 		public function delete_evaluation() {
+			if ($this->license == 'unlimited') {
+				return $this->permanent_delete();
+			}
 			
+			else {
+				return $this->data_delete();
+			}
+		}
+		
+		private function permanent_delete() {
+			if (!$this->db->prepare("DELETE FROM evaluations WHERE username = ? AND id = ?")) {
+				return false;
+			}
+			
+			if (!$this->db->bind_param("si", array($this->username, $this->eval_id))) {
+				return false;
+			}
+			
+			if (!$this->db->execute()) {
+				return false;
+			}
+			
+			$this->db->close();
+			
+			return true;
+		}
+		
+		private function data_delete() {
+		
 			$del_date = '0000-00-00 00:00:00';
 			$del_data = '';
 			$del_status = 'deleted';
