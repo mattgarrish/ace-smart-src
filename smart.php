@@ -1,5 +1,31 @@
 <?php require_once 'users/init.php' ?>
-<?php if (!securePage($_SERVER['PHP_SELF'])) { die(); } ?>
+
+<?php
+	if ($_POST['auto']) {
+		$validate = new Validate();
+		$validation = $validate->check($_POST, array(
+			'username' => array('display' => 'Username','required' => true),
+			'password' => array('display' => 'Password', 'required' => true)));
+		if ($validation->passed()) {
+			$user = new User();
+			$login = $user->loginEmail(Input::get('username'), trim(Input::get('password')), false);
+			if (!$login) {
+				http_response_code(401);
+				Redirect::to('index.php');
+				exit();
+			}
+		}
+		else {
+			http_response_code(401);
+			Redirect::to('index.php');
+			exit();
+		}
+	}
+	
+	else {
+		if (!securePage($_SERVER['PHP_SELF'])) { die(); }
+	}
+?>
 
 <?php require_once 'extensions/config.php' ?>
 
@@ -7,7 +33,7 @@
 <?php require_once 'php/extensions.php' ?>
 
 <?php
-	if (!$_POST['action']) { header("Location: index.php"); die(); }
+	if (!$_POST['action'] && !$_POST['auto']) { header("Location: index.php"); die(); }
 	
 	$eval = new SMART_EVALUATION(array(
 		'username' => $user->data()->username,
@@ -15,7 +41,7 @@
 		'shared' => $user->data()->shared,
 		'license' => $user->data()->license,
 		'title' => $_POST['title'],
-		'action' => $_POST['action'],
+		'action' => $_POST['action'] ? $_POST['action'] : ($_POST['auto'] ? 'autoload' : ''),
 		'id' => $_POST['id'],
 		'pubid' => $_POST['pubid']
 	));
