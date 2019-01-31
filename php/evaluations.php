@@ -205,7 +205,16 @@ HTML;
 							echo '</td><td class="option">';
 							
 							switch ($row['status']) {
+								case 'remote':
+									echo '<input type="image" src="images/resume.svg" height="40" id="resume_' . $row['id'] . '" alt="Resume" title="Resume"/>';
+									echo '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
+									break;
+								
 								case 'local':
+									echo '<input type="image" src="images/resume.svg" height="40" id="reload_' . $row['id'] . '" alt="Resume" title="Resume"/>';
+									echo '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
+									break;
+									
 								case 'deleted':
 									echo '<input type="image" src="images/resume.svg" height="40" id="reload_' . $row['id'] . '" alt="Resume" title="Resume"/>';
 									break;
@@ -312,6 +321,16 @@ HTML;
 				// bail out if a file wasn't available or didn't contain json
 				if (!$json) {
 					$this->abort('nojson');
+				}
+				
+				// reset the action if the uploaded file is a saved evaluation
+				if ($this->action == 'load' && $json->{'category'} && $json->{'category'} == 'savedEvaluation') {
+					$this->action = 'reload';
+					if (!$json->{'id'}) {
+						$this->abort('noreloadid');
+					}
+					$this->eval_id = $json->{'id'};
+					$this->verify_id();
 				}
 				
 				// verify that the uploaded json is an ace report using the @context (only checks the non-variable part of the url)
@@ -430,6 +449,31 @@ HTML;
 			echo $evaluation;
 		}
 		
+		
+		// for saved evaluations uploaded through the drag/drop box, the ID in the evaluation
+		// needs to be verified against the database to ensure a record is still there
+		private function verify_id() {
+			if (!$this->db->prepare('SELECT id FROM evaluations WHERE username = ? AND id = ?')) {
+				$this->abort('idprep');
+			}
+			
+			if (!$this->db->bind_param("si", array($this->username, $this->eval_id))) {
+				$this->abort('idbind');
+			}
+			
+			if (!$this->db->execute()) {
+				$this->abort('idexec');
+			}
+			
+			$result = $this->db->get_result();
+			
+			if (!$result['id'] || $result['id'] != $this->eval_id) {
+				$this->abort('noid');
+			}
+			
+			$this->db->close();
+		}
+		
 		// used to tell the js on the smart.php page that the user has never saved their evaluation
 		// so even if they try to leave without modifying any fields they will get prompted to save
 		public function need_to_save() {
@@ -440,6 +484,12 @@ HTML;
 		// returns the evaluation ID from the database
 		public function get_eval_id() {
 			return $this->eval_id;
+		}
+		
+		
+		// returns the type of load action
+		public function get_action() {
+			return $this->action;
 		}
 		
 		

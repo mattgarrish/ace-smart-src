@@ -57,6 +57,7 @@ var smartManage = (function() {
 		
 		evaluationJSON.version = '1.0';
 		evaluationJSON.category = 'savedEvaluation';
+		evaluationJSON.id = ACE_ID;
 		
 		var now = new Date();
 		evaluationJSON.created = now.toISOString();
