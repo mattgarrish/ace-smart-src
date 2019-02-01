@@ -132,7 +132,7 @@
 						<div class="box__input">
 							<input type="file" name="ace-report" id="file" class="box__file"/>
 							<label class="dnd" for="file">
-								<strong>Select an Ace report</strong>
+								<strong>Select an Ace report or locally-saved evaluation</strong>
 								<span class="box__dragndrop"> or drag one here</span>.<br/>
 							</label>
 							<button type="submit" class="box__button">Load</button>
