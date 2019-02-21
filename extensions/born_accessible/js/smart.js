@@ -11,6 +11,7 @@ smart_extensions['born_accessible'] = (function() {
 	 */ 
 	
 	var _LOGO = [];
+	var _MAX_SECTION_SCORE = 4;
 	var _SCORE_TEXT_CSS = {
 		0: 'bad',
 		1: 'mid',
@@ -228,7 +229,7 @@ smart_extensions['born_accessible'] = (function() {
 					
 					if (score.value != 'N/A' && score.value != 'Unverified') {
 						actual_section_score += Number(score.value);
-						max_section_score += 4;
+						max_section_score += _MAX_SECTION_SCORE;
 						isNA = false;
 					}
 				}

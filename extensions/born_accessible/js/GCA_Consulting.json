@@ -1,8 +1,8 @@
 {
-    "version": "0.6",
+    "version": "0.8",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "07/13/2018, 11:40:00 AM",
+    "dct:date": "02/21/2019, 10:20:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -11,22 +11,17 @@
             {
                 "$levelId": "complexity-level-simple",
                 "levelName": "Simple",
-                "levelDescription": "Simple structure. Mostly text, some images, no figures/tables/lists. Uncomplicated navigation. Typically Trade books fall into this category."
+                "levelDescription": "Straight forward text without any design elements such as figures, tables, list items, links, audio, video, mathml, etc. Typically Trade books fall into this category."
             },
-            {
-                "$levelId": "complexity-level-some",
-                "levelName": "Some Complexity",
-                "levelDescription": "Modest structural complexity. Some images, tables, lists, figures. Navigation with nested lists, List of Images, List of Tables"
-            },
-            {
+           {
                 "$levelId": "complexity-level-moderate",
-                "levelName": "Moderate Complexity",
-                "levelDescription": "Intricate structure, possibly textbook content. Many elements such as images, tables, lists, figures. Some math. Complex navigation."
+                "levelName": "Moderate",
+                "levelDescription": " EPUBs with upto 30% of design elements such as figures, tables, list items, links, mathml, audio, video, etc. Simple JavaScript."
             },
             {
                 "$levelId": "complexity-level-complex",
-                "levelName": "Very Complex / Extra Long",
-                "levelDescription": "Complex structure, textbook content (STEM). Many images with varying description needs, graphs, tables, lists, math, audio/video content, complex HTML. Elaborate navigation, or includes complex Java Script."
+                "levelName": "Complex",
+                "levelDescription": "EPUBs with more than 30% of design elements such as figures, tables, list items, links, audio, video, mathml, etc.  Complex JavaScript. Typically STEM Textbooks fall into this category."
             }
        ]
     },

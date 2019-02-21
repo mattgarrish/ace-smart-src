@@ -23,6 +23,7 @@ var bornAccessible = (function() {
 
 	var _baTestData = {};
 	var _extension_tab;
+	var _MAX_SECTION_SCORE = 4;
 	var _SCORE_TEXT_CSS = {
 		0: 'err',
 		1: 'alert',
@@ -256,17 +257,17 @@ var bornAccessible = (function() {
 			var current_ba_status = document.querySelector('fieldset#' + gcaID + ' input.test-input:checked').value;
 			
 			if (current_ba_status != 'Unverified') {
-				if ((this.value == 'fail' && String(current_ba_status) == '0') || (this.value == 'pass' && String(current_ba_status) == '4')) {
+				if ((this.value == 'fail' && String(current_ba_status) == '0') || (this.value == 'pass' && String(current_ba_status) == _MAX_SECTION_SCORE)) {
 					return;
 				}
 			
-				else if (!confirm('The related Born Accessible test "' + testName + '" has already been set to ' + (current_ba_status == 0 ? 'fail' : (current_ba_status == 4 ? 'pass' : 'to a different value')) + '.\n\nClick Ok to override or Cancel to leave as is.')) {
+				else if (!confirm('The related Born Accessible test "' + testName + '" has already been set to ' + (current_ba_status == 0 ? 'fail' : (current_ba_status == _MAX_SECTION_SCORE ? 'pass' : 'to a different value')) + '.\n\nClick Ok to override or Cancel to leave as is.')) {
 					return;
 				}
 			}
 			
 			if (this.value == 'pass') {
-				document.querySelector('fieldset#' + gcaID + ' input.test-input[value="4"]').click(); 
+				document.querySelector('fieldset#' + gcaID + ' input.test-input[value="' + _MAX_SECTION_SCORE + '"]').click(); 
 			}
 			
 			else if (this.value == 'fail') {
@@ -333,7 +334,7 @@ var bornAccessible = (function() {
 				continue;
 			}
 			actual_score += Number(test_scores[i].value);
-			max_score += 4;
+			max_score += _MAX_SECTION_SCORE;
 		}
 		
 		var total_score = (max_score == 0) ? 'N/A' : (Math.round((actual_score / max_score) * 100) + '%');
@@ -354,7 +355,7 @@ var bornAccessible = (function() {
 			
 			if (test_score && test_score.value.toLowerCase() != 'n/a') {
 				actual_score += Number(test_score.value);
-				total_score += 4;
+				total_score += _MAX_SECTION_SCORE;
 				isNA = false;
 			}
 		}
