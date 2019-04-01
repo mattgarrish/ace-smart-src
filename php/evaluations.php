@@ -354,7 +354,7 @@ HTML;
 						$this->abort('uidselect');
 					}
 					
-					if ($this->action != 'autoload' || $_POST['op'] != 'lia') {
+					if ($this->action != 'autoload' || $_POST['auto'] != 'lia') {
 						// get the publication identifier from the ace report
 						$this->pub_id = is_array($json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'}) ? $json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'}[0] : $json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'};
 					}
@@ -409,14 +409,15 @@ HTML;
 			 * action=okload occurs after the user confirms they want to load an evaluation with the same uid as another (see action=load)
 			 */
 			
-			else if (($this->action == 'resume' && $this->eval_id) || $this->action == 'okload') {
+			else if (($this->action == 'resume' && ($this->eval_id || $this->pub_id)) || $this->action == 'okload') {
 				
 				// get the stored json from the database
-				if (!$this->db->prepare("SELECT evaluation FROM evaluations WHERE username = ? AND id = ?")) {
+				$select_sql = "SELECT evaluation FROM evaluations WHERE username = ? AND " . ($this->eval_id ? "id = ?" : "uid = ?"); 
+				if (!$this->db->prepare($select_sql)) {
 					$this->abort('resselect');
 				}
 				
-				if (!$this->db->bind_param("si", array($this->username, $this->eval_id))) {
+				if (!$this->db->bind_param("ss", array($this->username, ($this->eval_id ? $this->eval_id : $this->pub_id)))) {
 					$this->abort('resbind');
 				}
 				
