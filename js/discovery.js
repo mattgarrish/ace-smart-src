@@ -320,6 +320,163 @@ var smartDiscovery = (function() {
 	}
 	
 	
+	/* generates a summary from the result of the evaluation and any filled-in metadata fields */
+	
+	function generateAccessibilitySummary() {
+		
+		var eval_status = document.getElementById('conformance-result').value;
+		
+		var summary_text = '';
+		
+		if (!eval_status || eval_status == 'incomplete') {
+			summary_text += 'This EPUB Publication has not been fully evaluated against the EPUB Accessibility specification.';
+		}
+		
+		else if (eval_status == 'fail') {
+			summary_text += 'This EPUB Publication does not meet the requirements of the EPUB Accessibility specification.';
+		}
+		
+		else {
+			summary_text += 'This EPUB Publication meets the requirements of the EPUB Accessibility specification';
+			summary_text += ' with conformance to WCAG 2.0 Level ' + eval_status.toUpperCase() + '.';
+		}
+		
+		/*
+		var access_list = document.querySelectorAll('fieldset#accessMode input:checked');
+		
+		if (access_list.length > 0) {
+			summary_text += ' It contains ';
+			
+			if (access_list.length > 1) {
+				summary_text += 'a mix of ';
+			}
+			
+			summary_text += stringify_metadata_values(access_list);
+			summary_text += ' content.';
+		}
+		*/
+		
+		var sufficient_fields = document.querySelectorAll('fieldset#accessModeSufficient fieldset');
+		var sufficient_list = new Array();
+		
+		for (var j = 0; j < sufficient_fields.length; j++) {
+			var checked_items = sufficient_fields[j].querySelectorAll('input:checked');
+			if (checked_items.length == 1) {
+				if (checked_items[0].value == 'textual' || checked_items[0].value == 'auditory') {
+					sufficient_list.push(checked_items[0].value);
+				}
+			}
+		}
+		
+		var sufficientTranslation = {
+			'auditory': 'has pre-recorded narration',
+			'textual': 'is screen reader friendly'
+		}
+		
+		if (sufficient_list.length > 0) {
+			summary_text += ' The publication ';
+			
+			if (sufficient_list.length == 1) {
+				summary_text += sufficientTranslation[sufficient_list[0]];
+			}
+			
+			else {
+				summary_text += sufficientTranslation['textual'] + ' and ' + sufficientTranslation['auditory'];
+			}
+			
+			summary_text += '.';
+		}
+		
+		var feature_items = document.querySelectorAll('fieldset#accessibilityFeature input:checked');
+		var feature_list = new Array();
+		
+		var addFeature = {
+			'alternativetext': 1,
+			'longdescription': 1,
+			'captions': 1,
+			'transcript': 1,
+			'mathml': 1
+		};
+		
+		for (var k = 0; k < feature_items.length; k++) {
+			if (addFeature[feature_items[k].value.toLowerCase()]) {
+				feature_list.push(feature_items[k]);
+			}
+		}
+		
+		if (feature_list.length > 0) {
+			summary_text += ' It includes ';
+			summary_text += stringify_metadata_values(feature_list);
+			summary_text += '.';
+		}
+		
+		var hazard_items = document.querySelectorAll('fieldset#accessibilityHazard input:checked');
+		var hazard_list = new Array();
+		
+		var isHazard = {
+			'flashing': 1,
+			'sound': 1,
+			'motionsimulation': 1
+		};
+		
+		for (var k = 0; k < hazard_items.length; k++) {
+			if (isHazard[hazard_items[k].value.toLowerCase()]) {
+				hazard_list.push(hazard_items[k]);
+			}
+		}
+		
+		if (hazard_list.length > 0) {
+			if (hazard_list.length == 1) {
+				var hazard = hazard_list[0].parentNode.textContent.trim().toLowerCase();
+				if (hazard == 'none') {
+					//summary_text += ' There are no known hazards.';
+				}
+				else if (hazard == 'unknown') {
+					//summary_text += ' It is not known if the content presents any hazards.';
+				}
+				else {
+					summary_text += ' The publication contains content that may present a ' + hazard + ' hazard.'
+				}
+			}
+			else {
+				summary_text += ' The publication contains content that may present the following hazards: ';
+				summary_text += stringify_metadata_values(hazard_list);
+				summary_text += '.';
+			}
+		}
+		
+		/*
+		var api_list = document.querySelectorAll('fieldset#accessibilityAPI input:checked');
+		
+		if (api_list.length > 0) {
+			summary_text += ' The publication is compatible with the following accessibility APIs: ';
+			summary_text += stringify_metadata_values(api_list);
+			summary_text += '.';
+		}
+		
+		var control_list = document.querySelectorAll('fieldset#accessibilityControl input:checked');
+		
+		if (control_list.length > 0) {
+			summary_text += ' It is also compatible with the following input control methods: ';
+			summary_text += stringify_metadata_values(control_list);
+			summary_text += '.';
+		}
+		*/
+		
+		var summary_field = document.getElementById('accessibilitySummary');
+			summary_field.value = summary_text;
+	}
+	
+	
+	function stringify_metadata_values(checked_items) {
+		var value_str = '';
+		for (var i = 0; i < checked_items.length; i++) {
+			value_str += checked_items[i].parentNode.textContent.trim();
+			value_str += (checked_items.length == 2 && i == 0) ? ' and ' : (checked_items.length > 2 && i == checked_items.length - 2) ? ', and ' : ((i != checked_items.length-1) ? ', ' : '');
+		}
+		return value_str;
+	}
+	
 	
 	return {
 		addCustomFeature: function(feature_name) {
@@ -336,6 +493,10 @@ var smartDiscovery = (function() {
 		
 		generateDiscoveryMetadata: function() {
 			generateDiscoveryMetadata();
+		},
+		
+		generateAccessibilitySummary: function() {
+			generateAccessibilitySummary();
 		}
 	}
 

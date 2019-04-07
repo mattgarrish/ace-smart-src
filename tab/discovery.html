@@ -44,11 +44,6 @@
 		<div id="add-feature" class="link"><a href="#add-feature" id="add-a11y-feature">Add custom field</a></div>
 	</fieldset>
 	
-	<fieldset id="summary-field">
-		<legend><label for="accessibilitySummary"><a href="http://www.idpf.org/epub/a11y/techniques/#meta-005" target="_blank">Accessibility Summary</a> <img src="/images/asterisk.png" alt="required"/></label></legend>
-		<textarea id="accessibilitySummary" rows="5" aria-required="true"></textarea>
-	</fieldset>
-	
 	<fieldset id="accessibilityHazard">
 		<legend><a href="http://www.idpf.org/epub/a11y/techniques/#meta-004" target="_blank">Accessibility Hazards</a> <img src="/images/asterisk.png" alt="required"/></legend>
 		<div class="cols">
@@ -110,6 +105,12 @@
 		</div>
 	</fieldset>
 	
+	<fieldset id="summary-field">
+		<legend><label for="accessibilitySummary"><a href="http://www.idpf.org/epub/a11y/techniques/#meta-005" target="_blank">Accessibility Summary</a> <img src="/images/asterisk.png" alt="required"/></label></legend>
+		<div id="suggest-summary" class="summary-link"><a href="#suggest-summary" id="generate-summary">Suggest a summary</a></div>
+		<textarea id="accessibilitySummary" rows="5" aria-required="true"></textarea>
+	</fieldset>
+	
 	<div class="buttons">
 		<input type="button" class="button_hlt" id="discovery_button" value="Generate"/>
 	</div>
@@ -125,6 +126,17 @@
 		/* watch for click to add custom accessibilityFeature */
 		$('#add-a11y-feature').click( function(){
 			smartDiscovery.addCustomFeature();
+			return false;
+		});
+		
+		/* watch for click to generate a summary */
+		$('#generate-summary').click( function(){
+			if (document.getElementById('accessibilitySummary').value.trim() != '') {
+				if (!confirm('There already appears to be a summary. Click Ok to replace.')) {
+					return false;
+				}
+			}
+			smartDiscovery.generateAccessibilitySummary();
 			return false;
 		});
 		
