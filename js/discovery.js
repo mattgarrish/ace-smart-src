@@ -328,6 +328,8 @@ var smartDiscovery = (function() {
 		
 		var summary_text = '';
 		
+		// add the evaluation status
+		
 		if (!eval_status || eval_status == 'incomplete') {
 			summary_text += 'This EPUB Publication has not been fully evaluated against the EPUB Accessibility specification.';
 		}
@@ -341,23 +343,17 @@ var smartDiscovery = (function() {
 			summary_text += ' with conformance to WCAG 2.0 Level ' + eval_status.toUpperCase() + '.';
 		}
 		
-		/*
-		var access_list = document.querySelectorAll('fieldset#accessMode input:checked');
-		
-		if (access_list.length > 0) {
-			summary_text += ' It contains ';
-			
-			if (access_list.length > 1) {
-				summary_text += 'a mix of ';
-			}
-			
-			summary_text += stringify_metadata_values(access_list);
-			summary_text += ' content.';
-		}
-		*/
+		// indicate if the publication is screen reader friendly (AMS=textual) or has pre-recorded narration (AMS=auditory)
 		
 		var sufficient_fields = document.querySelectorAll('fieldset#accessModeSufficient fieldset');
 		var sufficient_list = new Array();
+		
+		var sufficientTranslation = {
+			'auditory': 'has pre-recorded narration',
+			'textual': 'is screen reader friendly'
+		}
+		
+		// filter out AMS combinations that are unnecessary to report (typically visual)
 		
 		for (var j = 0; j < sufficient_fields.length; j++) {
 			var checked_items = sufficient_fields[j].querySelectorAll('input:checked');
@@ -366,11 +362,6 @@ var smartDiscovery = (function() {
 					sufficient_list.push(checked_items[0].value);
 				}
 			}
-		}
-		
-		var sufficientTranslation = {
-			'auditory': 'has pre-recorded narration',
-			'textual': 'is screen reader friendly'
 		}
 		
 		if (sufficient_list.length > 0) {
@@ -387,6 +378,8 @@ var smartDiscovery = (function() {
 			summary_text += '.';
 		}
 		
+		// list only a select set of features - the ones readers are most interested in
+		
 		var feature_items = document.querySelectorAll('fieldset#accessibilityFeature input:checked');
 		var feature_list = new Array();
 		
@@ -397,6 +390,8 @@ var smartDiscovery = (function() {
 			'transcript': 1,
 			'mathml': 1
 		};
+		
+		// filter out all the lower-priority features 
 		
 		for (var k = 0; k < feature_items.length; k++) {
 			if (addFeature[feature_items[k].value.toLowerCase()]) {
@@ -410,6 +405,8 @@ var smartDiscovery = (function() {
 			summary_text += '.';
 		}
 		
+		// only list hazards if there are actually some present (i.e., ignore "none" and "unknown")
+		
 		var hazard_items = document.querySelectorAll('fieldset#accessibilityHazard input:checked');
 		var hazard_list = new Array();
 		
@@ -418,6 +415,8 @@ var smartDiscovery = (function() {
 			'sound': 1,
 			'motionsimulation': 1
 		};
+		
+		// filter out non-hazard values
 		
 		for (var k = 0; k < hazard_items.length; k++) {
 			if (isHazard[hazard_items[k].value.toLowerCase()]) {
@@ -428,15 +427,7 @@ var smartDiscovery = (function() {
 		if (hazard_list.length > 0) {
 			if (hazard_list.length == 1) {
 				var hazard = hazard_list[0].parentNode.textContent.trim().toLowerCase();
-				if (hazard == 'none') {
-					//summary_text += ' There are no known hazards.';
-				}
-				else if (hazard == 'unknown') {
-					//summary_text += ' It is not known if the content presents any hazards.';
-				}
-				else {
-					summary_text += ' The publication contains content that may present a ' + hazard + ' hazard.'
-				}
+				summary_text += ' The publication contains content that may present a ' + hazard + ' hazard.'
 			}
 			else {
 				summary_text += ' The publication contains content that may present the following hazards: ';
@@ -445,28 +436,12 @@ var smartDiscovery = (function() {
 			}
 		}
 		
-		/*
-		var api_list = document.querySelectorAll('fieldset#accessibilityAPI input:checked');
-		
-		if (api_list.length > 0) {
-			summary_text += ' The publication is compatible with the following accessibility APIs: ';
-			summary_text += stringify_metadata_values(api_list);
-			summary_text += '.';
-		}
-		
-		var control_list = document.querySelectorAll('fieldset#accessibilityControl input:checked');
-		
-		if (control_list.length > 0) {
-			summary_text += ' It is also compatible with the following input control methods: ';
-			summary_text += stringify_metadata_values(control_list);
-			summary_text += '.';
-		}
-		*/
-		
 		var summary_field = document.getElementById('accessibilitySummary');
 			summary_field.value = summary_text;
 	}
 	
+	
+	// takes an array of checkboxes and uses the text content of their parent labels to generate a human-readable string
 	
 	function stringify_metadata_values(checked_items) {
 		var value_str = '';

@@ -98,7 +98,11 @@
 				<li data-scope="img">For each image:
 					<ul>
 						<li id="img-non-empty">
-							<p>If the image is decorative, ensure it has an empty <code>alt</code> attribute (<code>alt=""</code>).</p>
+							<p>If the image is decorative, ensure it has an empty <code>alt</code> attribute (<code>alt=""</code>).
+								A decorative image is one that does not contain information the user needs to be aware of;
+								it only exists to make the publication more visually appealing.
+								Common examples include: ornamental graphics around chapter numbers and headings, and stock imagery
+								found at the beginning of chapters or used to illustrate points being made in the text.</p>
 						</li>
 						<li id="img-empty">
 							<p>If the image is not decorative and has an empty <code>alt</code> attribute, one of the following must true:</p>
@@ -594,7 +598,9 @@
 				<li>If the publication contains images of text, check that the text meet the 4.5:1 contrast requirement.</li>
 			</ul>
 			
-			<p>Contrast in HTML documents does not have to be checked if the Ace tool has been run on the publication.</p>
+			<p>If the Ace tool has not been run on the publication, the contrast of all text content also needs to be checked.</p>
+			
+			<p class="sc-note">Note: Contrast is the difference in luminance between the colors of the text and background.</p>
 			
 			<p class="sc-note">Note: An image of text is exempt from this requirement if it is part of an inactive interface, is purely decorational, is not visible, or is part of a brand or logo. If the text in the image is incidental information, it is also exempt (e.g., road or store signs in a landscape picture).</p>
 			
@@ -624,7 +630,7 @@
 		<div class="sc-body">
 			<p>Verify that font declarations use relative sizes (e.g., <code>%</code>, <code>em</code>, <code>rem</code>) and/or that text container elements resize/reflow with the text.</p>
 			
-			<p>Zoom the text to 200% and ensure that the publication remains readable (e.g., no text is cut off).</p>
+			<p>Zoom the text to 200% and ensure that the publication remains readable/functional (e.g., no text is cut off).</p>
 			
 			<hr/>
 			
@@ -672,7 +678,12 @@
 		<h3><span class="label">1.4.6 Contrast (Enhanced)</span> <span class="aaa-label">Level AAA</span></h3>
 		
 		<div class="sc-body">
-			<p>If the publication contains images of text, verify that the images meet the 7:1 contrast requirement.</p>
+			<p>Ensure that there is a minimum 7:1 contrast ratio for all text in the publication and images of text.</p>
+			
+			<p class="sc-note">Note: Contrast is the difference in luminance between the colors of the text and background.
+				It is recommended to use an automated tool to check this success criterion. Ace only checks contrasts up to
+				4.5:1, and does not verify images of text, so a passing report does not indicate conformance to this
+				success criterion.</p>
 			
 			<p class="sc-note">Note: An image of text is exempt from this requirement if it is part of an inactive interface, is purely decorational, is not visible, or is part of a brand or logo. If the text in the image is incidental information, it is also exempt (e.g., road or store signs in a landscape picture).</p>
 			
@@ -782,10 +793,13 @@
 		<h3><span class="label">2.1.1 Keyboard</span> <span class="a-label">Level A</span></h3>
 		
 		<div class="sc-body">
-			<p>Verify that all functionality can be controlled by keyboard unless the full path of movement (from start of movement to end) is essential.</p>
+			<p>Verify that all interactive content (scripted components, forms, audio, video, links, etc.) can be controlled by keyboard.</p>
+			
+			<p>An exception is made for interactive content where the full path of movement (from start of movement to end) is essential
+				to its operation.</p>
 			
 			<p class="sc-note">Note: An example of an application that requires the full path of movement is a drawing program.
-				Drag and drop applications are not exempt, as the path to the endpoint is not essential.</p>
+				Drag and drop applications are not exempt, on the other hand, as the path taken to the endpoint is not essential.</p>
 			
 			<p>In addition, verify that operation is not dependent on specific timings of keystrokes (e.g., that keys must be pressed a certain number of times in an interval, or held down for a set period of time).</p>
 			
@@ -813,11 +827,15 @@
 		<h3><span class="label">2.1.2 No Keyboard Trap</span> <span class="a-label">Level A</span></h3>
 		
 		<div class="sc-body">
-			<p>Verify that there are no keyboard traps (i.e., content that can be entered using the keyboard but then cannot be escaped using the same method).</p>
+			<p>Verify that any interactive content (scripted components, forms, audio, video etc.) does not present a keyboard trap.</p>
 			
-			<p>If any content cannot be escaped from once entered using the typical escape key (e.g., the tab key is mapped to some other function), there must be instructions on how to escape.</p>
+			<p>A keyboard trap results when an application can be entered using the keyboard but then cannot be escaped using the same method (e.g., can be tabbed into but then the tab key has a different function within the application).</p>
 			
-			<p class="sc-note">Note: Plugins are a primary cause of keyboard traps, but any poorly designed scripted interface might have traps. Although formats that require a plugin do not typically occur in EPUB 3, some EPUB 2 reading systems supported Flash video.</p>
+			<p>If any content cannot be escaped from once entered using the typical escape key, there must be instructions on how to escape.</p>
+			
+			<p class="sc-note">Note: Audio and video content that uses native HTML controls (i.e., has the <code>controls</code> attribute set by default) can be assumed to be accessible. If the author has scripted their own controls, the interface needs testing.</p>
+			
+			<p class="sc-note">Note: Plugins are a common cause of keyboard traps. Although formats that require a plugin are not typically found in EPUB 3, some EPUB 2 reading systems supported Flash video.</p>
 			
 			<hr/>
 			
@@ -836,7 +854,7 @@
 		<h3><span class="label">2.1.3 Keyboard (No Exception)</span> <span class="aaa-label">Level AAA</span></h3>
 		
 		<div class="sc-body">
-			<p>Verify that all functionality is operable from the keyboard.</p>
+			<p>Verify that all interactive content (scripted components, forms, audio, video, links, etc.) is operable from the keyboard.</p>
 			
 			<p class="sc-note">Note: The difference between this success criterion and <a href="#sc-2.1.1">2.1.1</a> is that this success criterion does not allow an exception for interfaces that require information about the full path of movement.</p>
 			
@@ -864,7 +882,7 @@
 		<h3><span class="label">2.2.1 Timing Adjustable</span> <span class="a-label">Level A</span></h3>
 		
 		<div class="sc-body">
-			<p>If a time limit is set by any of the content, verify that at least one of the following is true:</p>
+			<p>If a time limit is set by any of the content (e.g., in dynamic quizzes or games), verify that at least one of the following is true:</p>
 			
 			<ul>
 				<li>The user is allowed to turn off the time limit before encountering it.</li>
@@ -916,7 +934,7 @@
 		<h3><span class="label">2.2.3 No Timing</span> <span class="aaa-label">Level AAA</span></h3>
 		
 		<div class="sc-body">
-			<p>Verify that timing is not essential to the functioning of the content (e.g., it can be disabled, if present, or an alternative untimed version is offered).</p>
+			<p>Verify that timing is not essential to the functioning of the content (e.g., it can be disabled if part of dynamic content, or an alternative untimed version is offered).</p>
 			
 			<hr/>
 			
@@ -935,8 +953,9 @@
 		<h3><span class="label">2.2.4 Interruptions</span> <span class="aaa-label">Level AAA</span></h3>
 		
 		<div class="sc-body">
-			<p>Verify there are no interruptions from a remote server (e.g., messages pushed to the content), or any interruptions can be turned off or suppressed by the user, except in the case of emergencies.</p>
-			<p class="sc-note">Note: Emergency messages can include loss of connectivity, if that is important for the user to know.</p>
+			<p>Verify there are no interruptions from a remote server (e.g., messages pushed to the content), or any interruptions can be turned off or suppressed by the user except in the case of emergencies.</p>
+			
+			<p class="sc-note">Note: Emergency messages may include alerts about loss of connectivity, if that is important for the user to know.</p>
 			
 			<hr/>
 			
@@ -955,7 +974,7 @@
 		<h3><span class="label">2.2.5 Re-authenticating</span> <span class="aaa-label">Level AAA</span></h3>
 		
 		<div class="sc-body">
-			<p>Verify that the user is able to re-authenticate and continue a transaction or activity, without loss of any data that has already been entered, if there are circumstances that cause the user to be logged out (e.g., inactivity, security).</p>
+			<p>Verify that the user is able to re-authenticate and continue a transaction or activity (such as a quiz), without loss of any data that has already been entered, if there are circumstances that cause the user to be logged out (e.g., inactivity, security).</p>
 			
 			<hr/>
 			
@@ -1017,7 +1036,9 @@
 		<div class="sc-body">
 			<p>If identical content is repeated at the beginning of every content document, there must be a way to bypass the duplicate information.</p>
 			
-			<p class="sc-note">Note: This success criterion typically is not applicable to EPUB publications. It is intended to allow users to bypass repeated web page headers, navigation bars, etc. that precede the content.</p>
+			<p>Although this problem is typically rare in EPUB publication, one place it may be encountered is with running headers and footers in fixed-layout publications. In these cases, the HTML <code>header</code> and <code>footer</code> elements can be used to encapsulate the running header/footer and the <code>main</code> element can be used to encapsulate the body.</p>
+			
+			<p class="sc-note">Note: This success criterion typically is aimed at web site navigation, to allow users to bypass repeated site headers, navigation bars, etc.</p>
 			
 			<hr/>
 			
