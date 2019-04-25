@@ -77,7 +77,7 @@ var smartEvaluation = (function() {
 		
 		var conformance_result = document.getElementById('conformance-result');
 		
-		if (conformance_result && !conformance_result.value == "fail") {
+		if (conformance_result && conformance_result.value != "fail") {
 			metadata += smartFormat.createMetaTag({type: 'link', property: 'dcterms:conformsTo', value: conformance_url});
 		}
 		
