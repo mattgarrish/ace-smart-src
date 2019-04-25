@@ -354,7 +354,7 @@ HTML;
 						$this->abort('uidselect');
 					}
 					
-					if ($this->action != 'autoload' || $_POST['auto'] != 'lia') {
+					if ($this->action != 'autoload' || strtolower($_POST['auto']) != 'lia') {
 						// get the publication identifier from the ace report
 						$this->pub_id = is_array($json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'}) ? $json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'}[0] : $json->{'earl:testSubject'}->{'metadata'}->{'dc:identifier'};
 					}
