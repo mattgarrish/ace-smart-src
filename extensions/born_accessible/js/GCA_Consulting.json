@@ -1,8 +1,8 @@
 {
-    "version": "0.8",
+    "version": "1.0",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "02/21/2019, 10:20:00 AM",
+    "dct:date": "05/24/2019, 10:45:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -11,17 +11,17 @@
             {
                 "$levelId": "complexity-level-simple",
                 "levelName": "Simple",
-                "levelDescription": "Straight forward text without any design elements such as figures, tables, list items, links, audio, video, mathml, etc. Typically Trade books fall into this category."
+                "levelDescription": "Straight forward text without any design elements such as figures, tables, list items, links, audio, video, MathML, etc. Typically Trade books fall into this category. Very few if any images, potentially a cover and title page images."
             },
            {
                 "$levelId": "complexity-level-moderate",
                 "levelName": "Moderate",
-                "levelDescription": " EPUBs with upto 30% of design elements such as figures, tables, list items, links, mathml, audio, video, etc. Simple JavaScript."
+                "levelDescription": "EPUBs with up to 30% of design elements such as images, figures, tables, list items, links, MathML, audio, video, etc. Simple JavaScript."
             },
             {
                 "$levelId": "complexity-level-complex",
                 "levelName": "Complex",
-                "levelDescription": "EPUBs with more than 30% of design elements such as figures, tables, list items, links, audio, video, mathml, etc.  Complex JavaScript. Typically STEM Textbooks fall into this category."
+                "levelDescription": "EPUBs with more than 30% of design elements such as images, figures, charts and graphs, tables, list items, links, audio, video, MathML, etc.  Complex JavaScript. Typically STEM Textbooks fall into this category."
             }
        ]
     },
@@ -628,7 +628,6 @@
                         "$itemId": "publishing-aria-markup-included",
                         "itemName" : "Digital Publishing Specific ARIA Markup",
                         "itemScores": {
-                           "N/A": "Outstanding IOS iBooks issue with DPUB-ARIA",
                             "0": "DPUB ARIA markup not present.",
                             "1": "DPUB semantic markup present but not entirely accurate or incomplete",
                             "4": "DPUB ARIA semantic markup present and used correctly"
