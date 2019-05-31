@@ -21,8 +21,7 @@
 
 var bornAccessible = (function() {
 
-	var _baTestData = {};
-	var _extension_tab;
+	var _extension_tab = document.getElementById('born_accessible'); 
 	var _MAX_SECTION_SCORE = 4;
 	var _SCORE_TEXT_CSS = {
 		0: 'err',
@@ -32,32 +31,6 @@ var bornAccessible = (function() {
 		4: 'pass',
 		'N/A': 'na',
 		'Unverified': 'warn'
-	}
-	
-	function createBornAccessibleScoringTab() {
-		
-		// get the json data file
-		$.ajax(
-		{
-			url: 'extensions/born_accessible/js/GCA_Consulting.json',
-			data: {
-				format: 'json'
-			},
-			dataType:		'json',
-			cache:			false,
-			success: function( data )
-			{
-				_baTestData = data;
-				_extension_tab = document.getElementById('born_accessible'); 
-				generateBornAccessibleTab();
-				
-			},
-			error: function(xhr, status, error) {
-				var err = eval("(" + xhr.responseText + ")");
-				console.log(err.Message);
-				alert('Failed to load born accessible test data.' );
-			}
-		});
 	}
 	
 	
@@ -71,17 +44,17 @@ var bornAccessible = (function() {
 	
 	function generateComplexity() {
 		var fieldset = document.createElement('fieldset');
-			fieldset.setAttribute('id', _baTestData.epubComplexity['$complexityId']);
+			fieldset.setAttribute('id', gca.epubComplexity['$complexityId']);
 			fieldset.setAttribute('class', 'flat');
 		
 		var legend = document.createElement('legend');
-			legend.appendChild(document.createTextNode(_baTestData.epubComplexity.complexityName+':'))
+			legend.appendChild(document.createTextNode(gca.epubComplexity.complexityName+':'))
 		
 		fieldset.appendChild(legend);
 		
 		var definition_list = document.createElement('dl');
 		
-		for (var i = 0; i < _baTestData.epubComplexity.complexityLevels.length; i++) {
+		for (var i = 0; i < gca.epubComplexity.complexityLevels.length; i++) {
 			var definition_term = document.createElement('dt');
 			
 			var definition_label = document.createElement('label');
@@ -89,18 +62,18 @@ var bornAccessible = (function() {
 			var complexity_radio = document.createElement('input');
 				complexity_radio.setAttribute('type','radio');
 				complexity_radio.setAttribute('name','ba-complexity-level');
-				complexity_radio.setAttribute('id',_baTestData.epubComplexity.complexityLevels[i]['$levelId']);
-				complexity_radio.setAttribute('value',_baTestData.epubComplexity.complexityLevels[i].levelName);
+				complexity_radio.setAttribute('id',gca.epubComplexity.complexityLevels[i]['$levelId']);
+				complexity_radio.setAttribute('value',gca.epubComplexity.complexityLevels[i].levelName);
 				
 			definition_label.appendChild(complexity_radio);
-			definition_label.appendChild(document.createTextNode(' ' + _baTestData.epubComplexity.complexityLevels[i].levelName));
+			definition_label.appendChild(document.createTextNode(' ' + gca.epubComplexity.complexityLevels[i].levelName));
 			
 			definition_term.appendChild(definition_label);
 			
 			definition_list.appendChild(definition_term);
 				
 			var definition_description = document.createElement('dd');
-				definition_description.appendChild(document.createTextNode(_baTestData.epubComplexity.complexityLevels[i].levelDescription));
+				definition_description.appendChild(document.createTextNode(gca.epubComplexity.complexityLevels[i].levelDescription));
 			
 			definition_list.appendChild(definition_description);
 		}
@@ -116,15 +89,15 @@ var bornAccessible = (function() {
 		
 		// generate a section for each group of tests
 		
-		for (var i = 0; i < _baTestData.bornAccessibleScoring.sections.length; i++) {
+		for (var i = 0; i < gca.bornAccessibleScoring.sections.length; i++) {
 			var section = document.createElement('section');
-				section.setAttribute('id', _baTestData.bornAccessibleScoring.sections[i]['$sectionId']);
+				section.setAttribute('id', gca.bornAccessibleScoring.sections[i]['$sectionId']);
 				section.setAttribute('class','test');
 			
 			var section_number = (i+1) + '.';
 			
 			var hd = document.createElement('h4');
-				hd.appendChild(document.createTextNode(section_number + ' ' + _baTestData.bornAccessibleScoring.sections[i].sectionName));
+				hd.appendChild(document.createTextNode(section_number + ' ' + gca.bornAccessibleScoring.sections[i].sectionName));
 			
 			section.appendChild(hd);
 			
@@ -133,15 +106,15 @@ var bornAccessible = (function() {
 			
 			// create a fieldset for each each test
 			
-			for (var j = 0; j < _baTestData.bornAccessibleScoring.sections[i].sectionItems.length; j++) {
+			for (var j = 0; j < gca.bornAccessibleScoring.sections[i].sectionItems.length; j++) {
 				
 				var fieldset = document.createElement('fieldset');
-					fieldset.setAttribute('id',_baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']);
+					fieldset.setAttribute('id',gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']);
 					fieldset.setAttribute('class','test warn')
 				
 				var legend = document.createElement('legend');
-					legend.setAttribute('id',_baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend')
-					legend.appendChild(document.createTextNode(section_number + (j+1) + ' ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemName));
+					legend.setAttribute('id',gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend')
+					legend.appendChild(document.createTextNode(section_number + (j+1) + ' ' + gca.bornAccessibleScoring.sections[i].sectionItems[j].itemName));
 				
 				fieldset.appendChild(legend);
 				
@@ -149,23 +122,23 @@ var bornAccessible = (function() {
 				
 				fieldset.appendChild(createRadioInput(
 					{
-						name: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
+						name: gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
 						value: 'Unverified',
 						description: 'Unverified',
-						label: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend',
+						label: gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend',
 						checked: true
 					}
 				));
 				
 				// add possible scores
 				
-				for (var score in _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores) {
+				for (var score in gca.bornAccessibleScoring.sections[i].sectionItems[j].itemScores) {
 					fieldset.appendChild(createRadioInput(
 						{
-							name: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
+							name: gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
 							value: score,
-							description: score + ' \u2014 ' + _baTestData.bornAccessibleScoring.sections[i].sectionItems[j].itemScores[score],
-							label: _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend'
+							description: score + ' \u2014 ' + gca.bornAccessibleScoring.sections[i].sectionItems[j].itemScores[score],
+							label: gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend'
 						}
 					));
 				}
@@ -194,9 +167,9 @@ var bornAccessible = (function() {
 				
 				test_div.appendChild(fieldset);
 				
-				if (_baTestData.bornAccessibleScoring.sections[i].sectionItems[j].hasOwnProperty('wcagScoreFrom')) {
-					for (var k = 0; k < _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['wcagScoreFrom'].length; k++) {
-						setWCAGEventHandler(_baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'], _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['wcagScoreFrom'][k], _baTestData.bornAccessibleScoring.sections[i].sectionItems[j]['itemName']);
+				if (gca.bornAccessibleScoring.sections[i].sectionItems[j].hasOwnProperty('wcagScoreFrom')) {
+					for (var k = 0; k < gca.bornAccessibleScoring.sections[i].sectionItems[j]['wcagScoreFrom'].length; k++) {
+						setWCAGEventHandler(gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'], gca.bornAccessibleScoring.sections[i].sectionItems[j]['wcagScoreFrom'][k], gca.bornAccessibleScoring.sections[i].sectionItems[j]['itemName']);
 					}
 				}
 			}
@@ -208,12 +181,12 @@ var bornAccessible = (function() {
 			
 			var score_span_label = document.createElement('span');
 				score_span_label.setAttribute('class','ba-score-label');
-				score_span_label.appendChild(document.createTextNode(_baTestData.bornAccessibleScoring.sections[i].sectionName + ' Score: '));
+				score_span_label.appendChild(document.createTextNode(gca.bornAccessibleScoring.sections[i].sectionName + ' Score: '));
 			
 			score_div.appendChild(score_span_label);
 			
 			var score_span_value = document.createElement('span');
-				score_span_value.setAttribute('id',_baTestData.bornAccessibleScoring.sections[i]['$sectionId']+'-score');
+				score_span_value.setAttribute('id',gca.bornAccessibleScoring.sections[i]['$sectionId']+'-score');
 				score_span_value.setAttribute('class','ba-score-value');
 				score_span_value.setAttribute('aria-live','polite');
 			
@@ -440,7 +413,7 @@ var bornAccessible = (function() {
 	
 	return {
 		initialize: function() {
-			createBornAccessibleScoringTab();	
+			generateBornAccessibleTab();
 		},
 		
 		updateSectionScore: function(radio_button) {

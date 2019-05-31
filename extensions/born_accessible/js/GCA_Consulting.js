@@ -1,4 +1,4 @@
-{
+var gca = {
     "version": "1.1",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
