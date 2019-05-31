@@ -1,8 +1,8 @@
 {
-    "version": "1.0",
+    "version": "1.1",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "05/24/2019, 10:45:00 AM",
+    "dct:date": "05/29/2019, 2:40:00 PM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -16,12 +16,12 @@
            {
                 "$levelId": "complexity-level-moderate",
                 "levelName": "Moderate",
-                "levelDescription": "EPUBs with up to 30% of design elements such as images, figures, tables, list items, links, MathML, audio, video, etc. Simple JavaScript."
+                "levelDescription": "EPUBs with up to 0.3 design elements per page such as images, figures, tables, list items, links, MathML, audio, video, etc. Simple JavaScript."
             },
             {
                 "$levelId": "complexity-level-complex",
                 "levelName": "Complex",
-                "levelDescription": "EPUBs with more than 30% of design elements such as images, figures, charts and graphs, tables, list items, links, audio, video, MathML, etc.  Complex JavaScript. Typically STEM Textbooks fall into this category."
+                "levelDescription": "EPUBs with more than 0.3 design elements per page such as images, figures, charts and graphs, tables, list items, links, audio, video, MathML, etc.  Complex JavaScript. Typically STEM Textbooks fall into this category."
             }
        ]
     },
@@ -605,7 +605,8 @@
                         "$itemId": "optional-accessibility-metadata-api",
                         "itemName" : "accessibilityAPI",
                         "itemScores": {
-                            "0": "metadata does not correctly identify the accessibility APIs present (Note: ARIA now recommended to go along with all epub:type attributes where applicable)",
+                            "N/A": "Nothing requiring any special accessibility APIs (eg. JavaScript overriding a custom control.)  NOTE: Just having ARIA DPUB roles present does not constitute an accessibilityAPI of ARIA.)",
+                            "0": "metadata does not correctly identify the accessibility APIs present",
                             "4": "Correctly identifies all accessibility APIs"
                         }
                     },
