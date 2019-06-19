@@ -126,3 +126,12 @@
 span#ba_final_score_status {
 	padding-left: 2.7rem;
 }
+
+#born_accessible p#ba-epp {
+	margin-top: 0;
+	font-weight: bold;
+}
+
+#born_accessible span#ba-epp-num {
+	color: rgb(180,0,0);
+}

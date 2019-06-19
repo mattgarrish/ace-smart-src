@@ -34,6 +34,22 @@
 				<input type="text" placeholder="0" id="ba-table-count"/>
 			</label>
 			<label class="data">
+				<span>Links:</span>
+				<input type="text" placeholder="0" id="ba-link-count"/>
+			</label>
+			<label class="data">
+				<span>Audio:</span>
+				<input type="text" placeholder="0" id="ba-audio-count"/>
+			</label>
+			<label class="data">
+				<span>Video:</span>
+				<input type="text" placeholder="0" id="ba-video-count"/>
+			</label>
+			<label class="data">
+				<span>Math Equations:</span>
+				<input type="text" placeholder="0" id="ba-math-count"/>
+			</label>
+			<label class="data">
 				<span>Heading Level 1:</span>
 				<input type="text" placeholder="0" id="ba-h1-count"/>
 			</label>
@@ -88,4 +104,26 @@
 	
 	<script src="extensions/born_accessible/js/GCA_Consulting.js"></script>
 	<script src="extensions/born_accessible/js/born_accessible.js"></script>
+	<script>
+		// <![CDATA[ 
+		/* update design elements count */ 
+		$("section#ba-info input[type='text']").keyup(function() {
+			var counters = document.querySelectorAll("section#ba-info input[type='text']");
+			var pages = 0;
+			var elements = 0;
+			for (var i = 0; i < counters.length; i++) {
+				if (counters[i].id == 'ba-page-count') {
+					pages = Number(counters[i].value);
+				}
+				else {
+					elements += Number(counters[i].value);
+				}
+			}
+			if (pages != 0) {
+				var epp = elements / pages;
+				document.getElementById('ba-epp-num').textContent = epp.toFixed(2);
+			}
+		});
+		// ]]>
+	</script>
 </section>
