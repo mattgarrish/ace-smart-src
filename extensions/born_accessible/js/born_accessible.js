@@ -36,13 +36,46 @@ var bornAccessible = (function() {
 	
 	function generateBornAccessibleTab() {
 		generateComplexity();
+		generateDesignElements();
 		generateTests();
-		generateResult();
 		smartReport.setExtensionTabOutput('born_accessible',true);
 	}
 	
+
+	function generateDesignElements() {
+		
+		var fieldset = document.createElement('fieldset');
+			fieldset.setAttribute('id', 'ba-design-elements');
+			fieldset.setAttribute('class', 'flat');
+		
+		var legend = document.createElement('legend');
+			legend.appendChild(document.createTextNode('Design Elements:'))
+		
+		fieldset.appendChild(legend);
+		
+		var average = document.createElement('p');
+			average.setAttribute('id','ba-epp');
+		
+		var average_num = document.createElement('span');
+			average_num.setAttribute('id','ba-epp-num');
+			average_num.appendChild(document.createTextNode('0'));
+		
+		average.appendChild(average_num);
+		
+		var average_label = document.createElement('span');
+			average_label.appendChild(document.createTextNode(' per page'));
+		
+		average.appendChild(average_label);
+		
+		fieldset.appendChild(average);
+		
+		var info_section = _extension_tab.querySelector('#ba-content-inputs');
+			info_section.insertBefore(fieldset,info_section.firstChild);
+	}
 	
+
 	function generateComplexity() {
+		
 		var fieldset = document.createElement('fieldset');
 			fieldset.setAttribute('id', gca.epubComplexity['$complexityId']);
 			fieldset.setAttribute('class', 'flat');
@@ -292,11 +325,6 @@ var bornAccessible = (function() {
 	function updateResultScore() {
 		var incomplete = document.querySelector('#born_accessible section.test input[value="Unverified"]:checked');
 		
-		if (incomplete) {
-			document.getElementById('ba_final_score_status').textContent = "Incomplete";
-			return;
-		}
-		
 		var test_scores = document.querySelectorAll('#born_accessible section.test input:checked');
 		
 		var max_score = 0;
@@ -311,8 +339,6 @@ var bornAccessible = (function() {
 		}
 		
 		var total_score = (max_score == 0) ? 'N/A' : (Math.round((actual_score / max_score) * 100) + '%');
-		
-		document.getElementById('ba_final_score_status').textContent = total_score; 
 	}
 	
 	

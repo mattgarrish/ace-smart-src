@@ -278,7 +278,7 @@ smart_extensions['born_accessible'] = (function() {
 			
 			test_scores.appendChild(ba_total_score_div);
 			
-						var complexity_selected = document.querySelector('input[name="ba-complexity-level"]:checked');
+			var complexity_selected = document.querySelector('input[name="ba-complexity-level"]:checked');
 			
 			// add complexity level
 			
@@ -304,12 +304,33 @@ smart_extensions['born_accessible'] = (function() {
 			
 			reportHTML.appendChild(test_scores);
 			
+			// generate stats section
+			
 			var stat_section = document.createElement('section');
 				stat_section.setAttribute('id','born-accessible-stats');
 			
 			var stat_hd = document.createElement('h4');
 				stat_hd.appendChild(document.createTextNode('Statistics'))
 			stat_section.appendChild(stat_hd);
+			
+			// add design elements
+			
+			var design_div = document.createElement('div');
+				design_div.setAttribute('id','ba-design-elements');
+				design_div.setAttribute('class','ba-primary');
+			
+			var design_span = document.createElement('span');
+				design_span.appendChild(document.createTextNode('Design Elements: '));
+			design_div.appendChild(design_span);
+			
+			var design_ratio = document.createElement('span');
+				design_ratio.appendChild(document.createTextNode(document.getElementById('ba-epp-num').textContent + ' per page'));
+			design_div.appendChild(design_ratio);
+			
+			stat_section.appendChild(design_div);
+			
+			
+			// add stats table
 			
 			var stat_table = document.createElement('table');
 			
@@ -379,6 +400,10 @@ smart_extensions['born_accessible'] = (function() {
 		
 			var baJSON = {configuration: {}, info: {}, statistics: {}, scores: []};
 			
+			// add design element
+			
+			baJSON.info['ba-design-elements'] = document.getElementById('ba-epp-num').textContent;
+			
 			// add executive summary
 			
 			baJSON.info['ba-executive-summary'] = document.querySelector('#born_accessible #ba-content-inputs textarea').value;
@@ -440,6 +465,11 @@ smart_extensions['born_accessible'] = (function() {
 				}
 				
 				if (savedJSON.born_accessible.hasOwnProperty('info')) {
+					// load the design elements count
+					if (savedJSON.born_accessible.info.hasOwnProperty('ba-design-elements')) {
+						document.getElementById('ba-epp-num').textContent = savedJSON.born_accessible.info['ba-design-elements'];
+					}
+					
 					// load the executive summary
 					if (savedJSON.born_accessible.info.hasOwnProperty('ba-executive-summary')) {
 						document.getElementById('ba-executive-summary').value = savedJSON.born_accessible.info['ba-executive-summary'];
