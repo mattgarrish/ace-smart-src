@@ -137,7 +137,7 @@ var smartManage = (function() {
 		
 		evaluationJSON.discovery = {};
 		
-			var a11yFields = new Array('accessibilityFeature','accessibilityHazard','accessMode','accessibilityAPI','accessibilityControl');
+			var a11yFields = new Array('accessibilityFeature','accessibilityHazard','accessMode');
 			
 			a11yFields.forEach( function(id) {
 				evaluationJSON.discovery[id] = saveDiscoveryMeta(id);
@@ -378,7 +378,7 @@ var smartManage = (function() {
 		/* load the discovery metadata */
 		
 		if (evaluationJSON.hasOwnProperty('discovery')) {
-			var discovery_checkbox_fields = ['accessibilityFeature','accessibilityHazard','accessMode','accessibilityAPI','accessibilityControl'];
+			var discovery_checkbox_fields = ['accessibilityFeature','accessibilityHazard','accessMode'];
 			
 			discovery_checkbox_fields.forEach(function(id) {
 				if (evaluationJSON.discovery.hasOwnProperty(id)) {
