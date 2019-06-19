@@ -20,6 +20,12 @@
 			smartConformance.showSCNoteField(this);
 		});
 		
+		/* add discovery metadata fields */
+		smartDiscovery.addDiscoveryMetadata();
+		
+		/* add discovery metadata fields */
+		smartDistribution.addDistributionMetadata();
+		
 		/* configure and populate the evaluation */
 		evaluationSetup();
 		
@@ -267,7 +273,19 @@
 	$('input[name="link-exp"]').click( function(){
 		smartConformance.showSCHelpLinks(this.value == 'true' ? true : false);
 	});
-
+	
+	
+	
+	
+	/* DISCOVERY TAB */
+	
+	/* watch for click to generate discovery metadata */
+	$('#discovery_button').click( function(){
+		smartDiscovery.generateDiscoveryMetadata();
+	});
+	
+	
+	
 	
 	/* DISTRIBUTION TAB */
 	
@@ -275,6 +293,16 @@
 	$('#distribution_button').click( function(){
 		smartDistribution.generateONIXMetadata();
 	});
+	
+	
+	
+	/* EVALUATION TAB */
+	
+	/* watch for click on button to generate evaluation metadata */
+	$('#generate-evaluation-metadata').click( function(){
+		smartEvaluation.generateEvaluationMetadata();
+	});
+	
 	
 	
 	/* REPORTING TAB */

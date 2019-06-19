@@ -405,7 +405,10 @@ var smartManage = (function() {
 					}
 					else {
 						if (evaluationJSON.distribution.onix[onix_id]) {
-							document.getElementById('onix' + onix_id).click();
+							var input = document.getElementById('onix' + onix_id);
+							if (!input.checked) {
+								input.click()
+							}
 						}
 					}
 				}

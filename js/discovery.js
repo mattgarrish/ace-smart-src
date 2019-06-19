@@ -152,6 +152,176 @@ var smartDiscovery = (function() {
 	}
 	
 	
+	
+	/* adds the discovery metadata fields to the form */
+	function addDiscoveryMetadata() {
+		
+		var meta_fields = document.getElementById('discovery-fields');
+		
+		for (var i = 0; i < a11y_meta.properties.length; i++) {
+			
+			var property = a11y_meta.properties[i];
+			
+			var fieldset = document.createElement('fieldset');
+				fieldset.setAttribute('id', property.type == 'textarea' ? property.id+'-field' : property.id);
+			
+			var legend = document.createElement('legend');
+			
+			var doc_link = document.createElement('a');
+				doc_link.setAttribute('href', property.documentation[smart_lang]);
+				doc_link.setAttribute('target', '_blank');
+				doc_link.appendChild(document.createTextNode(property.name[smart_lang]));
+			
+			if (property.type == 'textarea') {
+				// adds a label to tie the field name to the textarea
+				var label = document.createElement('label');
+					label.setAttribute('for', property.id);
+				label.appendChild(doc_link);
+				legend.appendChild(label);
+			}
+			else {
+				legend.appendChild(doc_link);
+			}
+			
+			if (property.required) {
+				var asterisk = document.createElement('img');
+					asterisk.setAttribute('src', '/images/asterisk.png');
+					asterisk.setAttribute('alt', 'required');
+				legend.appendChild(document.createTextNode(' '));
+				legend.appendChild(asterisk);
+			}
+			
+			fieldset.appendChild(legend);
+			
+			if (property.hasOwnProperty('autoPopulate')) {
+				var auto_div = document.createElement('div');
+					auto_div.setAttribute('id', property.autoPopulate.id);
+					auto_div.setAttribute('class', 'autogen');
+				
+				var auto_link = document.createElement('a');
+					auto_link.setAttribute('href', '#'+property.autoPopulate.id);
+					auto_link.appendChild(document.createTextNode(property.autoPopulate.label[smart_lang]));
+				
+				auto_div.appendChild(auto_link);
+				fieldset.appendChild(auto_div);
+			}
+			
+			if (property.type == 'textarea') {
+				var textarea = document.createElement('textarea');
+					textarea.setAttribute('id', property.id);
+					textarea.setAttribute('rows', 5);
+					if (property.required) {
+						textarea.setAttribute('aria-required', true);
+					}
+				fieldset.appendChild(textarea);
+			}
+			
+			else if (property.type == 'checkbox') {
+				var cols = createCheckboxList(property.values);
+					fieldset.appendChild(cols);
+			}
+			
+			else if (property.type == 'fieldset') {
+				var source = property.id == 'accessModeSufficient' ? a11y_meta.properties.find(item => item.id === 'accessMode') : null;
+				var cols = createCheckboxList(source.values);
+				for (var k = 1; k <= 2; k++) {
+					var sub_fieldset = document.createElement('fieldset');
+						sub_fieldset.setAttribute('id', 'set'+k);
+					
+					var sub_legend = document.createElement('legend');
+						sub_legend.appendChild(document.createTextNode('Set ' + k));
+					
+					sub_fieldset.appendChild(sub_legend);
+					sub_fieldset.appendChild(cols.cloneNode(true));
+					fieldset.appendChild(sub_fieldset);
+				}
+			}
+			
+			else {
+				console.log('Unknown property type ' + property.type);
+			}
+			
+			if (property.hasOwnProperty('addMoreValues')) {
+				fieldset.appendChild(createAddMoreValuesLink(property));
+			}
+			
+			meta_fields.appendChild(fieldset);
+		}
+		
+		/* watch for click to add custom accessibilityFeature */
+		$('#add-a11y-feature').click( function(){
+			smartDiscovery.addCustomFeature();
+			return false;
+		});
+		
+		/* watch for click to generate a summary */
+		$('#generate-summary').click( function(){
+			if (document.getElementById('accessibilitySummary').value.trim() != '') {
+				if (!confirm('There already appears to be a summary. Click Ok to replace.')) {
+					return false;
+				}
+			}
+			smartDiscovery.generateAccessibilitySummary();
+			return false;
+		});
+		
+		/* watch for click to add additional accessModeSufficient sets */
+		$('#add-sufficient').click( function(){
+			smartDiscovery.addNewSufficientSet();
+			return false;
+		});
+		
+		/* sync summary changes */
+		$('#accessibilitySummary').keyup( function(){
+			smartDiscovery.syncSummary('discovery');
+			return false;
+		});
+		
+		/* sync accessibility features */
+		$('#accessibilityFeature input').change( function(){
+			smartDiscovery.syncFeature('discovery',this.value,this.checked);
+			return false;
+		});
+	}
+	
+	
+	
+	/* generates sets of checkboxes for the a11y properties */
+	function createCheckboxList(values) {
+		var cols = document.createElement('div');
+			cols.setAttribute('class', 'cols');
+		
+		for (var j = 0; j < values.length; j++) {
+			var label = document.createElement('label');
+			var input = document.createElement('input');
+				input.setAttribute('type', 'checkbox');
+				input.setAttribute('value', values[j].id);
+			label.appendChild(input);
+			label.appendChild(document.createTextNode(' ' + values[j].label[smart_lang]));
+			cols.appendChild(label);
+		}
+		return cols;		
+	}
+	
+	
+	
+	/* creates a link to add more values for a property */
+	function createAddMoreValuesLink(property) {
+		var custom_div = document.createElement('div');
+			custom_div.setAttribute('id', 'add-'+property.id);
+			custom_div.setAttribute('class','link');
+		
+		var custom_a = document.createElement('a');
+			custom_a.setAttribute('href','#add-'+property.id);
+			custom_a.setAttribute('id',property.addMoreValues.id);
+			custom_a.appendChild(document.createTextNode(property.addMoreValues.label[smart_lang]));
+		
+		custom_div.appendChild(custom_a);
+		
+		return custom_div
+	}
+	
+	
 	/* generates accessibility metadata tags for the package document */
 	function generateDiscoveryMetadata() {
 	
@@ -241,38 +411,41 @@ var smartDiscovery = (function() {
 	function addCustomFeature(feature_name) {
 		
 		if (!feature_name) {
-			feature_name = prompt('Enter the accessibility feature as it will appear in the metadata:').trim();
+			feature_name = prompt('Enter the accessibility feature as it will appear in the metadata:');
 		}
 		
 		if (feature_name) {
 		
-			if (document.getElementById(feature_name)) {
-				alert('Feature already exists. Unable to add');
-			}
+			feature_name = feature_name.trim();
 			
-			else {
-				var new_feature_label = document.createElement('label');
-					new_feature_label.setAttribute('class', 'custom');
+			if (feature_name) {
+				if (document.getElementById(feature_name)) {
+					alert('Feature already exists. Unable to add');
+				}
 				
-				var new_feature_checkbox = document.createElement('input');
-					new_feature_checkbox.setAttribute('type', 'checkbox');
-					new_feature_checkbox.setAttribute('value', feature_name);
-					new_feature_checkbox.setAttribute('checked', 'checked');
-				
-				new_feature_label.appendChild(new_feature_checkbox);
-				
-				new_feature_label.appendChild(document.createTextNode(' ' + feature_name));
-				
-				// get the link to add new features
-				var add_feature_link = document.getElementById('add-feature');
-				
-				// append the new feature to the column-formatted div before the link
-				add_feature_link.parentNode.getElementsByClassName('cols')[0].appendChild(new_feature_label, add_feature_link);
+				else {
+					var new_feature_label = document.createElement('label');
+						new_feature_label.setAttribute('class', 'custom');
+					
+					var new_feature_checkbox = document.createElement('input');
+						new_feature_checkbox.setAttribute('type', 'checkbox');
+						new_feature_checkbox.setAttribute('value', feature_name);
+						new_feature_checkbox.setAttribute('checked', 'checked');
+					
+					new_feature_label.appendChild(new_feature_checkbox);
+					
+					new_feature_label.appendChild(document.createTextNode(' ' + feature_name));
+					
+					// get the link to add new features
+					var add_feature_link = document.getElementById('add-accessibilityFeature');
+					
+					// append the new feature to the column-formatted div before the link
+					add_feature_link.parentNode.getElementsByClassName('cols')[0].appendChild(new_feature_label, add_feature_link);
+				}
 			}
-		}
-		
-		else {
-			alert('Invalid feature value. Values must be at least one character in length.');
+			else {
+				alert('Invalid feature value. Values must be at least one character in length.');
+			}
 		}
 	}
 	
@@ -313,11 +486,65 @@ var smartDiscovery = (function() {
 		new_fieldset.appendChild(new_column_wrapper_div);
 		
 		// get the link to add new sufficient modes
-		var add_sufficient_set_link = document.getElementById('add-ams');
+		var add_sufficient_set_link = document.getElementById('add-accessModeSufficient');
 		
 		// insert the new set before the link
 		add_sufficient_set_link.parentNode.insertBefore(new_fieldset, add_sufficient_set_link);
 	}
+	
+	
+	
+	/* make sure summary fields stay in sync */
+	function syncSummary(tab) {
+		if (tab == 'discovery') {
+			document.getElementById('onix00').value = document.getElementById('accessibilitySummary').value;
+		}
+		else {
+			document.getElementById('accessibilitySummary').value = document.getElementById('onix00').value;
+		}
+	}
+	
+	
+	/* make sure features stay in sync */
+	function syncFeature(tab,feature,checked) {
+		
+		var feature_map = {
+			"alternativeText": "onix14",
+			"ChemML": "onix18",
+			"index": "onix12",
+			"longDescription": "onix15",
+			"MathML": "onix17",
+			"printPageNumbers": "onix19",
+			"readingOrder": "onix13",
+			"synchronizedAudioText": "onix20",
+			"tableOfContents": "onix11",
+			"ttsMarkup": "onix21"
+		}
+		
+		var syncID = ''
+		
+		if (tab == 'discovery') {
+			if (feature_map.hasOwnProperty(feature)) {
+				syncID = feature_map[feature];
+			}
+		}
+		else {
+			syncID = Object.keys(feature_map).find(key => feature_map[key] === feature);
+		}
+		
+		if (!syncID) {
+			return;
+		}
+		
+		var syncFeature = tab == 'discovery' ? document.getElementById(syncID) : document.querySelector('#accessibilityFeature input[value="' + syncID + '"]');
+		
+		if (!syncFeature) { return; }
+		
+		if (checked && !syncFeature.checked || !checked && syncFeature.checked) {
+			syncFeature.click();
+		}
+	}
+	
 	
 	
 	/* generates a summary from the result of the evaluation and any filled-in metadata fields */
@@ -454,12 +681,24 @@ var smartDiscovery = (function() {
 	
 	
 	return {
+		addDiscoveryMetadata: function() {
+			addDiscoveryMetadata();
+		},
+		
 		addCustomFeature: function(feature_name) {
 			addCustomFeature(feature_name);
 		},
 		
 		addNewSufficientSet: function() {
 			addNewSufficientSet();
+		},
+		
+		syncSummary: function(tab) {
+			syncSummary(tab);
+		},
+		
+		syncFeature: function(tab,feature,checked) {
+			syncFeature(tab,feature,checked);
 		},
 		
 		validateDiscoveryMetadata: function() {
