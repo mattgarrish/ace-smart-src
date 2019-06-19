@@ -105,19 +105,95 @@ var smartConformance = (function() {
 	 * evaluating the success criteria
 	 */
 	
-	function addSCStatusFields() {
+	function addSuccessCriteria() {
 	
-		var sc = document.querySelectorAll('.a, .aa, .aaa, .epub');
+		var conformance_tab = document.getElementById('conformance');
 		
-		for (var i = 0; i < sc.length; i++) {
+		for (var i = 0; i < sc_config['sc'].length; i++) {
 		
+			var id = sc_config['sc'][i].hasOwnProperty('id') ? sc_config['sc'][i].id : '';
+			var level = sc_config['sc'][i].hasOwnProperty('level') ? sc_config['sc'][i].level : '';
+			
+			var wcag_number = 0;
+			var match_wcag_number = id.match(/([1-4]\.[1-9]\.[0-9]+)/);
+			
+			if (match_wcag_number) {
+				wcag_number = match_wcag_number[0];
+			}
+			
+			/* create section for new success criterion */
+			
+			var section = document.createElement('section');
+				section.setAttribute('id', id);
+				section.setAttribute('class', level);
+			
+			/* add sc heading */
+			
+			var hd = document.createElement('h3');
+			
+			var hd_label = document.createElement('span');
+				hd_label.setAttribute('class', 'label');
+			
+			if (wcag_number) {
+				hd_label.appendChild(document.createTextNode(wcag_number + ' '));
+			}
+			
+			if (sc_config['sc'][i].hasOwnProperty('name') && sc_config['sc'][i].name.hasOwnProperty(smart_lang)) {
+				hd_label.appendChild(document.createTextNode(sc_config['sc'][i].name[smart_lang]));
+			}
+			
+			hd.appendChild(hd_label);
+			
+			var hd_level= document.createElement('span');
+				hd_level.setAttribute('class', (wcag_number ? level : 'epub')+'-label');
+				hd_level.appendChild(document.createTextNode((wcag_number ? 'Level ' + level.toUpperCase() : 'EPUB')))
+			
+			hd.appendChild(hd_level);
+			section.appendChild(hd);
+			
+			/* create body div for guidance and links */
+			
+			var body_div = document.createElement('div');
+				body_div.setAttribute('class','sc-body');
+			
+			/* add guidance - imports html embedded in json */
+			
+			if (sc_config['sc'][i].hasOwnProperty('guidance') && sc_config['sc'][i].guidance.hasOwnProperty(smart_lang)) {
+				body_div.innerHTML = sc_config['sc'][i].guidance[smart_lang];
+				body_div.appendChild(document.createElement('hr'));
+			}
+			
+			// checks whether to add another hr separator
+			var has_links = false;
+			
+			/* add kb links */
+			
+			if (sc_config['sc'][i].hasOwnProperty('kb') && sc_config['sc'][i].kb.hasOwnProperty(smart_lang) && Object.keys(sc_config['sc'][i].kb[smart_lang]).length > 0) {
+				body_div.appendChild(createSCLinkDetails('kb',sc_config['sc'][i].kb[smart_lang]));
+				has_links = true;
+			}
+			
+			/* add documentation links */
+			
+			if (sc_config['sc'][i].hasOwnProperty('documentation') && sc_config['sc'][i].documentation.hasOwnProperty(smart_lang) && Object.keys(sc_config['sc'][i].documentation[smart_lang]).length > 0) {
+				body_div.appendChild(createSCLinkDetails('doc',sc_config['sc'][i].documentation[smart_lang]));
+				has_links = true;
+			}
+			
+			if (has_links) {
+				body_div.appendChild(document.createElement('hr'));
+			}
+			
+			section.appendChild(body_div);
+			
 			/* add wrapper div with reporting class for hiding later */
+			
 			var report = document.createElement('div');
 				report.setAttribute('class','reporting');
 			
 			/*  add the status radio buttons */
 			var status = document.createElement('fieldset');
-				status.setAttribute('id',sc[i].id+'-legend');
+				status.setAttribute('id',id+'-legend');
 				status.setAttribute('class','flat status');
 			
 			var status_legend = document.createElement('legend');
@@ -131,10 +207,10 @@ var smartConformance = (function() {
 				var status_label = document.createElement('label');
 				var status_input = document.createElement('input');
 					status_input.setAttribute('type','radio');
-					status_input.setAttribute('name', sc[i].id);
+					status_input.setAttribute('name', id);
 					status_input.setAttribute('value',stat);
 					status_input.setAttribute('class','sc_status');
-					status_input.setAttribute('aria-labelledby',sc[i].id+'-legend');
+					status_input.setAttribute('aria-labelledby',id+'-legend');
 				
 				if (stat == 'unverified') {
 					status_input.setAttribute('checked','checked');
@@ -149,19 +225,19 @@ var smartConformance = (function() {
 			/* add the failure textarea */
 			
 			var err = document.createElement('div');
-				err.setAttribute('id',sc[i].id+'-fail');
+				err.setAttribute('id',id+'-fail');
 				err.setAttribute('class','failure');
 			
 			var err_p = document.createElement('p');
 			
 			var err_label = document.createElement('label');
-				err_label.setAttribute('for',sc[i].id+'-err');
+				err_label.setAttribute('for',id+'-err');
 				err_label.appendChild(document.createTextNode('Describe failure(s):'));
 			
 			err.appendChild(err_label);
 			
 			var err_textarea = document.createElement('textarea');
-				err_textarea.setAttribute('id',sc[i].id+'-err');
+				err_textarea.setAttribute('id',id+'-err');
 				err_textarea.setAttribute('rows','5');
 				err_textarea.setAttribute('cols','80');
 			
@@ -179,7 +255,7 @@ var smartConformance = (function() {
 			
 			var note_input = document.createElement('input');
 				note_input.setAttribute('type','checkbox');
-				note_input.setAttribute('name',sc[i].id+'-note');
+				note_input.setAttribute('name',id+'-note');
 				note_input.setAttribute('class','show-note');
 			
 			note_label.appendChild(note_input);
@@ -190,11 +266,11 @@ var smartConformance = (function() {
 			report.appendChild(note_p);
 			
 			var note_div = document.createElement('div');
-				note_div.setAttribute('id',sc[i].id+'-note');
+				note_div.setAttribute('id',id+'-note');
 				note_div.setAttribute('class','info');
 			
 			var note_textarea = document.createElement('textarea');
-				note_textarea.setAttribute('id',sc[i].id+'-info');
+				note_textarea.setAttribute('id',id+'-info');
 				note_textarea.setAttribute('rows','5');
 				note_textarea.setAttribute('cols','80');
 				note_textarea.setAttribute('aria-label','Note');
@@ -203,9 +279,36 @@ var smartConformance = (function() {
 			
 			report.appendChild(note_div);
 			
-			sc[i].appendChild(report);
+			section.appendChild(report);
+			conformance_tab.appendChild(section);
 		}
 	}
+	
+	/*  */
+	function createSCLinkDetails(type, json) {
+		var details = document.createElement('details');
+		
+		var summary = document.createElement('summary');
+			summary.appendChild(document.createTextNode(type == 'kb' ? 'Knowledge Base and Techniques' : 'WCAG Documentation'));
+		details.appendChild(summary);
+		
+		var link_list = document.createElement('ul');
+		
+		for (var link in json) {
+			var li = document.createElement('li');
+			
+			var a = document.createElement('a');
+				a.setAttribute('href',json[link]);
+			a.appendChild(document.createTextNode(link));
+			
+			li.appendChild(a);
+			link_list.appendChild(li);
+		}
+		
+		details.appendChild(link_list);
+		return details;
+	}
+	
 	
 	
 	/* shows/hides sets of content-specific tests */
@@ -305,7 +408,7 @@ var smartConformance = (function() {
 		},
 		
 		addSuccessCriteriaReporting: function() {
-			addSCStatusFields();
+			addSuccessCriteria();
 		},
 		
 		displaySuccessCriteria: function(options) {

@@ -331,6 +331,14 @@ var smartAce = (function() {
 	
 	function inferAccessibilityMetadata() {
 	
+		/* 
+		 * Note that ONIX fields are automatically synched to discovery fields
+		 * and vice-versa.
+		 * DO NOT set ONIX fields that have an equivalent discovery field or
+		 * the result will be that both the discovery and distribution fields
+		 * will be rendered unchecked.
+		 */
+		
 		if (_aceReport['a11y-metadata']['present'].length > 0) {
 			// if publication contains metadata, don't suggest more
 			return '';
@@ -347,7 +355,6 @@ var smartAce = (function() {
 				if (_aceReport['data']['images'][i].hasOwnProperty('alt') && _aceReport['data']['images'][i]['alt'] != '') {
 					hasAltText = true;
 					user_message.appendChild(setCheckbox('accessibilityFeature','alternativeText'));
-					setONIXCheckbox('14');
 					break;
 				}
 			}
@@ -355,21 +362,17 @@ var smartAce = (function() {
 		
 		if (_aceReport['properties']['hasMathML']) {
 			user_message.appendChild(setCheckbox('accessibilityFeature','MathML'));
-			setONIXCheckbox('17');
 		}
 		
 		if (_aceReport['properties']['hasPageBreaks']) {
 			user_message.appendChild(setCheckbox('accessibilityFeature','printPageNumbers'));
-			setONIXCheckbox('19');
 		}
 		
 		/* can typically be assumed that every epub has a reading order */
 		user_message.appendChild(setCheckbox('accessibilityFeature','readingOrder'));
-		setONIXCheckbox('13');
 		
 		/* can typically be assumed that every epub has a table of contents */
 		user_message.appendChild(setCheckbox('accessibilityFeature','tableOfContents'));
-		setONIXCheckbox('11');
 		
 		// assuming any publication being assessed in not purely image-based
 		user_message.appendChild(setCheckbox('accessMode','textual'));
@@ -397,7 +400,6 @@ var smartAce = (function() {
 		/* check if media overlays are present */
 		if (_aceReport['earl:testSubject']['metadata'].hasOwnProperty('media:duration')) {
 			user_message.appendChild(setCheckbox('accessibilityFeature','synchronizedAudioText'));
-			setONIXCheckbox('20');
 		}
 		
 		_loadMessages.inferred = user_message.hasChildNodes() ? user_message : '';
@@ -411,12 +413,6 @@ var smartAce = (function() {
 		var li = document.createElement('li');
 			li.appendChild(document.createTextNode(property + ': ' + meta_id));
 		return li;
-	}
-	
-	
-	/* onix IDs are prefixed, so appends the prefix as part of clicking the checkbox */
-	function setONIXCheckbox(onix_id) {
-		document.getElementById('onix' + onix_id).click();
 	}
 	
 	
