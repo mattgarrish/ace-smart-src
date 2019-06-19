@@ -509,18 +509,6 @@ var smartReport = (function() {
 			summaryTable.appendChild(sufficientModes);
 		}
 		
-		summaryTable.appendChild(formatPubInfoEntry({
-			id: 'accessibilityAPI',
-			label: 'Accessibility APIs',
-			value: compileCheckboxValues('accessibilityAPI')
-		}));
-		
-		summaryTable.appendChild(formatPubInfoEntry({
-			id: 'accessibilityControl',
-			label: 'Accessibility Control',
-			value: compileCheckboxValues('accessibilityControl')
-		}));
-		
 		var evaluator = document.getElementById('certifiedBy').value.trim();
 		
 		if (evaluator != '') {

@@ -38,10 +38,6 @@
 		<meta property="schema:accessMode" content="textual"/>
 		<meta property="schema:accessModeSufficient" content="textual"/>
 		<meta property="schema:accessibilityHazard" content="none"/>
-		<meta property="schema:accessibilityAPI" content="ARIA"/>
-		<meta property="schema:accessibilityControl" content="fullMouseControl"/>
-		<meta property="schema:accessibilityControl" content="fullKeyboardControl"/>
-		<meta property="schema:accessibilityControl" content="fullTouchControl"/>
 		
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-327448-4"></script>
 		<script>

@@ -60,9 +60,6 @@ var smartAce = (function() {
 			timingcontrol: 'timingControl',
 			transcript: 'transcript',
 			ttsMarkup: 'ttsmarkup'
-		},
-		accessibilityAPI: {
-			aria: 'ARIA'
 		}
 	};
 	
@@ -154,7 +151,7 @@ var smartAce = (function() {
 		
 		// set discovery metadata
 		
-		var discovery_checkbox_properties = ['accessibilityFeature', 'accessMode', 'accessibilityHazard', 'accessibilityAPI', 'accessibilityControl'];
+		var discovery_checkbox_properties = ['accessibilityFeature', 'accessMode', 'accessibilityHazard'];
 		
 		for (var i = 0; i < discovery_checkbox_properties.length; i++) {
 			setDiscoveryCheckboxes(discovery_checkbox_properties[i], 'schema:'+discovery_checkbox_properties[i]);	

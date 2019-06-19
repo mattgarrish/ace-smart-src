@@ -61,13 +61,13 @@ var smartDiscovery = (function() {
 		is_valid = verifyOneItemChecked('accessibilityFeature');
 		
 		if (document.getElementById('accessibilitySummary').value.replace(/\s/g,'') == '') {
-			smartError.logError({tab_id: 'discovery', element_id: 'summary-field', severity: 'err', message: _PROP_ERROR['accessibilitySummary'].msg});
-			smartFormat.setFieldToError({id: 'summary-field', is_warning: _PROP_ERROR['accessibilitySummary'].warn, highlight_parent: false});
+			smartError.logError({tab_id: 'discovery', element_id: 'accessibilitySummary-field', severity: 'err', message: _PROP_ERROR['accessibilitySummary'].msg});
+			smartFormat.setFieldToError({id: 'accessibilitySummary-field', is_warning: _PROP_ERROR['accessibilitySummary'].warn, highlight_parent: false});
 			is_valid = false;
 		}
 		
 		else {
-			smartFormat.setFieldToPass({id: 'summary-field', highlight_parent: false});
+			smartFormat.setFieldToPass({id: 'accessibilitySummary-field', highlight_parent: false});
 		}
 		
 		is_valid = verifyOneItemChecked('accessibilityHazard') ? is_valid : false;
@@ -75,10 +75,6 @@ var smartDiscovery = (function() {
 		is_valid = verifyOneItemChecked('accessMode') ? is_valid : false;
 		
 		is_valid = verifySufficientModes() ? is_valid : false;
-		
-		// optional metadata gets an automatic pass
-		smartFormat.setFieldToPass({id: 'accessibilityAPI', highlight_parent: false});
-		smartFormat.setFieldToPass({id: 'accessibilityControl', highlight_parent: false});
 		
 		return is_valid;
 		
@@ -350,12 +346,6 @@ var smartDiscovery = (function() {
 		
 		// add sufficent access modes
 		meta_tags += addSufficientSetTags('schema:accessModeSufficient');
-		
-		// add apis
-		meta_tags += addMetaTag('schema:accessibilityAPI', 'accessibilityAPI');
-		
-		// add controls
-		meta_tags += addMetaTag('schema:accessibilityControl', 'accessibilityControl');
 		
 		if (meta_tags == '') {
 			alert('No metadata specified. Failed to generate.');
