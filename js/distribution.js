@@ -53,6 +53,81 @@ var smartDistribution = (function() {
 		return is_valid;
 	}
 	
+	
+	
+	/* adds the distribution metadata fields to the form */
+	function addDistributionMetadata() {
+		
+		var meta_fields = document.getElementById('distribution-fields');
+		
+		for (var i = 0; i < onix_meta.properties.length; i++) {
+			
+			var property = onix_meta.properties[i];
+			
+			var container = document.createElement(property.type == 'checkbox' ? 'fieldset' : 'div');
+				container.setAttribute('class', 'onix');
+			
+			var label = document.createElement(property.type == 'checkbox' ? 'legend' : 'label');
+			
+			if (property.type != 'checkbox') {
+				label.setAttribute('for', 'onix'+property.id);
+				label.appendChild(document.createTextNode(property.id + ' - '));
+			}
+			
+			label.appendChild(document.createTextNode(property.name[smart_lang]));
+			container.appendChild(label);
+			
+			if (property.type == 'textarea') {
+				var textarea = document.createElement('textarea');
+					textarea.setAttribute('id', 'onix'+property.id);
+					textarea.setAttribute('rows', 5);
+				container.appendChild(textarea);
+			}
+			
+			else if (property.type == 'text') {
+	    		var input = document.createElement('input');
+	    			input.setAttribute('type','text');
+	    			input.setAttribute('id','onix'+property.id);
+	    		container.appendChild(input);
+			}
+			
+			else if (property.type == 'checkbox') {
+			
+				for (var j = 0; j < property.values.length; j++) {
+		    		var input_label = document.createElement('label');
+		    		
+		    		var input = document.createElement('input');
+		    			input.setAttribute('type','checkbox');
+		    			input.setAttribute('id','onix'+property.values[j].id);
+		    		
+		    		input_label.appendChild(input);
+		    		input_label.appendChild(document.createTextNode(' ' + property.values[j].id + ' - ' + property.values[j].name[smart_lang]));
+		    		container.appendChild(input_label);
+				}
+			}
+			
+			else {
+				console.log('Unknown property type ' + property.type);
+			}
+			
+			meta_fields.appendChild(container);
+		}
+		
+		/* sync summary changes */
+		$('#onix00').keyup( function(){
+			smartDiscovery.syncSummary('distribution');
+			return false;
+		});
+		
+		/* sync accessibility features */
+		$('#distribution-fields input[type="checkbox"]').change( function(){
+			smartDiscovery.syncFeature('distribution',this.id,this.checked);
+			return false;
+		});
+	}
+
+	
+	
 	function generateONIXMetadata() {
 	
 		if (!validateONIXMetadata()) {
@@ -116,6 +191,10 @@ var smartDistribution = (function() {
 	}
 	
 	return {
+		addDistributionMetadata: function() {
+			addDistributionMetadata();
+		},
+		
 		generateONIXMetadata: function() {
 			generateONIXMetadata();
 		}
