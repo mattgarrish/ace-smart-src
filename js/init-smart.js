@@ -107,30 +107,32 @@
 	});
 	
 	/* save_dialog provides the option to save evaluations remotely/locally */
+	var save_buttons = {};
+		save_buttons[smart_ui.buttons.save[smart_lang]] = function() {
+			smartManage.saveConformanceEvaluation($('input[name="location"]:checked').val())
+		};
+		save_buttons[smart_ui.buttons.close[smart_lang]] = function() {
+			$(this).dialog('close');
+		};
+
 	var save_dialog = $("#save").dialog({
 		autoOpen: false,
 		height: 220,
 		modal: true,
-		buttons: {
-			"Save": function() {
-				smartManage.saveConformanceEvaluation($('input[name="location"]:checked').val())
-			},
-			"Close": function() {
-				save_dialog.dialog( "close" );
-			}
-		}
+		buttons: save_buttons
 	});
 	
+	var close_button = {};
+		close_button[smart_ui.buttons.close[smart_lang]] = function() {
+			$(this).dialog('close');
+		};
+
 	/* discovery_dialog is used to show the generated discovery tab metadata (it is initialized in the smartDiscovery module) */
 	discovery_dialog = $("#discovery-meta").dialog({
 		autoOpen: false,
 		height: 450,
 		modal: true,
-		buttons: {
-			Close: function() {
-				discovery_dialog.dialog( "close" );
-			}
-		}
+		buttons: close_button
 	});
 	
 	/* onix_dialog is used to show the generated distribution tab metadata (it is initialized in the smartReport module) */
@@ -138,11 +140,7 @@
 		autoOpen: false,
 		height: 450,
 		modal: true,
-		buttons: {
-			Close: function() {
-				onix_dialog.dialog( "close" );
-			}
-		}
+		buttons: close_button
 	});
 	
 	/* evaluation_dialog is used to show the generated evaluation tab metadata (it is initialized in the smartEvaluation module) */
@@ -150,11 +148,7 @@
 		autoOpen: false,
 		height: 350,
 		modal: true,
-		buttons: {
-			Close: function() {
-				evaluation_dialog.dialog( "close" );
-			}
-		}
+		buttons: close_button
 	});
 	
 	function adjustDialogWidth() {
@@ -194,10 +188,10 @@
 	/* watch for validate button click */
 	$('#validate-button').click( function(){
 		if (smartReport.validateConformanceReport()) {
-			alert('No errors or warnings found.');
+			alert(smart_ui.eval.clean[smart_lang]);
 		}
 		else {
-			alert('Evaluation contains errors or warnings.\n\nPlease see the error panel for more information.');
+			alert(smart_ui.eval.error[smart_lang]);
 		}
 	});
 	
@@ -339,9 +333,9 @@
 		 * prompt about leaving with unsaved changes
 		 */
 		if (firstSave) {
-			return "This evaluation has not been saved. It cannot be resumed if you leave without saving."
+			return smart_ui.save.first[smart_lang];
 		}
 		if (saveChanges) {
-			return "You appear to have unsaved changes.";
+			return smart_ui.save.changes[smart_lang];
 		}
 	});

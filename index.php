@@ -47,7 +47,10 @@
 			gtag('config', 'UA-327448-4');
 		</script>
 		
-		<script>var smart_lang = 'en';</script>
+		<script>
+			var smart_lang = 'en';
+			var smart_locale = 'en-us';
+		</script>
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -59,7 +62,7 @@
 		<script type="text/javascript" src="js/js.cookie.js"></script>
 		
 		<!-- messages -->
-		<script src="js/messages.js"></script>
+		<script src="js/config/messages.js"></script>
 		
 		<?php
 			if (isset($_POST['action'])) {

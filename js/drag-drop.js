@@ -58,7 +58,7 @@
 						$form.trigger( 'submit' );
 					}
 					else {
-						alert('You can only upload one report file. Please try again.');
+						alert(smart_errors.uploadLimit[smart_lang]);
 						return false;
 					}
 				});

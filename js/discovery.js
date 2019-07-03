@@ -25,27 +25,27 @@ var smartDiscovery = (function() {
 
 	var _PROP_ERROR = { accessibilityFeature: {}, accessibilityHazard: {}, accessMode: {}, accessibilitySummary: {}, accessModeSufficient: {} };
 		
-		_PROP_ERROR.accessibilityFeature.msg = smart_discovery_meta[smart_lang].accessibilityFeature;
+		_PROP_ERROR.accessibilityFeature.msg = smart_errors.validation.discovery.accessibilityFeature[smart_lang];
 		_PROP_ERROR.accessibilityFeature.warn = false;
 		
-		_PROP_ERROR.accessibilityHazard.msg = smart_discovery_meta[smart_lang].accessibilityHazard;
+		_PROP_ERROR.accessibilityHazard.msg = smart_errors.validation.discovery.accessibilityHazard[smart_lang];
 		_PROP_ERROR.accessibilityHazard.warn = false;
 		
-		_PROP_ERROR.accessMode.msg = smart_discovery_meta[smart_lang].accessMode;
+		_PROP_ERROR.accessMode.msg = smart_errors.validation.discovery.accessMode[smart_lang];
 		_PROP_ERROR.accessMode.warn = false;
 		
-		_PROP_ERROR.accessibilitySummary.msg = smart_discovery_meta[smart_lang].accessibilitySummary;
+		_PROP_ERROR.accessibilitySummary.msg = smart_errors.validation.discovery.accessibilitySummary[smart_lang];
 		_PROP_ERROR.accessibilitySummary.warn = false;
 		
 		_PROP_ERROR.accessModeSufficient = { missing: {}, none: {}, duplicate: {} };
 		
-		_PROP_ERROR.accessModeSufficient.missing.msg = smart_discovery_meta[smart_lang].accessModeSufficient_missing;
+		_PROP_ERROR.accessModeSufficient.missing.msg = smart_errors.validation.discovery.accessModeSufficient_missing[smart_lang];
 		_PROP_ERROR.accessModeSufficient.missing.warn = true;
 		 
-		_PROP_ERROR.accessModeSufficient.none.msg = smart_discovery_meta[smart_lang].accessModeSufficient_none;
+		_PROP_ERROR.accessModeSufficient.none.msg = smart_errors.validation.discovery.accessModeSufficient_none[smart_lang];
 		_PROP_ERROR.accessModeSufficient.none.warn = true;
 
-		_PROP_ERROR.accessModeSufficient.duplicate.msg = smart_discovery_meta[smart_lang].accessModeSufficient_duplicate;
+		_PROP_ERROR.accessModeSufficient.duplicate.msg = smart_errors.validation.discovery.accessModeSufficient_duplicate[smart_lang];
 		_PROP_ERROR.accessModeSufficient.duplicate.warn = false;
 	
 	
@@ -112,7 +112,7 @@ var smartDiscovery = (function() {
 				this_set += checked_modes[j].value;
 				
 				// issue a warning if not also selected as a primary access mode
-				if (!document.querySelector('input[type="checkbox"][id="'+checked_modes[j].value+'"]:checked')) {
+				if (!document.querySelector('#accessMode input[type="checkbox"][value="'+checked_modes[j].value+'"]:checked')) {
 					smartError.logError({tab_id: 'discovery', element_id: 'accessModeSufficient', severity: 'warn', message: _PROP_ERROR.accessModeSufficient.missing.msg.replace('%%val%%', checked_modes[j].value)});
 					smartFormat.setFieldToError({id: 'accessModeSufficient', is_warning: _PROP_ERROR.accessModeSufficient.missing.warn, highlight_parent: false});
 					return false;
@@ -251,9 +251,9 @@ var smartDiscovery = (function() {
 		});
 		
 		/* watch for click to generate a summary */
-		$('#generate-summary').click( function(){
+		$('#add-summary').click( function(){
 			if (document.getElementById('accessibilitySummary').value.trim() != '') {
-				if (!confirm('There already appears to be a summary. Click Ok to replace.')) {
+				if (!confirm(smart_ui.discovery.replaceSummary[smart_lang])) {
 					return false;
 				}
 			}
@@ -322,7 +322,7 @@ var smartDiscovery = (function() {
 	function generateDiscoveryMetadata() {
 	
 		if (!validateDiscoveryMetadata()) {
-			if (!confirm('Metadata does not validate!\n\nClick Ok to generate anyway or Cancel to close this dialog and correct.')) {
+			if (!confirm(smart_errors.validation.general.failure[smart_lang])) {
 				return;
 			}
 		}
@@ -348,7 +348,7 @@ var smartDiscovery = (function() {
 		meta_tags += addSufficientSetTags('schema:accessModeSufficient');
 		
 		if (meta_tags == '') {
-			alert('No metadata specified. Failed to generate.');
+			alert(smart_ui.validation.general.noMetadata[smart_lang]);
 		}
 		
 		else {
@@ -401,7 +401,7 @@ var smartDiscovery = (function() {
 	function addCustomFeature(feature_name) {
 		
 		if (!feature_name) {
-			feature_name = prompt('Enter the accessibility feature as it will appear in the metadata:');
+			feature_name = prompt(smart_ui.discovery.newFeatureName[smart_lang]);
 		}
 		
 		if (feature_name) {
@@ -410,7 +410,7 @@ var smartDiscovery = (function() {
 			
 			if (feature_name) {
 				if (document.getElementById(feature_name)) {
-					alert('Feature already exists. Unable to add');
+					alert(smart_ui.discovery.featureExists[smart_lang]);
 				}
 				
 				else {
@@ -434,7 +434,7 @@ var smartDiscovery = (function() {
 				}
 			}
 			else {
-				alert('Invalid feature value. Values must be at least one character in length.');
+				alert(smart_ui.discovery.invalidFeature[smart_lang]);
 			}
 		}
 	}
@@ -548,27 +548,22 @@ var smartDiscovery = (function() {
 		// add the evaluation status
 		
 		if (!eval_status || eval_status == 'incomplete') {
-			summary_text += 'This EPUB Publication has not been fully evaluated against the EPUB Accessibility specification.';
+			summary_text += smart_ui.discovery.generateSummary.incomplete[smart_lang];
 		}
 		
 		else if (eval_status == 'fail') {
-			summary_text += 'This EPUB Publication does not meet the requirements of the EPUB Accessibility specification.';
+			summary_text += smart_ui.discovery.generateSummary.fail[smart_lang];
 		}
 		
 		else {
-			summary_text += 'This EPUB Publication meets the requirements of the EPUB Accessibility specification';
-			summary_text += ' with conformance to WCAG 2.0 Level ' + eval_status.toUpperCase() + '.';
+			summary_text += smart_ui.discovery.generateSummary.pass[smart_lang];
+			summary_text += ' ' + smart_ui.discovery.generateSummary.wcagLevel[smart_lang] + ' ' + eval_status.toUpperCase() + '.';
 		}
 		
 		// indicate if the publication is screen reader friendly (AMS=textual) or has pre-recorded narration (AMS=auditory)
 		
 		var sufficient_fields = document.querySelectorAll('fieldset#accessModeSufficient fieldset');
 		var sufficient_list = new Array();
-		
-		var sufficientTranslation = {
-			'auditory': 'has pre-recorded narration',
-			'textual': 'is screen reader friendly'
-		}
 		
 		// filter out AMS combinations that are unnecessary to report (typically visual)
 		
@@ -582,14 +577,14 @@ var smartDiscovery = (function() {
 		}
 		
 		if (sufficient_list.length > 0) {
-			summary_text += ' The publication ';
+			summary_text += ' ' + smart_ui.discovery.generateSummary.publication[smart_lang] + ' ';
 			
 			if (sufficient_list.length == 1) {
-				summary_text += sufficientTranslation[sufficient_list[0]];
+				summary_text += smart_ui.discovery.generateSummary.sufficientTranslation[sufficient_list[0]][smart_lang];
 			}
 			
 			else {
-				summary_text += sufficientTranslation['textual'] + ' and ' + sufficientTranslation['auditory'];
+				summary_text += smart_ui.discovery.generateSummary.sufficientTranslation.textual[smart_lang] + ' ' + smart_ui.discovery.generateSummary.listItemCombine[smart_lang] + ' ' + smart_ui.discovery.generateSummary.sufficientTranslation.auditory[smart_lang];
 			}
 			
 			summary_text += '.';
@@ -617,7 +612,7 @@ var smartDiscovery = (function() {
 		}
 		
 		if (feature_list.length > 0) {
-			summary_text += ' It includes ';
+			summary_text += ' ' + smart_ui.discovery.generateSummary.featureStart[smart_lang] + ' ';
 			summary_text += stringify_metadata_values(feature_list);
 			summary_text += '.';
 		}
@@ -644,10 +639,10 @@ var smartDiscovery = (function() {
 		if (hazard_list.length > 0) {
 			if (hazard_list.length == 1) {
 				var hazard = hazard_list[0].parentNode.textContent.trim().toLowerCase();
-				summary_text += ' The publication contains content that may present a ' + hazard + ' hazard.'
+				summary_text += ' ' + smart_ui.discovery.generateSummary.singleHazard[smart_lang].replace('%%val%%', hazard);
 			}
 			else {
-				summary_text += ' The publication contains content that may present the following hazards: ';
+				summary_text += ' ' + smart_ui.discovery.generateSummary.multiHazard[smart_lang] + ' ';
 				summary_text += stringify_metadata_values(hazard_list);
 				summary_text += '.';
 			}

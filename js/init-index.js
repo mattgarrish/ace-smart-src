@@ -68,7 +68,7 @@
 	var error_code = getParameterByName('err');
 	
 	if (error_code) {
-		var error_msg = smart_errors[smart_lang][error_code] ? smart_errors[smart_lang][error_code] : smart_messages[smart_lang]['unknown'];
+		var error_msg = smart_errors.loadErrors.hasOwnProperty(error_code) ? smart_errors.loadErrors[error_code][smart_lang] : smart_errors.unknown[smart_lang];
 		document.getElementById('error-msg').textContent = error_msg;
 		error_dialog.dialog('open');
 	}
@@ -98,11 +98,9 @@
 		var eval_id = this.id.replace(/^[_a-z]+/i,'');
 		
 		if (operation == 'del') {
-			var action = document.getElementById('alert_full_delete') ? 
-				'You are about to permanently delete the evaluation.' : 
-				'You are about to delete the stored evaluation data from the server.';
+			var action = document.getElementById('alert_full_delete') ? smart_ui.evalDelete[smart_lang] : smart_ui.evalDeleteStored[smart_lang];
 			
-			if (confirm(action + ' This action cannot be undone.\n\nClick Ok to continue.')) {
+			if (confirm(action + ' ' + smart_ui.noUndo[smart_lang])) {
 				document.getElementById('id').value = eval_id;
 				document.getElementById('action').value = 'delete';
 				nextStep.action = 'index.php';
@@ -130,12 +128,12 @@
 	$('#new_eval').click( function(){
 		event.preventDefault();
 		
-		var title = prompt('Please specify a title for the new evaluation:');
+		var title = prompt(smart_ui.evalTitle[smart_lang]);
 		
 		title = title.trim();
 		
 		if (!title) {
-			alert('A new evaluation cannot be started without a title.');
+			alert(smart_errors.noEvalTitle[smart_lang]);
 			return;
 		}
 		

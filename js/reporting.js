@@ -76,13 +76,11 @@ var smartReport = (function() {
 	function validateRequiredPubMetadata() {
 		var is_valid = true;
 		
-		var required_fields = {'title': 'title', 'modified': 'last modified date'};
-		
-		for (var meta_name in required_fields) {
+		for (var meta_name in smart_ui.pubinfo.required_fields) {
 			var meta_element = document.getElementById(meta_name);
 			
 			if (meta_element.value.trim() == '') {
-				smartError.logError({tab_id: 'start', element_id: meta_name, severity: 'err', message: 'The ' + required_fields[meta_name] + ' is a required field.'});
+				smartError.logError({tab_id: 'start', element_id: meta_name, severity: 'err', message: smart_errors.validation.pubinfo.required[smart_lang].replace('%%val%%', smart_ui.pubinfo.required_fields[meta_name][smart_lang])});
 				smartFormat.setFieldToError({id: meta_name, is_warning: false, highlight_parent: true});
 				is_valid = false;
 			}
@@ -115,7 +113,7 @@ var smartReport = (function() {
 			
 			for (var i = 0; i < meta_lines.length; i++) {
 				if (!meta_lines[i].match(/: /)) {
-					smartError.logError({tab_id: 'start', element_id: 'optional-meta', severity: 'err', message: 'Missing a colon separator on line ' + (i+1)});
+					smartError.logError({tab_id: 'start', element_id: 'optional-meta', severity: 'err', message: smart_errors.validation.pubinfo.noSeparator[smart_lang].replace('%%val%%', (i+1))});
 					smartFormat.setFieldToError({id: 'optional-meta', highlight_parent: true});
 					is_valid = false;
 					meta_error = true;
@@ -149,7 +147,7 @@ var smartReport = (function() {
 		
 		if (unverified_success_criteria.length > 0) {
 			for (var i = 0; i < unverified_success_criteria.length; i++) {
-				smartError.logError({tab_id: 'conformance', element_id: unverified_success_criteria[i].name, severity: 'err', message: 'Success criteria ' + unverified_success_criteria[i].name.replace('sc-','') + ' is unverified.'});
+				smartError.logError({tab_id: 'conformance', element_id: unverified_success_criteria[i].name, severity: 'err', message: smart_errors.validation.pubinfo.unverifiedSC[smart_lang].replace('%%val%%', unverified_success_criteria[i].name.replace('sc-',''))});
 			}
 			
 			return false;
@@ -169,7 +167,7 @@ var smartReport = (function() {
 	function generateConformanceReport(reportOutputType) {
 		
 		if (!validateConformanceReport()) {
-			if (!confirm('Your evaluation contains usage errors/warnings. These may be due to incomplete fields or incorrectly applied metadata.\n\nClick Ok to ignore these issues and generate the final report, or Cancel to exit and correct.')) {
+			if (!confirm(smart_ui.reporting.confirm[smart_lang])) {
 				return;
 			}
 		}
@@ -179,11 +177,11 @@ var smartReport = (function() {
 		/* get the HTML report markup */
 		var report_body = createReportBody();
 		
-		var report_title = 'EPUB Accessibility Conformance Report for ' + title;
+		var report_title = smart_ui.reporting.title[smart_lang].replace('%%val%%', title);
 		
 		var today = new Date();
-		var timestamp= today.toLocaleString('en-us', { month: 'long' }) + ' ' + today.getDate() + ', ' + today.getFullYear();
-			timestamp += ' at '; 
+		var timestamp= today.toLocaleString(smart_locale, { month: 'long' }) + ' ' + today.getDate() + ', ' + today.getFullYear();
+			timestamp += ' \u{2012} '; 
 			timestamp += today.getHours().pad(2) + ':' + today.getMinutes().pad(2) + ':' + today.getSeconds().pad(2);
 		
 		var report_timestamp = timestamp;
@@ -283,7 +281,7 @@ var smartReport = (function() {
 			tab_list.setAttribute('class','js-tablist');
 			tab_list.setAttribute('data-existing-hx','h3');
 		
-		var tabs = [{id: 'overview', label: 'Overview'}, {id: 'conformance', label: 'Conformance'}];
+		var tabs = [{id: 'overview', label: smart_ui.reporting.tabs.overview[smart_lang]}, {id: 'conformance', label: smart_ui.reporting.tabs.conformance[smart_lang]}];
 		
 		if (_smartExtensionTabs.length > 0) {
 			_smartExtensionTabs.forEach(function(tab) {
@@ -293,7 +291,7 @@ var smartReport = (function() {
 			});
 		}
 		
-		tabs.push({id: 'additional-info', label: 'Additional Info'});
+		tabs.push({id: 'additional-info', label: smart_ui.reporting.tabs.addinfo[smart_lang]});
 		
 		tabs.forEach(function(tab) {
 			var tab_list_item = document.createElement('li');
@@ -336,7 +334,7 @@ var smartReport = (function() {
 		// add statistics to the additional info section
 		additionalInfo.appendChild(formatPubInfoEntry({
 			id: 'result',
-			label: 'Statistics',
+			label: smart_ui.reporting.sections.stats[smart_lang],
 			value: createReportStats(testResults.count)
 		}));
 		
@@ -411,7 +409,7 @@ var smartReport = (function() {
 			summary.setAttribute('class', 'js-tabcontent');
 		
 		var summaryHD = document.createElement('h3');
-			summaryHD.appendChild(document.createTextNode('Overview'));
+			summaryHD.appendChild(document.createTextNode(smart_ui.reporting.tabs.overview[smart_lang]));
 		
 		summary.appendChild(summaryHD);
 		
@@ -428,7 +426,7 @@ var smartReport = (function() {
 		
 		summaryTable.appendChild(formatPubInfoEntry({
 			id: 'conformance-result',
-			label: 'Conformance',
+			label: smart_ui.reporting.tabs.conformance[smart_lang],
 			value: smartConformance.STATUS[wcag_conf], property: 'dcterms:conformsTo',
 			value_bg_class: conf_class[wcag_conf]
 		}));
@@ -445,26 +443,26 @@ var smartReport = (function() {
 		
 		summaryTable.appendChild(formatPubInfoEntry({
 			id: 'accessibilitySummary',
-			label: 'Accessibility Summary', value:
-			document.getElementById('accessibilitySummary').value,
+			label: smart_ui.a11yProperties.summary[smart_lang],
+			value: document.getElementById('accessibilitySummary').value,
 			property: 'accessibilitySummary'
 		}));
 		
 		summaryTable.appendChild(formatPubInfoEntry({
 			id: 'accessibilityFeatures',
-			label: 'Accessibility Features',
+			label: smart_ui.a11yProperties.features[smart_lang],
 			value: compileCheckboxValues('accessibilityFeature')
 		}));
 		
 		summaryTable.appendChild(formatPubInfoEntry({
 			id: 'accessibilityHazards',
-			label: 'Accessibility Hazards',
+			label: smart_ui.a11yProperties.hazards[smart_lang],
 			value: compileCheckboxValues('accessibilityHazard')
 		}));
 		
 		summaryTable.appendChild(formatPubInfoEntry({
 			id: 'accessModes',
-			label: 'Access Mode(s)',
+			label: smart_ui.a11yProperties.modes[smart_lang],
 			value: compileCheckboxValues('accessMode')
 		}));
 		
@@ -494,7 +492,7 @@ var smartReport = (function() {
 			
 			var label = document.createElement('div');
 				label.setAttribute('class', 'label');
-				label.appendChild(document.createTextNode('Sufficient Mode(s):'))
+				label.appendChild(document.createTextNode(smart_ui.a11yProperties.ams[smart_lang] + ':'))
 			
 			sufficientModes.appendChild(label);
 			sufficientModes.appendChild(document.createTextNode(' '));
@@ -514,7 +512,7 @@ var smartReport = (function() {
 		if (evaluator != '') {
 			summaryTable.appendChild(formatPubInfoEntry({
 				id: 'certifiedBy',
-				label: 'Evaluated by',
+				label: smart_ui.a11yProperties.evaluator[smart_lang],
 				value: evaluator
 			}));
 		}
@@ -535,7 +533,7 @@ var smartReport = (function() {
 			result.content.setAttribute('class', 'js-tabcontent');
 		
 		var resultHD = document.createElement('h3');
-			resultHD.appendChild(document.createTextNode('Conformance Results'));
+			resultHD.appendChild(document.createTextNode(smart_ui.reporting.sections.results[smart_lang]));
 		
 		result.content.appendChild(resultHD);
 		
@@ -549,15 +547,15 @@ var smartReport = (function() {
 		var resultTheadRow = document.createElement('tr');
 		
 		var resultTheadSC = document.createElement('th');
-			resultTheadSC.appendChild(document.createTextNode('Success Criteria'));
+			resultTheadSC.appendChild(document.createTextNode(smart_ui.reporting.table.headers.sc[smart_lang]));
 		resultTheadRow.appendChild(resultTheadSC);
 		
 		var resultTheadLevel = document.createElement('th');
-			resultTheadLevel.appendChild(document.createTextNode('Level'));
+			resultTheadLevel.appendChild(document.createTextNode(smart_ui.reporting.table.headers.level[smart_lang]));
 		resultTheadRow.appendChild(resultTheadLevel);
 		
 		var resultTheadResult = document.createElement('th');
-			resultTheadResult.appendChild(document.createTextNode('Result'));
+			resultTheadResult.appendChild(document.createTextNode(smart_ui.reporting.table.headers.result[smart_lang]));
 		resultTheadRow.appendChild(resultTheadResult);
 		
 		resultThead.appendChild(resultTheadRow);
@@ -605,7 +603,7 @@ var smartReport = (function() {
 				resultColStatusLabel.setAttribute('class', 'label');
 			
 			if (status == 'pass') {
-				resultColStatusLabel.appendChild(document.createTextNode('Pass'));
+				resultColStatusLabel.appendChild(document.createTextNode(smart_ui.reporting.table.results.pass[smart_lang]));
 				resultColStatus.appendChild(resultColStatusLabel);
 				if (log) {
 					result.count.pass += 1;
@@ -614,7 +612,7 @@ var smartReport = (function() {
 			
 			else if (status == 'fail') {
 				var err = document.getElementById(criteria[i].id+'-err').value;
-				resultColStatusLabel.appendChild(document.createTextNode('Fail'));
+				resultColStatusLabel.appendChild(document.createTextNode(smart_ui.reporting.table.results.fail[smart_lang]));
 				resultColStatus.appendChild(resultColStatusLabel);
 				
 				// add the reason 
@@ -637,7 +635,7 @@ var smartReport = (function() {
 			}
 			
 			else if (status == 'na') {
-				resultColStatusLabel.appendChild(document.createTextNode('Not Applicable'));
+				resultColStatusLabel.appendChild(document.createTextNode(smart_ui.reporting.table.results.na[smart_lang]));
 				resultColStatus.appendChild(resultColStatusLabel);
 				if (log) {
 					result.count.na += 1;
@@ -645,7 +643,7 @@ var smartReport = (function() {
 			}
 			
 			else {
-				resultColStatusLabel.appendChild(document.createTextNode('Not checked'));
+				resultColStatusLabel.appendChild(document.createTextNode(smart_ui.reporting.table.results.unchecked[smart_lang]));
 				resultColStatus.appendChild(resultColStatusLabel);
 				if (log) {
 					result.count.unverified += 1;
@@ -656,7 +654,7 @@ var smartReport = (function() {
 				if ((document.getElementsByName(criteria[i].id+'-note'))[0].checked) {
 					var noteLabel = document.createElement('p');
 						noteLabel.setAttribute('class', 'label');
-						noteLabel.appendChild(document.createTextNode('Additional Info:'));
+						noteLabel.appendChild(document.createTextNode(smart_ui.reporting.tabs.addinfo[smart_lang]+':'));
 					resultColStatus.appendChild(noteLabel);
 					
 					var noteValue = document.createElement('p');
@@ -689,14 +687,14 @@ var smartReport = (function() {
 			additionalInfo.setAttribute('class', 'info js-tabcontent');
 		
 		var additionalInfoHD = document.createElement('h3');
-			additionalInfoHD.appendChild(document.createTextNode('Additional Information'));
+			additionalInfoHD.appendChild(document.createTextNode(smart_ui.reporting.tabs.addinfo[smart_lang]));
 		
 		additionalInfo.appendChild(additionalInfoHD);
 		
 		// add epub version
 		additionalInfo.appendChild(formatPubInfoEntry({
 			id: 'format',
-			label: 'Format',
+			label: smart_ui.reporting.addinfo.format[smart_lang],
 			value: 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value
 		}));
 		
@@ -705,32 +703,32 @@ var smartReport = (function() {
 		if (!options.addedID) {
 			additionalInfo.appendChild(formatPubInfoEntry({
 				id: 'identifier',
-				label: 'Identifier',
+				label: smart_ui.reporting.addinfo.id[smart_lang],
 				value: document.getElementById('identifier').value.trim()
 			}));
 		}
 		
 		additionalInfo.appendChild(formatPubInfoEntry({
 			id: 'modified',
-			label: 'Last Modified',
+			label: smart_ui.reporting.addinfo.modified[smart_lang],
 			value: document.getElementById('modified').value.trim()
 		}));
 		
 		additionalInfo.appendChild(formatPubInfoEntry({
 			id: 'date',
-			label: 'Published',
+			label: smart_ui.reporting.addinfo.published[smart_lang],
 			value: document.getElementById('date').value.trim()
 		}));
 		
 		additionalInfo.appendChild(formatPubInfoEntry({
 			id: 'description',
-			label: 'Description',
+			label: smart_ui.reporting.addinfo.desc[smart_lang],
 			value: document.getElementById('description').value.trim()
 		}));
 		
 		additionalInfo.appendChild(formatPubInfoEntry({
 			id: 'subject',
-			label: 'Subject',
+			label: smart_ui.reporting.addinfo.subject[smart_lang],
 			value: document.getElementById('subject').value.trim()
 		}));
 		
@@ -760,17 +758,17 @@ var smartReport = (function() {
 		var stats = '';
 		
 		if (count.fail) {
-			stats += count.fail + ' fail, ';
+			stats += count.fail + ' ' + smart_ui.conformance.result.fail[smart_lang] + ', ';
 		}
 		
 		if (count.unverified) {
-			stats += count.unverified + ' unverified, '; 
+			stats += count.unverified + ' ' + smart_ui.conformance.result.unverified[smart_lang] + ', '; 
 		}
 		
-		stats += count.pass + ' pass';
+		stats += count.pass + ' ' + smart_ui.conformance.result.pass[smart_lang];
 		
 		if (count.na) {
-			stats += ', ' + count.na + ' not applicable';
+			stats += ', ' + count.na + ' ' + smart_ui.conformance.result.na[smart_lang];
 		}
 		
 		return stats;
@@ -800,7 +798,7 @@ var smartReport = (function() {
 		
 		if (!value_list.hasChildNodes()) {
 			if (id == 'accessibilityHazard') {
-				return 'not specified';
+				return smart_ui.reporting.unspecified[smart_lang];
 			}
 		}
 		

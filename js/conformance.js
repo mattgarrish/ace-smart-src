@@ -45,10 +45,10 @@ var smartConformance = (function() {
 		_SC_TYPE.script = ['sc-2.2.1', 'sc-2.2.4', 'sc-2.2.5', 'sc-2.4.3', 'sc-3.2.1', 'sc-3.2.2', 'sc-3.2.4', 'sc-3.2.5', 'sc-3.3.1', 'sc-3.3.2', 'sc-3.3.3', 'sc-3.3.4', 'sc-3.3.5', 'sc-3.3.6'];
 
 	var _STATUS = new Object();
-		_STATUS.incomplete = 'Incomplete';
-		_STATUS.fail = 'Failed';
-		_STATUS.a = 'Pass - EPUB + WCAG Level A';
-		_STATUS.aa = 'Pass - EPUB + WCAG Level AA';
+		_STATUS.incomplete = smart_ui.conformance.status.incomplete[smart_lang];
+		_STATUS.fail = smart_ui.conformance.status.fail[smart_lang];
+		_STATUS.a = smart_ui.conformance.status.a[smart_lang];
+		_STATUS.aa = smart_ui.conformance.status.aa[smart_lang];
 	
 	
 	/* changes the visible success criteria based on the user setting */
@@ -146,7 +146,7 @@ var smartConformance = (function() {
 			
 			var hd_level= document.createElement('span');
 				hd_level.setAttribute('class', (wcag_number ? level : 'epub')+'-label');
-				hd_level.appendChild(document.createTextNode((wcag_number ? 'Level ' + level.toUpperCase() : 'EPUB')))
+				hd_level.appendChild(document.createTextNode((wcag_number ? smart_ui.conformance.level[smart_lang] + ' ' + level.toUpperCase() : 'EPUB')))
 			
 			hd.appendChild(hd_level);
 			section.appendChild(hd);
@@ -197,13 +197,11 @@ var smartConformance = (function() {
 				status.setAttribute('class','flat status');
 			
 			var status_legend = document.createElement('legend');
-				status_legend.appendChild(document.createTextNode('Status:'));
+				status_legend.appendChild(document.createTextNode(smart_ui.conformance.labels.status[smart_lang]));
 			
 			status.appendChild(status_legend);
 			
-			var stats = {'unverified': 'Unverified', 'pass': 'Pass', 'fail': 'Fail', 'na': 'N/A'};
-			
-			for (var stat in stats) {
+			for (var stat in smart_ui.conformance.result) {
 				var status_label = document.createElement('label');
 				var status_input = document.createElement('input');
 					status_input.setAttribute('type','radio');
@@ -217,7 +215,7 @@ var smartConformance = (function() {
 				}
 				
 				status_label.appendChild(status_input);
-				status_label.appendChild(document.createTextNode(' ' + stats[stat]));
+				status_label.appendChild(document.createTextNode(' ' + smart_ui.conformance.result[stat][smart_lang]));
 				status.appendChild(status_label);
 				status.appendChild(document.createTextNode(' '));
 			}
@@ -232,7 +230,7 @@ var smartConformance = (function() {
 			
 			var err_label = document.createElement('label');
 				err_label.setAttribute('for',id+'-err');
-				err_label.appendChild(document.createTextNode('Describe failure(s):'));
+				err_label.appendChild(document.createTextNode(smart_ui.conformance.labels.failure[smart_lang]));
 			
 			err.appendChild(err_label);
 			
@@ -259,7 +257,7 @@ var smartConformance = (function() {
 				note_input.setAttribute('class','show-note');
 			
 			note_label.appendChild(note_input);
-			note_label.appendChild(document.createTextNode(' Add Note'));
+			note_label.appendChild(document.createTextNode(' ' + smart_ui.conformance.labels.note[smart_lang]));
 			
 			note_p.appendChild(note_label);
 			
@@ -273,7 +271,7 @@ var smartConformance = (function() {
 				note_textarea.setAttribute('id',id+'-info');
 				note_textarea.setAttribute('rows','5');
 				note_textarea.setAttribute('cols','80');
-				note_textarea.setAttribute('aria-label','Note');
+				note_textarea.setAttribute('aria-label',smart_ui.conformance.note[smart_lang]);
 			
 			note_div.appendChild(note_textarea);
 			
@@ -289,7 +287,7 @@ var smartConformance = (function() {
 		var details = document.createElement('details');
 		
 		var summary = document.createElement('summary');
-			summary.appendChild(document.createTextNode(type == 'kb' ? 'Knowledge Base and Techniques' : 'WCAG Documentation'));
+			summary.appendChild(document.createTextNode(type == 'kb' ? smart_ui.conformance.labels.kb[smart_lang] : smart_ui.conformance.labels.wcag[smart_lang]));
 		details.appendChild(summary);
 		
 		var link_list = document.createElement('ul');
@@ -428,7 +426,7 @@ var smartConformance = (function() {
 		},
 		
 		setGlobalSCStatus: function(status) {
-			if (!confirm('This action will change all current status fields and cannot be undone.\n\nPlease confirm to continue.')) {
+			if (!confirm(smart_ui.conformance.changeSC[smart_lang])) {
 				return;
 			}
 			

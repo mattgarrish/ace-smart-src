@@ -181,7 +181,7 @@ var smartManage = (function() {
 					evaluationJSON[key ]= smart_extensions[key].saveData();
 				}
 				else {
-					console.log('Extension ' + key + ' is matches an existing report property name. Data cannot be saved until a new name is selected.');
+					console.log('Extension ' + key + ' matches an existing report property name. Data cannot be saved until a new name is selected.');
 				}
 			}
 		}
@@ -344,11 +344,11 @@ var smartManage = (function() {
 				}
 				
 				catch (error) {
-					alert( 'Sorry, an unexpected error occurred. Please try again.');
+					alert(smart_ui.manage.serverError.unknown[smart_lang]);
 				}
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
-				alert( 'Sorry, an error occurred contacting the server. Please try again.' );
+				alert(smart_ui.manage.serverError.contact[smart_lang]);
 			}
 		});
 	}

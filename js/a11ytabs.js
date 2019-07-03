@@ -204,7 +204,7 @@ $(document).ready( function() {
 				$tab_content_linked.removeAttr( "aria-hidden" );
 
 				// add fragment (timeout for transitions)
-				setTimeout(function(){ history.pushState(null, null, location.pathname + location.search + '#' + $hash_to_update)}, 1000);
+				// setTimeout(function(){ history.pushState(null, null, location.pathname + location.search + '#' + $hash_to_update)}, 1000);
 
 				event.preventDefault();
 		} )

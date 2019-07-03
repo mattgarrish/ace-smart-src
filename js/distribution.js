@@ -26,14 +26,14 @@ var smartDistribution = (function() {
 		
 		/* check that the publication is not marked as conforming to the epub spec and also inaccessible */
 		if ((document.getElementById('onix01').checked || document.getElementById('onix02').checked || document.getElementById('onix03').checked) && document.getElementById('onix09').checked) {
-			smartError.logError({tab_id: 'distribution', element_id: 'onix09', severity: 'err', message: 'Publication cannot be marked both as conforming to accessibility standard(s) and as inaccessible.'});
+			smartError.logError({tab_id: 'distribution', element_id: 'onix09', severity: 'err', message: smart_errors.validation.distribution.a11yConflict[smart_lang]});
 			smartFormat.setFieldToError({id: 'onix09', is_warning: false, highlight_parent: true});
 			is_valid = false;
 		} 
 		
 		/* check that the publication is not marked as conforming to multiple levels of wcag */
 		if (document.getElementById('onix02').checked && document.getElementById('onix03').checked) {
-			smartError.logError({tab_id: 'distribution', element_id: 'onix02', severity: 'err', message: 'Publication cannot be marked both as conforming to both Level A and AA of the EPUB Accessibility specification.'});
+			smartError.logError({tab_id: 'distribution', element_id: 'onix02', severity: 'err', message: smart_errors.validation.distribution.a11yDuplication[smart_lang]});
 			smartFormat.setFieldToError({id: 'onix02', is_warning: false, highlight_parent: true});
 			is_valid = false;
 		} 
@@ -43,7 +43,7 @@ var smartDistribution = (function() {
 			var url = document.getElementById('onix'+i).value;
 			if (url) {
 				if (!url.match(/^https?:\/\//i)) {
-					smartError.logError({tab_id: 'distribution', element_id: 'onix'+i, severity: 'err', message: 'ONIX Field ' + i + ' must be a URL that starts with http:// or https://'});
+					smartError.logError({tab_id: 'distribution', element_id: 'onix'+i, severity: 'err', message: smart_errors.validation.distribution.nonURL.replace('%%val%%',i)});
 					smartFormat.setFieldToError({id: 'onix'+i, is_warning: false, highlight_parent: true});
 					is_valid = false;
 				}
@@ -131,7 +131,7 @@ var smartDistribution = (function() {
 	function generateONIXMetadata() {
 	
 		if (!validateONIXMetadata()) {
-			if (!confirm('Metadata does not validate!\n\nClick Ok to generate anyway or Cancel to close this dialog and correct.')) {
+			if (!confirm(smart_errors.validation.general.failure[smart_lang])) {
 				return;
 			}
 		}
@@ -164,7 +164,7 @@ var smartDistribution = (function() {
 		}
 		
 		if (!onix_metadata) {
-			alert('No metadata specified. Failed to generate.');
+			alert(smart_errors.validation.general.noMetadata[smart_lang]);
 		}
 		
 		else {
