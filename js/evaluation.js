@@ -30,7 +30,7 @@ var smartEvaluation = (function() {
 		
 		// check that the certifier's name has been set
 		if (document.getElementById('certifiedBy').value.trim() == '') {
-			smartError.logError({tab_id: 'evaluation', element_id: 'certifiedBy', severity: 'err', message: 'Evaluator name is a required field.'});
+			smartError.logError({tab_id: 'evaluation', element_id: 'certifiedBy', severity: 'err', message: smart_errors.validation.evaluation.noCertifier[smart_lang]});
 			smartFormat.setFieldToError({id: 'certifiedBy', is_warnign: true, highlight_parent: true});
 			is_valid = false;
 		}
@@ -47,7 +47,7 @@ var smartEvaluation = (function() {
 			var link_value = document.getElementById(id).value.trim();
 			
 			if (link_value != '' && !link_value.match(/^https?:\/\//i)) {
-				smartError.logError({tab_id: 'evaluation', element_id: id, severity: 'warn', message: links[id]+' should begin with http:// or https://'});
+				smartError.logError({tab_id: 'evaluation', element_id: id, severity: 'warn', message: smart_errors.validation.evaluation.nonURL.replace('%%val%%',links[id])});
 				smartFormat.setFieldToError({id: id, is_warning: true, highlight_parent: true});
 				is_valid = false;
 			}
@@ -65,7 +65,7 @@ var smartEvaluation = (function() {
 	function generateEvaluationMetadata() {
 		
 		if (!validateEvaluationMetadata()) {
-			if (!confirm('Metadata failed validation.\n\nClick Ok to generate, or Cancel to review errors.')) {
+			if (!confirm(smart_errors.validation.evaluation.failed[smart_lang])) {
 				return;
 			}
 		}
@@ -77,7 +77,7 @@ var smartEvaluation = (function() {
 		
 		var conformance_result = document.getElementById('conformance-result');
 		
-		if (conformance_result && conformance_result.value != "fail") {
+		if (conformance_result && conformance_result.value != "fail" && conformance_result.value != "incomplete") {
 			metadata += smartFormat.createMetaTag({type: 'link', property: 'dcterms:conformsTo', value: conformance_url});
 		}
 		
@@ -85,7 +85,7 @@ var smartEvaluation = (function() {
 		metadata += smartFormat.createMetaTag({type: 'link', property: 'a11y:certifierReport', value: document.getElementById('certifierReport').value});
 		
 		if (metadata == '') {
-			alert('No metadata specified. Failed to generate.');
+			alert(smart_errors.validation.evaluation.noMetadata[smart_lang]);
 		}
 		
 		else {

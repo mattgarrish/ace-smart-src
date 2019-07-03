@@ -5,8 +5,8 @@ DT.prototype.initialize = function(options) {
     this.searchable = options.searchable !== undefined ? Boolean(options.searchable) : true;
     this.setDefaultSort = options.setDefaultSort !== undefined ? Boolean(options.setDefaultSort) : true;
     this.changeDefaultSort = options.changeDefaultSort !== undefined ? Boolean(options.changeDefaultSort) : true;
-    this.srchLabel = (options.srchLabel == undefined || options.srchLabel == null || options.srchLabel == '') ? 'Find evaluation ' : options.srchLabel;
-    this.srchPlaceholder = (options.srchPlaceholder == undefined || options.srchLabel == null || options.srchPlaceholder == '') ? 'Enter a publication title' : options.srchPlaceholder;
+    this.srchLabel = (options.srchLabel == undefined || options.srchLabel == null || options.srchLabel == '') ? smart_ui.historyTable.searchLabel[smart_lang]+ ' ' : options.srchLabel;
+    this.srchPlaceholder = (options.srchPlaceholder == undefined || options.srchLabel == null || options.srchPlaceholder == '') ? smart_ui.historyTable.searchPlaceholder[smart_lang] : options.srchPlaceholder;
     
     this.enhance();
 }
@@ -46,7 +46,7 @@ DT.prototype.makeDynamic = function(tblID) {
             "oLanguage": {
                 "sSearch": this.srchLabel,
                 "sSearchPlaceholder": this.srchPlaceholder,
-				"sEmptyTable": "No evaluations initiated"
+				"sEmptyTable": smart_ui.historyTable.emptyTable[smart_lang]
             }
         });
 }
@@ -57,9 +57,6 @@ DT.prototype.changeSort = function(tblID) {
     var iColumns = oSettings.aoColumns.length - 1;
     
     for (var i = 0; i <= iColumns; i++) {
-        var colName = oSettings.aoColumns[i].sTitle.toLowerCase();
-        if (colName != '#' && colName != 'name' && colName != 'at' && colName != 'description') {
-            oSettings.aoColumns[i].asSorting = ['desc','asc'];
-        }
+        oSettings.aoColumns[i].asSorting = ['desc','asc'];
     }
 }

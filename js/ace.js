@@ -72,7 +72,7 @@ var smartAce = (function() {
 	function loadAceReport() {
 	
 		if (!_aceReport) {
-			alert('Ace report does not contain any data. Failed to load.');
+			alert(smart_errors.ace.noData[smart_lang]);
 			return;
 		}
 		
@@ -434,10 +434,10 @@ var smartAce = (function() {
 		setSuccessCriteriaStatus();
 		
 		var content_types = {
-								img: {property: 'images', description: 'images'},
-								script: {property: 'scripts', description: 'scripting'},
-								audio: {property: 'audios', description: 'audio'},
-								video: {property: 'videos', description: 'video'}
+								img: {property: 'images', description: smart_ui.ace.contentType.images[smart_lang]},
+								script: {property: 'scripts', description: smart_ui.ace.contentType.scripting[smart_lang]},
+								audio: {property: 'audios', description: smart_ui.ace.contentType.audio[smart_lang]},
+								video: {property: 'videos', description: smart_ui.ace.contentType.video[smart_lang]}
 							};
 		
 		for (var id in content_types) {
@@ -451,14 +451,14 @@ var smartAce = (function() {
 		if (!_aceReport['properties']['hasPageBreaks']) {
 			document.querySelector('input[name="eg-1"][value="na"]').click();
 			var li = document.createElement('li');
-				li.appendChild(document.createTextNode('page breaks'))
+				li.appendChild(document.createTextNode(smart_ui.ace.contentType.pagebreaks[smart_lang]))
 			alert_list.appendChild(li);
 		}
 		
 		if (!_aceReport['earl:testSubject']['metadata'].hasOwnProperty('media:duration')) {
 			document.querySelector('input[name="eg-2"][value="na"]').click();
 			var li = document.createElement('li');
-				li.appendChild(document.createTextNode('media overlays'))
+				li.appendChild(document.createTextNode(smart_ui.ace.contentType.overlays[smart_lang]))
 			alert_list.appendChild(li);
 		}
 		
@@ -680,20 +680,20 @@ var smartAce = (function() {
 		var import_result = document.getElementById('import');
 		
 		var successful_load = document.createElement('p');
-			successful_load.appendChild(document.createTextNode('Ace report successfully imported!'));
+			successful_load.appendChild(document.createTextNode(smart_ui.ace.load.success[smart_lang]));
 		import_result.appendChild(successful_load);
 		
 		// alert user to any content checks that have been set to n/a
 		
 		if (_loadMessages.reporting.hasChildNodes()) {
 			var report_exclusions = document.createElement('p');
-				report_exclusions.appendChild(document.createTextNode('The following content types were not found in the publication:'));
+				report_exclusions.appendChild(document.createTextNode(smart_ui.ace.load.disabled[smart_lang]));
 			import_result.appendChild(report_exclusions);
 			
 			import_result.appendChild(_loadMessages.reporting);
 			
 			var exclusions_info = document.createElement('p');
-				exclusions_info.appendChild(document.createTextNode('Checks related to them have been turned off. To re-enable these checks, see the Conformance Verification tab.'));
+				exclusions_info.appendChild(document.createTextNode(smart_ui.ace.load.reenable[smart_lang]));
 			import_result.appendChild(exclusions_info);
 		}
 		
@@ -701,13 +701,13 @@ var smartAce = (function() {
 		
 		if (_loadMessages.inferred) {
 			var inferred_metadata = document.createElement('p');
-				inferred_metadata.appendChild(document.createTextNode('The following accessibiity metadata was set based on the Ace report:'));
+				inferred_metadata.appendChild(document.createTextNode(smart_ui.ace.load.a11yMetadata[smart_lang]));
 			import_result.appendChild(inferred_metadata);
 			
 			import_result.appendChild(_loadMessages.inferred);
 			
 			var verify_inferred = document.createElement('p');
-				verify_inferred.appendChild(document.createTextNode('Verify the accuracy of these assumptions in the Discovery Metadata tab.'));
+				verify_inferred.appendChild(document.createTextNode(smart_ui.ace.load.verifyMetadata[smart_lang]));
 			import_result.appendChild(verify_inferred);
 		}
 		
@@ -715,7 +715,7 @@ var smartAce = (function() {
 		
 		if (_loadMessages.features.length > 0) {
 			var feature_metadata = document.createElement('p');
-				feature_metadata.appendChild(document.createTextNode('The following accessibiity features were found in the metadata but do not match known values:'));
+				feature_metadata.appendChild(document.createTextNode(smart_ui.ace.load.unknownFeatures[smart_lang]));
 			import_result.appendChild(feature_metadata);
 			
 			var feature_ul = document.createElement('ul');
@@ -729,7 +729,7 @@ var smartAce = (function() {
 			import_result.appendChild(feature_ul);
 			
 			var verify_features = document.createElement('p');
-				verify_features.appendChild(document.createTextNode('Verify these features are not typos or invalid.'));
+				verify_features.appendChild(document.createTextNode(smart_ui.ace.load.verifyFeatures[smart_lang]));
 			import_result.appendChild(verify_features);
 		}
 		
