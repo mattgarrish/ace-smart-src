@@ -1,8 +1,8 @@
 {
-    "version": "1.1",
+    "version": "1.2",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "05/29/2019, 2:40:00 PM",
+    "dct:date": "07/11/2019, 04:00:00 PM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -93,7 +93,7 @@
                         "itemScores": {
                             "N/A": "There were no SVGs.",
                             "0": "SVG’s did not contain any accessibility markup",
-                            "4": "SVG’s had appropriate alt-text embedded within the SVG markup."
+                            "4": "SVG’s had appropriate embedded alt-text, AIRA, and tab indexing within the SVG markup."
                         }
                     }
                 ] 
@@ -550,6 +550,35 @@
                 "$sectionId": "section-required-accessibility-metadata",
                 "sectionName": "Accessibility Metadata (Required)",
                 "sectionItems": [
+                    {
+                        "$itemId": "required-accessibility-metadata-conformsto",
+                        "itemName" : "conformsTo",
+                        "itemScores": {
+                            "N/A": "Pending Accreditation",
+                            "0": "Accredited Publisher: metadata missing or incorrect",
+                            "4": "Accredited Publisher: metadata correctly matches WCAG complance"
+                        }
+                    },
+                    {
+                        "$itemId": "required-accessibility-metadata-certifiedby",
+                        "itemName" : "certifiedBy",
+                        "itemScores": {
+                            "N/A": "Pending Accreditation",
+                            "0": "Accredited Publisher: metadata missing where conformsTo is present",
+                            "1": "Accredited Publisher: metadata incorrect GCA Partner name present",
+                            "4": "Accredited Publisher: metadata correctly reports GCA certifying agency name"
+                        }
+                    },
+                    {
+                        "$itemId": "required-accessibility-metadata-certifiercredential",
+                        "itemName" : "certifierCredential",
+                        "itemScores": {
+                            "N/A": "Pending Accreditation",
+                            "0": "Accredited Publisher: metadata missing where certifiedBy is present",
+                            "1": "Accredited Publisher: metadata incorrect (not GCA URL)",
+                            "4": "Accredited Publisher: metadata correctly reports GCA URL"
+                        }
+                    },
                     {
                         "$itemId": "required-accessibility-metadata-accessmodes",
                         "itemName" : "accessMode",

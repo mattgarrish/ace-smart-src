@@ -210,6 +210,25 @@ smart_extensions['born_accessible'] = (function() {
 					
 					score_li.appendChild(score_value_li);
 					
+					// add the label for the test
+					var score_label = score.parentNode.textContent.trim();
+					
+					if (score_label.toLowerCase() == 'unverified') {
+						score_label = '';
+					}
+					
+					else {
+						score_label = score_label.replace(/.*?— /i, '');
+					}
+					
+					if (score_label) {
+						var score_li_label = document.createElement('div');
+							score_li_label.setAttribute('class','ba-score-note ba-hlt');
+							score_li_label.appendChild(document.createTextNode(score_label));
+						score_li.appendChild(score_li_label);
+					}
+					
+					// add any notes
 					if (document.getElementById('ba-output-notes').checked) {
 						var note = tests[j].querySelector('textarea').value.trim();
 						if (note) {
