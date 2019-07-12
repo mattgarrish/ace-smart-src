@@ -198,7 +198,7 @@
 	/* watch for save button click */
 	$('#save-button').click( function(){
 		/* shared accounts cannot save remotely */
-		if (ACE_SHARED) {
+		if (ACE_SHARED == 1) {
 			smartManage.saveConformanceEvaluation('local');
 		}
 		else {
