@@ -348,20 +348,30 @@ var bornAccessible = (function() {
 		var actual_score = 0;
 		var total_score = 0;
 		var isNA = true;
+		var hasUnverified = false;
 		
 		for (var i = 0; i < test_fields.length; i++) {
 			var test_score = test_fields[i].querySelector('input:checked');
 			
-			if (test_score && test_score.value.toLowerCase() != 'n/a') {
-				actual_score += Number(test_score.value);
-				total_score += _MAX_SECTION_SCORE;
-				isNA = false;
+			if (test_score) {
+				if (test_score.value.toLowerCase() == 'unverified') {
+					hasUnverified = true;
+					isNA = false;
+				}
+				else if (test_score.value.toLowerCase() != 'n/a') {
+					actual_score += Number(test_score.value);
+					total_score += _MAX_SECTION_SCORE;
+					isNA = false;
+				}
 			}
 		}
 		
 		var display_score = 'N/A';
 		
-		if (!isNA) {
+		if (hasUnverified) {
+			display_score = '--';
+		}
+		else if (!isNA) {
 			display_score = (total_score == 0) ? 0 : Math.round((actual_score / total_score) * 100) + '%';
 		}
 		
