@@ -1,8 +1,8 @@
 {
-    "version": "1.3",
+    "version": "1.4",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "07/18/2019, 05:45:00 AM",
+    "dct:date": "07/18/2019, 06:45:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -354,6 +354,16 @@
                 "sectionName": "Structured Navigation",
                 "sectionItems": [
                     {
+                        "$itemId": "navigation-toc",
+                        "itemName" : "Table of Contents",
+                        "itemScores": {
+                            "0": "No TOC was present",
+                            "1": "TOC is missing semantic markup epub:type=\"toc\"",
+                            "2": "TOC is incomplete",
+                            "4": "TOC was correctly defined and complete"
+                        }
+                    },
+                   {
                         "$itemId": "navigation-listed-elements",
                         "itemName" : "Listed Elements (i.e. figures, illustration, maps, tables)",
                         "itemScores": {
