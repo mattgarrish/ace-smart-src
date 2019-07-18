@@ -116,7 +116,9 @@
 					pages = Number(counters[i].value);
 				}
 				else {
-					elements += Number(counters[i].value);
+					if (!RegExp(/ba-h[1-6]-count/i).test(counters[i].id)) {
+						elements += Number(counters[i].value);
+					}
 				}
 			}
 			if (pages != 0) {
