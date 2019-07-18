@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.2",
+    "version": "1.3",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "07/11/2019, 04:00:00 PM",
+    "dct:date": "07/18/2019, 05:45:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -57,10 +57,19 @@ var gca = {
                         "$itemId": "images-decorative",
                         "itemName" : "Decorative Image Indicator",
                         "itemScores": {
-                            "N/A": "There were no Decorative Images found.",
+                            "N/A": "There were no Decorative images found.",
                             "0": "Decorative elements are described or has incorrect aria-role",
                             "3": "The alt text is correctly empty but no role=\"presentation\"",
-                            "4": "All decorative images were correctly identified and marked up correctly with alt=\"\" and role=\"presentation\""
+                            "4": "All Decorative images were correctly identified and marked up correctly with alt=\"\" and role=\"presentation\""
+                        }
+                    },
+                    {
+                        "$itemId": "images-content-break",
+                        "itemName" : "Content Break Image Indicator",
+                        "itemScores": {
+                            "N/A": "There were no Content Break images found.",
+                            "0": "Content Break images was missing <hr> semantic markup",
+                            "4": "All Content Break images were marked up using <hr> and CSS with .hr{background-image:url (link to image); background-repeate: no-repeat; ...}"
                         }
                     },
                     {
