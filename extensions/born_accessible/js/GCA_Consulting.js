@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.4",
+    "version": "1.5",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "07/18/2019, 06:45:00 AM",
+    "dct:date": "08/01/2019, 05:45:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -574,7 +574,8 @@ var gca = {
                         "itemName" : "conformsTo",
                         "itemScores": {
                             "N/A": "Pending Accreditation",
-                            "0": "Accredited Publisher: metadata missing or incorrect",
+                            "0": "Non-Accredited Publisher: metadata present",
+                            "1": "Accredited Publisher: metadata missing or incorrect",
                             "4": "Accredited Publisher: metadata correctly matches WCAG complance"
                         }
                     },
@@ -583,8 +584,9 @@ var gca = {
                         "itemName" : "certifiedBy",
                         "itemScores": {
                             "N/A": "Pending Accreditation",
-                            "0": "Accredited Publisher: metadata missing where conformsTo is present",
-                            "1": "Accredited Publisher: metadata incorrect GCA Partner name present",
+                            "0": "Non-Accredited Publisher: metadata present",
+                            "1": "Accredited Publisher: metadata missing where conformsTo is present",
+                            "2": "Accredited Publisher: metadata incorrect GCA Partner name present",
                             "4": "Accredited Publisher: metadata correctly reports GCA certifying agency name"
                         }
                     },
