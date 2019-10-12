@@ -1,8 +1,8 @@
 {
-    "version": "1.5",
+    "version": "1.7",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "08/01/2019, 05:45:00 AM",
+    "dct:date": "10/10/2019, 06:10:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -398,7 +398,7 @@
                         "itemScores": {
                             "N/A": "No pages / no print equivalent",
                             "0": "No accessible pagebreaks",
-                            "1": "Page breaks present but missing title or aria-label",
+                            "1": "Page breaks present but missing aria-label",
                             "2": "Page breaks present but missing doc-pagebreak semantics",
                             "4": "Page breaks contains epub:type=pagebreak, role=doc-pagebreak and labelled correctly"
                        }
@@ -595,8 +595,9 @@
                         "itemName" : "certifierCredential",
                         "itemScores": {
                             "N/A": "Pending Accreditation",
-                            "0": "Accredited Publisher: metadata missing where certifiedBy is present",
-                            "1": "Accredited Publisher: metadata incorrect (not GCA URL)",
+                            "0": "Non-Accredited Publisher: metadata present",
+                            "1": "Accredited Publisher: metadata missing where certifiedBy is present",
+                            "2": "Accredited Publisher: metadata incorrect (not GCA URL)",
                             "4": "Accredited Publisher: metadata correctly reports GCA URL"
                         }
                     },
