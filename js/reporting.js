@@ -657,10 +657,15 @@ var smartReport = (function() {
 						noteLabel.appendChild(document.createTextNode(smart_ui.reporting.tabs.addinfo[smart_lang]+':'));
 					resultColStatus.appendChild(noteLabel);
 					
-					var noteValue = document.createElement('p');
-						noteValue.setAttribute('class', 'value');
-						noteValue.appendChild(document.createTextNode(document.getElementById(criteria[i].id+'-info').value));
-					resultColStatus.appendChild(noteValue);
+					var noteText = document.getElementById(criteria[i].id+'-info').value;
+					var lines = noteText.trim().split(/[\r\n]+/);
+					lines.forEach(function(line) {
+						if (line) {
+							var notePara = document.createElement('p');
+								notePara.appendChild(document.createTextNode(line));
+							resultColStatus.appendChild(notePara);
+						}
+					});
 				}
 			}
 			
