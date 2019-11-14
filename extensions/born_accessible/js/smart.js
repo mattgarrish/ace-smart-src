@@ -175,10 +175,23 @@ smart_extensions['born_accessible'] = (function() {
 			
 			var test_sections = document.querySelectorAll('#born_accessible section.test');
 			
+			var exclusions = document.querySelectorAll('#born_accessible #ba-test-exclusions input:checked');
+			var excludeResult = {};
+			
+			for (var i = 0; i < exclusions.length; i++) {
+				excludeResult[exclusions[i].value] = 1;
+			}
+			
 			var max_score = 0;
 			var actual_score = 0;
 			
 			for (var i = 0; i < test_sections.length; i++) {
+			
+				var id = test_sections[i].id.replace('section-','');
+				if (excludeResult.hasOwnProperty(id)) {
+					continue;
+				}
+				
 				var max_section_score = 0;
 				var actual_section_score = 0;
 				var isNA = true;
