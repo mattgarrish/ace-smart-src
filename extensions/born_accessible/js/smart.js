@@ -235,11 +235,22 @@ smart_extensions['born_accessible'] = (function() {
 							var score_li_note = document.createElement('div');
 								score_li_note.setAttribute('class','ba-score-note');
 							
-							var score_li_note_label = document.createElement('strong');
-								score_li_note_label.appendChild(document.createTextNode('Note:'));
-								
-							score_li_note.appendChild(score_li_note_label);
-							score_li_note.appendChild(document.createTextNode(' '+note));
+							var lines = note.trim().split(/[\r\n]+/);
+							var first = true;
+							
+							lines.forEach(function(line) {
+								if (line) {
+									var notePara = document.createElement('p');
+									if (first){
+										var score_li_note_label = document.createElement('strong');
+											score_li_note_label.appendChild(document.createTextNode('Note: '));
+											notePara.appendChild(score_li_note_label);
+											first = false;
+									}
+									notePara.appendChild(document.createTextNode(line));
+									score_li_note.appendChild(notePara);
+								}
+							});
 							score_li.appendChild(score_li_note);
 						}
 					}
