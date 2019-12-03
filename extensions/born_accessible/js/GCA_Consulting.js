@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.7",
+    "version": "1.8",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "10/10/2019, 06:10:00 AM",
+    "dct:date": "11/26/2019, 06:35:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -400,6 +400,7 @@ var gca = {
                             "0": "No accessible pagebreaks",
                             "1": "Page breaks present but missing aria-label",
                             "2": "Page breaks present but missing doc-pagebreak semantics",
+                            "3": "Page breaks present but contained title attribute which is not recommended",
                             "4": "Page breaks contains epub:type=pagebreak, role=doc-pagebreak and labelled correctly"
                        }
                     },
