@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.8",
+    "version": "1.9",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "12/04/2019, 05:35:00 AM",
+    "dct:date": "12/04/2019, 06:15:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -440,8 +440,8 @@ var gca = {
                             "N/A": "No Links of any kind were found",
                             "0": "Hyperlinked items are the same as text color, no visual cues at all",
                             "1": "A variety of visual cues are used, creating a confusing reading experience",
-                            "2": "Link are visually distinct but in a color with contrast issues",
-                            "4": "Links were visually distinct and in a color that caused no contrast issues"
+                            "2": "Link are visually distinct but in a color with contrast issues, or are not underlined",
+                            "4": "Links were visually distinct and in a color that caused no contrast issues and are underlined."
                         }
                     },
                     {
