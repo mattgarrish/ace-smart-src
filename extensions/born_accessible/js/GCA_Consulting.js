@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.9",
+    "version": "1.12",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "12/04/2019, 06:15:00 AM",
+    "dct:date": "12/20/2019, 06:15:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -390,7 +390,7 @@ var gca = {
                             "N/A": "No page numbers / no print equivalent",
                             "1": "Not present in OPF file (no print equivalent should cite itself when providing page numbers)",
                             "2": "Present in OPF file but does not contain the actual source of the pagination present",
-                            "4": "present in OPF file - correctly identifies the source of the pagination (paper copy / self reference)"
+                            "4": "present in OPF file - correctly identifies the source of the pagination (print equivalent / self reference)"
                         }
                     },
                     {
@@ -482,7 +482,7 @@ var gca = {
                         "itemName" : "Table Headings",
                         "itemScores": {
                             "N/A": "No tables present",
-                            "0": "None of the complex tables had table headings",
+                            "0": "None of the complex tables had table headings (i.e.: missing scope=\"col/row\")",
                             "1": "Some of the complex tables had correct table headings",
                             "3": "Most tables had table headers",
                             "4": "Table headings were present where appropriate"
@@ -492,7 +492,7 @@ var gca = {
                         "$itemId": "tables-summary",
                         "itemName" : "Table Summary (for complex tables)",
                         "itemScores": {
-                            "N/A": "No tables present",
+                            "N/A": "No complex tables present",
                             "0": "None of the complex tables had table summaries",
                             "1": "Some of the complex tables had table summaries",
                             "4": "All tables had correct table summaries where appropriate"
@@ -576,7 +576,7 @@ var gca = {
                         "$itemId": "required-accessibility-metadata-conformsto",
                         "itemName" : "conformsTo",
                         "itemScores": {
-                            "N/A": "Pending Accreditation",
+                            "N/A": "Pending Accreditation (metadata not present)",
                             "0": "Non-Accredited Publisher: metadata present",
                             "1": "Accredited Publisher: metadata missing or incorrect",
                             "4": "Accredited Publisher: metadata correctly matches WCAG complance"
@@ -586,7 +586,7 @@ var gca = {
                         "$itemId": "required-accessibility-metadata-certifiedby",
                         "itemName" : "certifiedBy",
                         "itemScores": {
-                            "N/A": "Pending Accreditation",
+                            "N/A": "Pending Accreditation (metadata not present)",
                             "0": "Non-Accredited Publisher: metadata present",
                             "1": "Accredited Publisher: metadata missing where conformsTo is present",
                             "2": "Accredited Publisher: metadata incorrect GCA Partner name present",
@@ -597,7 +597,7 @@ var gca = {
                         "$itemId": "required-accessibility-metadata-certifiercredential",
                         "itemName" : "certifierCredential",
                         "itemScores": {
-                            "N/A": "Pending Accreditation",
+                            "N/A": "Pending Accreditation (metadata not present)",
                             "0": "Non-Accredited Publisher: metadata present",
                             "1": "Accredited Publisher: metadata missing where certifiedBy is present",
                             "2": "Accredited Publisher: metadata incorrect (not GCA URL)",
