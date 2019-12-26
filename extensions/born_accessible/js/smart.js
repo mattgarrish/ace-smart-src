@@ -210,35 +210,44 @@ smart_extensions['born_accessible'] = (function() {
 					var score_li = document.createElement('li');
 						score_li.setAttribute('class','ba-score');
 					
+					// add the test label
+					
 					var score_label_li = document.createElement('span');
 						score_label_li.appendChild(document.createTextNode(tests[j].querySelector('legend').textContent.replace(/^[0-9.]+ /, '')+':'));
 					score_li.appendChild(score_label_li);
+					
+					// add the score
 					
 					var score_value_li = document.createElement('span');
 					
 					if (_SCORE_TEXT_CSS[score.value]) {
 						score_value_li.classList.add(_SCORE_TEXT_CSS[score.value]);
 					}
-					score_value_li.appendChild(document.createTextNode(score.value));
+					
+					var isNumeric = new RegExp(/[0-9]+/);
+					var score_display = isNumeric.test(score.value) ? score.value + ' / ' + _MAX_SECTION_SCORE : score.value;
+					
+					score_value_li.appendChild(document.createTextNode(score_display));
 					
 					score_li.appendChild(score_value_li);
 					
-					// add the label for the test
-					var score_label = score.parentNode.textContent.trim();
+					// add the score description
 					
-					if (score_label.toLowerCase() == 'unverified') {
-						score_label = '';
+					var score_desc = score.parentNode.textContent.trim();
+					
+					if (score_desc.toLowerCase() == 'unverified') {
+						score_desc = '';
 					}
 					
 					else {
-						score_label = score_label.replace(/.*?— /i, '');
+						score_desc = score_desc.replace(/.*?— /i, '');
 					}
 					
-					if (score_label) {
-						var score_li_label = document.createElement('div');
-							score_li_label.setAttribute('class','ba-score-note ba-hlt');
-							score_li_label.appendChild(document.createTextNode(score_label));
-						score_li.appendChild(score_li_label);
+					if (score_desc) {
+						var score_li_desc = document.createElement('div');
+							score_li_desc.setAttribute('class','ba-score-note ba-hlt');
+							score_li_desc.appendChild(document.createTextNode(score_desc));
+						score_li.appendChild(score_li_desc);
 					}
 					
 					// add any notes
