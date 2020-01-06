@@ -1,8 +1,8 @@
 {
-    "version": "1.12",
+    "version": "1.13",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "12/20/2019, 06:15:00 AM",
+    "dct:date": "12/30/2019, 06:15:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -263,7 +263,7 @@
                         "itemName" : "Landmarks",
                         "itemScores": {
                             "0": "No epub:type semantics used at all",
-                            "1": "Landmarks are marked up incorrectly",
+                            "1": "Landmarks are marked up incorrectly or landmarks missing unique aria labels or titles",
                             "2": "Only a basic set of epub:type semantics are used",
                             "3": "Full set of epub:type landmarks in markup but meagre landmarks listing in the navigation. Content would benefit from further, separate lists (figure, tables, maps) Or – The start of content (epub:type=”bodymatter”) should be marked in the nav",
                             "4": "Full set of landmarks, robust use of landmarks in the navigation"
@@ -319,7 +319,25 @@
                             "0": "Annotations incorrectly marked up",
                             "4": "HTML Annotations correctly used"
                         }
-                    } 
+                    },
+                    {
+                        "$itemId": "general-visual-layout",
+                        "itemName" : "Visual Layout",
+                        "itemScores": {
+                            "N/A": "No superscript or subscript present",
+                            "0": "all line heights were not marked correctly in CSS",
+                            "1": "line heights were not marked correctly for sub/super scripts in CSS",
+                            "4": "all line heights were marked in CSS correctly including sub/super scripts"
+                        }
+                    },
+                    {
+                        "$itemId": "general-attributes",
+                        "itemName" : "Attributes Placement",
+                        "itemScores": {
+                            "0": "attributes are captured in <body> element",
+                            "4": "No attributes are captured in <body> element"
+                        }
+                    }    
                 ]
             },
             {
@@ -450,7 +468,7 @@
                         "itemScores": {
                             "N/A": "No Links of any kind were found",
                             "0": "So many hyperlinked items that it interferes with the reading experience",
-                            "3": "Chapters linking back to the TOC is overkill since reading systems provide an easy way to get back to TOC",
+                            "3": "Chapters linking back to the TOC is overkill since reading systems provide an easy way to get back to TOC (or) Hyperlinks overkill with illustration caption linked back to illustration call outs in text",
                             "4": "The same links were not overly used throughout the publication"
                         }
                     }
