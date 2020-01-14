@@ -2,7 +2,7 @@
     "version": "1.13",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "12/30/2019, 06:15:00 AM",
+    "dct:date": "01/13/2020, 10:15:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -597,7 +597,7 @@
                             "N/A": "Pending Accreditation (metadata not present)",
                             "0": "Non-Accredited Publisher: metadata present",
                             "1": "Accredited Publisher: metadata missing or incorrect",
-                            "4": "Accredited Publisher: metadata correctly matches WCAG complance"
+                            "4": "Accredited Publisher: metadata correctly matches WCAG compliance"
                         }
                     },
                     {
@@ -677,7 +677,7 @@
                         "$itemId": "optional-accessibility-metadata-api",
                         "itemName" : "accessibilityAPI",
                         "itemScores": {
-                            "N/A": "Nothing requiring any special accessibility APIs (eg. JavaScript overriding a custom control.)  NOTE: Just having ARIA DPUB roles present does not constitute an accessibilityAPI of ARIA.)",
+                            "N/A": "Nothing requiring any special accessibility APIs (eg. JavaScript overriding a custom control.)  NOTE: Just having ARIA DPUB roles present does not constitute an accessibilityAPI of ARIA.",
                             "0": "metadata does not correctly identify the accessibility APIs present",
                             "4": "Correctly identifies all accessibility APIs"
                         }
@@ -689,6 +689,15 @@
                             "N/A": "Nothing requiring any special accessibility controls (eg. JavaScript overriding a custom control)",
                             "0": "metadata does not correctly identify the accessibility Controls present",
                             "4": "Correctly identifies all accessibility controls which were added"
+                        }
+                    },
+                    {
+                        "$itemId": "required-accessibility-metadata-certifierreport",
+                        "itemName" : "certifierReport",
+                        "itemScores": {
+                            "N/A": "Metadata not present",
+                            "0": "Invalid link to an accessibility report",
+                            "4": "Accredited Publisher: metadata URL links to an Accessibility Report"
                         }
                     }
                 ]
