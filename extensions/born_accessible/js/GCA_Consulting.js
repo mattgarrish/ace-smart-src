@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.13",
+    "version": "1.15",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "01/13/2020, 10:15:00 AM",
+    "dct:date": "02/11/2020, 08:10:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -65,11 +65,11 @@ var gca = {
                     },
                     {
                         "$itemId": "images-content-break",
-                        "itemName" : "Content Break Image Indicator",
+                        "itemName" : "Context Break Image Indicator",
                         "itemScores": {
-                            "N/A": "There were no Content Break images found.",
-                            "0": "Content Break images was missing <hr> semantic markup",
-                            "4": "All Content Break images were marked up using <hr> and CSS with .hr{background-image:url (link to image); background-repeate: no-repeat; ...}"
+                            "N/A": "There were no Context Break images found.",
+                            "0": "Context Break images was missing <hr> semantic markup",
+                            "4": "All Context Break images were marked up using <hr> and CSS with .hr{background-image:url (link to image); background-repeate: no-repeat; ...}, or had alt=&quote;context change&quote;"
                         }
                     },
                     {
@@ -262,10 +262,10 @@ var gca = {
                         "$itemId": "general-landmarks",
                         "itemName" : "Landmarks",
                         "itemScores": {
-                            "0": "No epub:type semantics used at all",
-                            "1": "Landmarks are marked up incorrectly or landmarks missing unique aria labels or titles",
-                            "2": "Only a basic set of epub:type semantics are used",
-                            "3": "Full set of epub:type landmarks in markup but meagre landmarks listing in the navigation. Content would benefit from further, separate lists (figure, tables, maps) Or – The start of content (epub:type=”bodymatter”) should be marked in the nav",
+                            "0": "No landmarks provided in Nav Doc",
+                            "1": "Landmarks are marked up incorrectly or landmarks missing unique aria labels",
+                            "2": "Only a basic set of landmarks are used",
+                            "3": "Full set of landmarks in markup but meagre landmarks listing in the navigation. Content would benefit from further, separate lists (figure, tables, maps) Or – The start of content should be marked in the nav",
                             "4": "Full set of landmarks, robust use of landmarks in the navigation"
                         }
                     },
@@ -321,13 +321,12 @@ var gca = {
                         }
                     },
                     {
-                        "$itemId": "general-visual-layout",
-                        "itemName" : "Visual Layout",
+                        "$itemId": "general-superscripts-subscripts",
+                        "itemName" : "Superscripts and Subscripts",
                         "itemScores": {
-                            "N/A": "No superscript or subscript present",
-                            "0": "all line heights were not marked correctly in CSS",
-                            "1": "line heights were not marked correctly for sub/super scripts in CSS",
-                            "4": "all line heights were marked in CSS correctly including sub/super scripts"
+                            "N/A": "No superscripts or subscripts present",
+                            "0": "superscripts and subscripts were done with CSS only, no semantics provided",
+                            "4": "superscript and subscripts were done correctly with <sup> <sub> markup"
                         }
                     },
                     {
@@ -345,12 +344,21 @@ var gca = {
                 "sectionName": "Language",
                 "sectionItems": [
                     {
-                        "$itemId": "language-decoloration",
-                        "itemName" : "Declared in OPF and in HTML",
+                        "$itemId": "language-decoloration-opf",
+                        "itemName" : "Declared in OPF",
                         "itemScores": {
-                            "0": "No languages are declared in the EPUB",
-                            "1": "Language declared in either the OPF/HTML file but not both",
-                            "4": "Language declared correctly in OPF and in HTML files"
+                            "0": "No languages are declared in the EPUB, (ie: missing <dc:language> metadata)",
+                            "1": "xml:lang attribute is missing in package element of OPF",
+                            "4": "Language declared correctly in the OPF file"
+                        },
+                        "wcagScoreFrom": ["sc-3.1.1"]
+                    },
+                    {
+                        "$itemId": "language-decoloration-xhtml",
+                        "itemName" : "Declared in XHTML files",
+                        "itemScores": {
+                            "0": "Language declaration missing in XHTML files (ie: missing xml:lang=\"en\" lang=\"en\")",
+                            "4": "Language declared correctly in XHTML files"
                         },
                         "wcagScoreFrom": ["sc-3.1.1"]
                     },
@@ -376,8 +384,7 @@ var gca = {
                         "itemName" : "Table of Contents",
                         "itemScores": {
                             "0": "No TOC was present",
-                            "1": "TOC is missing semantic markup epub:type=\"toc\"",
-                            "2": "TOC is incomplete",
+                             "2": "TOC is incomplete",
                             "4": "TOC was correctly defined and complete"
                         }
                     },
@@ -406,9 +413,11 @@ var gca = {
                         "itemName" : "dc:Source (page metadata)",
                         "itemScores": {
                             "N/A": "No page numbers / no print equivalent",
+                            "0": "Not present in OPF file (print equivalent is available)",
                             "1": "Not present in OPF file (no print equivalent should cite itself when providing page numbers)",
                             "2": "Present in OPF file but does not contain the actual source of the pagination present",
-                            "4": "present in OPF file - correctly identifies the source of the pagination (print equivalent / self reference)"
+                            "3": "source-of refinement property is not attached to the source element",
+                            "4": "present in OPF file - correctly identifies the source of the pagination (print equivalent / self-reference)"
                         }
                     },
                     {
@@ -416,11 +425,11 @@ var gca = {
                         "itemName" : "Page Breaks",
                         "itemScores": {
                             "N/A": "No pages / no print equivalent",
-                            "0": "No accessible pagebreaks",
+                            "0": "No accessible page breaks",
                             "1": "Page breaks present but missing aria-label",
                             "2": "Page breaks present but missing doc-pagebreak semantics",
                             "3": "Page breaks present but contained title attribute which is not recommended",
-                            "4": "Page breaks contains epub:type=pagebreak, role=doc-pagebreak and labelled correctly"
+                            "4": "Page breaks contains (optional epub:type=pagebreak), role=doc-pagebreak and labelled correctly"
                        }
                     },
                     {
@@ -430,7 +439,7 @@ var gca = {
                             "N/A": "No pages",
                             "0": "Missing page list in nav doc",
                             "2": "Page list present but incomplete or incorrectly marked up",
-                             "4": "All Pages referenced correctly with epub:type=page-list in Nav document"
+                             "4": "All Pages referenced correctly (with optional epub:type=page-list) in Nav document"
                        }
                     }                    
                 ]
@@ -503,7 +512,7 @@ var gca = {
                             "0": "None of the complex tables had table headings (i.e.: missing scope=\"col/row\")",
                             "1": "Some of the complex tables had correct table headings",
                             "3": "Most tables had table headers",
-                            "4": "Table headings were present where appropriate"
+                            "4": "Table headings were present where appropriate (i.e. Column or Row headers may not always be required)"
                         }
                     },
                     {
@@ -536,8 +545,8 @@ var gca = {
                         "itemName" : "Note Markup",
                         "itemScores": {
                             "N/A": "No Notes present",
-                            "0": "Notes are marked up with generic HTML, no epub:type semantics",
-                            "2": "Notes and noterefs are marked up with epub:type semantics but aren’t marked as an aside",
+                            "0": "Notes are marked up with generic HTML, no role=doc-noteref (optionally epub:type semantics)",
+                            "2": "Notes and noterefs are marked up with role=doc-noteref (optionally epub:type semantics) but aren’t marked as an aside",
                             "4": "All notes were correctly marked up"
                         }
                     }
@@ -564,7 +573,7 @@ var gca = {
                 "sectionItems": [
                     {
                         "$itemId": "math-mathml-included",
-                        "itemName" : "Is Math included as MathML",
+                        "itemName" : "Is math included as MathML",
                         "itemScores": {
                             "N/A": "No math included",
                             "0": "Math is represented by an image only and has no or inadequate alt-text",
@@ -582,6 +591,24 @@ var gca = {
                             "1": "Only fallback is an alttext (no altimg)",
                             "3": "Fallback of an PNG and alttext (or SVG with inadequate alttext)",
                             "4": "SVG with appropriate Alt-Text"
+                        }
+                    },
+                    {
+                        "$itemId": "math-role",
+                        "itemName" : "Does MathML have defined role=\"math\"",
+                        "itemScores": {
+                            "N/A": "No math included",
+                            "0": "role=\"math\" is declared, which can be an issue for assistive technology to access the underlying math.",
+                            "4": "mathML used correctly without role=\"math\" defined."
+                        }
+                    },
+                    {
+                        "$itemId": "math-namespace",
+                        "itemName" : "MathML Namespacing",
+                        "itemScores": {
+                            "N/A": "No math included",
+                            "0": "Defined global xmlns:m=\"http://www.w3.org/1998/Math/MathML\" and used m: for each mathML element (e.g. <m:mi>y</m:mi>)",
+                            "4": "Not using Global XML m: namespacing and using preferred  namespacing technique (e.g. <math xmlns=\"http://www.w3.org/1998/Math/MathML\" and individual math elements are coded as <mi>y</mi>)"
                         }
                     }
                 ]
@@ -677,7 +704,7 @@ var gca = {
                         "$itemId": "optional-accessibility-metadata-api",
                         "itemName" : "accessibilityAPI",
                         "itemScores": {
-                            "N/A": "Nothing requiring any special accessibility APIs (eg. JavaScript overriding a custom control.)  NOTE: Just having ARIA DPUB roles present does not constitute an accessibilityAPI of ARIA.",
+                            "N/A": "Nothing requiring any special accessibility APIs (e.g. JavaScript overriding a custom control.)  NOTE: Just having ARIA DPUB roles present does not constitute an accessibilityAPI of ARIA.",
                             "0": "metadata does not correctly identify the accessibility APIs present",
                             "4": "Correctly identifies all accessibility APIs"
                         }
@@ -686,7 +713,7 @@ var gca = {
                         "$itemId": "optional-accessibility-metadata-control",
                         "itemName" : "accessibilityControl",
                         "itemScores": {
-                            "N/A": "Nothing requiring any special accessibility controls (eg. JavaScript overriding a custom control)",
+                            "N/A": "Nothing requiring any special accessibility controls (e.g. JavaScript overriding a custom control)",
                             "0": "metadata does not correctly identify the accessibility Controls present",
                             "4": "Correctly identifies all accessibility controls which were added"
                         }
