@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.15",
+    "version": "1.17",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "02/11/2020, 08:10:00 AM",
+    "dct:date": "05/01/2020, 09:10:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -39,7 +39,8 @@ var gca = {
                         "itemScores": {
                             "N/A": "There was no Cover image",
                             "0": "A cover image is present but there is no descriptive text",
-                            "1": "A cover image is present with alt text but it is not described completely, missing key information",
+                            "1": "A cover image is present with alt text but is missing some textual information present only on the image, or is too verbose",
+                            "3": "A cover image is present with alt text but is missing some information present only in text, or is too verbose",       
                             "4": "The cover image was correctly described using alt text"
                         }
                     },
@@ -103,6 +104,15 @@ var gca = {
                             "N/A": "There were no SVGs.",
                             "0": "SVG’s did not contain any accessibility markup",
                             "4": "SVG’s had appropriate embedded alt-text, AIRA, and tab indexing within the SVG markup."
+                        }
+                    },
+                    {
+                        "$itemId": "images-cover-metadata",
+                        "itemName" : "Cover Image (OPF metadata)",
+                        "itemScores": {
+                            "N/A": "No Cover Image provided",
+                            "0": "A cover image is present but not declared in the manifest",
+                            "4": "The cover image was correctly identified using the “cover-image” property in the manifest (with supporting <meta name=\"cover\" content=\"cover-image\"/> in the metadata for reading systems not fully upgraded to EPUB 3)"
                         }
                     }
                 ] 
@@ -292,10 +302,11 @@ var gca = {
                     },
                     {
                         "$itemId": "general-title-element",
-                        "itemName" : "HTML Title Element",
+                        "itemName" : "XHTML Title Element",
                         "itemScores": {
-                            "0": "Used incorrectly; i.e. book name used in every HTML file's title instead of the name of that chapter or section",
-                            "4": "title of each html file named correctly"
+                            "0": "Used incorrectly; i.e. book name used in every XHTML file's title instead of the name of that chapter or section",
+                            "2": "Some pages did not have an appropriate title",
+                            "4": "title of each XHTML file named correctly"
                         },
                         "wcagScoreFrom": ["sc-2.4.2"]
                     },
@@ -441,7 +452,16 @@ var gca = {
                             "2": "Page list present but incomplete or incorrectly marked up",
                              "4": "All Pages referenced correctly (with optional epub:type=page-list) in Nav document"
                        }
-                    }                    
+                    },
+                    {
+                        "$itemId": "navigation-pagebreak-roman-numeral",
+                        "itemName" : "Page Breaks - Roman numerals",
+                        "itemScores": {
+                            "N/A": "No pages / no print equivalent / No Roman numerals",
+                            "0": "Roman numerals are written out i.e. aria-label=\"page Roman numeral 9\" but displayed as \"page IX\"",
+                            "4": "Roman numerals match the display and are left in letter form ie. aria-label =\"page IX\""
+                       }
+                    }                   
                 ]
             },
             {
@@ -479,6 +499,14 @@ var gca = {
                             "0": "So many hyperlinked items that it interferes with the reading experience",
                             "3": "Chapters linking back to the TOC is overkill since reading systems provide an easy way to get back to TOC (or) Hyperlinks overkill with illustration caption linked back to illustration call outs in text",
                             "4": "The same links were not overly used throughout the publication"
+                        },
+                    {
+                        "$itemId": "links-multiple-references",
+                        "itemName" : "Multiple References",
+                        "itemScores": {
+                            "N/A": "No Links of any kind were found",
+                            "0": "One or more instances where more than one link points to a figure, list, table, chapter, etc. with a return link returning to the first instance only",
+                            "4": "All internal links have a 1:1 link to backlink relationship"
                         }
                     }
                 ]
@@ -522,6 +550,7 @@ var gca = {
                             "N/A": "No complex tables present",
                             "0": "None of the complex tables had table summaries",
                             "1": "Some of the complex tables had table summaries",
+                            "3": "Most of the complex tables had table summaries",
                             "4": "All tables had correct table summaries where appropriate"
                         }
                     },
@@ -532,6 +561,16 @@ var gca = {
                             "N/A": "No tables present",
                             "0": "One or more tables were used for presentation",
                             "4": "None of the tables were used for presentational purposes"
+                        }
+                    },
+                    {
+                        "$itemId": "tables-image",
+                        "itemName" : "Image of a Table",
+                        "itemScores": {
+                            "N/A": "No Images of Tables present",
+                            "0": "No enhanced description for complex table, or simple table coded as an image instead of a real HTML table",
+                            "2": "Complex table image described in text instead of as an HTML table where the actual data is relevant",
+                            "4": "Complex table images have an enhanced description that are real HTML tables"
                         }
                     }
                   ]
@@ -663,7 +702,8 @@ var gca = {
                         "itemName" : "accessibilityFeature",
                         "itemScores": {
                             "0": "metadata missing",
-                            "1": "metadata incomplete",
+                            "1": "most features missing",
+                            "3": "some features missing or incorrect features provided",
                             "4": "metadata correctly reports all the accessibility features of this publication"
                         }
                     },
@@ -738,7 +778,8 @@ var gca = {
                         "itemName" : "Digital Publishing Specific ARIA Markup",
                         "itemScores": {
                             "0": "DPUB ARIA markup not present.",
-                            "1": "DPUB semantic markup present but not entirely accurate or incomplete",
+                            "1": "Limited DPUB semantic markup present",
+                            "3": "Most DPUB semantic markup present but not entirely accurate or incomplete",
                             "4": "DPUB ARIA semantic markup present and used correctly"
                         }
                     }
