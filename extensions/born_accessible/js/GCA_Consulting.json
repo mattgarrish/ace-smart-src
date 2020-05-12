@@ -499,6 +499,7 @@
                             "0": "So many hyperlinked items that it interferes with the reading experience",
                             "3": "Chapters linking back to the TOC is overkill since reading systems provide an easy way to get back to TOC (or) Hyperlinks overkill with illustration caption linked back to illustration call outs in text",
                             "4": "The same links were not overly used throughout the publication"
+                            }
                         },
                     {
                         "$itemId": "links-multiple-references",
