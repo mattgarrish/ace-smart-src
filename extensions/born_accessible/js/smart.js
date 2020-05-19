@@ -184,6 +184,7 @@ smart_extensions['born_accessible'] = (function() {
 			
 			var max_score = 0;
 			var actual_score = 0;
+			var unverified = false;
 			
 			for (var i = 0; i < test_sections.length; i++) {
 			
@@ -237,6 +238,7 @@ smart_extensions['born_accessible'] = (function() {
 					
 					if (score_desc.toLowerCase() == 'unverified') {
 						score_desc = '';
+						unverified = true;
 					}
 					
 					else {
@@ -311,8 +313,13 @@ smart_extensions['born_accessible'] = (function() {
 			
 			// add total score
 			
-			var total_score = (max_score == 0) ? 'N/A' : (Math.round((actual_score / max_score) * 100) + '%');
-			_baReportScore = total_score;
+			if (unverified) {
+				_baReportScore = 'Incomplete';
+			}
+			
+			else {
+				_baReportScore  = (max_score == 0) ? 'N/A' : (Math.round((actual_score / max_score) * 100) + '%');
+			}
 			
 			var ba_total_score_div  = document.createElement('div');
 				ba_total_score_div.setAttribute('id','ba-total-score');
@@ -324,7 +331,7 @@ smart_extensions['born_accessible'] = (function() {
 			ba_total_score_div.appendChild(score_span_label);
 			
 			var score_span_value = document.createElement('span');
-				score_span_value.appendChild(document.createTextNode(total_score));
+				score_span_value.appendChild(document.createTextNode(_baReportScore));
 			
 			ba_total_score_div.appendChild(score_span_value);
 			

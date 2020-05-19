@@ -268,7 +268,7 @@ var smartDiscovery = (function() {
 		});
 		
 		/* sync summary changes */
-		$('#accessibilitySummary').keyup( function(){
+		$('#accessibilitySummary').change( function(){
 			smartDiscovery.syncSummary('discovery');
 			return false;
 		});

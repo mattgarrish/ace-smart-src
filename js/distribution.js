@@ -114,7 +114,7 @@ var smartDistribution = (function() {
 		}
 		
 		/* sync summary changes */
-		$('#onix00').keyup( function(){
+		$('#onix00').change( function(){
 			smartDiscovery.syncSummary('distribution');
 			return false;
 		});
