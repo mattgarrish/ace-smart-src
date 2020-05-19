@@ -159,7 +159,11 @@ var smartAce = (function() {
 		
 		setSufficientSets();
 		
-		document.getElementById('accessibilitySummary').value = formatMetadataProperty('accessibilitySummary','schema:accessibilitySummary');
+		var summary = formatMetadataProperty('accessibilitySummary','schema:accessibilitySummary');
+		
+		// writing each textarea separately as no reliable event to capture the js value change
+		document.getElementById('accessibilitySummary').value = summary; 
+		document.getElementById('onix00').value = summary; 
 		
 		// set evaluator metadata
 		
