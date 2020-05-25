@@ -258,13 +258,11 @@ var smartManage = (function() {
 			eval_company.value = ACE_USER_CO;
 		eval_form.appendChild(eval_company);
 		
-		if (ACE_SHARED) {
-			var eval_shared = document.createElement('input');
-				eval_shared.type = 'hidden';
-				eval_shared.name = 'shared';
-				eval_shared.value = 1;
-			eval_form.appendChild(eval_shared);
-		}
+		var eval_shared = document.createElement('input');
+			eval_shared.type = 'hidden';
+			eval_shared.name = 'shared';
+			eval_shared.value = ACE_SHARED;
+		eval_form.appendChild(eval_shared);
 		
 		var eval_title = document.createElement('input');
 			eval_title.type = 'hidden';
