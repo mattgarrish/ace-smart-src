@@ -121,39 +121,31 @@ var bornAccessible = (function() {
 	function generateTests() {
 		
 		// generate a section for each group of tests
+		var ba_tests = new Array();
 		
 		for (var i = 0; i < gca.bornAccessibleScoring.sections.length; i++) {
-			var section = document.createElement('section');
-				section.setAttribute('id', gca.bornAccessibleScoring.sections[i]['$sectionId']);
-				section.setAttribute('class','test');
+			
+			ba_tests.push('<section id="' + gca.bornAccessibleScoring.sections[i]['$sectionId'] + '" class="test">');
 			
 			var section_number = (i+1) + '.';
 			
-			var hd = document.createElement('h4');
-				hd.appendChild(document.createTextNode(section_number + ' ' + gca.bornAccessibleScoring.sections[i].sectionName));
+			ba_tests.push('<h4>' + section_number + ' ' + gca.bornAccessibleScoring.sections[i].sectionName + '</h4>');
 			
-			section.appendChild(hd);
-			
-			var test_div = document.createElement('div');
-				test_div.setAttribute('class','tests')
+			ba_tests.push('<div class="tests">')
 			
 			// create a fieldset for each each test
 			
 			for (var j = 0; j < gca.bornAccessibleScoring.sections[i].sectionItems.length; j++) {
 				
-				var fieldset = document.createElement('fieldset');
-					fieldset.setAttribute('id',gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']);
-					fieldset.setAttribute('class','test warn')
+				ba_tests.push('<fieldset id="' + gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'] + '" class="test warn">');
 				
-				var legend = document.createElement('legend');
-					legend.setAttribute('id',gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend')
-					legend.appendChild(document.createTextNode(section_number + (j+1) + ' ' + gca.bornAccessibleScoring.sections[i].sectionItems[j].itemName));
-				
-				fieldset.appendChild(legend);
+				ba_tests.push('<legend id="' + gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend' + '">');
+					ba_tests.push(section_number + (j+1) + ' ' + gca.bornAccessibleScoring.sections[i].sectionItems[j].itemName);
+				ba_tests.push('</legend>');
 				
 				// add default unverified value
 				
-				fieldset.appendChild(createRadioInput(
+				ba_tests.push(createRadioInput(
 					{
 						name: gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
 						value: 'Unverified',
@@ -166,7 +158,7 @@ var bornAccessible = (function() {
 				// add possible scores
 				
 				for (var score in gca.bornAccessibleScoring.sections[i].sectionItems[j].itemScores) {
-					fieldset.appendChild(createRadioInput(
+					ba_tests.push(createRadioInput(
 						{
 							name: gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
 							value: score,
@@ -178,27 +170,9 @@ var bornAccessible = (function() {
 				
 				// add note field
 				
-				var note_div = document.createElement('div');
-					note_div.setAttribute('class', 'ba-note');
+				ba_tests.push('<div class="ba-note"><label><span>Notes:</span>');
 				
-				var note_label = document.createElement('label');
-				
-				var note_hd = document.createElement('span');
-					note_hd.appendChild(document.createTextNode('Notes:'));
-				
-				note_label.appendChild(note_hd);
-				
-				var note_textarea = document.createElement('textarea');
-					note_textarea.setAttribute('rows','3');
-					note_textarea.setAttribute('cols','30');
-				
-				note_label.appendChild(note_textarea);
-				
-				note_div.appendChild(note_label);
-				
-				fieldset.appendChild(note_div);
-				
-				test_div.appendChild(fieldset);
+				ba_tests.push('<textarea rows="3" cols="30"></textarea></label></div></fieldset>');
 				
 				if (gca.bornAccessibleScoring.sections[i].sectionItems[j].hasOwnProperty('wcagScoreFrom')) {
 					for (var k = 0; k < gca.bornAccessibleScoring.sections[i].sectionItems[j]['wcagScoreFrom'].length; k++) {
@@ -209,43 +183,20 @@ var bornAccessible = (function() {
 			
 			// add cumulative section score
 			
-			var score_div = document.createElement('div');
-				score_div.setAttribute('class','ba-score');
+			ba_tests.push('<div class="ba-score">');
+			ba_tests.push('<span class="ba-score-label">' + gca.bornAccessibleScoring.sections[i].sectionName + ' Score: </span>');
+			ba_tests.push('<span id="' + gca.bornAccessibleScoring.sections[i]['$sectionId'] + '-score" class="ba-score-value" aria-live="polite"></span>');
+			ba_tests.push('</div>');
 			
-			var score_span_label = document.createElement('span');
-				score_span_label.setAttribute('class','ba-score-label');
-				score_span_label.appendChild(document.createTextNode(gca.bornAccessibleScoring.sections[i].sectionName + ' Score: '));
-			
-			score_div.appendChild(score_span_label);
-			
-			var score_span_value = document.createElement('span');
-				score_span_value.setAttribute('id',gca.bornAccessibleScoring.sections[i]['$sectionId']+'-score');
-				score_span_value.setAttribute('class','ba-score-value');
-				score_span_value.setAttribute('aria-live','polite');
-			
-			score_div.appendChild(score_span_value);
-			
-			test_div.appendChild(score_div);
-			
-			section.appendChild(test_div);
+			ba_tests.push('</div>');
 			
 			// add the n/a alternative text to show when tests are excluded
 			
-			var na_div = document.createElement('div');
-				na_div.setAttribute('class','not-applicable');
-				na_div.appendChild(document.createTextNode('These tests have been disabled as the specified content was not found in the EPUB publication. To re-enable the tests, refer to the '));
-			
-			var link = document.createElement('a');
-				link.setAttribute('href','#ba-test-exclusions');
-				link.appendChild(document.createTextNode('content exclusion options'))
-			
-			na_div.appendChild(link);
-			na_div.appendChild(document.createTextNode(' at the top of the tab.'));
-			
-			section.appendChild(na_div)
-			
-			_extension_tab.querySelector('section#ba-scoring').appendChild(section);
+			ba_tests.push('<div class="not-applicable">These tests have been disabled as the specified content was not found in the EPUB publication. To re-enable the tests, refer to the <a href="#ba-test-exclusions">content exclusion options</a> at the top of the tab.</div>');
+			ba_tests.push('</section>');
 		}
+		
+		_extension_tab.querySelector('section#ba-scoring div#ba-tests').innerHTML = ba_tests.join('');
 		
 		/* watch for scoring changes */
 		$('section#born_accessible input.test-input').click( function(){
@@ -284,30 +235,15 @@ var bornAccessible = (function() {
 	
 	
 	function createRadioInput(options) {
-		var label = document.createElement('label');
-			label.setAttribute('class','ba-label');
-		
-		var input = document.createElement('input');
-			input.setAttribute('type','radio');
-			input.setAttribute('name',options.name);
-			input.setAttribute('value',options.value);
-			input.setAttribute('aria-labelledby',options.label);
-			input.setAttribute('class','test-input');
+		var input = '<label class="ba-label"><input type="radio" name="' + options.name + '" value="' + options.value + '" aria-labelledby="' + options.label + '" class="test-input"';
 		
 		if (options.checked) {
-			input.setAttribute('checked','checked');
+			input += ' checked="checked"';
 		}
 		
-		label.appendChild(input);
-		label.appendChild(document.createTextNode(' '));
+		input += '> <span class="radio-desc">' + options.description.replace(/</g,'&lt;') + '</span></label>';
 		
-		var span = document.createElement('span');
-			span.setAttribute('class','radio-desc');
-			span.appendChild(document.createTextNode(options.description));
-		
-		label.appendChild(span);
-		
-		return label;
+		return input;
 	}
 	
 	
@@ -413,6 +349,7 @@ var bornAccessible = (function() {
 	
 	
 	function configureContentTypeTests(options) {
+	
 		if (!options || typeof(options) !== 'object') {
 			return;
 		}

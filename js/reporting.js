@@ -651,7 +651,7 @@ var smartReport = (function() {
 			}
 			
 			if (_notesToDisplay == 'all' || _notesToDisplay == 'notes') {
-				if ((document.getElementsByName(criteria[i].id+'-note'))[0].checked) {
+				if (document.getElementById(criteria[i].id+'-notebox').checked) {
 					var noteLabel = document.createElement('p');
 						noteLabel.setAttribute('class', 'label');
 						noteLabel.appendChild(document.createTextNode(smart_ui.reporting.tabs.addinfo[smart_lang]+':'));

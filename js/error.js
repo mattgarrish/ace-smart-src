@@ -136,9 +136,11 @@ var smartError = (function() {
 			document.getElementById('label_'+options.tab).click();
 			
 			var error_element = document.getElementById(options.id);
+			var report_form = document.querySelector('form.report');
 			
-			var top = error_element.offsetTop;
-				window.scrollTo(0,top-100);
+			var top = error_element.offsetTop - (options.tab == 'conformance' ? 160 : 140);
+			
+			report_form.scroll(0,top);
 			
 			error_element.focus();
 		},

@@ -94,7 +94,7 @@
 			</nav>
 		</header>
 		
-		<main class="js-tabs">
+		<main class="js-tabs start">
 			<h2>Welcome to Ace SMART</h2>
 			
 			<section id="load">

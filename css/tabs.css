@@ -1,11 +1,5 @@
 /* tabs */
 
-main.js-tabs{
-	margin-top: 9.5rem;
-	padding-left: 3rem;
-	border-radius: 0.8rem 0.8rem 0 0;
-}
-
 section.js-tabcontent[aria-hidden = true]{
 	display: none;
 }
@@ -44,7 +38,7 @@ li.active {
 li.js-tablist__item a{
 	color: rgb(0, 0, 160);
 	display: inline-block;
-	width: 9.5rem;
+	width: 10.5rem;
 }
 
 li.js-tablist__item a:hover{

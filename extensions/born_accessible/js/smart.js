@@ -188,7 +188,9 @@ smart_extensions['born_accessible'] = (function() {
 			
 			for (var i = 0; i < test_sections.length; i++) {
 			
+				var section_unverified = false;
 				var id = test_sections[i].id.replace('section-','');
+				
 				if (excludeResult.hasOwnProperty(id)) {
 					continue;
 				}
@@ -239,6 +241,7 @@ smart_extensions['born_accessible'] = (function() {
 					if (score_desc.toLowerCase() == 'unverified') {
 						score_desc = '';
 						unverified = true;
+						section_unverified = true;
 					}
 					
 					else {
@@ -295,7 +298,7 @@ smart_extensions['born_accessible'] = (function() {
 					ba_score_label.appendChild(document.createTextNode(test_sections[i].querySelector('h4').textContent.replace(/^[0-9.]+ /, '')+':'));
 				ba_score_li.appendChild(ba_score_label);
 				
-				var section_score = (max_section_score == 0) ? 'N/A' : (Math.round((actual_section_score / max_section_score) * 100) + '%');
+				var section_score = (section_unverified || max_section_score == 0) ? 'N/A' : (Math.round((actual_section_score / max_section_score) * 100) + '%');
 				
 				var ba_score_value = document.createElement('span');
 					ba_score_value.appendChild(document.createTextNode(section_score))
@@ -568,7 +571,11 @@ smart_extensions['born_accessible'] = (function() {
 						if (test.hasOwnProperty('score') && test.score != '') {
 							var score_input = field.querySelector('input[value="' + test.score + '"]');
 							if (score_input) {
-							    score_input.click();
+							    score_input.checked = true;
+							    bornAccessible.updateSectionScore(score_input);
+								bornAccessible.setBackgroundStatus(score_input);
+								bornAccessible.updateResultScore();
+
 							}
 							else {
 							    console.log('Failed to set score ' + test.score + ' for ' + test.id)
