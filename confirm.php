@@ -72,7 +72,7 @@
 			<h1>Warning!</h1>
 		</header>
 		
-		<main class="js-tabs">
+		<main>
 			<section id="confirm">
 				<p>The EPUB publication identified in the Ace report has the same unique identifier as the following evaluation(s) in your
 					saved history (date created in parentheses):</p>

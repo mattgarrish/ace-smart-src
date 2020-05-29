@@ -70,7 +70,7 @@ var gca = {
                         "itemScores": {
                             "N/A": "There were no Context Break images found.",
                             "0": "Context Break images was missing <hr> semantic markup",
-                            "4": "All Context Break images were marked up using <hr> and CSS with .hr{background-image:url (link to image); background-repeate: no-repeat; ...}, or had alt=&quote;context change&quote;"
+                            "4": "All Context Break images were marked up using <hr> and CSS with .hr{background-image:url (link to image); background-repeate: no-repeat; ...}, or had alt=\"context change\""
                         }
                     },
                     {

@@ -68,6 +68,7 @@ var sc_config = {
 		<li>There is a transcript or the video includes audio descriptions (if the video is not fully described in the surrounding text).</li>\
 		<li>The <code>video</code> element has a label (<code>aria-label</code> attribute) that references where to find the transcript or indicates that audio descriptions are available.</li>\
 		<li>The transcript/audio descriptions accurately reflect the information contained in the video clip.</li>\
+	</ul>\
 		<p class=\"sc-note\">Note: a video-only clip is one that has no accompanying audio (e.g., a silent movie).</p>\
 </div>"
 			},

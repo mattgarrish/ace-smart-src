@@ -128,7 +128,7 @@ var smartManage = (function() {
 					evaluationJSON.conformance[i].error = document.getElementById(success_criteria[i].id+'-err').value;
 				}
 				
-				if ((document.getElementsByName(success_criteria[i].id+'-note'))[0].checked) {
+				if ((document.getElementsByName(success_criteria[i].id+'-notebox'))[0].checked) {
 					evaluationJSON.conformance[i].note = document.getElementById(success_criteria[i].id+'-info').value;
 				}
 			}
@@ -360,15 +360,18 @@ var smartManage = (function() {
 		
 		if (evaluationJSON.hasOwnProperty('conformance')) {
 			for (var i = 0; i < evaluationJSON.conformance.length; i++) {
-				document.querySelector('input[name="'+evaluationJSON.conformance[i].id+'"][value="'+ evaluationJSON.conformance[i].status + '"]').click();
+				document.getElementById(evaluationJSON.conformance[i].id + '-' + evaluationJSON.conformance[i].status).checked = true;
+				smartConformance.setSCStatus({name: evaluationJSON.conformance[i].id, value: evaluationJSON.conformance[i].status});
 				
 				if (evaluationJSON.conformance[i].hasOwnProperty('error')) {
 					document.getElementById(evaluationJSON.conformance[i].id+'-err').value = evaluationJSON.conformance[i].error;
 				}
 				
 				if (evaluationJSON.conformance[i].hasOwnProperty('note')) {
-					document.querySelector('input[name="'+evaluationJSON.conformance[i].id+'-note"]').click();
-					document.getElementById(evaluationJSON.conformance[i].id+'-info').value = evaluationJSON.conformance[i].note;
+					var note = document.getElementById(evaluationJSON.conformance[i].id + '-notebox'); 
+					note.checked = true;
+					smartConformance.showSCNoteField(note);
+					document.getElementById(evaluationJSON.conformance[i].id + '-info').value = evaluationJSON.conformance[i].note;
 				}
 			}
 		}
@@ -403,9 +406,11 @@ var smartManage = (function() {
 					}
 					else {
 						if (evaluationJSON.distribution.onix[onix_id]) {
-							var input = document.getElementById('onix' + onix_id);
+							var id = 'onix' + onix_id;
+							var input = document.getElementById(id);
 							if (!input.checked) {
-								input.click()
+								input.checked = true;
+								smartDiscovery.syncFeature('distribution', id, true);
 							}
 						}
 					}
@@ -436,21 +441,39 @@ var smartManage = (function() {
 		/* load configuration info */
 		
 		if (evaluationJSON.hasOwnProperty('configuration')) {
-			document.querySelector('input[name="wcag-level"][value="' + evaluationJSON.configuration.wcag.level + '"]').click();
+			document.getElementById('wcag-level-' + evaluationJSON.configuration.wcag.level).checked = true;
+			smartConformance.setWCAGConformanceLevel(evaluationJSON.configuration.wcag.level);
 			
 			if ((evaluationJSON.configuration.wcag.show_aa && evaluationJSON.configuration.wcag.show_aa == 'true') && evaluationJSON.configuration.wcag.level != 'aa') {
-				document.getElementById('show-aa').click();
+				
+				document.getElementById('show-aa').checked = true;
+				
+				smartConformance.displaySuccessCriteria({
+					wcag_level: 'aa',
+					display: true
+				});
 			}
 			
 			if (evaluationJSON.configuration.wcag.show_aaa && evaluationJSON.configuration.wcag.show_aaa == 'true') {
-				document.getElementById('show-aaa').click();
+				
+				document.getElementById('show-aaa').checked = true;
+				
+				smartConformance.displaySuccessCriteria({
+					wcag_level: 'aaa',
+					display: true
+				});
 			}
 			
-			document.querySelector('input[name="epub-format"][value="' + evaluationJSON.configuration.epub_format + '"]').click();
+			document.getElementById('epub-format-' + evaluationJSON.configuration.epub_format).checked = true;
+			smartFormat.setEPUBVersion(evaluationJSON.configuration.epub_format);
 			
 			if (evaluationJSON.configuration.hasOwnProperty('exclusions') && evaluationJSON.configuration.exclusions) {
 				evaluationJSON.configuration.exclusions.forEach(function(value) {
-					document.querySelector('#exclusions input[value="' + value + '"]').click(); 
+					document.getElementById('excl-' + value).checked = true;
+					smartConformance.configureContentTypeTests({
+						type: value,
+						exclude: true
+					});
 				});
 			}
 			
@@ -486,7 +509,8 @@ var smartManage = (function() {
 				}
 			}
 			else {
-				checkbox.click();
+				checkbox.checked = true;
+				smartDiscovery.syncFeature('discovery', obj[id], true);
 			}
 		}
 	}
@@ -508,7 +532,7 @@ var smartManage = (function() {
 		var set_counter = 0;
 		for (var set_id in modeSets) {
 			modeSets[set_id].forEach(function(sufficient_mode) {
-				sufficient_fields[set_counter].querySelector('input[value="' + sufficient_mode + '"]').click();
+				sufficient_fields[set_counter].querySelector('input[value="' + sufficient_mode + '"]').checked = true;
 			});
 			set_counter += 1;
 		}

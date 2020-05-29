@@ -154,18 +154,20 @@ JS;
 				</li>
 			</ul>
 	
-			<section id="start" class="js-tabcontent">
-				<h2>Publication Information</h2>
-				
-				<form class="report">
-					<p class="instr">Ensure the following publication information is complete and accurate. Required fields for final report are denoted by an asterisk.</p>
+			<form class="report">
+				<section id="start" class="js-tabcontent">
+					<h2>Publication Information</h2>
+					
+					<p class="help"><a href="user-guide/pub-info.html" target="_blank">Need help?</a></p>
+					
+					<p class="instr">Required fields for final report are denoted by an asterisk.</p>
 						
 					<div class="data form-data">
 						<fieldset class="flat">
 							<legend>Format:</legend>
 							<!-- <div><small>Note: This setting also controls the format of the discovery and conformance metadata.</small></div> -->
-							<label><input type="radio" name="epub-format" value="3" checked="checked"/> EPUB 3</label>
-							<label><input type="radio" name="epub-format" value="2"/> EPUB 2</label>
+							<label><input type="radio" id="epub-format-3" name="epub-format" value="3" checked="checked"/> EPUB 3</label>
+							<label><input type="radio" id="epub-format-2" name="epub-format" value="2"/> EPUB 2</label>
 						</fieldset>
 						
 						<label class="data"><span>Title:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="title" aria-required="true"/></label>
@@ -182,31 +184,26 @@ JS;
 						<label class="data"><span>Additional Metadata:</span> <textarea rows="8" aria-describedby="meta-input-desc" id="optional-meta" placeholder="label: value"></textarea></label>
 						<div id="meta-input-desc" hidden="hidden">Use a colon followed by a space to separate the label from the value. Separate metadata items with a return character.</div>
 					</div>
-				</form>
-			</section>
-			
-			<form class="report">
-			
+				</section>
+				
 				<section id="conformance" class="js-tabcontent">
 					<h2>Conformance Verification</h2>
 					
-					<p>This section contains the list of success criteria the publication must meet to conform to the EPUB Accessibility specification.</p>
-					
-					<p>Use the following fields to configure the testing criteria:</p>
+					<p class="help"><a href="user-guide/conformance.html" target="_blank">Need help?</a></p>
 					
 					<div class="form-data">
 						<fieldset class="flat">
 							<legend>WCAG Conformance:</legend>
-							<label><input type="radio" name="wcag-level" value="a"/> Level A</label>
-							<label><input type="radio" name="wcag-level" value="aa" checked="checked"/> Level AA</label>
+							<label><input type="radio" id="wcag-level-a" name="wcag-level" value="a"/> Level A</label>
+							<label><input type="radio" id="wcag-level-aa" name="wcag-level" value="aa" checked="checked"/> Level AA</label>
 						</fieldset>
 						
 						<fieldset id="exclusions" class="flat">
 							<legend>Exclude Tests For:</legend>
-							<label><input type="checkbox" value="img" class="excl-test"/> Images</label>
-							<label><input type="checkbox" value="audio" class="excl-test"/> Audio</label>
-							<label><input type="checkbox" value="video" class="excl-test"/> Video</label>
-							<label><input type="checkbox" value="script" class="excl-test"/> Scripting</label>
+							<label><input type="checkbox" id="excl-img" value="img" class="excl-test"/> Images</label>
+							<label><input type="checkbox" id="excl-audio" value="audio" class="excl-test"/> Audio</label>
+							<label><input type="checkbox" id="excl-video" value="video" class="excl-test"/> Video</label>
+							<label><input type="checkbox" id="excl-script" value="script" class="excl-test"/> Scripting</label>
 						</fieldset>
 					</div>
 					
@@ -248,8 +245,6 @@ JS;
 						</fieldset>
 					</details>
 					
-					<p>Set the status of each success criterion to Pass, Fail or Not Applicable (N/A) as you go. Note fields are provided after the status to include additional information in the final report.</p>
-					
 					<section id="fallbacks" class="warning">
 						<h3>Warning</h3>
 						
@@ -277,6 +272,7 @@ JS;
 						</ul>
 					</section>
 					<!-- SC dynamically inserted -->
+					<div id="sc-list"></div>
 				</section>
 				
 				<?php $ext->add_tab_includes() ?>
@@ -284,11 +280,7 @@ JS;
 				<section id="discovery" class="js-tabcontent">
 					<h2>Discovery Metadata</h2>
 					
-					<p>This section allows you to visualize and correct the discovery metadata in the publication. Click on each
-						field's heading for more information about how to apply the metadata.</p>
-					
-					<p>Use the Generate button at the bottom of the page to create a set of metadata tags that can be pasted back into 
-						the publication.</p>
+					<p class="help"><a href="user-guide/discovery.html" target="_blank">Need help?</a></p>
 					
 					<div id="discovery-fields"></div>
 					
@@ -305,9 +297,7 @@ JS;
 				<section id="distribution" class="js-tabcontent">
 					<h2>Distribution Metadata</h2>
 					
-					<p>This section allows you to generate accessibility metadata for use in an ONIX record.</p>
-					
-					<p>Use the Generate button at the bottom of the page to create a set of metadata tags.</p>
+					<p class="help"><a href="user-guide/distribution.html" target="_blank">Need help?</a></p>
 					
 					<div id="distribution-fields"></div>
 					
@@ -324,9 +314,7 @@ JS;
 				<section id="evaluation" class="js-tabcontent">
 					<h2>Evaluation Result</h2>
 					
-					<p>This section is for reporting conformance and identifying the evaluator of this report.</p>
-					
-					<p>Use the Generate button at the bottom of the page to create a set metadata tags that can be pasted back into the publication.</p>
+					<p class="help"><a href="user-guide/evaluation.html" target="_blank">Need help?</a></p>
 					
 					<div class="conformance-result">
 						<strong>Conformance Result:</strong>
@@ -355,6 +343,8 @@ JS;
 				<section id="generate" class="js-tabcontent">
 					<h2>Generate Report</h2>
 					
+					<p class="help"><a href="user-guide/generate.html" target="_blank">Need help?</a></p>
+					
 					<fieldset>
 						<legend>Notes</legend>
 						<div class="instr">Select what notes to include in the report.</div>
@@ -364,16 +354,13 @@ JS;
 						<label><input type="radio" name="show-notes" value="none"/> None</label>
 					</fieldset>
 					
-					<p id="gen">If there are errors validating the report, you will receive a warning before it is generated. Errors will be listed in a message panel at the bottom of the page. Clicking on an error will take you to the location.</p>
-					
 					<p><input type="button" value="Preview" id="preview-report" class="button_hlt preview" aria-describedby="popup-instructions"/></p>
 					<p><input type="button" class="button_hlt" value="Create" id="generate-report" aria-describedby="gen"/></p>
 					
 					<div id="popup-instructions">
-						<p>Ensure that you do not have a pop-up blocker enabled when previewing content.</p>
-						<p>Do not bookmark the preview page, as the report is lost once your browser is closed.</p>
+						<p class="instr">Ensure that you do not have a pop-up blocker enabled when previewing content.</p>
+						<p class="instr">Do not bookmark the preview page, as the report is lost once your browser is closed.</p>
 					</div>
-					
 				</section>
 			</form>
 		</main>
@@ -390,7 +377,7 @@ JS;
 		
 		</div>
 		
-		<form class="report">
+		<form>
 			<section id="error-pane" role="region" aria-labelledby="validation-msg">
 				<a href="#error-pane-close" id="error-pane-close"><img src="images/close-icon.png" alt="Close" class="error-close"/></a>
 				<h2 id="validation-msg">Validation Messages:</h2>

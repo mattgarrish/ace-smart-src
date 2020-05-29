@@ -107,7 +107,7 @@ var smartConformance = (function() {
 	
 	function addSuccessCriteria() {
 	
-		var conformance_tab = document.getElementById('conformance');
+		var sc_nodes = new Array();
 		
 		for (var i = 0; i < sc_config['sc'].length; i++) {
 		
@@ -123,44 +123,34 @@ var smartConformance = (function() {
 			
 			/* create section for new success criterion */
 			
-			var section = document.createElement('section');
-				section.setAttribute('id', id);
-				section.setAttribute('class', level);
-			
-			/* add sc heading */
-			
-			var hd = document.createElement('h3');
-			
-			var hd_label = document.createElement('span');
-				hd_label.setAttribute('class', 'label');
+			sc_nodes.push('<section id="' + id + '" class="' + level + '">');
+			sc_nodes.push('<h3>');
+			sc_nodes.push('<span class="label">');
 			
 			if (wcag_number) {
-				hd_label.appendChild(document.createTextNode(wcag_number + ' '));
+				sc_nodes.push(wcag_number + ' ');
 			}
 			
 			if (sc_config['sc'][i].hasOwnProperty('name') && sc_config['sc'][i].name.hasOwnProperty(smart_lang)) {
-				hd_label.appendChild(document.createTextNode(sc_config['sc'][i].name[smart_lang]));
+				sc_nodes.push(sc_config['sc'][i].name[smart_lang]);
 			}
 			
-			hd.appendChild(hd_label);
+			sc_nodes.push('</span>');
 			
-			var hd_level= document.createElement('span');
-				hd_level.setAttribute('class', (wcag_number ? level : 'epub')+'-label');
-				hd_level.appendChild(document.createTextNode((wcag_number ? smart_ui.conformance.level[smart_lang] + ' ' + level.toUpperCase() : 'EPUB')))
-			
-			hd.appendChild(hd_level);
-			section.appendChild(hd);
+			sc_nodes.push('<span class="' + (wcag_number ? level : 'epub') + '-label">');
+			sc_nodes.push((wcag_number ? smart_ui.conformance.level[smart_lang] + ' ' + level.toUpperCase() : 'EPUB'));
+			sc_nodes.push('</span>');
+			sc_nodes.push('</h3>');
 			
 			/* create body div for guidance and links */
 			
-			var body_div = document.createElement('div');
-				body_div.setAttribute('class','sc-body');
+			sc_nodes.push('<div class="sc-body">');
 			
 			/* add guidance - imports html embedded in json */
 			
 			if (sc_config['sc'][i].hasOwnProperty('guidance') && sc_config['sc'][i].guidance.hasOwnProperty(smart_lang)) {
-				body_div.innerHTML = sc_config['sc'][i].guidance[smart_lang];
-				body_div.appendChild(document.createElement('hr'));
+				sc_nodes.push(sc_config['sc'][i].guidance[smart_lang]);
+				sc_nodes.push('<hr>');
 			}
 			
 			// checks whether to add another hr separator
@@ -169,141 +159,100 @@ var smartConformance = (function() {
 			/* add kb links */
 			
 			if (sc_config['sc'][i].hasOwnProperty('kb') && sc_config['sc'][i].kb.hasOwnProperty(smart_lang) && Object.keys(sc_config['sc'][i].kb[smart_lang]).length > 0) {
-				body_div.appendChild(createSCLinkDetails('kb',sc_config['sc'][i].kb[smart_lang]));
+				sc_nodes.push(createSCLinkDetails('kb',sc_config['sc'][i].kb[smart_lang]));
 				has_links = true;
 			}
 			
 			/* add documentation links */
 			
 			if (sc_config['sc'][i].hasOwnProperty('documentation') && sc_config['sc'][i].documentation.hasOwnProperty(smart_lang) && Object.keys(sc_config['sc'][i].documentation[smart_lang]).length > 0) {
-				body_div.appendChild(createSCLinkDetails('doc',sc_config['sc'][i].documentation[smart_lang]));
+				sc_nodes.push(createSCLinkDetails('doc',sc_config['sc'][i].documentation[smart_lang]));
 				has_links = true;
 			}
 			
 			if (has_links) {
-				body_div.appendChild(document.createElement('hr'));
+				sc_nodes.push('<hr>');
 			}
 			
-			section.appendChild(body_div);
+			/* close sc-body div */
+			
+			sc_nodes.push('</div>');
 			
 			/* add wrapper div with reporting class for hiding later */
 			
-			var report = document.createElement('div');
-				report.setAttribute('class','reporting');
+			sc_nodes.push('<div class="reporting">');
 			
 			/*  add the status radio buttons */
-			var status = document.createElement('fieldset');
-				status.setAttribute('id',id+'-legend');
-				status.setAttribute('class','flat status');
+			sc_nodes.push('<fieldset id="' + id + '-legend"' + 'class="flat status">');
 			
-			var status_legend = document.createElement('legend');
-				status_legend.appendChild(document.createTextNode(smart_ui.conformance.labels.status[smart_lang]));
-			
-			status.appendChild(status_legend);
+			sc_nodes.push('<legend>');
+				sc_nodes.push(smart_ui.conformance.labels.status[smart_lang]);
+			sc_nodes.push('</legend>');
 			
 			for (var stat in smart_ui.conformance.result) {
-				var status_label = document.createElement('label');
-				var status_input = document.createElement('input');
-					status_input.setAttribute('type','radio');
-					status_input.setAttribute('name', id);
-					status_input.setAttribute('value',stat);
-					status_input.setAttribute('class','sc_status');
-					status_input.setAttribute('aria-labelledby',id+'-legend');
+				sc_nodes.push('<label>');
+				sc_nodes.push('<input id="' + id + '-' + stat + '" type="radio" name="' + id + '" value="' + stat + '" class="sc_status" aria-labelledby="' + id + '-legend"');
 				
 				if (stat == 'unverified') {
-					status_input.setAttribute('checked','checked');
+					sc_nodes.push(' checked="checked"');
 				}
 				
-				status_label.appendChild(status_input);
-				status_label.appendChild(document.createTextNode(' ' + smart_ui.conformance.result[stat][smart_lang]));
-				status.appendChild(status_label);
-				status.appendChild(document.createTextNode(' '));
+				sc_nodes.push('>');
+				
+				sc_nodes.push(' ' + smart_ui.conformance.result[stat][smart_lang]);
+				sc_nodes.push('</label>');
+				sc_nodes.push(' ');
 			}
 			
 			/* add the failure textarea */
 			
-			var err = document.createElement('div');
-				err.setAttribute('id',id+'-fail');
-				err.setAttribute('class','failure');
+			sc_nodes.push('<div id="' + id + '-failnote" class="failure">');
+			sc_nodes.push('<p>');
+			sc_nodes.push('<label for="' + id + '-err">');
+				sc_nodes.push(smart_ui.conformance.labels.failure[smart_lang]);
+			sc_nodes.push('</label>');
+			sc_nodes.push('</p>');
 			
-			var err_p = document.createElement('p');
+			sc_nodes.push('<textarea id="' + id + '-err" rows="5" cols="80"></textarea>');
+			sc_nodes.push('</div>');
 			
-			var err_label = document.createElement('label');
-				err_label.setAttribute('for',id+'-err');
-				err_label.appendChild(document.createTextNode(smart_ui.conformance.labels.failure[smart_lang]));
-			
-			err.appendChild(err_label);
-			
-			var err_textarea = document.createElement('textarea');
-				err_textarea.setAttribute('id',id+'-err');
-				err_textarea.setAttribute('rows','5');
-				err_textarea.setAttribute('cols','80');
-			
-			err.appendChild(err_textarea);
-			
-			status.appendChild(err);
-			
-			report.appendChild(status);
+			/* close the radio button fieldset */
+			sc_nodes.push('</fieldset>');
 			
 			/* add the note checkbox and textarea */
 			
-			var note_p = document.createElement('p');
+			sc_nodes.push('<p>');
+			sc_nodes.push('<label>');
+			sc_nodes.push('<input type="checkbox" id="' + id + '-notebox" name="' + id + '-notebox" class="show-note">');
+			sc_nodes.push(' ' + smart_ui.conformance.labels.note[smart_lang]);
+			sc_nodes.push('</label>');
+			sc_nodes.push('</p>');
 			
-			var note_label = document.createElement('label');
+			sc_nodes.push('<div id="' + id + '-note" class="info">');
+			sc_nodes.push('<textarea id="' + id + '-info" rows="5" cols="80" aria-label="' + smart_ui.conformance.note[smart_lang] + '"></textarea>');
+			sc_nodes.push('</div>');
 			
-			var note_input = document.createElement('input');
-				note_input.setAttribute('type','checkbox');
-				note_input.setAttribute('name',id+'-note');
-				note_input.setAttribute('class','show-note');
-			
-			note_label.appendChild(note_input);
-			note_label.appendChild(document.createTextNode(' ' + smart_ui.conformance.labels.note[smart_lang]));
-			
-			note_p.appendChild(note_label);
-			
-			report.appendChild(note_p);
-			
-			var note_div = document.createElement('div');
-				note_div.setAttribute('id',id+'-note');
-				note_div.setAttribute('class','info');
-			
-			var note_textarea = document.createElement('textarea');
-				note_textarea.setAttribute('id',id+'-info');
-				note_textarea.setAttribute('rows','5');
-				note_textarea.setAttribute('cols','80');
-				note_textarea.setAttribute('aria-label',smart_ui.conformance.note[smart_lang]);
-			
-			note_div.appendChild(note_textarea);
-			
-			report.appendChild(note_div);
-			
-			section.appendChild(report);
-			conformance_tab.appendChild(section);
+			sc_nodes.push('</div>');
+			sc_nodes.push('</section>');
 		}
+		
+		/* append all success criteria at once to avoid bottleneck */
+		document.getElementById('sc-list').innerHTML = sc_nodes.join('');
 	}
 	
 	/*  */
 	function createSCLinkDetails(type, json) {
-		var details = document.createElement('details');
+		var details = '<details><summary>';
+			details += (type == 'kb') ? smart_ui.conformance.labels.kb[smart_lang] : smart_ui.conformance.labels.wcag[smart_lang];
+		details += '</summary>';
 		
-		var summary = document.createElement('summary');
-			summary.appendChild(document.createTextNode(type == 'kb' ? smart_ui.conformance.labels.kb[smart_lang] : smart_ui.conformance.labels.wcag[smart_lang]));
-		details.appendChild(summary);
-		
-		var link_list = document.createElement('ul');
+		details += '<ul>';
 		
 		for (var link in json) {
-			var li = document.createElement('li');
-			
-			var a = document.createElement('a');
-				a.setAttribute('href',json[link]);
-			a.appendChild(document.createTextNode(link));
-			
-			li.appendChild(a);
-			link_list.appendChild(li);
+			details += '<li><a href="' + json[link] + '">' + link + '</a></li>';
 		}
 		
-		details.appendChild(link_list);
+		details += '</ul></details>';
 		return details;
 	}
 	
@@ -339,7 +288,9 @@ var smartConformance = (function() {
 		
 		// hide/show all individual SC for the checked content type
 		for (var i = 0; i < _SC_TYPE[options.type].length; i++) {
-			document.querySelector('input[name="' + _SC_TYPE[options.type][i] + '"][value="' + (options.exclude ? 'na' : 'unverified') + '"]').click();
+			var status = options.exclude ? 'na' : 'unverified';
+			document.getElementById(_SC_TYPE[options.type][i] + '-' + status).checked = true;
+			setSuccessCriteriaStatus({name: _SC_TYPE[options.type][i], value: status});
 		}
 	}
 	
@@ -398,6 +349,31 @@ var smartConformance = (function() {
 	}
 	
 	
+	function setSuccessCriteriaStatus(options) {
+		var sc_parent_section = document.getElementById(options.name); 
+		
+		/* reset the background */
+		sc_parent_section.classList.remove(smartFormat.BG.PASS,smartFormat.BG.FAIL,smartFormat.BG.NA);
+		
+		/* set background to new status */
+		if (options.value != 'unverified') {
+			sc_parent_section.classList.add(smartFormat.BG[options.value.toUpperCase()]);
+		}
+		
+		/* show/hide the failure message field */
+		var failure_message = document.getElementById(options.name + '-failnote');
+		
+		if (options.value == 'fail') {
+			failure_message.classList.add('visible');
+		}
+		else {
+			failure_message.classList.remove('visible');
+		}
+		
+		setEvaluationResult();
+	}
+		
+	
 	return {
 		STATUS: _STATUS,
 		
@@ -443,32 +419,11 @@ var smartConformance = (function() {
 			if (typeof(options) !== 'object' || !options.hasOwnProperty('name')) {
 				return;
 			}
-			
-			var sc_parent_section = document.getElementById(options.name); 
-			
-			/* reset the background */
-			sc_parent_section.classList.remove(smartFormat.BG.PASS,smartFormat.BG.FAIL,smartFormat.BG.NA);
-			
-			/* set background to new status */
-			if (options.value != 'unverified') {
-				sc_parent_section.classList.add(smartFormat.BG[options.value.toUpperCase()]);
-			}
-			
-			/* show/hide the failure message field */
-			var failure_message = document.getElementById(options.name+'-fail');
-			
-			if (options.value == 'fail') {
-				failure_message.classList.add('visible');
-			}
-			else {
-				failure_message.classList.remove('visible');
-			}
-			
-			setEvaluationResult();
+			setSuccessCriteriaStatus(options);
 		},
 		
 		showSCNoteField: function(sc_status_radio) {
-		    var note = document.getElementById(sc_status_radio.name);
+		    var note = document.getElementById(sc_status_radio.name.replace('box',''));
 		    
 		    if (sc_status_radio.checked) {
 				note.classList.add('visible');

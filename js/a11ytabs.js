@@ -96,26 +96,7 @@ $(document).ready( function() {
 				$this.addClass ( $tabs_prefix_classes + 'tabs__content');
 		});
 		
-						
-		// add next tab links
-		for (var i = 0; i < $js_tabs.length - 1; i++) {
 		
-			var link_div = document.createElement('div'); 
-				link_div.setAttribute('class','link');
-			
-			var next_tab = $js_tabs[i+1];
-			
-			var link = document.createElement('a');
-				link.setAttribute('href','#' + next_tab.id);
-				link.setAttribute('class','js-link-to-tab');
-				link.appendChild(document.createTextNode('Continue to ' + next_tab.querySelector('h2, h3').textContent));
-			
-			link_div.appendChild(link);
-			
-			$js_tabs[i].appendChild(link_div);
-		}
-
- 
 		// search if hash is ON not disabled tab
 		if ( hash !== "" && $( "#" + hash + ".js-tabcontent" ).length !== 0 ) {
 				if ( $( "#label_" + hash + ".js-tablist__link:not([aria-disabled='true'])" ).length ){

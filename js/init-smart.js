@@ -10,6 +10,25 @@
 		/* add reporting fields to the conformance success criteria */
 		smartConformance.addSuccessCriteriaReporting();
 		
+		/* add next tab links */
+		var $js_tabs = $( ".js-tabcontent" );
+		for (var i = 0; i < $js_tabs.length - 1; i++) {
+		
+			var link_div = document.createElement('div'); 
+				link_div.setAttribute('class','link');
+			
+			var next_tab = $js_tabs[i+1];
+			
+			var link = document.createElement('a');
+				link.setAttribute('href','#' + next_tab.id);
+				link.setAttribute('class','js-link-to-tab');
+				link.appendChild(document.createTextNode('Continue to ' + next_tab.querySelector('h2, h3').textContent));
+			
+			link_div.appendChild(link);
+			
+			$js_tabs[i].appendChild(link_div);
+		}
+
 		/* watch for changes to success criteria status radio buttons */
 		$('input.sc_status').click( function(){
 			smartConformance.setSCStatus({name: this.name, value: this.value});
