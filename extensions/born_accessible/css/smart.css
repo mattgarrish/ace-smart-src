@@ -13,11 +13,16 @@
 	font-size: 120%;
 	font-weight: normal;
 	color: rgb(0,0,180);
-	margin: 5rem 0 0 0;
+	margin: 7rem 0 0 0;
 }
 
 #born_accessible > section {
 	margin-top: 4rem;
+}
+
+
+#born_accessible > section#ba-info legend + * {
+	clear: none;
 }
 
 #born_accessible > section#ba-scoring > div.form-data {
@@ -72,14 +77,10 @@
 }
 
 #born_accessible div.ba-score {
-	font-weight: bold;
-	font-size: 1.6rem;
+	font-size: 2rem;
 	margin: 5rem 0;
 	padding: 1rem;
-	max-width: 45rem;
-	background-color: rgb(250,250,230);
-	border-left: 0.5rem solid rgb(0,0,220);
-	box-shadow: 0 0 0.3rem 0 rgb(0,0,0);
+	border-bottom: 0.3rem solid rgb(0,0,220);
 }
 
 #born_accessible fieldset > div.ba-note {
@@ -98,6 +99,8 @@
 	background-color: rgb(240,248,255);
 	max-width: 39rem;
 	box-shadow: 0 0 0.3rem 0 lightgrey;
+	margin-left: 0.3rem;
+	padding-left: 0.3rem;
 }
 
 #born_accessible div.not-applicable {
