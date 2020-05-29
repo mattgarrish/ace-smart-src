@@ -112,9 +112,13 @@ main{
 	padding-left: 3rem;
 }
 
-body.page main{
+body.page main {
 	padding: 0 2rem 2rem 2rem;
 	margin-top: 6.8rem;
+}
+
+body.faq main {
+	margin-top: 0 !important;
 }
 
 main.start {
