@@ -478,6 +478,10 @@ fieldset fieldset > legend {
 	padding-top: 0 !important;
 }
 
+fieldset#accessModeSufficient fieldset > legend {
+	font-size: small;
+}
+
 legend + * {
 	clear: both;
 }
@@ -590,6 +594,7 @@ section#discovery div.error{
 section#discovery div.cols {
 	column-width: 20rem;
 	column-fill: balance;
+	margin-top: 3rem;
 }
 
 section#discovery label{
@@ -659,6 +664,18 @@ p.small{
 div.instr {
 	font-size: 85%;
 	margin-bottom: 0.8rem;
+}
+
+fieldset.notes > legend {
+	margin-bottom: 1rem;
+}
+
+fieldset.notes > legend + * {
+	clear: both;
+}
+
+fieldset.notes > label {
+	margin-right: 1.7rem;
 }
 
 /* config options */
@@ -935,6 +952,10 @@ figcaption{
 
 
 /* onix metadata fields */
+
+fieldset.onix > legend {
+	margin-bottom: 1rem;
+}
 
 fieldset.onix > label {
 	display: block;
