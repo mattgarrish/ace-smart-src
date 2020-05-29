@@ -345,10 +345,10 @@ JS;
 					
 					<p class="help"><a href="user-guide/generate.html" target="_blank">Need help?</a></p>
 					
-					<fieldset>
+					<fieldset class="notes">
 						<legend>Notes</legend>
-						<div class="instr">Select what notes to include in the report.</div>
-						<label><input type="radio" name="show-notes" value="all" checked="checked"/> All</label>
+						<br>
+						<label><input type="radio" name="show-notes" value="all" checked="checked"/> Include all</label>
 						<label><input type="radio" name="show-notes" value="failures"/> Only failure descriptions</label>
 						<label><input type="radio" name="show-notes" value="notes"/> Only notes</label>
 						<label><input type="radio" name="show-notes" value="none"/> None</label>
@@ -359,14 +359,14 @@ JS;
 					
 					<div id="popup-instructions">
 						<p class="instr">Ensure that you do not have a pop-up blocker enabled when previewing content.</p>
-						<p class="instr">Do not bookmark the preview page, as the report is lost once your browser is closed.</p>
+						<p class="instr">Do not bookmark the preview page as the report is lost once your browser is closed.</p>
 					</div>
 				</section>
 			</form>
 		</main>
 		
 		<div id="save" aria-label="Save report" title="Save report">
-			<p>Please select where you would like to save the report:<p>
+			<p>Select where to save the report:<p>
 			<fieldset>
 				<div><label><input type="radio" name="location" value="remote" checked="checked"/> Ace SMART server</div>
 				<div><label><input type="radio" name="location" value="local"/> Local file system</div>
