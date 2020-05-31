@@ -137,7 +137,7 @@ var bornAccessible = (function() {
 			
 			for (var j = 0; j < gca.bornAccessibleScoring.sections[i].sectionItems.length; j++) {
 				
-				ba_tests.push('<fieldset id="' + gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'] + '" class="test warn">');
+				ba_tests.push('<fieldset id="' + gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'] + '" class="test">');
 				
 				ba_tests.push('<legend id="' + gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend' + '">');
 					ba_tests.push(section_number + (j+1) + ' ' + gca.bornAccessibleScoring.sections[i].sectionItems[j].itemName);
