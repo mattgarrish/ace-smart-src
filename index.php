@@ -90,7 +90,6 @@
 			<nav class="menubar">
 				<a href="user-guide/" target="_blank">User Guide</a> 
 				<a href="faq.html" target="_blank">FAQ</a>
-				<span style="float: right; padding-right: 4.5rem"><a href="old/index.php">Restore old SMART site</a></span>
 			</nav>
 		</header>
 		
