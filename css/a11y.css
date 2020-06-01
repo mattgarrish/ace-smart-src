@@ -895,6 +895,7 @@ label.pad-left{
 }
 .na{
 	border-color: rgb(200, 200, 200) !important;
+	background-color: rgb(245, 245, 245) !important;
 }
 .pass{
 	border-color: rgb(10, 255, 10) !important;
