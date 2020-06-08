@@ -249,7 +249,7 @@ var smartConformance = (function() {
 		details += '<ul>';
 		
 		for (var link in json) {
-			details += '<li><a href="' + json[link] + '">' + link + '</a></li>';
+			details += '<li><a href="' + json[link] + '" target="_blank">' + link + '</a></li>';
 		}
 		
 		details += '</ul></details>';
