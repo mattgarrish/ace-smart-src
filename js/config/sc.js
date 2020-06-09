@@ -1390,7 +1390,14 @@ var sc_config = {
 				"en": "Parsing"
 			},
 			"guidance": {
-				"en": "<p>Verify the publication passes epubcheck without error.</p>"
+				"en": "<p>Verify the publication passes EPUBCheck (or a similar EPUB validator) without any of the following errors:</p>\
+<ul>\
+	<li>Well-formedness errors &#8212; All required start and end tags are present.</li>\
+	<li>Nesting errors &#8212; Elements must only be used where they are valid (e.g., list items inside of lists).</li>\
+	<li>Duplicate attributes &#8212; Elements are only allowed one instance of any attribute.</li>\
+	<li>Duplicate IDs &#8212; Each ID in a document must be unique.</li>\
+</ul>\
+<p>It is recommended to fix all errors reported by EPUBCheck to ensure maximum usability of the publication but it is not a requirement for accessibility.</p>"
 			},
 			"documentation": {
 				"en": {
