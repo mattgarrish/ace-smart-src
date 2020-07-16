@@ -3,7 +3,7 @@
 	require_once __DIR__ . '/../../php/db.php';
 	require_once 'util.php';
 	
-	class SMART_RETRIEVE {
+	class SMART_VERIFICATION {
 	
 		private $pubid = 0;
 		private $username = NULL;
@@ -20,7 +20,7 @@
 		
 		}
 		
-		public function get_evaluation() {
+		public function has_evaluation() {
 		
 			$db = new SMART_DB();
 			
@@ -28,27 +28,28 @@
 				abort('Database not available', 500);
 			}
 			
-			if (!$db->prepare("SELECT evaluation FROM evaluations WHERE username = ? AND uid = ?")) {
-				abort('Unable to retrieve evaluation (prepare)', 500);
+			if (!$db->prepare("SELECT uid FROM evaluations WHERE username = ? AND uid = ?")) {
+				abort('Unable to verify evaluation (prepare)', 500);
 			}
 			
 			if (!$db->bind_param("ss", array($this->username, $this->pubid))) {
-				abort('Unable to retrieve evaluation (bind)', 500);
+				abort('Unable to verify evaluation (bind)', 500);
 			}
 			
 			if (!$db->execute()) {
-				abort('Unable to retrieve evaluation (execute)', 500);
+				abort('Unable to verify evaluation (execute)', 500);
 			}
 			
 			$result = $db->get_result();
 			
-			if ($result['evaluation']) {
+			if (isset($result['uid'])) {
 				http_response_code(200);
-				echo $result['evaluation'];
+				echo '{"exists": true}';
 			}
 			
 			else {
-				abort('No data available for requested evaluation.', 204);
+				http_response_code(204);
+				echo '{"exists": false}';
 			}
 		}
 	}
