@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.17",
+    "version": "1.19",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "05/01/2020, 09:10:00 AM",
+    "dct:date": "10/02/2020, 09:10:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -40,7 +40,8 @@ var gca = {
                             "N/A": "There was no Cover image",
                             "0": "A cover image is present but there is no descriptive text",
                             "1": "A cover image is present with alt text but is missing some textual information present only on the image, or is too verbose",
-                            "3": "A cover image is present with alt text but is missing some information present only in text, or is too verbose",       
+                            "2": "A cover image is present with alt text but is missing some information present only in text, or is too verbose",       
+                            "3": "A cover image is present and has an acceptable description, however it does not follow the GCA approved template on the structure for a cover image description",       
                             "4": "The cover image was correctly described using alt text"
                         }
                     },
@@ -70,7 +71,7 @@ var gca = {
                         "itemScores": {
                             "N/A": "There were no Context Break images found.",
                             "0": "Context Break images was missing <hr> semantic markup",
-                            "4": "All Context Break images were marked up using <hr> and CSS with .hr{background-image:url (link to image); background-repeate: no-repeat; ...}, or had alt=\"context change\""
+                            "4": "All Context Break images were marked up using <hr> and CSS with .hr{background-image:url (link to image); background-repeat: no-repeat; ...}, or had alt=&quot;context change&quot;"
                         }
                     },
                     {
@@ -306,6 +307,7 @@ var gca = {
                         "itemScores": {
                             "0": "Used incorrectly; i.e. book name used in every XHTML file's title instead of the name of that chapter or section",
                             "2": "Some pages did not have an appropriate title",
+                            "3": "Minor issues with some titles",
                             "4": "title of each XHTML file named correctly"
                         },
                         "wcagScoreFrom": ["sc-2.4.2"]
@@ -344,8 +346,8 @@ var gca = {
                         "$itemId": "general-attributes",
                         "itemName" : "Attributes Placement",
                         "itemScores": {
-                            "0": "attributes are captured in <body> element",
-                            "4": "No attributes are captured in <body> element"
+                            "0": "epub:type are captured in <body> element where there exists an equivalent role such as doc-chapter.",
+                            "4": "No attributes are captured in <body> which have an associated role value.  Note: Ok to have <body epub:type=\"bodymatter\">"
                         }
                     }    
                 ]
@@ -488,7 +490,7 @@ var gca = {
                             "0": "Hyperlinked items are the same as text color, no visual cues at all",
                             "1": "A variety of visual cues are used, creating a confusing reading experience",
                             "2": "Link are visually distinct but in a color with contrast issues, or are not underlined",
-                            "4": "Links were visually distinct and in a color that caused no contrast issues and are underlined."
+                            "4": "Links were visually distinct and in a color that caused no contrast issues or are underlined."
                         }
                     },
                     {
@@ -499,14 +501,15 @@ var gca = {
                             "0": "So many hyperlinked items that it interferes with the reading experience",
                             "3": "Chapters linking back to the TOC is overkill since reading systems provide an easy way to get back to TOC (or) Hyperlinks overkill with illustration caption linked back to illustration call outs in text",
                             "4": "The same links were not overly used throughout the publication"
-                            }
-                        },
+                        }
+                    },
                     {
                         "$itemId": "links-multiple-references",
                         "itemName" : "Multiple References",
                         "itemScores": {
                             "N/A": "No Links of any kind were found",
                             "0": "One or more instances where more than one link points to a figure, list, table, chapter, etc. with a return link returning to the first instance only",
+                            "1": "Multiple forward referencing links to a (figure, list, table, footnote, etc.) with no return link",
                             "4": "All internal links have a 1:1 link to backlink relationship"
                         }
                     }
@@ -630,7 +633,7 @@ var gca = {
                             "0": "No fallback MathML only (no altimg and no alttext)",
                             "1": "Only fallback is an alttext (no altimg)",
                             "3": "Fallback of an PNG and alttext (or SVG with inadequate alttext)",
-                            "4": "SVG with appropriate Alt-Text"
+                            "4": "SVG Image with appropriate Alt-Text as a fallback"
                         }
                     },
                     {
@@ -741,25 +744,7 @@ var gca = {
                             "4": "metadata correctly identifies all combinations of access modes required to sufficiently access this publication"
                         }
                     },
-                    {
-                        "$itemId": "optional-accessibility-metadata-api",
-                        "itemName" : "accessibilityAPI",
-                        "itemScores": {
-                            "N/A": "Nothing requiring any special accessibility APIs (e.g. JavaScript overriding a custom control.)  NOTE: Just having ARIA DPUB roles present does not constitute an accessibilityAPI of ARIA.",
-                            "0": "metadata does not correctly identify the accessibility APIs present",
-                            "4": "Correctly identifies all accessibility APIs"
-                        }
-                    },
-                    {
-                        "$itemId": "optional-accessibility-metadata-control",
-                        "itemName" : "accessibilityControl",
-                        "itemScores": {
-                            "N/A": "Nothing requiring any special accessibility controls (e.g. JavaScript overriding a custom control)",
-                            "0": "metadata does not correctly identify the accessibility Controls present",
-                            "4": "Correctly identifies all accessibility controls which were added"
-                        }
-                    },
-                    {
+                     {
                         "$itemId": "required-accessibility-metadata-certifierreport",
                         "itemName" : "certifierReport",
                         "itemScores": {
