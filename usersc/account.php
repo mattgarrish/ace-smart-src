@@ -1,6 +1,7 @@
 <?php
+// This is a user-facing page
 /*
-UserSpice 4
+UserSpice 5
 An Open Source PHP User Management System
 by the UserSpice Team at http://UserSpice.com
 
@@ -17,15 +18,16 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-?>
-<?php require_once '../users/init.php'; ?>
-<?php require_once $abs_us_root.$us_url_root.'users/includes/header.php'; ?>
-<?php require_once $abs_us_root.$us_url_root.'users/includes/navigation.php'; ?>
+require_once '../users/init.php';
+if (!securePage($_SERVER['PHP_SELF'])){die();}
+require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
+$hooks =  getMyHooks();
+includeHook($hooks,'pre');
 
-<?php if (!securePage($_SERVER['PHP_SELF'])){die();}?>
 
-<?php
+
 if(!empty($_POST['uncloak'])){
+	logger($user->data()->id,"Cloaking","Attempting Uncloak");
 	if(isset($_SESSION['cloak_to'])){
 		$to = $_SESSION['cloak_to'];
 		$from = $_SESSION['cloak_from'];
@@ -33,7 +35,7 @@ if(!empty($_POST['uncloak'])){
 		$_SESSION['user'] = $_SESSION['cloak_from'];
 		unset($_SESSION['cloak_from']);
 		logger($from,"Cloaking","uncloaked from ".$to);
-		Redirect::to($us_url_root.'users/admin_users.php?err=You+are+now+you!');
+		Redirect::to($us_url_root.'users/admin.php?view=users&err=You+are+now+you!');
 		}else{
 			Redirect::to($us_url_root.'users/logout.php?err=Something+went+wrong.+Please+login+again');
 		}
@@ -44,6 +46,7 @@ if(!empty($_POST['uncloak'])){
 if($user->isLoggedIn() || !$user->isLoggedIn() && !checkMenu(2,$user->data()->id)){
 	if (($settings->site_offline==1) && (!in_array($user->data()->id, $master_account)) && ($currentPage != 'login.php') && ($currentPage != 'maintenance.php')){
 		$user->logout();
+		logger($user->data()->id,"Errors","Sending to Maint");
 		Redirect::to($us_url_root.'users/maintenance.php');
 	}
 }
@@ -52,44 +55,45 @@ $get_info_id = $user->data()->id;
 $raw = date_parse($user->data()->join_date);
 $signupdate = $raw['month']."/".$raw['day']."/".$raw['year'];
 $userdetails = fetchUserDetails(NULL, NULL, $get_info_id); //Fetch user details
-
 ?>
 
 <div id="page-wrapper">
 <div class="container">
 <div class="well">
 <div class="row">
-	<div class="col-xs-12 col-md-3">
-
-		<?php
-		if($settings->twofa == 1){
-		$twoQ = $db->query("select twoKey from users where id = ? and twoEnabled = 0", [$userdetails->id]);
-		if($twoQ->count() > 0){ ?>
-			<p><a class="btn btn-primary " href="../users/enable2fa.php" role="button">Manage 2 Factor Auth</a></p>
-	<?php	} else { ?>
-			<p><a class="btn btn-primary " href="../users/manage2fa.php" role="button">Manage 2 Factor Auth</a></p>
-	<?php }}
-	if(isset($_SESSION['cloak_to'])){ ?>
+	<div class="col-sm-12 col-md-3">
+		<p>
+		</p>
+	<?php if(isset($_SESSION['cloak_to'])){ ?>
 		<form class="" action="account.php" method="post">
 			<input type="submit" name="uncloak" value="Uncloak!" class='btn btn-danger'>
 		</form><br>
 		<?php }
 		?>
+		<?php includeHook($hooks,'body');?>
 	</div>
-	<div class="col-xs-12 col-md-9">
+	<div class="col-sm-12 col-md-9">
 		<h1><?=echousername($user->data()->id)?></h1>
 		<p><?=ucfirst($user->data()->fname)." ".ucfirst($user->data()->lname)?></p>
-		<p>Member Since: <?=$signupdate?></p>
-		<p>Number of Logins: <?=$user->data()->logins?></p>
+		<p><?=lang("ACCT_SINCE")?>: <?=$signupdate?></p>
+		<p><?=lang("ACCT_LOGINS")?>: <?=$user->data()->logins?></p>
+		<?php if($settings->session_manager==1) {?><p><?=lang("ACCT_SESSIONS")?>: <?=UserSessionCount()?> <sup><a class="nounderline" data-toggle="tooltip" title="<?=lang("ACCT_MNG_SES")?>">?</a></sup></p><?php } ?>
+		<?php
+		includeHook($hooks,'bottom');?>
 		<p>Last Login: <?=$user->data()->last_login?></p>
+		<?php if (!$user->data()->shared) { ?>
+		<p><a href="../users/user_settings.php" class="btn btn-primary"><?=lang("ACCT_EDIT")?></a></p>
 		<form type="submit" id="delete_user_action" action="../account_delete.php" method="post">
-			<p><input type="button" id="delete_user_button" value="Delete Account"/></p>
+			<p><input type="button" id="delete_user_button" value="Delete Account" class="btn btn-primary"/></p>
 			<input type="hidden" name="delete_user" id="delete_user" value="true"/>
 		</form>
+		<?php } ?>
 	</div>
-</div>
+
 </div>
 
+</div>
+	<?php languageSwitcher(); ?>
 </div> <!-- /container -->
 
 </div> <!-- /#page-wrapper -->
@@ -103,8 +107,5 @@ $userdetails = fetchUserDetails(NULL, NULL, $get_info_id); //Fetch user details
 </script>
 
 <!-- footers -->
-<?php require_once $abs_us_root.$us_url_root.'users/includes/page_footer.php'; // the final html footer copyright row + the external js calls ?>
 
-<!-- Place any per-page javascript here -->
-
-<?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; // currently just the closing /body and /html ?>
+<?php require_once $abs_us_root . $us_url_root . 'users/includes/html_footer.php'; ?>
