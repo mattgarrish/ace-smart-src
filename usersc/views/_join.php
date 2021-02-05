@@ -41,23 +41,28 @@ Special thanks to John Bovey for the password strenth feature.
         <p>Unlimited access is available to <a href="http://www.daisy.org/joining">DAISY Consortium's full members and inclusive
         	publishing partners</a>. Please <a href="http://www.daisy.org/contact">contact</a> the DAISY Consortium for access.</p>
 
-        <div class="form-group">
+      <div class="form-group">
+      <?php if($settings->auto_assign_un==0) {?><label id="username-label"><?=lang("GEN_UNAME");?>*</label><span id="usernameCheck" class="small"></span>
+      <input type="text" class="form-control" id="username" name="username" placeholder="<?=lang("GEN_UNAME");?>" value="<?php if (!$form_valid && !empty($_POST)){ echo $username;} ?>" required autofocus autocomplete="username"><?php } ?>
+      </div>
 
-        <?php if($settings->auto_assign_un==0) {?><label><?=lang("GEN_UNAME");?>*</label>&nbsp;&nbsp;<span id="usernameCheck" class="small"></span>
-        <input type="text" class="form-control" id="username" name="username" placeholder="<?=lang("GEN_UNAME");?>" value="<?php if (!$form_valid && !empty($_POST)){ echo $username;} ?>" required autofocus autocomplete="username"><?php } ?>
-
-
-        <label for="fname"><?=lang("GEN_FNAME");?>*</label>
+      <div class="form-group">
+        <label for="fname" id="fname-label"><?=lang("GEN_FNAME");?>*</label>
         <input type="text" class="form-control" id="fname" name="fname" placeholder="<?=lang("GEN_FNAME");?>" value="<?php if (!$form_valid && !empty($_POST)){ echo $fname;} ?>" required autofocus autocomplete="first-name">
+      </div>
 
-        <label for="lname"><?=lang("GEN_LNAME");?>*</label>
+      <div class="form-group">
+        <label for="lname" id="lname-label"><?=lang("GEN_LNAME");?>*</label>
         <input type="text" class="form-control" id="lname" name="lname" placeholder="<?=lang("GEN_LNAME");?>" value="<?php if (!$form_valid && !empty($_POST)){ echo $lname;} ?>" required autocomplete="family-name">
+      </div>
 
-        <label for="email"><?=lang("GEN_EMAIL");?>*</label>
+      <div class="form-group">
+        <label for="email" id="email-label"><?=lang("GEN_EMAIL");?>*</label>
         <input  class="form-control" type="text" name="email" id="email" placeholder="<?=lang("GEN_EMAIL");?>" value="<?php if (!$form_valid && !empty($_POST)){ echo $email;} ?>" required autocomplete="email">
+      </div>
 
+      <div class="form-group">
         <?php
-
         $character_range = lang("GEN_MIN")." ".$settings->min_pw . " ". lang("GEN_AND") ." ". $settings->max_pw . " " .lang("GEN_MAX")." ".lang("GEN_CHAR");
         $character_statement = '<span id="character_range" class="gray_out_text">' . $character_range . ' </span>';
 
@@ -75,7 +80,7 @@ Special thanks to John Bovey for the password strenth feature.
             $num_numbers_s = 's';
           }
 
-          $num_numbers_statement = '<span id="number" class="gray_out_text">'.lang("JOIN_HAVE") . $num_numbers . lang("GEN_NUMBER") .'</span>';
+          $num_numbers_statement = '<span id="number" class="gray_out_text">'.lang("JOIN_HAVE") . $num_numbers . " " . lang("GEN_NUMBER") .'</span>';
         }
         $password_match_statement = '<span id="password_match" class="gray_out_text">'.lang("JOIN_TWICE").'</span>';
 
@@ -150,10 +155,10 @@ Special thanks to John Bovey for the password strenth feature.
         ?>
 
         <div style="display: inline-block">
-          <label for="password"><?=lang("GEN_PASS");?>* (<?=lang("GEN_MIN");?> <?=$settings->min_pw?> <?=lang("GEN_AND");?> <?=lang("GEN_MAX");?> <?=$settings->max_pw?> <?=lang("GEN_CHAR");?>)</label>
+          <label for="password" id="password-label"><?=lang("GEN_PASS");?>* (<?=lang("GEN_MIN");?> <?=$settings->min_pw?> <?=lang("GEN_AND");?> <?=lang("GEN_MAX");?> <?=$settings->max_pw?> <?=lang("GEN_CHAR");?>)</label>
           <input  class="form-control" type="password" name="password" id="password" placeholder="<?=lang("GEN_PASS");?>" required autocomplete="password" aria-describedby="passwordhelp">
 
-          <label for="confirm"><?=lang("PW_CONF");?>*</label>
+          <label for="confirm" id="confirm-label"><?=lang("PW_CONF");?>*</label>
           <input  type="password" id="confirm" name="confirm" class="form-control" placeholder="<?=lang("PW_CONF");?>" required autocomplete="password" >
         </div>
         <div style="display: inline-block; padding-left: 20px">
@@ -174,35 +179,19 @@ Special thanks to John Bovey for the password strenth feature.
           <br><br>
           <a class="nounderline" id="password_view_control"><span class="fa fa-eye"></span> <?=lang("PW_SHOWS");?></a>
         </div>
-        <br><br>
+      </div>
+      <?php
+      includeHook($hooks,'form');
+      include($abs_us_root.$us_url_root.'usersc/scripts/additional_join_form_fields.php'); ?>
 
-        <?php
-        includeHook($hooks,'form');
-        include($abs_us_root.$us_url_root.'usersc/scripts/additional_join_form_fields.php'); ?>
-        <?php if($settings->show_tos == 1){ ?>
-          <label for="confirm"> <?=lang("JOIN_TC");?></label>
-            <?php
-            if(!isset($_SESSION['us_lang']) || $_SESSION['us_lang'] == 'en-US' || $_SESSION['us_lang'] == '' ){
-            require $abs_us_root.$us_url_root.'usersc/includes/user_agreement.php';
-            }else{
-              if(file_exists($abs_us_root.$us_url_root.'usersc/lang/termsandcond/'.$_SESSION['us_lang'].'.php')){
-                require $abs_us_root.$us_url_root.'usersc/lang/termsandcond/'.$_SESSION['us_lang'].'.php';
-              }else{
-                require $abs_us_root.$us_url_root.'usersc/includes/user_agreement.php';
-              }
-            }
-            ?>
 
-          <label><input type="checkbox" id="agreement_checkbox" name="agreement_checkbox"> <?=lang("JOIN_ACCEPTTC");?></label>
-        <?php } //if TOS enabled ?>
       <input type="hidden" value="<?=Token::generate();?>" name="csrf">
-      <br><button class="submit btn btn-primary " type="submit" id="next_button"><i class="fa fa-plus-square"></i> <?=lang("SIGNUP_TEXT");?></button>
-      <br><br><br><br>
-      <?php if($settings->recaptcha == 1|| $settings->recaptcha == 2){ ?>
-        <div class="g-recaptcha" data-sitekey="<?=$settings->recap_public; ?>" data-bind="next_button" data-callback="submitForm"></div>
-      <?php } ?>
-    </div>
-    </form>
-
+      <div class="form-group">
+        <button class="submit btn btn-primary " type="submit" id="next_button"><i class="fa fa-plus-square"></i> <?=lang("SIGNUP_TEXT");?></button>
+        <?php if($settings->recaptcha == 1|| $settings->recaptcha == 2){ ?>
+          <div class="g-recaptcha" data-sitekey="<?=$settings->recap_public; ?>" data-bind="next_button" data-callback="submitForm"></div>
+        <?php } ?>
+      </div>
+    </form><br />
   </div>
 </div>
