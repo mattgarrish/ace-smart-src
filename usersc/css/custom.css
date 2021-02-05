@@ -1,7 +1,9 @@
 
 h1.ace_login_hd {
 	font-size: 140%;
-	color: rgb(255,255,255)
+	color: rgb(255,255,255);
+	margin-left: 5rem;
+	margin-top: 0.5rem;
 }
 
 h1.ace_login_hd > span:first-child{
@@ -18,7 +20,7 @@ span.smart_hd {
 	font-style: italic;
 }
 
-.navbar-inverse {
+nav.navbar {
     background-color: rgb(27,95,161) !important;
 }
 
@@ -28,4 +30,8 @@ div#agreement {
     background-color: #fff;
     border: 1px solid #dce4ec;
     border-radius: 4px;
+}
+
+div.col-sm-12 {
+	margin-top: 2rem;
 }
