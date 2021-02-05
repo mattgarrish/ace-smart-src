@@ -24,26 +24,20 @@ require_once '../users/init.php';
 require_once $abs_us_root.$us_url_root.'users/includes/template/prep.php';
 $hooks =  getMyHooks();
 includeHook($hooks,'pre');
-if($settings->twofa == 1){
-  $google2fa = new PragmaRX\Google2FA\Google2FA();
-}
 ?>
 <?php
 if(ipCheckBan()){Redirect::to($us_url_root.'usersc/scripts/banned.php');die();}
-$errors = [];
-$successes = [];
-if (@$_REQUEST['err']) $errors[] = $_REQUEST['err']; // allow redirects to display a message
-$reCaptchaValid=FALSE;
-if (!Input::get('auto')) {
-	if($user->isLoggedIn()) Redirect::to($us_url_root.'index.php');
+$errors = $successes = [];
+if (Input::get('err') != '') {
+    $errors[] = Input::get('err');
 }
+$reCaptchaValid=FALSE;
+if($user->isLoggedIn()) Redirect::to($us_url_root.'index.php');
 
 if (!empty($_POST['login_hook'])) {
   $token = Input::get('csrf');
-  if (!Input::get('auto')) {
-    if(!Token::check($token)){
-      include($abs_us_root.$us_url_root.'usersc/scripts/token_error.php');
-    }
+  if(!Token::check($token)){
+    include($abs_us_root.$us_url_root.'usersc/scripts/token_error.php');
   }
 
   //Check to see if recaptcha is enabled
@@ -82,7 +76,7 @@ if (!$res['success']) {
  $reCaptchaValid=TRUE;
 }
 }
-  if($reCaptchaValid || $settings->recaptcha == 0){ //if recaptcha valid or recaptcha disabled
+  if($reCaptchaValid || $settings->recaptcha == 0 || $settings->recaptcha == 2 ){ //if recaptcha valid or recaptcha disabled
 
     $validate = new Validate();
     $validation = $validate->check($_POST, array(
@@ -92,24 +86,20 @@ if (!$res['success']) {
       includeHook($hooks,'post');
       if ($validation->passed()) {
         //Log user in
-        $remember = (Input::get('remember') === 'on') ? true : false;
+        $remember = false;
         $user = new User();
         $login = $user->loginEmail(Input::get('username'), trim(Input::get('password')), $remember);
         if ($login) {
+          // MG: "if" condition allows lia bypass
           if (!Input::get('auto')) {
+            $hooks =  getMyHooks(['page'=>'loginSuccess']);
+            includeHook($hooks,'body');
             $dest = sanitizedDest('dest');
               # if user was attempting to get to a page before login, go there
               $_SESSION['last_confirm']=date("Y-m-d H:i:s");
 
-              //check for need to reAck terms of service
-              if($settings->show_tos == 1){
-                if($user->data()->oauth_tos_accepted == 0){
-                  Redirect::to($us_url_root.'users/user_agreement_acknowledge.php');
-                }
-              }
-
               if (!empty($dest)) {
-                $redirect=htmlspecialchars_decode(Input::get('redirect'));
+                $redirect=html_entity_decode(Input::get('redirect'));
                 if(!empty($redirect) || $redirect!=='') Redirect::to($redirect);
                 else Redirect::to($dest);
               } elseif (file_exists($abs_us_root.$us_url_root.'usersc/scripts/custom_login_script.php')) {
@@ -127,6 +117,9 @@ if (!$res['success']) {
               }
             }
           } else {
+            $eventhooks =  getMyHooks(['page'=>'loginFail']);
+            includeHook($eventhooks,'body');
+            logger("0","Login Fail","A failed login on login.php");
             $msg = lang("SIGNIN_FAIL");
             $msg2 = lang("SIGNIN_PLEASE_CHK");
             $errors[] = '<strong>'.$msg.'</strong>'.$msg2;
@@ -139,7 +132,6 @@ if (!$res['success']) {
     }
     $token = Token::generate();
     ?>
-
     <?php if (Input::get('auto')) { ?>
     <div id="page-wrapper" style="min-height: 30rem;">
     	<div class="container">
@@ -177,19 +169,15 @@ if (!$res['success']) {
               <input type="hidden" name="dest" value="<?= $dest ?>" />
 
               <div class="form-group">
-                <label for="username"><?=lang("SIGNIN_UORE")?></label>
+                <label for="username" id="username-label" ><?=lang("SIGNIN_UORE")?></label>
                 <input  class="form-control" type="text" name="username" id="username" placeholder="<?=lang("SIGNIN_UORE")?>" required autofocus autocomplete="username">
               </div>
 
               <div class="form-group">
-                <label for="password"><?=lang("SIGNIN_PASS")?></label>
+                <label for="password" id="password-label"><?=lang("SIGNIN_PASS")?></label>
                 <input type="password" class="form-control"  name="password" id="password"  placeholder="<?=lang("SIGNIN_PASS")?>" required autocomplete="current-password">
               </div>
               <?php   includeHook($hooks,'form');?>
-              <div class="form-group">
-                <label for="remember">
-                  <input type="checkbox" name="remember" id="remember" > <?=lang("SIGNIN_REMEMBER")?></label>
-                </div>
                 <input type="hidden" name="login_hook" value="1">
                 <input type="hidden" name="csrf" value="<?=$token?>">
                 <input type="hidden" name="redirect" value="<?=Input::get('redirect')?>" />
