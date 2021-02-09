@@ -252,7 +252,7 @@ if (!empty($_POST)) {
         <div class="col-sm-12 col-md-2">
         </div>
         <div class="col-sm-12 col-md-10">
-          <h1><?=lang('SET_UPDATE'); ?></h1>}?>
+          <h1><?=lang('SET_UPDATE'); ?></h1>
           <br>
           <?php if (!$errors == '') {?><div class="alert alert-danger"><?=display_errors($errors); ?></div><?php } ?>
           <?php if (!$successes == '') {?><div class="alert alert-success"><?=display_successes($successes); ?></div><?php }
