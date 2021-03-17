@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.19",
+    "version": "1.20",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "10/02/2020, 09:10:00 AM",
+    "dct:date": "03/17/2021, 04:30:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -245,7 +245,7 @@ var gca = {
                             "0": "No header tags used anywhere",
                             "1": "Some headers marked with <p> tags, and visual style from CSS",
                             "2": "Troublesome hierarchy with no top-level tags in individual HTML files",
-                            "3": "The hierarchy flows inconsistently, jumping header levels",
+                            "3": "The hierarchy flows inconsistently, jumping header levels, or does not match the TOC",
                             "4": "Structural Hierarchy present and meaningful"
                         }
                     },
@@ -349,7 +349,45 @@ var gca = {
                             "0": "epub:type are captured in <body> element where there exists an equivalent role such as doc-chapter.",
                             "4": "No attributes are captured in <body> which have an associated role value.  Note: Ok to have <body epub:type=\"bodymatter\">"
                         }
-                    }    
+                    },
+                    {
+                        "$itemId": "general-headings-multiline",
+                        "itemName" : "Multi-Line Visual Formatting of Headings",
+                        "itemScores": {
+                            "N/A": "No Multi-Line headings",
+                            "0": "Multi-line Headings used (i.e. <br/> within the heading)",
+                            "4": "Multi-line Headings used best practice of spans with CSS display:block"
+                        }
+                    },
+                    {
+                        "$itemId": "general-headings-bold-italic",
+                        "itemName" : "Italic and Bolding within Headers",
+                        "itemScores": {
+                            "N/A": "No Bold / Italic present within Headings",
+                            "0": "Complete Heading is either Bold or Italic with separate <b>/<i> tags (eg: <h1><b>Heading Topic</b></h1>)",
+                            "4": "CSS correctly used to Heading levels adding Bold or Italic making entire Heading bolded or italicized."
+                        }
+                    },
+                    {
+                        "$itemId": "general-section-labels",
+                        "itemName" : "Sections are correctly Labelled",
+                        "itemScores": {
+                            "N/A": "No Sections present",
+                            "0": "None of the sections are labelled",
+                            "2": "Some of the sections are missing a label",
+                            "4": "All Sections are labelled correctly"
+                        }
+                    },
+                    {
+                        "$itemId": "general-dropcaps",
+                        "itemName" : "Drop Caps",
+                        "itemScores": {
+                            "N/A": "No Drop Caps present",
+                            "0": "Drop Caps are incorrectly marked up and cause screen readers to mispronounce the word (i.e. use of <spans> instead of CSS selectors).",
+                            "4": "All Drop Caps are correctly marked up with CSS and do not affect AT reading the entire word.  "
+                        }
+                    }
+                      
                 ]
             },
             {
@@ -462,6 +500,16 @@ var gca = {
                             "N/A": "No pages / no print equivalent / No Roman numerals",
                             "0": "Roman numerals are written out i.e. aria-label=\"page Roman numeral 9\" but displayed as \"page IX\"",
                             "4": "Roman numerals match the display and are left in letter form ie. aria-label =\"page IX\""
+                       }
+                    },                   
+                    {
+                        "$itemId": "navigation-pagebreak-labels",
+                        "itemName" : "Page Break Labels",
+                        "itemScores": {
+                            "N/A": "No Page breaks present",
+                            "0": "Page breaks incorrectly labelled (i.e. using title instead of label)",
+                            "3": "Page break labelled with just the page number (aria-label=\"123\" missing \"page\" text)",
+                            "4": "Page breaks labelled with recommended format (aria-label=\"page 123\") [ie. \"page\" + space + #] or are visible."
                        }
                     }                   
                 ]
