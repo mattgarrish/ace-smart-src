@@ -134,7 +134,10 @@ JS;
 		<main class="js-tabs">
 			<ul class="js-tablist" data-existing-hx="h3">
 				<li class="js-tablist__item">
-					<a href="#start" id="label_start" class="js-tablist__link">Pub Info</a>
+					<a href="#start" id="label_start" class="js-tablist__link" data-selected="1">Pub Info</a>
+				</li>
+				<li class="js-tablist__item">
+					<a href="#evaluate" id="label_evaluate" class="js-tablist__link">Evaluate</a>
 				</li>
 				<li class="js-tablist__item">
 					<a href="#conformance" id="label_conformance" class="js-tablist__link">Conformance</a>
@@ -154,7 +157,7 @@ JS;
 				</li>
 			</ul>
 	
-			<form class="report">
+			<form id="smart-report" class="report">
 				<section id="start" class="js-tabcontent">
 					<h2>Publication Information</h2>
 					
@@ -183,6 +186,162 @@ JS;
 						<label class="data"><span>Description:</span> <input type="text" id="description"/></label>
 						<label class="data"><span>Additional Metadata:</span> <textarea rows="8" aria-describedby="meta-input-desc" id="optional-meta" placeholder="label: value"></textarea></label>
 						<div id="meta-input-desc" hidden="hidden">Use a colon followed by a space to separate the label from the value. Separate metadata items with a return character.</div>
+					</div>
+				</section>
+				
+				<section id="evaluate" class="js-tabcontent">
+					<h2>Evaluate</h2>
+					
+					<p><small><em>This tab is curretly only a concept.</em></small></p>
+					
+					<div class="table">
+					<div class="tr">
+					
+					<div class="js-tabs">
+						<ul class="js-tablist" data-existing-hx="h4">
+							<li class="js-tablist__item">
+								<a href="#instr" id="label_instr" class="js-tablist__link" data-selected="1">Instructions</a>
+							</li>
+							<li class="js-tablist__item">
+								<a href="#hd" id="label_hd" class="js-tablist__link">Headings</a>
+							</li>
+							<li class="js-tablist__item">
+								<a href="#img" id="label_img" class="js-tablist__link">Images</a>
+							</li>
+							<li class="js-tablist__item">
+								<a href="#audio" id="label_audio" class="js-tablist__link">Audio</a>
+							</li>
+							<li class="js-tablist__item">
+								<a href="#video" id="label_video" class="js-tablist__link">Video</a>
+							</li>
+							<li class="js-tablist__item">
+								<a href="#finalize" id="label_finalize" class="js-tablist__link">Finalize</a>
+							</li>
+						</ul>
+					
+						<div id="eval-report" class="report">
+							<section id="instr" class="js-tabcontent">
+								<h3>Instructions</h3>
+								
+								<p>This section is used to assess the individual content items encountered while evaluating
+									an EPUB publication.</p>
+								
+								<p>Click on the appropriate content type in the menu bar on the left to bring up an evaluation
+									checklist. If any errors are discovered, select the appropriate failure(s) and save the
+									error.</p>
+								
+								<p>Errors are saved to a table at the bottom of each page. If you change your mind, old errors
+									can be deleted from the table before finalizing.</p>
+								
+								<p>After completing an evaluation, use the finalize tab to propagate the issues to their
+									correspoding WCAG success criteria.</p>
+							</section>
+							
+							<section id="hd" class="js-tabcontent">
+								<h3>Headings</h3>
+								<p>Check for the follwing errors:</p>
+								<ul>
+									<li><input type="checkbox" name="hd-err" id="hd-err-tagging" value="tagging"/> Heading tag or ARIA heading role not used</li>
+									<li><input type="checkbox" name="hd-err" id="hd-err-nesting" value="nesting"/> Heading level does not reflect position in publication (e.g., an <code>h6</code> following an <code>h3</code>)</li>
+								</ul>
+								<p>If there are errors, add the following information:</p>
+								<div><label>Location: <input type="text" id="hd-err-location"/></label</div>
+								<div><label>Description: <input type="text" id="hd-err-desc"/></label</div>
+								<div><button id="hd-err-add" onclick="addError(this); return false">Save Error</button></div>
+								<section>
+									<h4>Heading Errors</h4>
+									<table id="hd-err-table" class="no-error" width="100%">
+										<thead>
+											<tr>
+												<th>Location</th>
+												<th>Type</th>
+												<th>Description</th>
+												<th>Options</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td colspan="4">No errors reported.</td>
+											</tr>
+										</tbody>
+									</table>
+								</section>
+								<script>
+									function addError(e) {
+										var TABLE_EMPTY_CLASS = 'no-error';
+										
+										var id = e.id.replace(/-add$/, '');
+										var location_id = id + '-location';
+										var desc_id = id + '-desc';
+										var table_id = id + '-table';
+										
+										var chkbox = document.getElementsByName(id);
+										
+										if (!chkbox || chkbox.length == 0) {
+											alert('No errors found for the specified content type. Unable to continue.');
+											return;
+										}
+										
+										var msg = '';
+										
+										for (var i = 0; i < chkbox.length; i++) {
+											if (chkbox[i].checked) {
+												msg += chkbox[i].value;
+											}
+										}
+										
+										if (msg === '') {
+											alert('No errors were selected. Unable to continue.');
+											return;
+										}
+										
+										var err_table = document.getElementById(table_id);
+										
+										if (err_table.classList.contains(TABLE_EMPTY_CLASS)) {
+											err_table.classList.remove(TABLE_EMPTY_CLASS);
+											var old_tbody = err_table.getElementsByTagName('tbody');
+											var new_tbody = document.createElement('tbody');
+											old_tbody[0].parentNode.replaceChild(new_tbody, old_tbody[0]);
+										}
+										
+										var tbody = err_table.getElementsByTagName('tbody')[0];
+										var uuid = uuidv4();
+										var new_tr = '<tr id="' + uuid + '"><td>' + document.getElementById(location_id).value + '</td><td>' + msg + '</td><td>' + document.getElementById(desc_id).value + '</td><td>' + '<input type="button" id="hd-err-entry-" value="Edit" onclick="editError(this); return false"/> <input type="button" id="hd-err-num-' + uuid + '" value="Delete" onclick="deleteError(this); return false"/>' + '</td></tr>';
+										tbody.innerHTML = tbody.innerHTML + new_tr;
+									}
+									
+									function uuidv4() {
+										return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+											(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+										);
+									}
+								</script>
+							</section>
+							
+							<section id="img" class="js-tabcontent">
+								<h3>Images</h3>
+								<p>Is the image:</p>
+								<ul>
+									<li>Integral &#8212; contains information the user needs to access</li>
+									<li>Decorative &#8212; for display purposes only</li>
+								</ul>
+							</section>
+							
+							<section id="audio" class="js-tabcontent">
+								<h3>Audio</h3>
+							</section>
+							
+							<section id="video" class="js-tabcontent">
+								<h3>Video</h3>
+							</section>
+							
+							<section id="finalize" class="js-tabcontent">
+								<h3>Finalize</h3>
+							</section>
+						</div>
+					</div>
+					
+					</div>
 					</div>
 				</section>
 				
