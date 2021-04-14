@@ -24,10 +24,12 @@
  */
 
 var smartWCAG = (function() {
+	var _version = '2.0';
 	var _level = 'aa';
 	var _classList = '|a|aa|';
 	
 	return {
+		WCAGVersion: function() { return _version },
 		WCAGLevel: function() { return _level },
 		WCAGClassList: function() { return _classList },
 		
@@ -40,6 +42,10 @@ var smartWCAG = (function() {
 		
 		setWCAGLevel: function(newLevel) {
 			_level = newLevel;
+		},
+		
+		setWCAGVersion: function(newVersion) {
+			_version = newVersion;
 		}
 	}
 })();

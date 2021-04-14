@@ -166,8 +166,10 @@ JS;
 						<fieldset class="flat">
 							<legend>Format:</legend>
 							<!-- <div><small>Note: This setting also controls the format of the discovery and conformance metadata.</small></div> -->
-							<label><input type="radio" id="epub-format-3" name="epub-format" value="3" checked="checked"/> EPUB 3</label>
-							<label><input type="radio" id="epub-format-2" name="epub-format" value="2"/> EPUB 2</label>
+							<select id="epub-format">
+								<option value="3"> EPUB 3</option>
+								<option value="2"> EPUB 2</option>
+							</select>
 						</fieldset>
 						
 						<label class="data"><span>Title:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="title" aria-required="true"/></label>
@@ -193,9 +195,27 @@ JS;
 					
 					<div class="form-data">
 						<fieldset class="flat">
+							<legend>EPUB Accessibility Version:</legend>
+							<select id="epub-a11y">
+								<option selected="">1.1</option>
+								<option>1.0</option>
+							</select>
+						</fieldset>
+						
+						<fieldset class="flat">
+							<legend>WCAG Version:</legend>
+							<select id="wcag-version">
+								<option selected="">2.0</option>
+								<option>2.1</option>
+							</select>
+						</fieldset>
+						
+						<fieldset class="flat">
 							<legend>WCAG Conformance:</legend>
-							<label><input type="radio" id="wcag-level-a" name="wcag-level" value="a"/> Level A</label>
-							<label><input type="radio" id="wcag-level-aa" name="wcag-level" value="aa" checked="checked"/> Level AA</label>
+							<select id="wcag-level">
+								<option value="a" selected="">Level A</label>
+								<option value="aa">Level AA</label>
+							</select>
 						</fieldset>
 						
 						<fieldset id="exclusions" class="flat">

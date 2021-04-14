@@ -29,6 +29,16 @@
 			$js_tabs[i].appendChild(link_div);
 		}
 
+		/* watch for changes to epub accessibility version */
+		$('select#epub-a11y').change( function(){
+			smartConformance.setEPUBA11yVersion(this.value);
+		});
+		
+		/* watch for changes to wcag version */
+		$('select#wcag-version').change( function(){
+			smartConformance.setWCAGVersion(this.value);
+		});
+		
 		/* watch for changes to success criteria status radio buttons */
 		$('input.sc_status').click( function(){
 			smartConformance.setSCStatus({name: this.name, value: this.value});
@@ -240,7 +250,7 @@
 	/* START TAB */
 	
 	/* watch for EPUB format changes */
-	$('input[name="epub-format"]').click( function(){
+	$('select#epub-format').change( function(){
 		smartFormat.setEPUBVersion(this.value);
 	});
 	
@@ -253,7 +263,7 @@
 	/* CONFORMANCE TAB */
 	
 	/* watch for wcag conformance level changes */
-	$('input[name="wcag-level"]').click( function(){
+	$('select#wcag-level').click( function(){
 		smartConformance.setWCAGConformanceLevel(this.value);
 	});
 	

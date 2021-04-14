@@ -700,7 +700,7 @@ var smartReport = (function() {
 		additionalInfo.appendChild(formatPubInfoEntry({
 			id: 'format',
 			label: smart_ui.reporting.addinfo.format[smart_lang],
-			value: 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value
+			value: 'EPUB ' + document.querySelector('select#epub-format').value
 		}));
 		
 		

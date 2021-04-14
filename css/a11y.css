@@ -544,6 +544,11 @@ section#verification > div.form-data > fieldset > label {
 	width: 7rem;
 }
 
+fieldset select {
+	margin-left: 0.4rem;
+	min-width: 11rem;
+}
+
 div.form-data {
 	background-color: rgb(240,248,255);
 	padding: 0.3rem 0 0.3rem 1rem;
