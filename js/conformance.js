@@ -15,6 +15,8 @@
  * 
  * - addSuccessCriteriaReporting - dynamically adds the status and note fields to success criteria
  * 
+ * - setWCAGVersion - changes the success criteria to match the selected version of the standard
+ * 
  * - setWCAGConformanceLevel - updates the displayed conformance tests to the user-selected level
  * 
  * - displaySuccessCriteria - show/hide success criteria for the specified wcag level (used to show both current level and optional criteria)
@@ -49,7 +51,37 @@ var smartConformance = (function() {
 		_STATUS.fail = smart_ui.conformance.status.fail[smart_lang];
 		_STATUS.a = smart_ui.conformance.status.a[smart_lang];
 		_STATUS.aa = smart_ui.conformance.status.aa[smart_lang];
+		
+	var _WCAG_VER = ['2.0', '2.1'];
 	
+	/* changes the form to match the epub accessibility version options */
+	
+	function setEPUBA11yVersion(version) {
+	
+		var wcag_ver = document.getElementById('wcag-version');
+		
+		if (version == "1.1") {
+			wcag_ver.disabled = false;
+		}
+		
+		else if (version == "1.0") {
+			wcag_ver.value = "2.0";
+			wcag_ver.disabled = true;
+		}
+		
+		else {
+			// unhandled version
+			console.log("Unhanled EPUB Accessibility version " + version);
+		}
+
+	}
+	
+	/* changes the visible success criteria based on the user setting */
+	
+	function setWCAGVersion(version) {
+		smartWCAG.setWCAGVersion(version);
+		setWCAGConformanceLevel(smartWCAG.WCAGLevel());
+	}
 	
 	/* changes the visible success criteria based on the user setting */
 	
@@ -85,16 +117,27 @@ var smartConformance = (function() {
 	function displaySuccessCriteria(options) {
 		var success_criteria = document.getElementsByClassName(options.wcag_level);
 		
-		for (var i = 0; i < success_criteria.length; i++) {
-			if (options.display) {
-				success_criteria[i].classList.remove('hidden');
-				success_criteria[i].classList.add('visible');
+		var hide = false;
+		
+		for (var i = 0; i < _WCAG_VER.length; i++) {
+		
+			var success_criteria = document.getElementsByClassName('w' + _WCAG_VER[i].replace('.',''));
+		
+			for (var j = 0; j < success_criteria.length; j++) {
+				if (hide) {
+					success_criteria[j].classList.remove('visible');
+					success_criteria[j].classList.add('hidden');
+				}
+				else {
+					success_criteria[j].classList.remove('hidden');
+					success_criteria[j].classList.add('visible');
+				}
 			}
-			else {
-				success_criteria[i].classList.remove('visible');
-				success_criteria[i].classList.add('hidden');
+			
+			if (_WCAG_VER[i] == smartWCAG.WCAGVersion()) {
+				hide = true;
 			}
-		};
+		}
 		
 		smartWCAG.setWCAGClassList();
 	}
@@ -113,6 +156,7 @@ var smartConformance = (function() {
 		
 			var id = sc_config['sc'][i].hasOwnProperty('id') ? sc_config['sc'][i].id : '';
 			var level = sc_config['sc'][i].hasOwnProperty('level') ? sc_config['sc'][i].level : '';
+			var version = sc_config['sc'][i].hasOwnProperty('version') ? sc_config['sc'][i].version : '2.0'
 			
 			var wcag_number = 0;
 			var match_wcag_number = id.match(/([1-4]\.[1-9]\.[0-9]+)/);
@@ -123,7 +167,7 @@ var smartConformance = (function() {
 			
 			/* create section for new success criterion */
 			
-			sc_nodes.push('<section id="' + id + '" class="' + level + '">');
+			sc_nodes.push('<section id="' + id + '" class="w' + version.replace('.','') + ' ' + level + '">');
 			sc_nodes.push('<h3>');
 			sc_nodes.push('<span class="label">');
 			
@@ -159,14 +203,14 @@ var smartConformance = (function() {
 			/* add kb links */
 			
 			if (sc_config['sc'][i].hasOwnProperty('kb') && sc_config['sc'][i].kb.hasOwnProperty(smart_lang) && Object.keys(sc_config['sc'][i].kb[smart_lang]).length > 0) {
-				sc_nodes.push(createSCLinkDetails('kb',sc_config['sc'][i].kb[smart_lang]));
+				sc_nodes.push(createSCLinkDetails('kb',sc_config['sc'][i].kb[smart_lang],''));
 				has_links = true;
 			}
 			
 			/* add documentation links */
 			
-			if (sc_config['sc'][i].hasOwnProperty('documentation') && sc_config['sc'][i].documentation.hasOwnProperty(smart_lang) && Object.keys(sc_config['sc'][i].documentation[smart_lang]).length > 0) {
-				sc_nodes.push(createSCLinkDetails('doc',sc_config['sc'][i].documentation[smart_lang]));
+			if (sc_config['sc'][i].hasOwnProperty('ref')) {
+				sc_nodes.push(createSCLinkDetails('doc', sc_config['sc'][i].ref, wcag_number));
 				has_links = true;
 			}
 			
@@ -241,15 +285,22 @@ var smartConformance = (function() {
 	}
 	
 	/*  */
-	function createSCLinkDetails(type, json) {
+	function createSCLinkDetails(type, json, id) {
 		var details = '<details><summary>';
 			details += (type == 'kb') ? smart_ui.conformance.labels.kb[smart_lang] : smart_ui.conformance.labels.wcag[smart_lang];
 		details += '</summary>';
 		
 		details += '<ul>';
 		
-		for (var link in json) {
-			details += '<li><a href="' + json[link] + '" target="_blank">' + link + '</a></li>';
+		if (type == 'doc') {
+			details += '<li><a href="https://www.w3.org/WAI/WCAG21/Understanding/' + json + '.html" target="_blank">Understanding Success Criterion ' + id + '</a></li>';
+			details += '<li><a href="https://www.w3.org/WAI/WCAG21/quickref/#' + json + '" target="_blank">How to meet Success Criterion' + id + '</a></li>';
+		}
+		
+		else {
+			for (var link in json) {
+				details += '<li><a href="' + json[link] + '" target="_blank">' + link + '</a></li>';
+			}
 		}
 		
 		details += '</ul></details>';
@@ -376,6 +427,14 @@ var smartConformance = (function() {
 	
 	return {
 		STATUS: _STATUS,
+		
+		setEPUBA11yVersion: function(version) {
+			setEPUBA11yVersion(version);
+		},
+		
+		setWCAGVersion: function(version) {
+			setWCAGVersion(version);
+		},
 		
 		setWCAGConformanceLevel: function(level) {
 			setWCAGConformanceLevel(level);

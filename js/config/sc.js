@@ -3,6 +3,8 @@ var sc_config = {
 	"sc": [
 		{
 			"id": "sc-1.1.1",
+			"ref": "non-text-content",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Non-text Content"
@@ -38,17 +40,13 @@ var sc_config = {
 					"Audio": "http://kb.daisy.org/publishing/docs/html/audio.html",
 					"Video": "http://kb.daisy.org/publishing/docs/html/video.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.1.1": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/text-equiv-all.html",
-					"How to meet Success Criterion 1.1.1": "https://www.w3.org/WAI/WCAG20/quickref/#qr-text-equiv-all"
-				}
 			}
 		},
 	
 		{
 			"id": "sc-1.2.1",
+			"ref": "audio-only-and-video-only-prerecorded",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Audio-only and Video-only (Prerecorded)"
@@ -77,17 +75,13 @@ var sc_config = {
 					"Audio": "http://kb.daisy.org/publishing/docs/html/audio.html",
 					"Video": "http://kb.daisy.org/publishing/docs/html/video.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.2.1": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-av-only-alt.html",
-					"How to meet Success Criterion 1.2.1": "https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-av-only-alt"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.2.2",
+			"ref": "captions-prerecorded",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Captions (Prerecorded)"
@@ -103,17 +97,13 @@ var sc_config = {
 				"en": {
 					"Video": "http://kb.daisy.org/publishing/docs/html/video.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.2.2": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-captions.html",
-					"How to meet Success Criterion 1.2.2": "https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-captions"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.2.3",
+			"ref": "audio-description-or-media-alternative-prerecorded",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Audio Description or Media Alternative (Prerecorded)"
@@ -134,17 +124,13 @@ var sc_config = {
 				"en": {
 					"Video": "http://kb.daisy.org/publishing/docs/html/video.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.2.3": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-audio-desc.html",
-					"How to meet Success Criterion 1.2.3": "https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-audio-desc"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.2.4",
+			"ref": "captions-live",
+			"version": "2.0",
 			"level": "aa",
 	        "name":  {
 				"en": "Captions (Live)"
@@ -155,17 +141,13 @@ var sc_config = {
 <p>If so, the broadcasts must be live captioned to pass.</p>\
 \
 <p class=\"sc-note\">Note: Remotely-hosted audio and video files are not live broadcasts, as they can be accessed at any time and at any point in their timeline.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.2.4": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-real-time-captions.html",
-					"How to meet Success Criterion 1.2.4": "https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-real-time-captions"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.2.5",
+			"ref": "audio-description-prerecorded",
+			"version": "2.0",
 			"level": "aa",
 	        "name":  {
 				"en": "Audio Description (Prerecorded)"
@@ -179,17 +161,13 @@ var sc_config = {
 				"en": {
 					"Video": "http://kb.daisy.org/publishing/docs/html/video.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.2.5": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-audio-desc-only.html",
-					"How to meet Success Criterion 1.2.5": "https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-audio-desc-only"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.2.6",
+			"ref": "sign-language-prerecorded",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Sign Language (Prerecorded)"
@@ -198,17 +176,13 @@ var sc_config = {
 				"en": "<p>Verify that sign language interpretation is provided for all audio that accompanies video content.</p>\
 \
 <p class=\"sc-note\">Note: Sign language interpretation does not have to be provided for standalone audio content to meet this success criterion.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.2.6": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-sign.html",
-					"How to meet Success Criterion 1.2.6": "https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-sign"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.2.7",
+			"ref": "extended-audio-description-prerecorded",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Extended Audio Description (Prerecorded)"
@@ -217,17 +191,13 @@ var sc_config = {
 				"en": "<p>Verify that audio descriptions do not overlap the foreground audio (i.e., that the description does not interfere with the ability to listen to dialogue or important sounds).</p>\
 \
 <p>If overlaps are found, extended descriptions must be provided whereby the video and audio are paused until the description completes.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.2.7": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-extended-ad.html",
-					"How to meet Success Criterion 1.2.7": "https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-extended-ad"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.2.8",
+			"ref": "media-alternative-prerecorded",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Media Alternative (Prerecorded)"
@@ -241,17 +211,13 @@ var sc_config = {
 				"en": {
 					"Video": "http://kb.daisy.org/publishing/docs/html/video.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.2.8": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-text-doc.html",
-					"How to meet Success Criterion 1.2.8": "https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-text-doc"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.2.9",
+			"ref": "audio-only-live",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Audio-only (Live)"
@@ -260,17 +226,13 @@ var sc_config = {
 				"en": "<p>Verify that a text alternative is provided for all live audio (e.g., through live captioning).</p>\
 \
 <p class=\"sc-note\">Note: As support for live streaming protocols is not a part of EPUB, this success criterion is typically not applicable.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.2.9": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-live-audio-only.html",
-					"How to meet Success Criterion 1.2.9": "https://www.w3.org/WAI/WCAG20/quickref/#qr-media-equiv-live-audio-only"
-				}
 			}
 		},
 	
 		{
 			"id": "sc-1.3.1",
+			"ref": "info-and-relationships",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Info and Relationships"
@@ -328,17 +290,13 @@ var sc_config = {
 					"SEM-001: Include ARIA and EPUB semantics": "http://www.idpf.org/epub/a11y/techniques/#sem-001",
 					"TITLES-002: Ensure numbered headings reflect publication hierarchy": "http://www.idpf.org/epub/a11y/techniques/#titles-002"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.3.1": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation-programmatic.html",
-					"How to meet Success Criterion 1.3.1": "https://www.w3.org/WAI/WCAG20/quickref/#qr-content-structure-separation-programmatic"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.3.2",
+			"ref": "meaningful-sequence",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Meaningful Sequence"
@@ -363,17 +321,13 @@ var sc_config = {
 					"Sections": "http://kb.daisy.org/publishing/docs/html/sections.html",
 					"ACCESS-001: Ensure Linear Reading Order": "http://www.idpf.org/epub/a11y/techniques/#access-001"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.3.2": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation-sequence.html",
-					"How to meet Success Criterion 1.3.2": "https://www.w3.org/WAI/WCAG20/quickref/#qr-content-structure-separation-sequence"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.3.3",
+			"ref": "sensory-characteristics",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Sensory Characteristics"
@@ -387,17 +341,67 @@ var sc_config = {
 				"en": {
 					"Separation of Style": "http://kb.daisy.org/publishing/docs/html/separation.html"
 				}
+			}
+		},
+		
+		{
+			"id": "sc-1.3.4",
+			"ref": "orientation",
+			"version": "2.1",
+			"level": "aa",
+	        "name":  {
+				"en": "Orientation"
 			},
-			"documentation": {
+			"guidance": {
+				"en": "<p></p>"
+			},
+			"kb": {
 				"en": {
-					"Understanding Success Criterion 1.3.3": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation-understanding.html",
-					"How to meet Success Criterion 1.3.3": "https://www.w3.org/WAI/WCAG20/quickref/#qr-content-structure-separation-understanding"
+					"": ""
+				}
+			}
+		},
+		
+		{
+			"id": "sc-1.3.5",
+			"ref": "identify-input-purpose",
+			"version": "2.1",
+			"level": "aa",
+	        "name":  {
+				"en": "Identify Input Purpose"
+			},
+			"guidance": {
+				"en": "<p></p>"
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+		
+		{
+			"id": "sc-1.3.6",
+			"ref": "identify-purpose",
+			"version": "2.1",
+			"level": "aaa",
+	        "name":  {
+				"en": "Identify Purpose"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
 				}
 			}
 		},
 	
 		{
 			"id": "sc-1.4.1",
+			"ref": "use-of-color",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Use of Color"
@@ -409,17 +413,13 @@ var sc_config = {
 				"en": {
 					"Separation of Style": "http://kb.daisy.org/publishing/docs/html/separation.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.4.1": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-without-color.html",
-					"How to meet Success Criterion 1.4.1": "https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-without-color"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.4.2",
+			"ref": "audio-control",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Audio Control"
@@ -435,17 +435,13 @@ var sc_config = {
 				"en": {
 					"Audio": "http://kb.daisy.org/publishing/docs/html/audio.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.4.2": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-dis-audio.html",
-					"How to meet Success Criterion 1.4.2": "https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-dis-audio"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.4.3",
+			"ref": "contrast-minimum",
+			"version": "2.0",
 			"level": "aa",
 	        "name":  {
 				"en": "Contrast (Minimum)"
@@ -468,17 +464,13 @@ var sc_config = {
 				"en": {
 					"Color": "http://kb.daisy.org/publishing/docs/css/color.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.4.3": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html",
-					"How to meet Success Criterion 1.4.3": "https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-contrast"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.4.4",
+			"ref": "resize-text",
+			"version": "2.0",
 			"level": "aa",
 	        "name":  {
 				"en": "Resize text"
@@ -487,17 +479,13 @@ var sc_config = {
 				"en": "<p>Verify that font declarations use relative sizes (e.g., <code>%</code>, <code>em</code>, <code>rem</code>) and/or that text container elements resize/reflow with the text.</p>\
 \
 <p>Zoom the text to 200% and ensure that the publication remains readable/functional (e.g., no text is cut off).</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.4.4": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-scale.html",
-					"How to meet Success Criterion 1.4.4": "https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-scale"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.4.5",
+			"ref": "images-of-text",
+			"version": "2.0",
 			"level": "aa",
 	        "name": {
 				"en": "Images of Text"
@@ -513,17 +501,13 @@ var sc_config = {
 				"en": {
 					"TEXT-001 - Use Unicode for text content": "http://www.idpf.org/epub/a11y/techniques/#text-001"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.4.5": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-text-presentation.html",
-					"How to meet Success Criterion 1.4.5": "https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-text-presentation"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.4.6",
+			"ref": "contrast-enhanced",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Contrast (Enhanced)"
@@ -539,17 +523,13 @@ var sc_config = {
 				"en": {
 					"Color": "http://kb.daisy.org/publishing/docs/css/color.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.4.6": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast7.html",
-					"How to meet Success Criterion 1.4.6": "https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast7"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.4.7",
+			"ref": "low-or-no-background-audio",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Low or No Background Audio"
@@ -564,17 +544,13 @@ var sc_config = {
 </ul>\
 \
 <p class=\"sc-note\">Note: This success criterion only applies to audio content that contains primarily speech in the foreground, is not an audio CAPTCHA or audio logo, and is not vocalization intended to be primarily musical expression (e.g., singing or rapping).</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.4.7": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-noaudio.html",
-					"How to meet Success Criterion 1.4.7": "https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-noaudio"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.4.8",
+			"ref": "visual-presentation",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Visual Presentation"
@@ -589,17 +565,13 @@ var sc_config = {
 	<li>Line spacing (leading) is at least space-and-a-half within paragraphs, and paragraph spacing at least 1.5 times larger than the line spacing.</li>\
 	<li>Text resizes without assistive technology up to 200 percent in a way that does not require the user to scroll horizontally to read a line of text on a full-screen window.</li>\
 </ul>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.4.8": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-visual-presentation.html",
-					"How to meet Success Criterion 1.4.8": "https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-visual-presentation"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-1.4.9",
+			"ref": "images-of-text-no-exception",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Images of Text (No Exception)"
@@ -613,17 +585,85 @@ var sc_config = {
 				"en": {
 					"TEXT-001 - Use Unicode for text content": "http://www.idpf.org/epub/a11y/techniques/#text-001"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 1.4.9": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-text-images.html",
-					"How to meet Success Criterion 1.4.9": "https://www.w3.org/WAI/WCAG20/quickref/#qr-visual-audio-contrast-text-images"
-				}
 			}
 		},
 	
 		{
+			"id": "sc-1.4.10",
+			"ref": "reflow",
+			"version": "2.1",
+			"level": "aa",
+	        "name":  {
+				"en": "Reflow"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+
+		{
+			"id": "sc-1.4.11",
+			"ref": "non-text-contrast",
+			"version": "2.1",
+			"level": "aa",
+	        "name":  {
+				"en": "Non-text Contrast"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+
+		{
+			"id": "sc-1.4.12",
+			"ref": "text-spacing",
+			"version": "2.1",
+			"level": "aa",
+	        "name":  {
+				"en": "Text Spacing"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+
+		{
+			"id": "sc-1.4.13",
+			"ref": "content-on-hover-or-focus",
+			"version": "2.1",
+			"level": "aa",
+	        "name":  {
+				"en": "Content on Hover or Focus"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+		
+		{
 			"id": "sc-2.1.1",
+			"ref": "keyboard",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Keyboard"
@@ -643,17 +683,13 @@ var sc_config = {
 				"en": {
 					"ARIA": "http://kb.daisy.org/publishing/docs/script/aria.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.1.1": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/keyboard-operation-keyboard-operable.html",
-					"How to meet Success Criterion 2.1.1": "https://www.w3.org/WAI/WCAG20/quickref/#qr-keyboard-operation-keyboard-operable"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.1.2",
+			"ref": "no-keyboard-trap",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "No Keyboard Trap"
@@ -668,17 +704,13 @@ var sc_config = {
 <p class=\"sc-note\">Note: Audio and video content that uses native HTML controls (i.e., has the <code>controls</code> attribute set by default) can be assumed to be accessible. If the author has scripted their own controls, the interface needs testing.</p>\
 \
 <p class=\"sc-note\">Note: Plugins are a common cause of keyboard traps. Although formats that require a plugin are not typically found in EPUB 3, some EPUB 2 reading systems supported Flash video.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.1.2": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/keyboard-operation-trapping.html",
-					"How to meet Success Criterion 2.1.2": "https://www.w3.org/WAI/WCAG20/quickref/#qr-keyboard-operation-trapping"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.1.3",
+			"ref": "keyboard-no-exception",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Keyboard (No Exception)"
@@ -692,17 +724,31 @@ var sc_config = {
 				"en": {
 					"ARIA": "http://kb.daisy.org/publishing/docs/script/aria.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.1.3": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/keyboard-operation-all-funcs.html",
-					"How to meet Success Criterion 2.1.3": "https://www.w3.org/WAI/WCAG20/quickref/#qr-keyboard-operation-all-funcs"
-				}
 			}
 		},
 	
 		{
+			"id": "sc-2.1.4",
+			"ref": "character-key-shortcuts",
+			"version": "2.1",
+			"level": "a",
+	        "name":  {
+				"en": "Character Key Shortcuts"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+		
+		{
 			"id": "sc-2.2.1",
+			"ref": "timing-adjustable",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Timing Adjustable"
@@ -718,17 +764,13 @@ var sc_config = {
 	<li>The time limit is essential and extending it would invalidate the activity.</li>\
 	<li>The time limit is longer than 20 hours.</li>\
 </ul>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.2.1": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-required-behaviors.html",
-					"How to meet Success Criterion 2.2.1": "https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-required-behaviors"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.2.2",
+			"ref": "pause-stop-hide",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Pause, Stop, Hide"
@@ -740,34 +782,26 @@ var sc_config = {
 	<li>For any moving, blinking or scrolling information that (1) starts automatically, (2) lasts more than five seconds, and (3) is presented in parallel with other content, there is a mechanism for the user to pause, stop, or hide it unless the movement, blinking, or scrolling is part of an activity where it is essential.</li>\
 	<li>For any auto-updating information that (1) starts automatically and (2) is presented in parallel with other content, there is a mechanism for the user to pause, stop, or hide it or to control the frequency of the update unless the auto-updating is part of an activity where it is essential.</li>\
 </ul>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.2.2": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-pause.html",
-					"How to meet Success Criterion 2.2.2": "https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-pause"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.2.3",
+			"ref": "no-timing",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "No Timing"
 			},
 			"guidance": {
 				"en": "<p>Verify that timing is not essential to the functioning of the content (e.g., it can be disabled if part of dynamic content, or an alternative untimed version is offered).</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.2.3": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-no-exceptions.html",
-					"How to meet Success Criterion 2.2.3": "https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-no-exceptions"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.2.4",
+			"ref": "interruptions",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Interruptions"
@@ -776,34 +810,44 @@ var sc_config = {
 				"en": "<p>Verify there are no interruptions from a remote server (e.g., messages pushed to the content), or any interruptions can be turned off or suppressed by the user except in the case of emergencies.</p>\
 \
 <p class=\"sc-note\">Note: Emergency messages may include alerts about loss of connectivity, if that is important for the user to know.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.2.4": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-postponed.html",
-					"How to meet Success Criterion 2.2.4": "https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-postponed"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.2.5",
+			"ref": "re-authenticating",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Re-authenticating"
 			},
 			"guidance": {
 				"en": "<p>Verify that the user is able to re-authenticate and continue a transaction or activity (such as a quiz), without loss of any data that has already been entered, if there are circumstances that cause the user to be logged out (e.g., inactivity, security).</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.2.5": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-server-timeout.html",
-					"How to meet Success Criterion 2.2.5": "https://www.w3.org/WAI/WCAG20/quickref/#qr-time-limits-server-timeout"
-				}
 			}
 		},
 	
 		{
+			"id": "sc-2.2.6",
+			"ref": "timeouts",
+			"version": "2.1",
+			"level": "aaa",
+	        "name":  {
+				"en": "Timeouts"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+		
+		{
 			"id": "sc-2.3.1",
+			"ref": "three-flashes-or-below-threshold",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Three Flashes or Below Threshold"
@@ -812,17 +856,13 @@ var sc_config = {
 				"en": "<p>Verify that there is no content that flashes more than three times per second (e.g., using <a href=\"http://trace.umd.edu/peat\" target=\"_blank\">PEAT</a>), or that the flashing is below the <a href=\"https://www.w3.org/TR/WCAG20/#general-thresholddef\" target=\"_blank\">general flash and red flash thresholds</a>.</p>\
 \
 <p class=\"sc-note\">Note: Content that does not occupy more than 25% of 10 degrees of the visual field is exempt. See <a href=\"https://www.w3.org/TR/WCAG20-TECHS/G176.html\" target=\"_blank\">Technique G176</a> for how to calculate.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.3.1": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/seizure-does-not-violate.html",
-					"How to meet Success Criterion 2.3.1": "https://www.w3.org/WAI/WCAG20/quickref/#qr-seizure-does-not-violate"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.3.2",
+			"ref": "three-flashes",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Three Flashes"
@@ -831,17 +871,31 @@ var sc_config = {
 				"en": "<p>Verify that there is no content that flashes more than three times per second.</p>\
 \
 <p class=\"sc-note\">Note: This success criterion differs from <a href=\"#sc-2.3.1\">2.3.1</a> in that it makes no exceptions for flashing that is below the general and red flash thresholds.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.3.2": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/seizure-three-times.html",
-					"How to meet Success Criterion 2.3.2": "https://www.w3.org/WAI/WCAG20/quickref/#qr-seizure-three-times"
-				}
 			}
 		},
 	
 		{
+			"id": "sc-2.3.3",
+			"ref": "animation-from-interactions",
+			"version": "2.1",
+			"level": "aaa",
+	        "name":  {
+				"en": "Animation from Interactions"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+		
+		{
 			"id": "sc-2.4.1",
+			"ref": "bypass-blocks",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Bypass Blocks"
@@ -852,17 +906,13 @@ var sc_config = {
 <p>Although this problem is typically rare in EPUB publication, one place it may be encountered is with running headers and footers in fixed-layout publications. In these cases, the HTML <code>header</code> and <code>footer</code> elements can be used to encapsulate the running header/footer and the <code>main</code> element can be used to encapsulate the body.</p>\
 \
 <p class=\"sc-note\">Note: This success criterion typically is aimed at web site navigation, to allow users to bypass repeated site headers, navigation bars, etc.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.4.1": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-skip.html",
-					"How to meet Success Criterion 2.4.1": "https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-skip"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.4.2",
+			"ref": "page-titled",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Page Titled"
@@ -877,51 +927,39 @@ var sc_config = {
 					"Page Title": "http://kb.daisy.org/publishing/docs/html/title.html",
 					"TITLES-001: Include publication and document titles": "http://www.idpf.org/epub/a11y/techniques/#titles-001"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.4.2": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-title.html",
-					"How to meet Success Criterion 2.4.2": "https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-title"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.4.3",
+			"ref": "focus-order",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Focus Order"
 			},
 			"guidance": {
 				"en": "<p>Verify that there is an intelligible ordering / relationship when tabbing through interactive and form elements.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.4.3": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-focus-order.html",
-					"How to meet Success Criterion 2.4.3": "https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-focus-order"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.4.4",
+			"ref": "link-purpose-in-context",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Link Purpose (In Context)"
 			},
 			"guidance": {
 				"en": "<p>Verify that links have meaningful text, or can be understood from the surrounding text (preferably from the text that precedes the link).</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.4.4": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-refs.html",
-					"How to meet Success Criterion 2.4.4": "https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-refs"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.4.5",
+			"ref": "multiple-ways",
+			"version": "2.0",
 			"level": "aa",
 	        "name":  {
 				"en": "Multiple Ways"
@@ -942,51 +980,39 @@ var sc_config = {
 					"SEM-003: Include EPUB landmarks": "http://www.idpf.org/epub/a11y/techniques/#sem-003",
 					"PAGE-003: Provide a page list": "http://www.idpf.org/epub/a11y/techniques/#page-003"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.4.5": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-mult-loc.html",
-					"How to meet Success Criterion 2.4.5": "https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-mult-loc"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.4.6",
+			"ref": "headings-and-labels",
+			"version": "2.0",
 			"level": "aa",
 	        "name":  {
 				"en": "Headings and Labels"
 			},
 			"guidance": {
 				"en": "<p>Verify that headings and labels describe the purpose or topic of the content they are associated with.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.4.6": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-descriptive.html",
-					"How to meet Success Criterion 2.4.6": "https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-descriptive"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.4.7",
+			"ref": "focus-visible",
+			"version": "2.0",
 			"level": "aa",
 	        "name":  {
 				"en": "Focus Visible"
 			},
 			"guidance": {
 				"en": "<p>If there are any keyboard-operable user interfaces, ensure each control shows focus when active.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.4.7": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-focus-visible.html",
-					"How to meet Success Criterion 2.4.7": "https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-focus-visible"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.4.8",
+			"ref": "location",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Location"
@@ -995,17 +1021,13 @@ var sc_config = {
 				"en": "<p>This success criterion is not applicable to EPUB publications.</p>\
 \
 <p>To improve the ability of users to find their location, however, the inclusion of static page markers and use of running headers and footers, when possible, are recommended.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.4.8": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-location.html",
-					"How to meet Success Criterion 2.4.8": "https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-location"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.4.9",
+			"ref": "link-purpose-link-only",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Link Purpose (Link Only)"
@@ -1014,34 +1036,134 @@ var sc_config = {
 				"en": "<p>Verify that purpose of each link can be understood from their text alone.</p>\
 \
 <p class=\"sc-note\">Note: This success criterion differs from <a href=\"#sc-2.4.4\">2.4.4</a> in that all necessary context must be part of the link text. The reader must not have to read the surrounding text to understand the purpose of the link.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.4.9": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-link.html",
-					"How to meet Success Criterion 2.4.9": "https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-link"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-2.4.10",
+			"ref": "section-headings",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Section Headings"
 			},
 			"guidance": {
 				"en": "<p>Verify that each section of the publication is identified with a heading, and the heading numbers currectly identify the position of the heading in the document outline.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 2.4.10": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-headings.html",
-					"How to meet Success Criterion 2.4.10": "https://www.w3.org/WAI/WCAG20/quickref/#qr-navigation-mechanisms-headings"
-				}
 			}
 		},
 	
 		{
+			"id": "sc-2.5.1",
+			"ref": "pointer-gestures",
+			"version": "2.1",
+			"level": "a",
+	        "name":  {
+				"en": "Pointer Gestures"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+		
+		{
+			"id": "sc-2.5.2",
+			"ref": "pointer-cancellation",
+			"version": "2.1",
+			"level": "a",
+	        "name":  {
+				"en": "Pointer Cancellation"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+		
+		{
+			"id": "sc-2.5.3",
+			"ref": "label-in-name",
+			"version": "2.1",
+			"level": "a",
+	        "name":  {
+				"en": "Label in Name"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+		
+		{
+			"id": "sc-2.5.4",
+			"ref": "motion-actuation",
+			"version": "2.1",
+			"level": "a",
+	        "name":  {
+				"en": "Motion Actuation"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+		
+		{
+			"id": "sc-2.5.5",
+			"ref": "target-size",
+			"version": "2.1",
+			"level": "aaa",
+	        "name":  {
+				"en": "Target Size"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+		
+		{
+			"id": "sc-2.5.6",
+			"ref": "concurrent-input-mechanisms",
+			"version": "2.1",
+			"level": "aaa",
+	        "name":  {
+				"en": "Concurrent Input Mechanisms"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+		
+		{
 			"id": "sc-3.1.1",
+			"ref": "language-of-page",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Language of Page"
@@ -1058,17 +1180,13 @@ var sc_config = {
 				"en": {
 					"Language": "http://kb.daisy.org/publishing/docs/html/lang.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.1.1": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-doc-lang-id.html",
-					"How to meet Success Criterion 3.1.1": "https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-doc-lang-id"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.1.2",
+			"ref": "language-of-parts",
+			"version": "2.0",
 			"level": "aa",
 	        "name":  {
 				"en": "Language of Parts"
@@ -1082,17 +1200,13 @@ var sc_config = {
 				"en": "<p>Verify that all foreign language words and phrases have been identified and that the correct language code has been used in each case.</p>\
 \
 <p class=\"sc-note\">Note: This success criterion does not apply to foreign words or phrases that have become part of the native language (e.g., \"vis-a-vis\" or \"faux pas\").</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.1.2": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-other-lang-id.html",
-					"How to meet Success Criterion 3.1.2": "https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-other-lang-id"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.1.3",
+			"ref": "unusual-words",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Unusual Words"
@@ -1104,68 +1218,52 @@ var sc_config = {
 	<li>If the publication contains unique or unusual words, ensure it includes definitions (e.g., in a glossary or definition lists).</li>\
 	<li>If the same word has two different meanings in the same publication, ensure that an inline definition, or link to the applicable definition, is provided.</li>\
 </ul>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.1.3": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-idioms.html",
-					"How to meet Success Criterion 3.1.3": "https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-idioms"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.1.4",
+			"ref": "abbreviations",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Abbreviations"
 			},
 			"guidance": {
 				"en": "<p>Verify that a mechanism for identifying the expanded form or meaning of all acronyms is provided (e.g., including the expansion with the first use of the acronym or linking to a definition).</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.1.4": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-located.html",
-					"How to meet Success Criterion 3.1.4": "https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-located"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.1.5",
+			"ref": "reading-level",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Reading Level"
 			},
 			"guidance": {
 				"en": "<p>Verify that the publication can be read and understood by someone with a lower secondary level reading ability (7-9 years of education), or that supplemental content is provided that allows the content to be understood by such a reader.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.1.5": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-supplements.html",
-					"How to meet Success Criterion 3.1.5": "https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-supplements"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.1.6",
+			"ref": "pronunciation",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Pronunciation"
 			},
 			"guidance": {
 				"en": "<p>Verify that the proper pronunciation is provided for words whose meaning cannot be identified from their surrounding context.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.1.6": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-pronunciation.html",
-					"How to meet Success Criterion 3.1.6": "https://www.w3.org/WAI/WCAG20/quickref/#qr-meaning-pronunciation"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.2.1",
+			"ref": "on-focus",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "On Focus"
@@ -1174,85 +1272,65 @@ var sc_config = {
 				"en": "<p>Verify that focus changes do not cause a change in context to occur (e.g., a form to submit, a window to open, a change of focused element).</p>\
 \
 <p class=\"sc-note\">Note: Changes in content are not forbidden so long as a context change doesn't also occur.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.2.1": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-receive-focus.html",
-					"How to meet Success Criterion 3.2.1": "https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-receive-focus"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.2.2",
+			"ref": "on-input",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "On Input"
 			},
 			"guidance": {
 				"en": "<p>Verify that activating or changing a form input does not automatically cause a change of context unless the user is notified what context change(s) will occur before activating.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.2.2": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html",
-					"How to meet Success Criterion 3.2.2": "https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-unpredictable-change"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.2.3",
+			"ref": "consistent-navigation",
+			"version": "2.0",
 			"level": "aa",
 	        "name":  {
 				"en": "Consistent Navigation"
 			},
 			"guidance": {
 				"en": "<p>Verify that any repeated navigational aids appear in the same relative location within each content document (e.g., lists of objectives or outcomes).</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.2.3": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-consistent-locations.html",
-					"How to meet Success Criterion 3.2.3": "https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-consistent-locations"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.2.4",
+			"ref": "consistent-identification",
+			"version": "2.0",
 			"level": "aa",
 	        "name":  {
 				"en": "Consistent Identification"
 			},
 			"guidance": {
 				"en": "<p>Verify that any components/features repeated across documents are consistently identified (e.g., exercises, objectives, etc.).</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.2.4": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-consistent-functionality.html",
-					"How to meet Success Criterion 3.2.4": "https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-consistent-functionality"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.2.5",
+			"ref": "change-on-request",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Change on Request"
 			},
 			"guidance": {
 				"en": "<p>Verify that the user can control all changes in context.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.2.5": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-no-extreme-changes-context.html",
-					"How to meet Success Criterion 3.2.5": "https://www.w3.org/WAI/WCAG20/quickref/#qr-consistent-behavior-no-extreme-changes-context"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.3.1",
+			"ref": "error-identification",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Error Identification"
@@ -1264,17 +1342,13 @@ var sc_config = {
 				"en": {
 					"Forms": "http://kb.daisy.org/publishing/docs/html/forms.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.3.1": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-identified.html",
-					"How to meet Success Criterion 3.3.1": "https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-identified"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.3.2",
+			"ref": "labels-or-instructions",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Labels or Instructions"
@@ -1286,17 +1360,13 @@ var sc_config = {
 				"en": {
 					"Forms": "http://kb.daisy.org/publishing/docs/html/forms.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.3.2": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-cues.html",
-					"How to meet Success Criterion 3.3.2": "https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-cues"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.3.3",
+			"ref": "error-suggestion",
+			"version": "2.0",
 			"level": "aa",
 	        "name":  {
 				"en": "Error Suggestion"
@@ -1308,18 +1378,13 @@ var sc_config = {
 				"en": {
 					"Forms": "http://kb.daisy.org/publishing/docs/html/forms.html"
 				}
-			},
-				
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.3.3": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-suggestions.html",
-					"How to meet Success Criterion 3.3.3": "https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-suggestions"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.3.4",
+			"ref": "error-prevention-legal-financial-data",
+			"version": "2.0",
 			"level": "aa",
 	        "name":  {
 				"en": "Error Prevention (Legal, Financial, Data)"
@@ -1332,17 +1397,13 @@ var sc_config = {
 	<li>Data entered by the user is checked for errors and the user has to opportunity to correct them.</li>\
 	<li>A mechanism is available for reviewing, confirming, and correcting information before finalizing the submission.</li>\
 </ul>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.3.4": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-reversible.html",
-					"How to meet Success Criterion 3.3.4": "https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-reversible"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.3.5",
+			"ref": "help",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Help"
@@ -1351,17 +1412,13 @@ var sc_config = {
 				"en": "<p>Verify that context-sensitive help is available.</p>\
 \
 <p class=\"sc-note\">Note: This success criterion only applies to forms and interactive content where the correct input or action cannot be determined from the label or context. Content documents are not required to provide help links.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.3.5": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-context-help.html",
-					"How to meet Success Criterion 3.3.5": "https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-context-help"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-3.3.6",
+			"ref": "error-prevention-all",
+			"version": "2.0",
 			"level": "aaa",
 	        "name":  {
 				"en": "Error Prevention (All)"
@@ -1374,17 +1431,13 @@ var sc_config = {
 	<li>Data entered by the user is checked for input errors and the user is provided an opportunity to correct them.</li>\
 	<li>A mechanism is available for reviewing, confirming, and correcting information before finalizing the submission.</li>\
 </ul>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 3.3.6": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-reversible-all.html",
-					"How to meet Success Criterion 3.3.6": "https://www.w3.org/WAI/WCAG20/quickref/#qr-minimize-error-reversible-all"
-				}
 			}
 		},
 	
 		{
 			"id": "sc-4.1.1",
+			"ref": "parsing",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Parsing"
@@ -1398,17 +1451,13 @@ var sc_config = {
 	<li>Duplicate IDs &#8212; Each ID in a document must be unique.</li>\
 </ul>\
 <p>It is recommended to fix all errors reported by EPUBCheck to ensure maximum usability of the publication but it is not a requirement for accessibility.</p>"
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 4.1.1": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/ensure-compat-parses.html",
-					"How to meet Success Criterion 4.1.1": "https://www.w3.org/WAI/WCAG20/quickref/#qr-ensure-compat-parses"
-				}
 			}
 		},
 		
 		{
 			"id": "sc-4.1.2",
+			"ref": "name-role-value",
+			"version": "2.0",
 			"level": "a",
 	        "name":  {
 				"en": "Name, Role, Value"
@@ -1420,15 +1469,27 @@ var sc_config = {
 				"en": {
 					"ARIA": "http://kb.daisy.org/publishing/docs/script/aria.html"
 				}
-			},
-			"documentation": {
-				"en": {
-					"Understanding Success Criterion 4.1.2": "https://www.w3.org/TR/UNDERSTANDING-WCAG20/ensure-compat-rsv.html",
-					"How to meet Success Criterion 4.1.2": "https://www.w3.org/WAI/WCAG20/quickref/#qr-ensure-compat-rsv"
-				}
 			}
 		},
 	
+		{
+			"id": "sc-4.1.3",
+			"ref": "status-messages",
+			"version": "2.1",
+			"level": "aa",
+	        "name":  {
+				"en": "Status Messages"
+			},
+			"guidance": {
+				"en": ""
+			},
+			"kb": {
+				"en": {
+					"": ""
+				}
+			}
+		},
+		
 		{
 			"id": "eg-1",
 			"level": "epub",

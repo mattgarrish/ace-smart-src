@@ -65,14 +65,17 @@ var smartManage = (function() {
 		/* store report configuration info */
 		
 		evaluationJSON.configuration = {};
+			
+			evaluationJSON.configuration.epub = {}
+				evaluationJSON.configuration.epub.format = document.querySelector('select#epub-format').value;
+				evaluationJSON.configuration.epub.a11y =  document.querySelector('select#epub-a11y').value;
+			
 			evaluationJSON.configuration.wcag = {};
-				evaluationJSON.configuration.wcag.level = document.querySelector('input[name="wcag-level"]:checked').value;
+				evaluationJSON.configuration.wcag.version = document.querySelector('select#wcag-version').value;
+				evaluationJSON.configuration.wcag.level = document.querySelector('select#wcag-level').value;
 				evaluationJSON.configuration.wcag.show_aa = (document.getElementById('show-aa').checked ? 'true' : 'false');
 				evaluationJSON.configuration.wcag.show_aaa = (document.getElementById('show-aaa').checked ? 'true' : 'false');
 		
-			/* epub format */
-			evaluationJSON.configuration.epub_format = document.querySelector('input[name="epub-format"]:checked').value;
-			
 			/* excluded content types array */
 			var excluded_test_types = document.querySelectorAll('#exclusions input[type="checkbox"]:checked');
 			evaluationJSON.configuration.exclusions = [];
@@ -441,7 +444,27 @@ var smartManage = (function() {
 		/* load configuration info */
 		
 		if (evaluationJSON.hasOwnProperty('configuration')) {
-			document.getElementById('wcag-level-' + evaluationJSON.configuration.wcag.level).checked = true;
+			
+			// set the version of the epub accessibility spec being tested
+			
+			var a11y_version = evaluationJSON.configuration.hasOwnProperty('epub') ? evaluationJSON.configuration.epub.a11y : '1.0';
+			
+			document.getElementById('epub-a11y').value = a11y_version;
+			
+			smartConformance.setEPUBA11yVersion(a11y_version);
+			
+			// set the version of wcag being tested
+			
+			var wcag_version = evaluationJSON.configuration.wcag.version;
+			
+			document.getElementById('wcag-version').value = wcag_version;
+			
+			smartConformance.setWCAGVersion(wcag_version);
+			
+			// set the wcag level being tested
+			
+			document.getElementById('wcag-level').value = evaluationJSON.configuration.wcag.level;
+			
 			smartConformance.setWCAGConformanceLevel(evaluationJSON.configuration.wcag.level);
 			
 			if ((evaluationJSON.configuration.wcag.show_aa && evaluationJSON.configuration.wcag.show_aa == 'true') && evaluationJSON.configuration.wcag.level != 'aa') {
@@ -464,8 +487,12 @@ var smartManage = (function() {
 				});
 			}
 			
-			document.getElementById('epub-format-' + evaluationJSON.configuration.epub_format).checked = true;
-			smartFormat.setEPUBVersion(evaluationJSON.configuration.epub_format);
+			// account for old epub_format property - delete when safely out of use
+			var epub_format = evaluationJSON.configuration.hasOwnProperty('epub_format') ? evaluationJSON.configuration.epub_format : evaluationJSON.configuration.epub.format; 
+			
+			document.getElementById('epub-format').value = epub_format;
+			
+			smartFormat.setEPUBVersion(epub_format);
 			
 			if (evaluationJSON.configuration.hasOwnProperty('exclusions') && evaluationJSON.configuration.exclusions) {
 				evaluationJSON.configuration.exclusions.forEach(function(value) {
