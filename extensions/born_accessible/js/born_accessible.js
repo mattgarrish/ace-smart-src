@@ -235,13 +235,13 @@ var bornAccessible = (function() {
 	
 	
 	function createRadioInput(options) {
-		var input = '<span class="ba-label"><label><input type="radio" name="' + options.name + '" value="' + options.value + '" aria-labelledby="' + options.label + '" class="test-input"';
+		var input = '<div class="ba-label"><label><input type="radio" name="' + options.name + '" value="' + options.value + '" aria-labelledby="' + options.label + '" class="test-input"';
 		
 		if (options.checked) {
 			input += ' checked="checked"';
 		}
 		
-		input += '> <span class="radio-desc">' + options.description.replace(/</g,'&lt;') + '</span></label></span>';
+		input += '> <span class="radio-desc">' + options.description.replace(/</g,'&lt;') + '</span></label></div>';
 		
 		return input;
 	}
