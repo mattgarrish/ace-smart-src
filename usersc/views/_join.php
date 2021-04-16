@@ -39,7 +39,7 @@ Special thanks to John Bovey for the password strenth feature.
         	month.</p>
         
         <p>Unlimited access is available to <a href="http://www.daisy.org/joining">DAISY Consortium's full members and inclusive
-        	publishing partners</a>. Please <a href="http://www.daisy.org/contact">contact</a> the DAISY Consortium for access.</p>
+        	publishing partners</a>. Please have your primary representative contact the DAISY Consortium for access.</p>
 
       <div class="form-group">
       <?php if($settings->auto_assign_un==0) {?><label id="username-label"><?=lang("GEN_UNAME");?>*</label><span id="usernameCheck" class="small"></span>
