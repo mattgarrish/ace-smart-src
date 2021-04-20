@@ -191,11 +191,26 @@ var smart_ui = {
 			"fail": {
 				"en": "Failed"
 			},
+			"pass": {
+				"en": "Pass"
+			},
+			"epub10": {
+				"en": "EPUB Accessibility 1.0"
+			},
+			"epub11": {
+				"en": "EPUB Accessibility 1.1"
+			},
+			"wcag20": {
+				"en": "WCAG 2.0"
+			},
+			"wcag21": {
+				"en": "WCAG 2.1"
+			},
 			"a": {
-				"en": "Pass - EPUB + WCAG Level A"	
+				"en": "Level A"	
 			},
 			"aa": {
-				"en": "Pass - EPUB + WCAG Level AA"
+				"en": "Level AA"
 			}
 		},
 		"result": {
