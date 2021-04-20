@@ -49,6 +49,11 @@ var smartConformance = (function() {
 	var _STATUS = new Object();
 		_STATUS.incomplete = smart_ui.conformance.status.incomplete[smart_lang];
 		_STATUS.fail = smart_ui.conformance.status.fail[smart_lang];
+		_STATUS.pass = smart_ui.conformance.status.pass[smart_lang];
+		_STATUS.epub10 = smart_ui.conformance.status.epub10[smart_lang];
+		_STATUS.epub11 = smart_ui.conformance.status.epub11[smart_lang];
+		_STATUS.wcag20 = smart_ui.conformance.status.wcag20[smart_lang];
+		_STATUS.wcag21 = smart_ui.conformance.status.wcag21[smart_lang];
 		_STATUS.a = smart_ui.conformance.status.a[smart_lang];
 		_STATUS.aa = smart_ui.conformance.status.aa[smart_lang];
 		
@@ -354,9 +359,14 @@ var smartConformance = (function() {
 		var status_label = document.getElementById('conformance-result-status');
 		var status_input = document.getElementById('conformance-result');
 		
+		var wcag_version = smartWCAG.WCAGVersion();
+		var epub_a11y = document.getElementById('epub-a11y').value;
+		
+		var wcag_class = 'w' + wcag_version.replace('.','');
+		
 		// make sure there aren't any unverified success criteria
-		var unverified = 'section.a input[value="unverified"]:checked, section#eg-2 input[value="unverified"]:checked, section#eg-1 input[value="unverified"]:checked';
-			unverified += smartWCAG.WCAGLevel() == 'aa' ? ', section.aa input[value="unverified"]:checked' : '';
+		var unverified = 'section.a.' + wcag_class + ' input[value="unverified"]:checked, section#eg-2 input[value="unverified"]:checked, section#eg-1 input[value="unverified"]:checked';
+			unverified += smartWCAG.WCAGLevel() == 'aa' ? ', section.aa.' + wcag_class + ' input[value="unverified"]:checked' : '';
 		
 		var incomplete = document.querySelectorAll(unverified);
 		
@@ -368,15 +378,25 @@ var smartConformance = (function() {
 		var onix_a = document.getElementById('onix02');
 		var onix_aa = document.getElementById('onix03');
 		
-		var level_a_fail = document.querySelectorAll('section.a input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked');
+		var level_a_fail = document.querySelectorAll('section.a.' + wcag_class + ' input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked');
 		
+		// prep pass message
+		var conformance_status = _STATUS.pass + ' - ';
+			conformance_status += epub_a11y == 1.0 ? _STATUS.epub10 : _STATUS.epub11;
+			conformance_status += ' + ';
+			conformance_status += wcag_version == 2.0 ? _STATUS.wcag20 : _STATUS.wcag21;
+			conformance_status += ' ';
+	
 		// checks that there aren't any failures if AA is specified
-		// or if showing optional AA success criteria and all have been checked 
-		if (smartWCAG.WCAGLevel() == 'aa' || (show_aa && document.querySelectorAll('section.aa input[value="unverified"]:checked').length == 0)) {
+		// or if showing optional AA success criteria and all have been checked
+		if (smartWCAG.WCAGLevel() == 'aa' || (show_aa && document.querySelectorAll('section.aa.' + wcag_class + ' input[value="unverified"]:checked').length == 0)) {
 			
-			if (level_a_fail.length == 0 && document.querySelectorAll('section.aa input[value="fail"]:checked').length == 0) {
-				status_label.textContent = _STATUS.aa;
+			if (level_a_fail.length == 0 && document.querySelectorAll('section.aa.' + wcag_class + ' input[value="fail"]:checked').length == 0) {
+				
+				status_label.textContent = conformance_status + _STATUS.aa;
+				
 				status_input.value = 'aa';
+				
 				if (!onix_aa.checked) { onix_aa.click(); }
 				if (onix_a.checked) { onix_a.click(); }
 				return;
@@ -385,8 +405,11 @@ var smartConformance = (function() {
 		
 		// otherwise not having an else if here allows verification to fall through to A, even if testing AA
 		if (level_a_fail.length == 0) {
-			status_label.textContent = _STATUS.a;
+			
+			status_label.textContent = conformance_status + _STATUS.a;
+			
 			status_input.value = 'a';
+			
 			if (onix_aa.checked) { onix_aa.click(); }
 			if (!onix_a.checked) { onix_a.click(); }
 		}
