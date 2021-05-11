@@ -35,6 +35,9 @@ var bornAccessible = (function() {
 	
 	
 	function generateBornAccessibleTab() {
+		if (noDesignElements) {
+			document.getElementById('ba-info').setAttribute('hidden','hidden');
+		}
 		generateComplexity();
 		generateDesignElements();
 		generateTests();
