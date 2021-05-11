@@ -36,7 +36,7 @@ var bornAccessible = (function() {
 	
 	function generateBornAccessibleTab() {
 		if (noDesignElements) {
-			document.getElementById('ba-info').setAttribute('hidden','hidden');
+			document.getElementById('design-elements').setAttribute('hidden','hidden');
 		}
 		generateComplexity();
 		generateDesignElements();
@@ -50,6 +50,10 @@ var bornAccessible = (function() {
 		var fieldset = document.createElement('fieldset');
 			fieldset.setAttribute('id', 'ba-design-elements');
 			fieldset.setAttribute('class', 'flat');
+		
+		if (noDesignElements) {
+			fieldset.setAttribute('hidden','hidden');
+		}
 		
 		var legend = document.createElement('legend');
 			legend.appendChild(document.createTextNode('Design Elements:'))
@@ -82,6 +86,10 @@ var bornAccessible = (function() {
 		var fieldset = document.createElement('fieldset');
 			fieldset.setAttribute('id', gca.epubComplexity['$complexityId']);
 			fieldset.setAttribute('class', 'flat');
+		
+		if (noDesignElements) {
+			fieldset.setAttribute('hidden','hidden');
+		}
 		
 		var legend = document.createElement('legend');
 			legend.appendChild(document.createTextNode(gca.epubComplexity.complexityName+':'))

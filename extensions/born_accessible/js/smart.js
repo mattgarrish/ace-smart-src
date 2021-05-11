@@ -150,22 +150,18 @@ smart_extensions['born_accessible'] = (function() {
 			
 			reportHTML.appendChild(tab_hd);
 			
-			if (!noDesignElements) {
-				
-				var executive_summary = document.createElement('section');
-					executive_summary.setAttribute('id','ba-exec-summary');
-				
-				var executive_summary_hd = document.createElement('h4');
-					executive_summary_hd.appendChild(document.createTextNode('Executive Summary'));
-				executive_summary.appendChild(executive_summary_hd);
-				
-				var executive_summary_para = document.createElement('p');
-					executive_summary_para.appendChild(document.createTextNode(document.getElementById('ba-executive-summary').value))
-				executive_summary.appendChild(executive_summary_para);
-				
-				reportHTML.appendChild(executive_summary);
+			var executive_summary = document.createElement('section');
+				executive_summary.setAttribute('id','ba-exec-summary');
 			
-			}
+			var executive_summary_hd = document.createElement('h4');
+				executive_summary_hd.appendChild(document.createTextNode('Executive Summary'));
+			executive_summary.appendChild(executive_summary_hd);
+			
+			var executive_summary_para = document.createElement('p');
+				executive_summary_para.appendChild(document.createTextNode(document.getElementById('ba-executive-summary').value))
+			executive_summary.appendChild(executive_summary_para);
+			
+			reportHTML.appendChild(executive_summary);
 			
 			var test_scores = document.createElement('section');
 				test_scores.setAttribute('id','ba-scores')
