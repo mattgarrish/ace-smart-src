@@ -170,7 +170,7 @@ var smartManage = (function() {
 		
 		evaluationJSON.evaluation = {};
 		
-			evaluationJSON.evaluation.result = document.getElementById('conformance-result').value;
+			evaluationJSON.evaluation.result = document.getElementById('conformance-result-status').textContent;
 			
 			evaluationJSON.evaluation.certifiedBy = document.getElementById('certifiedBy').value;
 			
@@ -437,8 +437,7 @@ var smartManage = (function() {
 		}
 		
 		if (evaluationJSON.hasOwnProperty('evaluation') && evaluationJSON.evaluation.hasOwnProperty('result')) {
-			document.getElementById('conformance-result').value = evaluationJSON.evaluation.result;
-			document.getElementById('conformance-result-status').textContent = smartConformance.STATUS[evaluationJSON.evaluation.result]
+			smartConformance.setEvaluationResult();
 		}
 		
 		/* load configuration info */

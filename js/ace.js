@@ -112,21 +112,16 @@ var smartAce = (function() {
 		
 		if (_aceReport['earl:testSubject'].hasOwnProperty('links') && _aceReport['earl:testSubject'].hasOwnProperty('dcterms:conformsTo')) {
 			conformance_url = _aceReport['earl:testSubject'].links['dcterms:conformsTo'];
+			smartConformance.setEvaluationResult();
 		}
 		
 		else if (_aceReport['earl:testSubject'].metadata.hasOwnProperty('dcterms:conformsTo')) {
 			conformance_url = _aceReport['earl:testSubject'].metadata['dcterms:conformsTo'];
+			smartConformance.setEvaluationResult();
 		}
 		
 		else {
 			return;
-		}
-		
-		var conformance_level = conformance_url.match(/http\:\/\/www\.idpf\.org\/epub\/a11y\/accessibility\-[0-9]+\.html\#wcag-(aa?)/);
-		
-		if (conformance_level) {
-			document.getElementById('conformance-result-status').textContent = smartConformance.STATUS[conformance_level];
-			document.getElementById('conformance-result').value = conformance_level;
 		}
 	}
 	

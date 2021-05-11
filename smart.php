@@ -246,22 +246,22 @@ JS;
 						
 						<fieldset class="flat">
 							<legend>Set all success criteria to:</legend>
-							<label><input type="radio" name="status" value="unverified" checked="checked"/> Unverified</label>
-							<label><input type="radio" name="status" value="pass"/> Pass</label>
-							<label><input type="radio" name="status" value="fail"/> Fail</label>
-							<label><input type="radio" name="status" value="na"/> N/A</label>
+							<a id="set-sc-unv" href="#set-sc-unv" onclick="smartConformance.setGlobalSCStatus('unverified'); return false">Unverified</a>
+							<a id="set-sc-pass" href="#set-sc-pass" onclick="smartConformance.setGlobalSCStatus('pass'); return false">Pass</a>
+							<a id="set-sc-fail" href="#set-sc-fail" onclick="smartConformance.setGlobalSCStatus('fail'); return false">Fail</a>
+							<a id="set-sc-na" href="#set-sc-na" onclick="smartConformance.setGlobalSCStatus('na'); return false">N/A</a>
 						</fieldset>
 						
 						<fieldset class="flat">
 							<legend>Success criteria descriptions:</legend>
-							<label><input type="radio" name="sc-body" value="true" checked="checked"/> Expand all</label>
-							<label><input type="radio" name="sc-body" value="false"/> Collapse all</label>
+							<a id="set-desc-exp" href="#set-desc-exp" onclick="smartConformance.showSCBody(true); return false">Expand all</a>
+							<a id="set-desc-col" href="#set-desc-col" onclick="smartConformance.showSCBody(false); return false">Collapse all</a>
 						</fieldset>
 						
 						<fieldset class="flat">
 							<legend>Help links:</legend>
-							<label><input type="radio" name="link-exp" value="false" checked="checked"/> Collapse all</label>
-							<label><input type="radio" name="link-exp" value="true"/> Expand all</label>
+							<a id="set-help-exp" href="#set-help-exp" onclick="smartConformance.showSCHelpLinks(true); return false">Expand all</a>
+							<a id="set-help-col" href="#set-help-col" onclick="smartConformance.showSCHelpLinks(false); return false">Collapse all</a>
 						</fieldset>
 					</details>
 					

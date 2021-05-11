@@ -416,19 +416,15 @@ var smartReport = (function() {
 		var summaryTable = document.createElement('div');
 			summaryTable.setAttribute('class', 'summaryTable');
 		
-		var wcag_conf = document.getElementById('conformance-result').value;
+		var conf = document.getElementById('conformance-result').value;
 		
-		var conf_class = [];
-			conf_class.incomplete = 'incomplete';
-			conf_class.a = 'pass';
-			conf_class.aa = 'pass';
-			conf_class.fail = 'fail';
+		var conf_class = (conf == 'Incomplete' ? 'incomplete' : ( conf == 'Failed' ? 'fail' : 'pass' ) );
 		
 		summaryTable.appendChild(formatPubInfoEntry({
 			id: 'conformance-result',
 			label: smart_ui.reporting.tabs.conformance[smart_lang],
-			value: smartConformance.STATUS[wcag_conf], property: 'dcterms:conformsTo',
-			value_bg_class: conf_class[wcag_conf]
+			value: document.getElementById('conformance-result-status').textContent, property: 'dcterms:conformsTo',
+			value_bg_class: conf_class
 		}));
 		
 		// add user extension propertiesk

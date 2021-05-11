@@ -70,15 +70,29 @@ var smartEvaluation = (function() {
 			}
 		}
 		
-		/* conformance URL needs to be updated each time there is a revision to the specification */
-		var conformance_url = 'http://www.idpf.org/epub/a11y/accessibility-20170105.html#wcag-' + smartWCAG.WCAGLevel();
+		var conformance_url = '';
+		var epub_ver = document.getElementById('epub-a11y').value;
+		
+		if (epub_ver == '1.0') {
+			/* the 1.0 specification has an idpf-specific url for an identifier */
+			conformance_url = 'http://www.idpf.org/epub/a11y/accessibility-20170105.html#wcag-' + smartWCAG.WCAGLevel();
+		}
+		
+		else {
+			conformance_url = 'EPUB-A11Y-' + epub_ver.replace('.','') + '_WCAG-' + smartWCAG.WCAGVersion().replace('.','') + '-' + smartWCAG.WCAGLevel().toUpperCase(); 
+		}
 		
 		var metadata = '';
 		
 		var conformance_result = document.getElementById('conformance-result');
 		
 		if (conformance_result && conformance_result.value != "fail" && conformance_result.value != "incomplete") {
-			metadata += smartFormat.createMetaTag({type: 'link', property: 'dcterms:conformsTo', value: conformance_url});
+			if (epub_ver == '1.0') {
+				metadata += smartFormat.createMetaTag({type: 'link', property: 'dcterms:conformsTo', value: conformance_url});
+			}
+			else {
+				metadata += smartFormat.createMetaTag({type: 'meta', property: 'dcterms:conformsTo', value: conformance_url});
+			}
 		}
 		
 		metadata += smartFormat.createMetaTag({type: 'meta', property: 'a11y:certifiedBy', value: document.getElementById('certifiedBy').value.trim()});

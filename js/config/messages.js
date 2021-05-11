@@ -147,16 +147,16 @@ var smart_ui = {
 		},
 		"generateSummary": {
 			"incomplete": {
-				"en": "This EPUB Publication has not been fully evaluated against the EPUB Accessibility specification."
+				"en": "This EPUB Publication has not been fully evaluated against the EPUB Accessibility %VER% specification."
 			},
 			"fail": {
-				"en": "This EPUB Publication does not meet the requirements of the EPUB Accessibility specification."
+				"en": "This EPUB Publication does not meet the requirements of the EPUB Accessibility %VER% specification."
 			},
 			"pass": {
-				"en": "This EPUB Publication meets the requirements of the EPUB Accessibility specification"
+				"en": "This EPUB Publication meets the requirements of the EPUB Accessibility %VER% specification"
 			},
 			"wcagLevel": {
-				"en": "with conformance to WCAG 2.0 Level"
+				"en": "with conformance to WCAG %VER% Level"
 			},
 			"publication": {
 				"en": "The publication"
