@@ -48,6 +48,10 @@ var bornAccessible = (function() {
 			fieldset.setAttribute('id', 'ba-design-elements');
 			fieldset.setAttribute('class', 'flat');
 		
+		if (noDesignElements) {
+			fielset.setAttribute('hidden','hidden');
+		}
+		
 		var legend = document.createElement('legend');
 			legend.appendChild(document.createTextNode('Design Elements:'))
 		
@@ -408,7 +412,9 @@ var bornAccessible = (function() {
 		setBackgroundStatus: function(test_input) {
 			var fieldset = test_input.closest('fieldset');
 				fieldset.classList.remove('na', 'err', 'alert', 'warn', 'pass');
-				fieldset.classList.add(_SCORE_TEXT_CSS[test_input.value]);
+				if (test_input.value != 'Unverified') {
+					fieldset.classList.add(_SCORE_TEXT_CSS[test_input.value]);
+				}
 		},
 		
 		updateResultScore: function() {

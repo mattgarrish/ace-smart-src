@@ -7,11 +7,9 @@
  * 
  * Controls the display and validation of success criteria
  * 
- * Public variables:
- * 
- * - STATUS - conformance status messages
- * 
  * Public functions:
+ * 
+ * - setEvaluationResult - sets the result based on the epub/wcag versions conformed to 
  * 
  * - addSuccessCriteriaReporting - dynamically adds the status and note fields to success criteria
  * 
@@ -372,6 +370,7 @@ var smartConformance = (function() {
 		
 		if (incomplete.length > 0) {
 			status_label.textContent = _STATUS.incomplete;
+			status_input.value = 'incomplete';
 			return;
 		}
 		
@@ -449,7 +448,9 @@ var smartConformance = (function() {
 		
 	
 	return {
-		STATUS: _STATUS,
+		setEvaluationResult: function() {
+			setEvaluationResult();
+		},
 		
 		setEPUBA11yVersion: function(version) {
 			setEPUBA11yVersion(version);

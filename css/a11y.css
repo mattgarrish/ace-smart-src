@@ -592,6 +592,12 @@ p + fieldset {
 	margin-top: -2.5rem;
 }
 
+#conformance fieldset > a {
+	display: inline-block;
+	margin-left: 2.4rem;
+	margin-right: 0;
+}
+
 /* discovery metadata */
 
 section#discovery div.error{

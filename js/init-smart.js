@@ -277,24 +277,9 @@
 		smartConformance.filterSCByStatus(this);
 	});
 	
-	/* watch for setting of global status to all success criteria */
-	$('input[name="status"]').click( function(){
-		smartConformance.setGlobalSCStatus(this.value);
-	});
-	
 	/* watch for filtering of success criteria by content type */
 	$('input.excl-test').click( function(){
 		smartConformance.configureContentTypeTests({type: this.value, exclude: this.checked});
-	});
-	
-	/* watch for clicks to show/hide success criteria descriptions */
-	$('input[name="sc-body"]').click( function(){
-		smartConformance.showSCBody(this.value == 'true' ? true : false);
-	});
-	
-	/* watch for clicks to expand/collapse help links */
-	$('input[name="link-exp"]').click( function(){
-		smartConformance.showSCHelpLinks(this.value == 'true' ? true : false);
 	});
 	
 	
