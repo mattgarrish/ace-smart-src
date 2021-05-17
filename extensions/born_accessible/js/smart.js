@@ -342,23 +342,27 @@ smart_extensions['born_accessible'] = (function() {
 			
 			var complexity_selected = document.querySelector('input[name="ba-complexity-level"]:checked');
 			
-			// add complexity level
+			if (!noDesignElements) {
+				
+				// add complexity level
+				
+				var complexity_level = complexity_selected ? complexity_selected.parentNode.textContent : 'Not specified';
+				
+				var complexity_div = document.createElement('div');
+					complexity_div.setAttribute('id','ba-epub-complexity');
+					complexity_div.setAttribute('class','ba-primary');
+				
+				var complexity_span = document.createElement('span');
+					complexity_span.appendChild(document.createTextNode('EPUB Complexity Level: '));
+				complexity_div.appendChild(complexity_span);
+				
+				var complexity_score = document.createElement('span');
+					complexity_score.appendChild(document.createTextNode(complexity_level));
+				complexity_div.appendChild(complexity_score);
+				
+				test_scores.appendChild(complexity_div);
 			
-			var complexity_level = complexity_selected ? complexity_selected.parentNode.textContent : 'Not specified';
-			
-			var complexity_div = document.createElement('div');
-				complexity_div.setAttribute('id','ba-epub-complexity');
-				complexity_div.setAttribute('class','ba-primary');
-			
-			var complexity_span = document.createElement('span');
-				complexity_span.appendChild(document.createTextNode('EPUB Complexity Level: '));
-			complexity_div.appendChild(complexity_span);
-			
-			var complexity_score = document.createElement('span');
-				complexity_score.appendChild(document.createTextNode(complexity_level));
-			complexity_div.appendChild(complexity_score);
-			
-			test_scores.appendChild(complexity_div);
+			}
 			
 			// add individual scores
 			
@@ -366,80 +370,84 @@ smart_extensions['born_accessible'] = (function() {
 			
 			reportHTML.appendChild(test_scores);
 			
-			// generate stats section
-			
-			var stat_section = document.createElement('section');
-				stat_section.setAttribute('id','born-accessible-stats');
-			
-			var stat_hd = document.createElement('h4');
-				stat_hd.appendChild(document.createTextNode('Statistics'))
-			stat_section.appendChild(stat_hd);
-			
-			// add design elements
-			
-			var design_div = document.createElement('div');
-				design_div.setAttribute('id','ba-design-elements');
-				design_div.setAttribute('class','ba-primary');
-			
-			var design_span = document.createElement('span');
-				design_span.appendChild(document.createTextNode('Design Elements: '));
-			design_div.appendChild(design_span);
-			
-			var design_ratio = document.createElement('span');
-				design_ratio.appendChild(document.createTextNode(document.getElementById('ba-epp-num').textContent + ' per page'));
-			design_div.appendChild(design_ratio);
-			
-			stat_section.appendChild(design_div);
-			
-			
-			// add stats table
-			
-			var stat_table = document.createElement('table');
-			
-			var stat_table_thead = document.createElement('thead');
-			
-			var stat_table_trow = document.createElement('tr');
-			
-			var stat_table_type_th = document.createElement('th');
-				stat_table_type_th.appendChild(document.createTextNode('Content Structure'));
-			stat_table_trow.appendChild(stat_table_type_th);
-			
-			var stat_table_count_th = document.createElement('th');
-				stat_table_count_th.appendChild(document.createTextNode('Count'));
-			stat_table_trow.appendChild(stat_table_count_th);
-			
-			stat_table_thead.appendChild(stat_table_trow);
-			
-			stat_table.appendChild(stat_table_thead);
-			
-			var stat_table_tbody = document.createElement('tbody');
-			
-			var stats = document.querySelectorAll('#born_accessible #ba-content-inputs label');
-			
-			for (var i = 0; i < stats.length; i++) {
-				var stat = stats[i].querySelector('input[type="text"]');
-				if (stat) {
-					var stat_trow = document.createElement('tr');
-					
-					var stat_title_td = document.createElement('td');
-						stat_title_td.appendChild(document.createTextNode(stats[i].querySelector('span').textContent));
-					stat_trow.appendChild(stat_title_td);
-					
-					var stat_count = stat.value.trim();
-					
-					var stat_value_td = document.createElement('td');
-						stat_value_td.appendChild(document.createTextNode(stat_count != '' ? stat_count : '0'));
-					stat_trow.appendChild(stat_value_td);
-					
-					stat_table_tbody.appendChild(stat_trow);
+			if (!noDesignElements) {
+				
+				// generate stats section
+				
+				var stat_section = document.createElement('section');
+					stat_section.setAttribute('id','born-accessible-stats');
+				
+				var stat_hd = document.createElement('h4');
+					stat_hd.appendChild(document.createTextNode('Statistics'))
+				stat_section.appendChild(stat_hd);
+				
+				// add design elements
+				
+				var design_div = document.createElement('div');
+					design_div.setAttribute('id','ba-design-elements');
+					design_div.setAttribute('class','ba-primary');
+				
+				var design_span = document.createElement('span');
+					design_span.appendChild(document.createTextNode('Design Elements: '));
+				design_div.appendChild(design_span);
+				
+				var design_ratio = document.createElement('span');
+					design_ratio.appendChild(document.createTextNode(document.getElementById('ba-epp-num').textContent + ' per page'));
+				design_div.appendChild(design_ratio);
+				
+				stat_section.appendChild(design_div);
+				
+				
+				// add stats table
+				
+				var stat_table = document.createElement('table');
+				
+				var stat_table_thead = document.createElement('thead');
+				
+				var stat_table_trow = document.createElement('tr');
+				
+				var stat_table_type_th = document.createElement('th');
+					stat_table_type_th.appendChild(document.createTextNode('Content Structure'));
+				stat_table_trow.appendChild(stat_table_type_th);
+				
+				var stat_table_count_th = document.createElement('th');
+					stat_table_count_th.appendChild(document.createTextNode('Count'));
+				stat_table_trow.appendChild(stat_table_count_th);
+				
+				stat_table_thead.appendChild(stat_table_trow);
+				
+				stat_table.appendChild(stat_table_thead);
+				
+				var stat_table_tbody = document.createElement('tbody');
+				
+				var stats = document.querySelectorAll('#born_accessible #ba-content-inputs label');
+				
+				for (var i = 0; i < stats.length; i++) {
+					var stat = stats[i].querySelector('input[type="text"]');
+					if (stat) {
+						var stat_trow = document.createElement('tr');
+						
+						var stat_title_td = document.createElement('td');
+							stat_title_td.appendChild(document.createTextNode(stats[i].querySelector('span').textContent));
+						stat_trow.appendChild(stat_title_td);
+						
+						var stat_count = stat.value.trim();
+						
+						var stat_value_td = document.createElement('td');
+							stat_value_td.appendChild(document.createTextNode(stat_count != '' ? stat_count : '0'));
+						stat_trow.appendChild(stat_value_td);
+						
+						stat_table_tbody.appendChild(stat_trow);
+					}
 				}
+				
+				stat_table.appendChild(stat_table_tbody);
+				
+				stat_section.appendChild(stat_table);
+				
+				reportHTML.appendChild(stat_section);
+			
 			}
-			
-			stat_table.appendChild(stat_table_tbody);
-			
-			stat_section.appendChild(stat_table);
-			
-			reportHTML.appendChild(stat_section);
 			
 			return reportHTML;
 		},

@@ -353,12 +353,9 @@ var sc_config = {
 				"en": "Orientation"
 			},
 			"guidance": {
-				"en": "<p></p>"
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>Check that the publication is not locked to reading in only one device orientation.</p>\
+<p>In addition, ensure that changing the orientation does not cause issues with resizing the text (see <a href=\"#sc-1.4.4\">success criteria 1.4.4</a>).</p>\
+<p>This success criterion is most often an issue with fixed layout publication. Reflowable EPUBs should adapt to changes in orientation.</p>"
 			}
 		},
 		
@@ -371,12 +368,12 @@ var sc_config = {
 				"en": "Identify Input Purpose"
 			},
 			"guidance": {
-				"en": "<p></p>"
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>If the publication has any forms that collect information about a user (e.g., their address, \
+telephone numer, etc.), check that each input a reading system can autocomplete from saved information \
+includes an <code>autocomplete</code> attribute with a <a href=\"https://www.w3.org/TR/WCAG21/#input-purposes\">value \
+from the WCAG input purpose list</a> (these are a subset of the list HTML allows).</p> \
+<p>Note that not every input requires an autocomplete value, only those collecting information for which \
+there is a matching value.</p>"
 			}
 		},
 		
@@ -389,11 +386,11 @@ var sc_config = {
 				"en": "Identify Purpose"
 			},
 			"guidance": {
-				"en": ""
+				"en": "<p>Ensure that DPUB-ARIA roles used to identify all applicable sections and regions of each content document.</p>"
 			},
 			"kb": {
 				"en": {
-					"": ""
+					"Digital Publishing Roles": "https://kb.daisy.org/publishing/docs/html/dpub-aria/index.html"
 				}
 			}
 		},
@@ -597,12 +594,13 @@ var sc_config = {
 				"en": "Reflow"
 			},
 			"guidance": {
-				"en": ""
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>Zoom the content so that it is no more than 320 pixels wide and 256 pixels high (this is equal \
+to 400% zoom on a device screen that is 1280 pixels wide by 1024 high).</p> \
+<p>Check that horizontal and vertical scrolling is not required to read the text.</p> \
+<p>Note that this requirement does not apply to visual media that requires two-dimensional layout, such as video, diagrams, \
+maps, etc. It is also only recommended (but not required) that the content within table cells not require scrolling when \
+zoomed, not that the entire table be viewable without scrolling.</p> \
+<p>For fixed layouts, while background images may be exempt, the text content of the page must reflow when zoomed.</p>"
 			}
 		},
 
@@ -615,12 +613,17 @@ var sc_config = {
 				"en": "Non-text Contrast"
 			},
 			"guidance": {
-				"en": ""
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>Check if the publication uses any icons to convey information. Common examples in \
+books include icons that identify sidebars, such as an exclamation point for warning and cautions, a pencil for \
+learning objectives, etc.</p> \
+<p>If any such icons are found, ensure that there is at least 3:1 contrast between the symbol and the colour adjacent \
+to it.</p> \
+<p>The same check also needs to be performed for any diagrams, charts and other visual content that conveys information. \
+If any of these images use graphical components as the sole means of conveying the information (e.g., a pie chart that \
+shows slices but does not explicitly indicate the size of each), each component must have a 3:1 contrast with the \
+adjacent coloring.</p> \
+<p>In addition, verify that any form fields also meet this requirement. For example, that there is sufficient contrast \
+between the borders of text input fields and the adjacaent color, around buttons, and for radio buttons and checkboxes.</p>"
 			}
 		},
 
