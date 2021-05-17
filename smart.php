@@ -104,6 +104,7 @@
 			var ACE_ID = '{$eval->get_eval_id()}';
 			var saveChanges = false;
 			var firstSave = {$eval->need_to_save()};
+			var noDesignElements = {$user->data()->baDesignElementsOff};
 		</script>
 JS;
 ?>

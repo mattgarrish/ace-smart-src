@@ -42,7 +42,7 @@ var smartConformance = (function() {
 		_SC_TYPE.audio = ['sc-1.4.2', 'sc-1.4.7'];
 		_SC_TYPE.video = ['sc-1.2.2', 'sc-1.2.3', 'sc-1.2.5', 'sc-1.2.6', 'sc-1.2.7', 'sc-1.2.8'];
 		_SC_TYPE.av = ['sc-1.2.1', 'sc-1.2.4', 'sc-1.2.9'];
-		_SC_TYPE.script = ['sc-2.2.1', 'sc-2.2.4', 'sc-2.2.5', 'sc-3.2.1', 'sc-3.2.2', 'sc-3.2.4', 'sc-3.2.5', 'sc-3.3.1', 'sc-3.3.2', 'sc-3.3.3', 'sc-3.3.4', 'sc-3.3.5', 'sc-3.3.6'];
+		_SC_TYPE.script = ['sc-1.3.5', 'sc-2.2.1', 'sc-2.2.4', 'sc-2.2.5', 'sc-3.2.1', 'sc-3.2.2', 'sc-3.2.4', 'sc-3.2.5', 'sc-3.3.1', 'sc-3.3.2', 'sc-3.3.3', 'sc-3.3.4', 'sc-3.3.5', 'sc-3.3.6'];
 
 	var _STATUS = new Object();
 		_STATUS.incomplete = smart_ui.conformance.status.incomplete[smart_lang];
