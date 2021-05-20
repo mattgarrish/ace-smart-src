@@ -37,26 +37,26 @@
 
 var smartConformance = (function() {
 
+	// must add required EPUB success criteria ids here
+	var _EPUB_SC = ['epub-pagesrc', 'epub-pagelist', 'epub-pagebreaks'];
+					// following are not required to pass
+					// 'epub-mo-readorder', 'epub-mo-skip', 'epub-mo-esc', 'epub-mo-nav'
+					// rethink this if ever we move to having all SCs required
+	
 	var _SC_TYPE = new Object();
 		_SC_TYPE.img = ['sc-1.4.9'];
 		_SC_TYPE.audio = ['sc-1.4.2', 'sc-1.4.7'];
 		_SC_TYPE.video = ['sc-1.2.2', 'sc-1.2.3', 'sc-1.2.5', 'sc-1.2.6', 'sc-1.2.7', 'sc-1.2.8'];
 		_SC_TYPE.av = ['sc-1.2.1', 'sc-1.2.4', 'sc-1.2.9'];
-		_SC_TYPE.script = ['sc-1.3.5', 'sc-2.2.1', 'sc-2.2.4', 'sc-2.2.5', 'sc-3.2.1', 'sc-3.2.2', 'sc-3.2.4', 'sc-3.2.5', 'sc-3.3.1', 'sc-3.3.2', 'sc-3.3.3', 'sc-3.3.4', 'sc-3.3.5', 'sc-3.3.6'];
+		_SC_TYPE.script = [ 'sc-1.3.5',
+							'sc-2.2.1', 'sc-2.2.4', 'sc-2.2.5', 'sc-2.2.6',
+							'sc-2.5.1', 'sc-2.5.2', 'sc-2.5.3', 'sc-2.5.4', 'sc-2.5.5', 'sc-2.5.6',
+							'sc-3.2.1', 'sc-3.2.2', 'sc-3.2.4', 'sc-3.2.5',
+							'sc-3.3.1', 'sc-3.3.2', 'sc-3.3.3', 'sc-3.3.4', 'sc-3.3.5', 'sc-3.3.6',
+							'sc-4.1.3' ];
 
-	var _STATUS = new Object();
-		_STATUS.incomplete = smart_ui.conformance.status.incomplete[smart_lang];
-		_STATUS.fail = smart_ui.conformance.status.fail[smart_lang];
-		_STATUS.pass = smart_ui.conformance.status.pass[smart_lang];
-		_STATUS.epub10 = smart_ui.conformance.status.epub10[smart_lang];
-		_STATUS.epub11 = smart_ui.conformance.status.epub11[smart_lang];
-		_STATUS.wcag20 = smart_ui.conformance.status.wcag20[smart_lang];
-		_STATUS.wcag21 = smart_ui.conformance.status.wcag21[smart_lang];
-		_STATUS.a = smart_ui.conformance.status.a[smart_lang];
-		_STATUS.aa = smart_ui.conformance.status.aa[smart_lang];
-		
-	var _WCAG_VER = ['2.0', '2.1'];
-	
+
+
 	/* changes the form to match the epub accessibility version options */
 	
 	function setEPUBA11yVersion(version) {
@@ -122,9 +122,11 @@ var smartConformance = (function() {
 		
 		var hide = false;
 		
-		for (var i = 0; i < _WCAG_VER.length; i++) {
+		var wcag_versions = document.getElementById('wcag-version');
 		
-			var success_criteria = document.getElementsByClassName('w' + _WCAG_VER[i].replace('.',''));
+		for (var i = 0; i < wcag_versions.length; i++) {
+		
+			var success_criteria = document.getElementsByClassName('w' + wcag_versions.options[i].value.replace('.',''));
 		
 			for (var j = 0; j < success_criteria.length; j++) {
 				if (hide) {
@@ -137,7 +139,7 @@ var smartConformance = (function() {
 				}
 			}
 			
-			if (_WCAG_VER[i] == smartWCAG.WCAGVersion()) {
+			if (wcag_versions.options[i].value == smartWCAG.WCAGVersion()) {
 				hide = true;
 			}
 		}
@@ -363,13 +365,13 @@ var smartConformance = (function() {
 		var wcag_class = 'w' + wcag_version.replace('.','');
 		
 		// make sure there aren't any unverified success criteria
-		var unverified = 'section.a.' + wcag_class + ' input[value="unverified"]:checked, section#eg-2 input[value="unverified"]:checked, section#eg-1 input[value="unverified"]:checked';
+		var unverified = 'section.a.' + wcag_class + ' input[value="unverified"]:checked, section.epub input[value="unverified"]:checked';
 			unverified += smartWCAG.WCAGLevel() == 'aa' ? ', section.aa.' + wcag_class + ' input[value="unverified"]:checked' : '';
 		
 		var incomplete = document.querySelectorAll(unverified);
 		
 		if (incomplete.length > 0) {
-			status_label.textContent = _STATUS.incomplete;
+			status_label.textContent = smart_ui.conformance.status.incomplete[smart_lang];
 			status_input.value = 'incomplete';
 			return;
 		}
@@ -377,13 +379,22 @@ var smartConformance = (function() {
 		var onix_a = document.getElementById('onix02');
 		var onix_aa = document.getElementById('onix03');
 		
-		var level_a_fail = document.querySelectorAll('section.a.' + wcag_class + ' input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked');
+		var epub_norm = '';
+		
+		for (var z = 0; z < _EPUB_SC.length; z++) {
+			epub_norm += ', section#' + _EPUB_SC[z] + ' input[value="fail"]:checked]';
+		}
+		
+		var level_a_fail = document.querySelectorAll('section.a.' + wcag_class + ' input[value="fail"]:checked' + epub_norm);
+		
+		var wcag_ver = 'wcag' + wcag_version.replace('.','');
+		var epub_ver = 'epub' + epub_ally.replace('.','');
 		
 		// prep pass message
-		var conformance_status = _STATUS.pass + ' - ';
-			conformance_status += epub_a11y == 1.0 ? _STATUS.epub10 : _STATUS.epub11;
+		var conformance_status = smart_ui.conformance.status.pass[smart_lang] + ' - ';
+			conformance_status += smart_ui.conformance.status[epub_ver][smart_lang];
 			conformance_status += ' + ';
-			conformance_status += wcag_version == 2.0 ? _STATUS.wcag20 : _STATUS.wcag21;
+			conformance_status += smart_ui.conformance.status[wcag_ver][smart_lang];
 			conformance_status += ' ';
 	
 		// checks that there aren't any failures if AA is specified
@@ -392,7 +403,7 @@ var smartConformance = (function() {
 			
 			if (level_a_fail.length == 0 && document.querySelectorAll('section.aa.' + wcag_class + ' input[value="fail"]:checked').length == 0) {
 				
-				status_label.textContent = conformance_status + _STATUS.aa;
+				status_label.textContent = conformance_status + smart_ui.conformance.status.aa[smart_lang];
 				
 				status_input.value = 'aa';
 				
@@ -405,7 +416,7 @@ var smartConformance = (function() {
 		// otherwise not having an else if here allows verification to fall through to A, even if testing AA
 		if (level_a_fail.length == 0) {
 			
-			status_label.textContent = conformance_status + _STATUS.a;
+			status_label.textContent = conformance_status + smart_ui.conformance.status.a[smart_lang];
 			
 			status_input.value = 'a';
 			
@@ -414,7 +425,7 @@ var smartConformance = (function() {
 		}
 		
 		else {
-			status_label.textContent = _STATUS.fail;
+			status_label.textContent = smart_ui.conformance.status.fail[smart_lang];
 			status_input.value = 'fail';
 			if (onix_aa.checked) { onix_aa.click(); }
 			if (onix_a.checked) { onix_a.click(); }
