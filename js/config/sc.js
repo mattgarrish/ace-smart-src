@@ -21,8 +21,8 @@ var sc_config = {
 			<li id=\"img-empty\">\
 				<p>If the image is not decorative and has an empty <code>alt</code> attribute, one of the following must true:</p>\
 				<ul>\
-					<li>the image is described in the <code>figcaption</code> element or the surrounding text;</li>\
-					<li>the image is part of a group of images in which only one carries the alternative text.</li>\
+					<li>its <code>figcaption</code> element or the surrounding text must describe the image;</li>\
+					<li>the image must be part of a group of images in which only one carries the alternative text.</li>\
 				</ul>\
 			</li>\
 			<li>\
@@ -31,7 +31,8 @@ var sc_config = {
 			</li>\
 		</ul>\
 	</li>\
-	<li>Ensure there is no non-text content embedded via an <code>object</code> or <code>embed</code> tag without a text alternative.</li>\
+	<li>Ensure any <code>object</code> and <code>embed</code> tags do not embed non-text content without a text alternative \
+		(i.e., their fallback content must not also be inaccessible).</li>\
 </ul>"
 			},
 			"kb": {
@@ -89,7 +90,7 @@ var sc_config = {
 			"guidance": {
 				"en": "<p>For all video clips with audio, verify the following:</p>\
 <ul>\
-	<li>Captions are provided via the <code>track</code> element, or open or closed captions are provided as part of the video format.</li>\
+	<li>A <code>track</code> element provides captions, or the video includes open or closed captions natively.</li>\
 	<li>The captions accurately capture the audio content.</li>\
 </ul>"
 			},
@@ -114,8 +115,8 @@ var sc_config = {
 <p>If yes, verify one of the following is true for each:</p>\
 \
 <ul>\
-	<li>An audio description is included via the <code>track</code> element (<code>kind=\"descriptions\"</code>), or descriptions are included in the default audio.</li>\
-	<li>A transcript that includes the descriptions is provided.</li>\
+	<li>A <code>track</code> element includes an audio description (<code>kind=\"descriptions\"</code>), or the audio includes descriptions by default.</li>\
+	<li>The author has provided a transcript with the descriptions.</li>\
 </ul>\
 \
 <p class=\"sc-note\">Note: This success criterion does not apply to video without audio. See <a href=\"#sc-1.2.1\">1.2.1</a> for such cases.</p>"
@@ -136,11 +137,11 @@ var sc_config = {
 				"en": "Captions (Live)"
 			},
 			"guidance": {
-				"en": "<p>Check if there are any real-time audio/video broadcasts that can be accessed from the publication (i.e., that are only available on a specific date and time).</p>\
+				"en": "<p>Check if the publication provides access to any real-time audio/video broadcasts (i.e., that are only available on a specific date and time).</p>\
 \
 <p>If so, the broadcasts must be live captioned to pass.</p>\
 \
-<p class=\"sc-note\">Note: Remotely-hosted audio and video files are not live broadcasts, as they can be accessed at any time and at any point in their timeline.</p>"
+<p class=\"sc-note\">Note: Remotely-hosted audio and video files are not live broadcasts, as users can access them at any time and at any point in their timeline.</p>"
 			}
 		},
 		
@@ -155,7 +156,7 @@ var sc_config = {
 			"guidance": {
 				"en": "<p>Check if there are any video clips whose accompanying audio does not fully describe all the visual information (e.g., actions being carried out).</p>\
 \
-<p>If yes, verify that audio descriptions are provided for each.</p>"
+<p>If yes, verify that the author has provided audio descriptions for each.</p>"
 			},
 			"kb": {
 				"en": {
@@ -173,9 +174,11 @@ var sc_config = {
 				"en": "Sign Language (Prerecorded)"
 			},
 			"guidance": {
-				"en": "<p>Verify that sign language interpretation is provided for all audio that accompanies video content.</p>\
+				"en": "<p>Check if there is any video content with audio.</p> \
 \
-<p class=\"sc-note\">Note: Sign language interpretation does not have to be provided for standalone audio content to meet this success criterion.</p>"
+<p>If yes, verify that the author has provided sign language interpretation the audio.</p>\
+\
+<p class=\"sc-note\">Note: The author does not have to provide sign language interpretation for purely audio content (i.e., without video) to meet this success criterion.</p>"
 			}
 		},
 		
@@ -190,7 +193,7 @@ var sc_config = {
 			"guidance": {
 				"en": "<p>Verify that audio descriptions do not overlap the foreground audio (i.e., that the description does not interfere with the ability to listen to dialogue or important sounds).</p>\
 \
-<p>If overlaps are found, extended descriptions must be provided whereby the video and audio are paused until the description completes.</p>"
+<p>If overlaps are found, the author must provide extended descriptions whereby the video and audio playback pause until the description completes.</p>"
 			}
 		},
 		
@@ -203,7 +206,7 @@ var sc_config = {
 				"en": "Media Alternative (Prerecorded)"
 			},
 			"guidance": {
-				"en": "<p>Verify that a transcript is provided for all video content, whether the video has audio or not. The transcript must accurately describe all auditory and visual information.</p>\
+				"en": "<p>If the publication has video content, verify the author has provided a transcript for all video content, whether the video has audio or not. The transcript must accurately describe all auditory and visual information.</p>\
 \
 <p class=\"sc-note\">Note: Transcripts that only capture dialogue are not sufficient to meet this success criterion.</p>"
 			},
@@ -223,7 +226,7 @@ var sc_config = {
 				"en": "Audio-only (Live)"
 			},
 			"guidance": {
-				"en": "<p>Verify that a text alternative is provided for all live audio (e.g., through live captioning).</p>\
+				"en": "<p>If the publication provides access to a live audio stream (i.e., not pre-recorded), verify that a text alternative is made available (e.g., through live captioning).</p>\
 \
 <p class=\"sc-note\">Note: As support for live streaming protocols is not a part of EPUB, this success criterion is typically not applicable.</p>"
 			}
@@ -238,47 +241,47 @@ var sc_config = {
 				"en": "Info and Relationships"
 			},
 			"guidance": {
-				"en": "<p>Verify that all essential information and relationships are reflected in the markup.</p>\
+				"en": "<p>Verify that the author has encoded all essential information and relationships in the markup.</p>\
 \
-<p>The markup of each content document has to be inspected to verify this success criterion, as its purpose \
-	is to ensures that the markup matches the visual presentation of the content.</p>\
+<p class=\"sc-note\">Note: You must inspect the markup of each content document to verify this success criterion, as it ensures that the markup matches the visual presentation of the content.</p>\
 \
 <p>Some common problems areas to check include:</p>\
 \
 <ul>\
 	<li><a href=\"http://kb.daisy.org/publishing/docs/html/headings.html\" target=\"_blank\">Headings</a>\
 		<ul>\
-			<li>all section headings are properly identified with HTML heading tags;</li>\
-			<li>subtitles are not marked up using <code>h1</code>-<code>h6</code> elements;</li>\
-			<li>section heading depth is correctly reflected in the choice of heading tag;</li>\
-			<li>headings are not used to format non-heading text;</li>\
+			<li>The author used HTML heading tags identify all section headings.</li>\
+			<li>The author has not used <code>h1</code>-<code>h6</code> elements to tag subtitles.</li>\
+			<li>The choice of heading tag correctly reflects the section heading depth (e.g., an <code>h2</code> heading is used for the immediate subsections of an <code>h1</code> heading).</li>\
+			<li>The author has not used headings for purely formatting purposes (e.g., to make non-heading text appear bigger).</li>\
 		</ul>\
 	</li>\
 	\
 	<li><a href=\"http://kb.daisy.org/publishing/docs/html/tables.html\" target=\"_blank\">Tables</a>\
 		<ul>\
-			<li>table headers are logically associated with cells using the <code>scope</code> or <code>headers</code> attribute;</li>\
-			<li>complex tables include a description of their structure;</li>\
+			<li>The author has correctly associated table headers with cells using the <code>scope</code> or <code>headers</code> attribute.</li>\
+			<li>Complex tables include a description of their structure.</li>\
 		</ul>\
 	</li>\
 	\
 	<li><a href=\"http://kb.daisy.org/publishing/docs/html/lists.html\" target=\"_blank\">Lists</a>\
 		<ul>\
-			<li>the correct type of list is used (ordered or unordered);</li>\
-			<li>lists of items are marked up using list tags (i.e., not as styled paragraphs);</li>\
+			<li>The author has used the correct type of list to convey the ordering (ordered or unordered).</li>\
+			<li>The author has used list tagging for lists (i.e., they are not styled paragraphs).</li>\
 		</ul>\
 	</li>\
 	\
 	<li><a href=\"http://kb.daisy.org/publishing/docs/css/color.html\" target=\"_blank\">Color</a>\
 		<ul>\
-			<li>content offset from the main narrative by shading or colored borders also uses semantic markup (e.g., <code>aside</code>);</li>\
+			<li>Content offset from the main narrative by shading or colored borders also includes semantic markup (e.g., the <code>aside</code> tag with an appropriate role);</li>\
 		</ul>\
 	</li>\
 	\
 	<li><a href=\"http://kb.daisy.org/publishing/docs/html/notes.html\" target=\"_blank\">Footnotes</a>\
 		<ul>\
-			<li>footnotes within the text are wrapped in <code>aside</code> elements;</li>\
-			<li>footnotes and their references are identifiable by their <code>role</code> attribute value;</li>\
+			<li>Footnotes in the body text include the role <code>doc-footnote</code>.</li>\
+			<li>Footnotes references include the role <code>doc-noteref</code>.</li>\
+			<li>Groups of notes at the end of a section or the publication include the role <code>doc-endnotes</code> on their <code>section</code> tag.</li>\
 		</ul>\
 	</li>\
 </ul>\
@@ -372,7 +375,7 @@ var sc_config = {
 telephone numer, etc.), check that each input a reading system can autocomplete from saved information \
 includes an <code>autocomplete</code> attribute with a <a href=\"https://www.w3.org/TR/WCAG21/#input-purposes\">value \
 from the WCAG input purpose list</a> (these are a subset of the list HTML allows).</p> \
-<p>Note that not every input requires an autocomplete value, only those collecting information for which \
+<p class=\"sc-note\">Note: Not every input requires an autocomplete value, only those collecting information for which \
 there is a matching value.</p>"
 			}
 		},
@@ -597,9 +600,9 @@ there is a matching value.</p>"
 				"en": "<p>Zoom the content so that it is no more than 320 pixels wide and 256 pixels high (this is equal \
 to 400% zoom on a device screen that is 1280 pixels wide by 1024 high).</p> \
 <p>Check that horizontal and vertical scrolling is not required to read the text.</p> \
-<p>Note that this requirement does not apply to visual media that requires two-dimensional layout, such as video, diagrams, \
-maps, etc. It is also only recommended (but not required) that the content within table cells not require scrolling when \
-zoomed, not that the entire table be viewable without scrolling.</p> \
+<p class=\"sc-note\">Note: This requirement does not apply to visual media that requires two-dimensional layout, such as \
+video, diagrams, maps, etc. It is also only recommended (but not required) that the content within table cells not require \
+scrolling when zoomed, not that the entire table be viewable without scrolling.</p> \
 <p>For fixed layouts, while background images may be exempt, the text content of the page must reflow when zoomed.</p>"
 			}
 		},
@@ -618,10 +621,10 @@ books include icons that identify sidebars, such as an exclamation point for war
 learning objectives, etc.</p> \
 <p>If any such icons are found, ensure that there is at least 3:1 contrast between the symbol and the colour adjacent \
 to it.</p> \
-<p>The same check also needs to be performed for any diagrams, charts and other visual content that conveys information. \
-If any of these images use graphical components as the sole means of conveying the information (e.g., a pie chart that \
-shows slices but does not explicitly indicate the size of each), each component must have a 3:1 contrast with the \
-adjacent coloring.</p> \
+<p>The same check also needs to be performed for any diagrams, charts, infographics, and other visual content that \
+conveys information. If any of these images use graphical components as the sole means of conveying the information \
+(e.g., a pie chart that shows slices but does not explicitly indicate the size of each), each component must have a 3:1 \
+contrast with the adjacent coloring.</p> \
 <p>In addition, verify that any form fields also meet this requirement. For example, that there is sufficient contrast \
 between the borders of text input fields and the adjacaent color, around buttons, and for radio buttons and checkboxes.</p>"
 			}
@@ -636,12 +639,18 @@ between the borders of text input fields and the adjacaent color, around buttons
 				"en": "Text Spacing"
 			},
 			"guidance": {
-				"en": ""
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>Change the text display of the content as follows:<p> \
+<ul> \
+<li>Set the line height to 1.5 times the font height.</li> \
+<li>Set the spacing after paragraphs to 2 times the font height.</li> \
+<li>Set the letter spacing to 0.12 times the font height.</li> \
+<li>Set word spacing to 0.16 times the font height.</li> \
+</ul> \
+<p>Now check that the text is not cut off (e.g., when in an aside or other box) or overlapping.</p> \
+<p>If any of these properties are not applicable to a specific language (e.g., word spacing to Japanese, Korean and Chinese), \
+they do not have to be tested.</p> \
+<p class=\"sc-note\">Note: This success criterion will likely require testing in a browser as reading systems provide limited \
+control over these properties.</p>"
 			}
 		},
 
@@ -654,12 +663,17 @@ between the borders of text input fields and the adjacaent color, around buttons
 				"en": "Content on Hover or Focus"
 			},
 			"guidance": {
-				"en": ""
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>If the publication has any content that only appears for a mouse hover or keyboard focus event \
+(e.g., tooltips using the <code>title</code> attribute or dropdown menus), ensure the following are all true:</p> \
+<ul> \
+<li>You can dismiss the content without having to change the mouse position or change the keyboard focus (e.g., using \
+the escape key).</li> \
+<li>If a hover event triggers the content, you can move the mouse over the hovered content without it disappearing.</li> \
+<li>The content remains visible until you dismiss it, move the mouse away, tab to another element, or it is no longer \
+relevant (e.g., in the case of temporary messages).</li> \
+</ul> \
+<p class=\"sc-note\">Note: This success criterion is not often applicable to EPUB publications as they are generally \
+designed to be read in devices without pointer inputs and keyboards.</p>"
 			}
 		},
 		
@@ -739,12 +753,14 @@ between the borders of text input fields and the adjacaent color, around buttons
 				"en": "Character Key Shortcuts"
 			},
 			"guidance": {
-				"en": ""
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>Check if the publication makes use of any shortcut keys.</p> \
+<p>If yes, and the shortcut is a single printable keyboard character (letters, numbers, punctuation or symbols), then \
+at least one of the following must be true:</p> \
+<ul>\
+<li>There is a way to turn off the shortcut key.</li> \
+<li>There is a way to remap the shortcut to include a non-printing key (e.g., Ctrl or Alt)</li> \
+<li>The shortcut key is only active when the component it controls has focus.</li> \
+</ul>"
 			}
 		},
 		
@@ -838,12 +854,9 @@ between the borders of text input fields and the adjacaent color, around buttons
 				"en": "Timeouts"
 			},
 			"guidance": {
-				"en": ""
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>Ensure that users are warned if a lack of activity will result in data loss (e.g., test \
+progress being lost).</p> \
+<p>If the data is retained for at least 20 hours of inactivity, this requirement to alert the user does not apply.</p>"
 			}
 		},
 		
@@ -886,12 +899,10 @@ between the borders of text input fields and the adjacaent color, around buttons
 				"en": "Animation from Interactions"
 			},
 			"guidance": {
-				"en": ""
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>Ensure that any animations caused by user interaction can be disabled (e.g., elements appearing \
+and disappearing as the content is scrolled).</p> \
+<p>Transition effects created by the reading system (e.g., page turns or animated cover page transitions) are not in \
+scope of this success criterion.</p>"
 			}
 		},
 		
@@ -1054,7 +1065,46 @@ between the borders of text input fields and the adjacaent color, around buttons
 				"en": "<p>Verify that each section of the publication is identified with a heading, and the heading numbers currectly identify the position of the heading in the document outline.</p>"
 			}
 		},
-	
+		
+		{
+			"id": "sc-2.4.11",
+			"ref": "focus-appearance-minimum",
+			"version": "2.2",
+			"level": "aa",
+	        "name":  {
+				"en": "Focus Appearance (Minimum)"
+			},
+			"guidance": {
+				"en": ""
+			}
+		},
+		
+		{
+			"id": "sc-2.4.12",
+			"ref": "focus-appearance-enhanced",
+			"version": "2.2",
+			"level": "aaa",
+	        "name":  {
+				"en": "Focus Appearance (Enhanced)"
+			},
+			"guidance": {
+				"en": ""
+			}
+		},
+		
+		{
+			"id": "sc-2.4.13",
+			"ref": "page-break-navigation",
+			"version": "2.2",
+			"level": "aa",
+	        "name":  {
+				"en": "Page Break Navigation"
+			},
+			"guidance": {
+				"en": ""
+			}
+		},
+		
 		{
 			"id": "sc-2.5.1",
 			"ref": "pointer-gestures",
@@ -1064,12 +1114,14 @@ between the borders of text input fields and the adjacaent color, around buttons
 				"en": "Pointer Gestures"
 			},
 			"guidance": {
-				"en": ""
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>Check if the publication contains any functionality that depends on multipoint gestures (i.e., \
+where the different points along the gesture change the effect, meaning, or value). Some examples include: swiping and \
+picking from a carousel of images, pinching to zoom an interactive map, or dragging a slider right or left.</p> \
+<p>If yes, each control must include an simple point and click alternative. For example, a slider might have plus \
+and minus buttons to control its value, or am interactive map might have a manual zoom control.</p> \
+<p>This success criterion does not apply to path-based gestures that control the reading system interface (e.g., pinching to zoom \
+the publication or swiping to turn pages). Native HTML controls are also exempt (e.g., audio and video playback and volume \
+controls).</p>"
 			}
 		},
 		
@@ -1082,12 +1134,21 @@ between the borders of text input fields and the adjacaent color, around buttons
 				"en": "Pointer Cancellation"
 			},
 			"guidance": {
-				"en": ""
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>Check if the publication contains any controls that only require a single tap or click \
+event to operate.</p> \
+<p>If yes, for each such control at least one of the following must be true:</p> \
+<ul>\
+<li>No action occurs solely from the down event (i.e., immediately when the control is pressed or clicked down without \
+releasing), only on the up event.</li> \
+<li>It is possible to cancel the event by moving your finger or mouse away from the item being clicked, or there is a \
+way to undo the action after the event is triggered.</li> \
+<li>The up event cancels the down event (i.e., the action only occurs so long as a finger is pressing on the screen or a \
+mouse button is being held down, then it automatically ends).</li> \
+<li>The action is essential on the tap or mouse down event (e.g., application where the user will expect an action as \
+soon as the event is initiated, such as expecting a sound from a simulated instrument or seeing a letter appear when \
+a key on a simulated keyboard is pressed).</li> \
+</ul> \
+<p>This success criterion does not apply to click and tap actions that control the reading system interface.</p>"
 			}
 		},
 		
@@ -1100,12 +1161,12 @@ between the borders of text input fields and the adjacaent color, around buttons
 				"en": "Label in Name"
 			},
 			"guidance": {
-				"en": ""
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>If the publication has inputs or controls with visible labels (i.e., that sighted users \
+can see), the name of the control must be the same as the visible text. (The name of an input or control is defined in \
+the <code>label</code> element for it, or, if not specified, in an <code>aria-label</code>, <code>title</code>, or \
+<code>aria-labelledby</code> attribute on the element).</p> \
+<p class=\"sc-note\">Note: This success criterion does not apply input and controls without visible labels \
+(i.e., where the name can only be computed from non-visible text).</p>"
 			}
 		},
 		
@@ -1118,12 +1179,10 @@ between the borders of text input fields and the adjacaent color, around buttons
 				"en": "Motion Actuation"
 			},
 			"guidance": {
-				"en": ""
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>Check if the publication contains any interactive content that is controlled by \
+the motion of the device.</p> \
+<p>If yes, the user interface must provide another means of controlling the content. It also must be possible \
+to disable the motion control.</p>"
 			}
 		},
 		
@@ -1136,12 +1195,9 @@ between the borders of text input fields and the adjacaent color, around buttons
 				"en": "Target Size"
 			},
 			"guidance": {
-				"en": ""
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>Clickable objects in the publication must be at least 44 pixels wide by 44 pixels high.</p> \
+<p class=\"sc-note\">Note: This requirement does not apply to links in the text, only to objects like buttons, game \
+controls, etc.</p>"
 			}
 		},
 		
@@ -1154,12 +1210,34 @@ between the borders of text input fields and the adjacaent color, around buttons
 				"en": "Concurrent Input Mechanisms"
 			},
 			"guidance": {
-				"en": ""
+				"en": "<p>Ensure that any interactive content is not restricted to a single input mode.</p> \
+<p>For example, a button must not only be operable by clicking on it &#8212; keyboard activation should work, too.</p>"
+			}
+		},
+		
+		{
+			"id": "sc-2.5.7",
+			"ref": "dragging-movements",
+			"version": "2.2",
+			"level": "aa",
+	        "name":  {
+				"en": "Dragging Movements"
 			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+			"guidance": {
+				"en": ""
+			}
+		},
+		
+		{
+			"id": "sc-2.5.8",
+			"ref": "target-size-minimum",
+			"version": "2.2",
+			"level": "aa",
+	        "name":  {
+				"en": "Target Size (Minimum)"
+			},
+			"guidance": {
+				"en": ""
 			}
 		},
 		
@@ -1331,6 +1409,32 @@ between the borders of text input fields and the adjacaent color, around buttons
 		},
 		
 		{
+			"id": "sc-3.2.6",
+			"ref": "consistent-help",
+			"version": "2.2",
+			"level": "a",
+	        "name":  {
+				"en": "Consistent Help"
+			},
+			"guidance": {
+				"en": ""
+			}
+		},
+		
+		{
+			"id": "sc-3.2.7",
+			"ref": "visible-controls",
+			"version": "2.2",
+			"level": "aa",
+	        "name":  {
+				"en": "Visible Controls"
+			},
+			"guidance": {
+				"en": ""
+			}
+		},
+		
+		{
 			"id": "sc-3.3.1",
 			"ref": "error-identification",
 			"version": "2.0",
@@ -1436,6 +1540,32 @@ between the borders of text input fields and the adjacaent color, around buttons
 </ul>"
 			}
 		},
+		
+		{
+			"id": "sc-3.3.7",
+			"ref": "accessible-authentication",
+			"version": "2.2",
+			"level": "a",
+	        "name":  {
+				"en": "Accessible Authentication"
+			},
+			"guidance": {
+				"en": ""
+			}
+		},
+		
+		{
+			"id": "sc-3.3.8",
+			"ref": "redundant-entry",
+			"version": "2.2",
+			"level": "a",
+	        "name":  {
+				"en": "Redundant Entry"
+			},
+			"guidance": {
+				"en": ""
+			}
+		},
 	
 		{
 			"id": "sc-4.1.1",
@@ -1484,29 +1614,24 @@ between the borders of text input fields and the adjacaent color, around buttons
 				"en": "Status Messages"
 			},
 			"guidance": {
-				"en": ""
-			},
-			"kb": {
-				"en": {
-					"": ""
-				}
+				"en": "<p>Check if any interactive content emits status messages. For example, invalid input in a form \
+might cause a warning message to appear beside the input.</p> \
+<p>Any such status messages must be identified using ARIA roles and/or properties so that assistive technologies can \
+announce them. Typically this is done by pairing a <a href=\"https://w3c.github.io/aria/#live_region_roles\">live \
+region role</a> together with the <code>aria-live</code> attribute to control when the message is read.</p> \
+<p class=\"sc-note\">Note: This success criterion does not apply to dialogs and similar alerts that receive \
+automatic focus.</p>"
 			}
 		},
 		
 		{
-			"id": "eg-1",
+			"id": "epub-pagesrc",
 			"level": "epub",
 			"name": {
-				"en": "Page Numbers"
+				"en": "Page Source"
 			},
 			"guidance": {
-				"en": "<p>If the publication includes pagination, ensure the following are true:</p>\
-\
-<ul>\
-	<li>a means of accessing all the page break locations is included.</li>\
-	<li>if page breaks are included in the text, they are identifiable by the <code>role</code> attribute value <code>doc-pagebreak</code>.</li>\
-	<li>the source is identified in the package document.</li>\
-</ul>"
+				"en": "<p>If the publication includes pagination, the source is identified in the package document.</p>"
 			},
 			"kb": {
 				"en": {
@@ -1516,21 +1641,82 @@ between the borders of text input fields and the adjacaent color, around buttons
 		},
 		
 		{
-			"id": "eg-2",
+			"id": "epub-pagelist",
 			"level": "epub",
 			"name": {
-				"en": "Media Overlays"
+				"en": "Page List"
+			},
+			"guidance": {
+				"en": "<p>If the publication includes pagination, a means of accessing all the page break locations is included.</p>"
+			},
+			"kb": {
+				"en": {
+					"Page Navigation": "http://kb.daisy.org/publishing/docs/navigation/pagelist.html"
+				}
+			}
+		},
+		
+		{
+			"id": "epub-pagebreaks",
+			"level": "epub",
+			"name": {
+				"en": "Page Breaks"
+			},
+			"guidance": {
+				"en": "<p>If page breaks are included in the text, they are identifiable by the <code>role</code> attribute value <code>doc-pagebreak</code>.</p>"
+			},
+			"kb": {
+				"en": {
+					"Page Navigation": "http://kb.daisy.org/publishing/docs/navigation/pagelist.html"
+				}
+			}
+		},
+		
+		{
+			"id": "epub-mo-readorder",
+			"level": "epub",
+			"name": {
+				"en": "Reading Order"
 			},
 			"guidance": {
 				"en": "<p class=\"note\">Media Overlay practices are currently only informative. Failure to meet the requirements of the specification does not fail publications. This exemption may change in a future version.</p>\
-\
-<p>If the publication includes media overlays, ensure the following are all true:</p>\
-\
-<ul>\
-	<li>All skippable structures are identified.</li>\
-	<li>All escapable structures are identified.</li>\
-	<li>A Media Overlay Document is included for the EPUB Navigation Document.</li>\
-</ul>"
+<p>If the publication includes media overlays, playback follows a logical reading sequence through the text.</p>"
+			}
+		},
+		
+		{
+			"id": "epub-mo-skip",
+			"level": "epub",
+			"name": {
+				"en": "Skippability"
+			},
+			"guidance": {
+				"en": "<p class=\"note\">Media Overlay practices are currently only informative. Failure to meet the requirements of the specification does not fail publications. This exemption may change in a future version.</p>\
+<p>If the publication includes media overlays, all skippable structures are identified.</p>"
+			}
+		},
+		
+		{
+			"id": "epub-mo-esc",
+			"level": "epub",
+			"name": {
+				"en": "Escapability"
+			},
+			"guidance": {
+				"en": "<p class=\"note\">Media Overlay practices are currently only informative. Failure to meet the requirements of the specification does not fail publications. This exemption may change in a future version.</p>\
+<p>If the publication includes media overlays, all escapable structures are identified.</p>"
+			}
+		},
+		
+		{
+			"id": "epub-mo-nav",
+			"level": "epub",
+			"name": {
+				"en": "Navigation Document"
+			},
+			"guidance": {
+				"en": "<p class=\"note\">Media Overlay practices are currently only informative. Failure to meet the requirements of the specification does not fail publications. This exemption may change in a future version.</p>\
+<p>If the publication includes media overlays, a Media Overlay Document is included for the EPUB Navigation Document.</p>"
 			}
 		}
 	]

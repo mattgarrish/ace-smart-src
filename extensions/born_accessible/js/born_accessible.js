@@ -29,8 +29,7 @@ var bornAccessible = (function() {
 		2: 'alert',
 		3: 'alert',
 		4: 'pass',
-		'N/A': 'na',
-		'Unverified': ''
+		'N/A': 'na'
 	}
 	
 	

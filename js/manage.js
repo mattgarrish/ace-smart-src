@@ -55,7 +55,7 @@ var smartManage = (function() {
 	
 		var evaluationJSON = {};
 		
-		evaluationJSON.version = '1.0';
+		evaluationJSON.version = '1.1';
 		evaluationJSON.category = 'savedEvaluation';
 		evaluationJSON.id = ACE_ID;
 		
@@ -363,18 +363,62 @@ var smartManage = (function() {
 		
 		if (evaluationJSON.hasOwnProperty('conformance')) {
 			for (var i = 0; i < evaluationJSON.conformance.length; i++) {
-				document.getElementById(evaluationJSON.conformance[i].id + '-' + evaluationJSON.conformance[i].status).checked = true;
-				smartConformance.setSCStatus({name: evaluationJSON.conformance[i].id, value: evaluationJSON.conformance[i].status});
+			
+				var sc = evaluationJSON.conformance[i];
 				
-				if (evaluationJSON.conformance[i].hasOwnProperty('error')) {
-					document.getElementById(evaluationJSON.conformance[i].id+'-err').value = evaluationJSON.conformance[i].error;
+				if (!document.getElementById(evaluationJSON.conformance[i].id)) {
+					// account for the splitting of the EPUB SCs into three in the 1.1 revision
+					if (sc.id == 'eg-1') {
+						alert('Evaluation contains the old EPUB Page Navigation success criterion.\n\nThe old assessment is reported in the new Page Source criterion. Please check the accuracy as there are now multiple parts.');
+						
+						var new_sc = new Object();
+							new_sc.id = 'epub-pagesrc';
+							new_sc.status = sc.status;
+						
+						if (sc.hasOwnProperty('error')) {
+							new_sc.error = sc.error;
+						}
+						if (sc.hasOwnProperty('note')) {
+							new_sc.note = sc.note;
+						}
+						
+						sc = new_sc;
+					}
+					
+					else if (sc.id == 'eg-2') {
+						alert('Evaluation contains the old EPUB Media Overlays success criterion.\n\nThe old assessment is reported in the new Skippability criterion. Please check the accuracy as there are now multiple parts.');
+						
+						var new_sc = new Object();
+							new_sc.id = 'epub-mo-skip';
+							new_sc.status = sc.status;
+						
+						if (sc.hasOwnProperty('error')) {
+							new_sc.error = sc.error;
+						}
+						if (sc.hasOwnProperty('note')) {
+							new_sc.note = sc.note;
+						}
+						
+						sc = new_sc;
+					}
+					else {
+						alert('Failed to load unknown success criterion: ' + evaluationJSON.conformance[i].id + '\n\nPlease report this issue.');
+						continue;
+					}
 				}
 				
-				if (evaluationJSON.conformance[i].hasOwnProperty('note')) {
-					var note = document.getElementById(evaluationJSON.conformance[i].id + '-notebox'); 
+				document.getElementById(sc.id + '-' + sc.status).checked = true;
+				smartConformance.setSCStatus({name: sc.id, value: sc.status});
+				
+				if (sc.hasOwnProperty('error')) {
+					document.getElementById(sc.id+'-err').value = sc.error;
+				}
+				
+				if (sc.hasOwnProperty('note')) {
+					var note = document.getElementById(sc.id + '-notebox'); 
 					note.checked = true;
 					smartConformance.showSCNoteField(note);
-					document.getElementById(evaluationJSON.conformance[i].id + '-info').value = evaluationJSON.conformance[i].note;
+					document.getElementById(sc.id + '-info').value = sc.note;
 				}
 			}
 		}
@@ -444,9 +488,9 @@ var smartManage = (function() {
 		
 		if (evaluationJSON.hasOwnProperty('configuration')) {
 			
-			// set the version of the epub accessibility spec being tested
+			// set the version of the epub accessibility spec being tested - property did not exist in the 1.0 storage format so equates to EPUB A11Y 1.0
 			
-			var a11y_version = evaluationJSON.configuration.hasOwnProperty('epub') ? evaluationJSON.configuration.epub.a11y : '1.0';
+			var a11y_version = evaluationJSON.version == '1.0' ? '1.0' : evaluationJSON.configuration.epub.a11y;
 			
 			document.getElementById('epub-a11y').value = a11y_version;
 			
@@ -487,7 +531,7 @@ var smartManage = (function() {
 			}
 			
 			// account for old epub_format property - delete when safely out of use
-			var epub_format = evaluationJSON.configuration.hasOwnProperty('epub_format') ? evaluationJSON.configuration.epub_format : evaluationJSON.configuration.epub.format; 
+			var epub_format = evaluationJSON.version == '1.0' ? evaluationJSON.configuration.epub_format : evaluationJSON.configuration.epub.format; 
 			
 			document.getElementById('epub-format').value = epub_format;
 			

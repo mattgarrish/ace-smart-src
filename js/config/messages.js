@@ -206,6 +206,9 @@ var smart_ui = {
 			"wcag21": {
 				"en": "WCAG 2.1"
 			},
+			"wcag22": {
+				"en": "WCAG 2.2"
+			},
 			"a": {
 				"en": "Level A"	
 			},
