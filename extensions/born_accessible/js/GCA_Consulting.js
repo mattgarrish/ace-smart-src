@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.20",
+    "version": "1.21",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "03/17/2021, 04:30:00 AM",
+    "dct:date": "07/01/2021, 09:00:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -114,6 +114,16 @@ var gca = {
                             "N/A": "No Cover Image provided",
                             "0": "A cover image is present but not declared in the manifest",
                             "4": "The cover image was correctly identified using the “cover-image” property in the manifest (with supporting <meta name=\"cover\" content=\"cover-image\"/> in the metadata for reading systems not fully upgraded to EPUB 3)"
+                        }
+                    },
+                    {
+                        "$itemId": "images-text",
+                        "itemName" : "Images with Text",
+                        "itemScores": {
+                            "N/A": "No images found containing text",
+                            "0": "Text found within an Image not fully described with alt text or extended description",
+                            "3": "Unnecessary use of text images, could be done without an image using live text and CSS styling",
+                            "4": "All images containing text are appropriate and fully described"
                         }
                     }
                 ] 
@@ -250,15 +260,6 @@ var gca = {
                         }
                     },
                     {
-                        "$itemId": "general-book-metadata",
-                        "itemName" : "Basic Book Metadata",
-                        "itemScores": {
-                            "0": "missing metadata (ie. Title, subtitle, author, date, ISBN etc)",
-                            "2": "partial metadata",
-                            "4": "all Metadata required present and correct"
-                        }
-                    },
-                    {
                         "$itemId": "general-usability",
                         "itemName" : "Usability",
                         "itemScores": {
@@ -370,7 +371,7 @@ var gca = {
                     },
                     {
                         "$itemId": "general-section-labels",
-                        "itemName" : "Sections are correctly Labelled",
+                        "itemName" : "Sections are Correctly Labelled",
                         "itemScores": {
                             "N/A": "No Sections present",
                             "0": "None of the sections are labelled",
@@ -383,8 +384,45 @@ var gca = {
                         "itemName" : "Drop Caps",
                         "itemScores": {
                             "N/A": "No Drop Caps present",
-                            "0": "Drop Caps are incorrectly marked up and cause screen readers to mispronounce the word (i.e. use of <spans> instead of CSS selectors).",
-                            "4": "All Drop Caps are correctly marked up with CSS and do not affect AT reading the entire word.  "
+                            "0": "Drop Caps are incorrectly marked up and cause screen readers to mispronounce the word (i.e. use of <spans> instead of CSS selectors)",
+                            "4": "All Drop Caps are correctly marked up with CSS and do not affect AT reading the entire word"
+                        }
+                    },
+                    {
+                        "$itemId": "general-allcaps",
+                        "itemName" : "All CAPS",
+                        "itemScores": {
+                            "N/A": "No words found written in all capital letters",
+                            "0": "Headings written entirely in capital letters",
+                            "1": "Many words or phrases written entirely in capital letters",
+                            "3": "Few words written entirely in capital letters"
+                        }
+                    },
+                    {
+                        "$itemId": "general-overuse-italics",
+                        "itemName" : "Overuse of Italicized Words",
+                        "itemScores": {
+                            "N/A": "No words found styled with italics",
+                            "0": "Many words or phrases styled entirely in italics",
+                            "4": "Only a few words styled with italics"
+                        }
+                    },
+                    {
+                        "$itemId": "general-body-multiline",
+                        "itemName" : "Multi-Line Visual Formatting of Body Text",
+                        "itemScores": {
+                            "N/A": "No visual formatting found using <br/>'s",
+                            "0": "Extensive use of visual formatting using <br/>'s",
+                            "4": "Correct use of CSS block for visual formatting of text or <br>'s correctly used in visual patterned poetry, where pausing at end of line is appropriate"
+                        }
+                    },
+                    {
+                        "$itemId": "general-text-image-colorcontrast",
+                        "itemName" : "Color Contrast for Images with Text",
+                        "itemScores": {
+                            "N/A": "No images found containing text",
+                            "0": "Image containing text does not meet color contrast requirements",
+                            "4": "All Images with text passes color contrast requirements"
                         }
                     }
                       
@@ -774,6 +812,7 @@ var gca = {
                         "itemScores": {
                             "0": "metadata missing",
                             "1": "metadata lacking, inaccurate, or too detailed",
+                            "3": "minor improvements needed",
                             "4": "metadata present and accurately summarizes the accessibility features and issues of this publication"
                         }
                     }
@@ -793,14 +832,23 @@ var gca = {
                         }
                     },
                      {
-                        "$itemId": "required-accessibility-metadata-certifierreport",
+                        "$itemId": "optional-accessibility-metadata-certifierreport",
                         "itemName" : "certifierReport",
                         "itemScores": {
                             "N/A": "Metadata not present",
                             "0": "Invalid link to an accessibility report",
                             "4": "Accredited Publisher: metadata URL links to an Accessibility Report"
                         }
-                    }
+                    },
+                     {
+                        "$itemId": "optional-accessibility-metadata-accessibilityAPI-Controls",
+                        "itemName" : "Use of accessibilityAPI or accessibilityControls (soon to be deprecated)",
+                        "itemScores": {
+                            "N/A": "Metadata not present",
+                            "0": "found accessibilityAPI or accessibilityControls in metadata"
+                        }
+                    } 
+                    
                 ]
             },
             {

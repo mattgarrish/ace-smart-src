@@ -243,14 +243,16 @@ var smart_ui = {
 			"note": {
 				"en": "Add Note"
 			},
-			"kb": {
-				"en": "Knowledge Base and Techniques"
-			},
-			"wcag": {
-				"en": "WCAG Documentation"
-			},
 			"status": {
 				"en": "Status:"
+			}
+		},
+		"kb": {
+			"linkPrelim": {
+				"en": "For more information, refer to the "
+			},
+			"linkText": {
+				"en": "knowledge base for this success criterion"
 			}
 		},
 		"changeSC": {

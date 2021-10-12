@@ -140,10 +140,10 @@ var smartReport = (function() {
 	 */
 	
 	function checkNoUnverifiedSC() {
-		var unverified_selector = 'section.a input[value="unverified"]:checked';
-			unverified_selector += smartWCAG.WCAGLevel() == 'a' ? '' : ', section.aa input[value="unverified"]:checked';
+	
+		var selector = smartConformance.getSCStatusSelector({status: 'unverified', level: 'all', includeEPUB: true});
 		
-		var unverified_success_criteria = document.querySelectorAll(unverified_selector);
+		var unverified_success_criteria = document.querySelectorAll(selector);
 		
 		if (unverified_success_criteria.length > 0) {
 			for (var i = 0; i < unverified_success_criteria.length; i++) {

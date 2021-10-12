@@ -31,16 +31,11 @@ var sc_config = {
 			</li>\
 		</ul>\
 	</li>\
+	<li data-scope=\"audio\">Ensure each <code>audio</code> element has a label (<code>aria-label</code> attribute).</li>\
+	<li data-scope=\"video\">Ensure each <code>video</code> element has a label (<code>aria-label</code> attribute) that references where to find the transcript or indicates that audio descriptions are available.</li>\
 	<li>Ensure any <code>object</code> and <code>embed</code> tags do not embed non-text content without a text alternative \
 		(i.e., their fallback content must not also be inaccessible).</li>\
 </ul>"
-			},
-			"kb": {
-				"en": {
-					"Images": "http://kb.daisy.org/publishing/docs/html/images.html",
-					"Audio": "http://kb.daisy.org/publishing/docs/html/audio.html",
-					"Video": "http://kb.daisy.org/publishing/docs/html/video.html"
-				}
 			}
 		},
 	
@@ -57,7 +52,6 @@ var sc_config = {
 	<p>For all audio clips, verify the following:</p>\
 	<ul>\
 		<li>There is a transcript.</li>\
-		<li>The <code>audio</code> element has a label (<code>aria-label</code> attribute) that references where to find the transcript.</li>\
 		<li>The transcript accurately reflects the information contained in the audio clip.</li>\
 </div>\
 \
@@ -65,17 +59,10 @@ var sc_config = {
 	<p>For all video-only clips, verify the following:</p>\
 	<ul>\
 		<li>There is a transcript or the video includes audio descriptions (if the video is not fully described in the surrounding text).</li>\
-		<li>The <code>video</code> element has a label (<code>aria-label</code> attribute) that references where to find the transcript or indicates that audio descriptions are available.</li>\
 		<li>The transcript/audio descriptions accurately reflect the information contained in the video clip.</li>\
 	</ul>\
 		<p class=\"sc-note\">Note: a video-only clip is one that has no accompanying audio (e.g., a silent movie).</p>\
 </div>"
-			},
-			"kb": {
-				"en": {
-					"Audio": "http://kb.daisy.org/publishing/docs/html/audio.html",
-					"Video": "http://kb.daisy.org/publishing/docs/html/video.html"
-				}
 			}
 		},
 		
@@ -93,11 +80,6 @@ var sc_config = {
 	<li>A <code>track</code> element provides captions, or the video includes open or closed captions natively.</li>\
 	<li>The captions accurately capture the audio content.</li>\
 </ul>"
-			},
-			"kb": {
-				"en": {
-					"Video": "http://kb.daisy.org/publishing/docs/html/video.html"
-				}
 			}
 		},
 		
@@ -120,11 +102,6 @@ var sc_config = {
 </ul>\
 \
 <p class=\"sc-note\">Note: This success criterion does not apply to video without audio. See <a href=\"#sc-1.2.1\">1.2.1</a> for such cases.</p>"
-			},
-			"kb": {
-				"en": {
-					"Video": "http://kb.daisy.org/publishing/docs/html/video.html"
-				}
 			}
 		},
 		
@@ -154,14 +131,9 @@ var sc_config = {
 				"en": "Audio Description (Prerecorded)"
 			},
 			"guidance": {
-				"en": "<p>Check if there are any video clips whose accompanying audio does not fully describe all the visual information (e.g., actions being carried out).</p>\
+				"en": "<p>Check if there is any video whose accompanying audio does not fully describe all the visual information (e.g., actions being carried out).</p>\
 \
 <p>If yes, verify that the author has provided audio descriptions for each.</p>"
-			},
-			"kb": {
-				"en": {
-					"Video": "http://kb.daisy.org/publishing/docs/html/video.html"
-				}
 			}
 		},
 		
@@ -206,14 +178,9 @@ var sc_config = {
 				"en": "Media Alternative (Prerecorded)"
 			},
 			"guidance": {
-				"en": "<p>If the publication has video content, verify the author has provided a transcript for all video content, whether the video has audio or not. The transcript must accurately describe all auditory and visual information.</p>\
+				"en": "<p>If the publication has video, verify the author has provided a transcript for each instance, whether the video has audio or not. The transcript must accurately describe all auditory and visual information.</p>\
 \
 <p class=\"sc-note\">Note: Transcripts that only capture dialogue are not sufficient to meet this success criterion.</p>"
-			},
-			"kb": {
-				"en": {
-					"Video": "http://kb.daisy.org/publishing/docs/html/video.html"
-				}
 			}
 		},
 		
@@ -287,12 +254,6 @@ var sc_config = {
 </ul>\
 \
 <p>For more markup best practices, refer to the <a href=\"http://kb.daisy.org/publishing/\">DAISY Accessible Publishing Knowledge Base</a>.</p>"
-			},
-			"kb": {
-				"en": {
-					"SEM-001: Include ARIA and EPUB semantics": "http://www.idpf.org/epub/a11y/techniques/#sem-001",
-					"TITLES-002: Ensure numbered headings reflect publication hierarchy": "http://www.idpf.org/epub/a11y/techniques/#titles-002"
-				}
 			}
 		},
 		
@@ -305,25 +266,7 @@ var sc_config = {
 				"en": "Meaningful Sequence"
 			},
 			"guidance": {
-				"en": "<p>Review the spine and verify the following:</p>\
-<ul>\
-	<li>All content documents are listed in the correct reading order.</li>\
-	<li>All content documents are correctly marked as linear or non-linear.</li>\
-</ul>\
-\
-<p>Review each content document in the spine and verify the following:</p>\
-<ul>\
-	<li>Content is arranged logically within each document.</li>\
-	<li>Sidebars and other secondary material are identified using correct tags (e.g., <code>aside</code>).</li>\
-	<li>Secondary material is optimally placed to minimize interruptions (e.g., at the end of sections or where logical pauses in the narrative occur).</li>\
-</ul>"
-			},
-			"kb": {
-				"en": {
-					"Logical Reading Order": "http://kb.daisy.org/publishing/docs/html/order.html",
-					"Sections": "http://kb.daisy.org/publishing/docs/html/sections.html",
-					"ACCESS-001: Ensure Linear Reading Order": "http://www.idpf.org/epub/a11y/techniques/#access-001"
-				}
+				"en": "<p>Review each content document and verify that comprehension of the content is not dependent on the visual rendering (both within the page and across page boundaries).</p>"
 			}
 		},
 		
@@ -339,11 +282,6 @@ var sc_config = {
 				"en": "<p>If the publication includes instructions for understanding or operating the content, verify the instructions do not depend solely on sensory perception (e.g., selecting an object by its colour, shape, size, position, etc.).</p>\
 \
 <p class=\"sc-note\">Note: Content does not fail this success criterion simply because it employs colours, shapes, sizes, etc. A sidebar identifiable by background shading is not a failure unless there are instructions to review only certain coloured sidebars, for example. Requirements for semantic tagging are covered by <a href=\"#sc-1.3.1\">1.3.1</a>.</p>"
-			},
-			"kb": {
-				"en": {
-					"Separation of Style": "http://kb.daisy.org/publishing/docs/html/separation.html"
-				}
 			}
 		},
 		
@@ -390,11 +328,6 @@ there is a matching value.</p>"
 			},
 			"guidance": {
 				"en": "<p>Ensure that DPUB-ARIA roles used to identify all applicable sections and regions of each content document.</p>"
-			},
-			"kb": {
-				"en": {
-					"Digital Publishing Roles": "https://kb.daisy.org/publishing/docs/html/dpub-aria/index.html"
-				}
 			}
 		},
 	
@@ -407,12 +340,8 @@ there is a matching value.</p>"
 				"en": "Use of Color"
 			},
 			"guidance": {
-				"en": "<p>Verify that there are no dependencies on the perception of colour (e.g., in order to understand the different pieces of a chart or to determine what controls to use in a scripted interface).</p>"
-			},
-			"kb": {
-				"en": {
-					"Separation of Style": "http://kb.daisy.org/publishing/docs/html/separation.html"
-				}
+				"en": "<p>Verify that there are alternatives to color where the content makes use of the perception of colour to convey meaning or purpose (e.g., in order to understand the different pieces of a chart, to determine what controls to use in a scripted interface, or to identify hyperlinks from regular text).</p> \
+<p class=\"sc-note\">Note: This success criterion only covers the needs of sighted users who are color blind or have difficult perceiving color (i.e., the alternatives for color-dependent content must be visible, such as the addition of underline or bolding for hyperlinks).</p>"
 			}
 		},
 		
@@ -430,11 +359,6 @@ there is a matching value.</p>"
 	<li>There is a mechanism to pause/stop playback.</li>\
 	<li>The volume of the audio clip can be controlled separately from the volume of the reading system.</li>\
 </ul>"
-			},
-			"kb": {
-				"en": {
-					"Audio": "http://kb.daisy.org/publishing/docs/html/audio.html"
-				}
 			}
 		},
 		
@@ -459,11 +383,6 @@ there is a matching value.</p>"
 <p class=\"sc-note\">Note: Contrast is the difference in luminance between the colors of the text and background.</p>\
 \
 <p class=\"sc-note\">Note: An image of text is exempt from this requirement if it is part of an inactive interface, is purely decorational, is not visible, or is part of a brand or logo. If the text in the image is incidental information, it is also exempt (e.g., road or store signs in a landscape picture).</p>"
-			},
-			"kb": {
-				"en": {
-					"Color": "http://kb.daisy.org/publishing/docs/css/color.html"
-				}
 			}
 		},
 		
@@ -496,11 +415,6 @@ there is a matching value.</p>"
 <p>If the presentation cannot be achieved without an image, this success criterion passes.</p>\
 \
 <p class=\"sc-note\">Note: This success criterion does not apply to images where the presentation is essential (e.g., logos) or where the text can be controlled separately from the image (e.g., SVG). It also does not apply to graphs and diagrams where more than just the text is essential information.</p>"
-			},
-			"kb": {
-				"en": {
-					"TEXT-001 - Use Unicode for text content": "http://www.idpf.org/epub/a11y/techniques/#text-001"
-				}
 			}
 		},
 		
@@ -518,11 +432,6 @@ there is a matching value.</p>"
 <p class=\"sc-note\">Note: Contrast is the difference in luminance between the colors of the text and background. It is recommended to use an automated tool to check this success criterion. Ace only checks contrasts up to 4.5:1, and does not verify images of text, so a passing report does not indicate conformance to this success criterion.</p>\
 \
 <p class=\"sc-note\">Note: An image of text is exempt from this requirement if it is part of an inactive interface, is purely decorational, is not visible, or is part of a brand or logo. If the text in the image is incidental information, it is also exempt (e.g., road or store signs in a landscape picture).</p>"
-			},
-			"kb": {
-				"en": {
-					"Color": "http://kb.daisy.org/publishing/docs/css/color.html"
-				}
 			}
 		},
 		
@@ -580,11 +489,6 @@ there is a matching value.</p>"
 				"en": "<p>Verify that any images of text are decorative or the presentation is essential (e.g., logos and brand names).</p>\
 \
 <p class=\"sc-note\">Note: images of text does not include graphs and diagrams where more than just the text is essential information.</p>"
-			},
-			"kb": {
-				"en": {
-					"TEXT-001 - Use Unicode for text content": "http://www.idpf.org/epub/a11y/techniques/#text-001"
-				}
 			}
 		},
 	
@@ -695,11 +599,6 @@ designed to be read in devices without pointer inputs and keyboards.</p>"
 	Drag and drop applications are not exempt, on the other hand, as the path taken to the endpoint is not essential.</p>\
 \
 <p>In addition, verify that operation is not dependent on specific timings of keystrokes (e.g., that keys must be pressed a certain number of times in an interval, or held down for a set period of time).</p>"
-			},
-			"kb": {
-				"en": {
-					"ARIA": "http://kb.daisy.org/publishing/docs/script/aria.html"
-				}
 			}
 		},
 		
@@ -736,11 +635,6 @@ designed to be read in devices without pointer inputs and keyboards.</p>"
 				"en": "<p>Verify that all interactive content (scripted components, forms, audio, video, links, etc.) is operable from the keyboard.</p>\
 \
 <p class=\"sc-note\">Note: The difference between this success criterion and <a href=\"#sc-2.1.1\">2.1.1</a> is that this success criterion does not allow an exception for interfaces that require information about the full path of movement.</p>"
-			},
-			"kb": {
-				"en": {
-					"ARIA": "http://kb.daisy.org/publishing/docs/script/aria.html"
-				}
 			}
 		},
 	
@@ -935,12 +829,6 @@ scope of this success criterion.</p>"
 				"en": "<p>Verify that the publication has a meaningful title in the EPUB package document.</p>\
 \
 <p>Verify that the title of each content document meaningfully describes its content.</p>"
-			},
-			"kb": {
-				"en": {
-					"Page Title": "http://kb.daisy.org/publishing/docs/html/title.html",
-					"TITLES-001: Include publication and document titles": "http://www.idpf.org/epub/a11y/techniques/#titles-001"
-				}
 			}
 		},
 		
@@ -984,16 +872,6 @@ scope of this success criterion.</p>"
 <p>The addition of a page list or index can also be counted in meeting this criterion.</p>\
 \
 <p class=\"sc-note\">Note: The inclusion of landmarks should not be considered when evaluating this criterion, although they are important to include. Users only have access to these landmarks through the functionality provided by a given reading system; there isn't broad support for users to access the links directly.</p>"
-			},
-			"kb": {
-				"en": {
-					"Table of Contents": "http://kb.daisy.org/publishing/docs/navigation/toc.html",
-					"Page Navigation": "http://kb.daisy.org/publishing/docs/navigation/pagelist.html",
-					"Landmarks": "http://kb.daisy.org/publishing/docs/navigation/landmarks.html",
-					"ACCESS-002: Provide multiple ways to access the content": "http://www.idpf.org/epub/a11y/techniques/#access-002",
-					"SEM-003: Include EPUB landmarks": "http://www.idpf.org/epub/a11y/techniques/#sem-003",
-					"PAGE-003: Provide a page list": "http://www.idpf.org/epub/a11y/techniques/#page-003"
-				}
 			}
 		},
 		
@@ -1256,11 +1134,6 @@ controls, etc.</p>"
 	<li>In the package document, the correct language codes are specified on the <code>package</code> element (<code>xml:lang</code> attribute) and in the <code>dc:language</code> elements.</li>\
 	<li>In each content document, the correct language code is specified on the root <code>html</code> element (<code>xml:lang</code> and <code>lang</code> attributes).</li>\
 </ul>"
-			},
-			"kb": {
-				"en": {
-					"Language": "http://kb.daisy.org/publishing/docs/html/lang.html"
-				}
 			}
 		},
 		
@@ -1271,11 +1144,6 @@ controls, etc.</p>"
 			"level": "aa",
 	        "name":  {
 				"en": "Language of Parts"
-			},
-			"kb": {
-				"en": {
-					"Language": "http://kb.daisy.org/publishing/docs/html/lang.html"
-				}
 			},
 			"guidance": {
 				"en": "<p>Verify that all foreign language words and phrases have been identified and that the correct language code has been used in each case.</p>\
@@ -1444,11 +1312,6 @@ controls, etc.</p>"
 			},
 			"guidance": {
 				"en": "<p>Verify that form input errors are identified and described.</p>"
-			},
-			"kb": {
-				"en": {
-					"Forms": "http://kb.daisy.org/publishing/docs/html/forms.html"
-				}
 			}
 		},
 		
@@ -1462,11 +1325,6 @@ controls, etc.</p>"
 			},
 			"guidance": {
 				"en": "<p>Verify that form inputs are clearly labelled and all required fields are identifiable.</p>"
-			},
-			"kb": {
-				"en": {
-					"Forms": "http://kb.daisy.org/publishing/docs/html/forms.html"
-				}
 			}
 		},
 		
@@ -1480,11 +1338,6 @@ controls, etc.</p>"
 			},
 			"guidance": {
 				"en": "<p>Verify that any input error messages identify how to fix the problem, unless a message about how to fix would compromise security or defeat the purpose (e.g., undermine quizzes and tests).</p>"
-			},
-			"kb": {
-				"en": {
-					"Forms": "http://kb.daisy.org/publishing/docs/html/forms.html"
-				}
 			}
 		},
 		
@@ -1597,11 +1450,6 @@ controls, etc.</p>"
 			},
 			"guidance": {
 				"en": "<p>Check that all controls have a name and role, and all states and properties necessary to for user interaction are set and function properly.</p>"
-			},
-			"kb": {
-				"en": {
-					"ARIA": "http://kb.daisy.org/publishing/docs/script/aria.html"
-				}
 			}
 		},
 	
@@ -1626,55 +1474,40 @@ automatic focus.</p>"
 		
 		{
 			"id": "epub-pagesrc",
-			"level": "epub",
+			"level": "normative",
 			"name": {
 				"en": "Page Source"
 			},
 			"guidance": {
 				"en": "<p>If the publication includes pagination, the source is identified in the package document.</p>"
-			},
-			"kb": {
-				"en": {
-					"Page Navigation": "http://kb.daisy.org/publishing/docs/navigation/pagelist.html"
-				}
 			}
 		},
 		
 		{
 			"id": "epub-pagelist",
-			"level": "epub",
+			"level": "normative",
 			"name": {
 				"en": "Page List"
 			},
 			"guidance": {
 				"en": "<p>If the publication includes pagination, a means of accessing all the page break locations is included.</p>"
-			},
-			"kb": {
-				"en": {
-					"Page Navigation": "http://kb.daisy.org/publishing/docs/navigation/pagelist.html"
-				}
 			}
 		},
 		
 		{
 			"id": "epub-pagebreaks",
-			"level": "epub",
+			"level": "normative",
 			"name": {
 				"en": "Page Breaks"
 			},
 			"guidance": {
 				"en": "<p>If page breaks are included in the text, they are identifiable by the <code>role</code> attribute value <code>doc-pagebreak</code>.</p>"
-			},
-			"kb": {
-				"en": {
-					"Page Navigation": "http://kb.daisy.org/publishing/docs/navigation/pagelist.html"
-				}
 			}
 		},
 		
 		{
 			"id": "epub-mo-readorder",
-			"level": "epub",
+			"level": "informative",
 			"name": {
 				"en": "Reading Order"
 			},
@@ -1686,7 +1519,7 @@ automatic focus.</p>"
 		
 		{
 			"id": "epub-mo-skip",
-			"level": "epub",
+			"level": "informative",
 			"name": {
 				"en": "Skippability"
 			},
@@ -1698,7 +1531,7 @@ automatic focus.</p>"
 		
 		{
 			"id": "epub-mo-esc",
-			"level": "epub",
+			"level": "informative",
 			"name": {
 				"en": "Escapability"
 			},
@@ -1710,7 +1543,7 @@ automatic focus.</p>"
 		
 		{
 			"id": "epub-mo-nav",
-			"level": "epub",
+			"level": "informative",
 			"name": {
 				"en": "Navigation Document"
 			},

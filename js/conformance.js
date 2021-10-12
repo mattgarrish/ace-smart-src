@@ -11,11 +11,13 @@
  * 
  * - setEvaluationResult - sets the result based on the epub/wcag versions conformed to 
  * 
- * - addSuccessCriteriaReporting - dynamically adds the status and note fields to success criteria
+ * - addSuccessCriteria - dynamically adds the success criteria
  * 
  * - setWCAGVersion - changes the success criteria to match the selected version of the standard
  * 
  * - setWCAGConformanceLevel - updates the displayed conformance tests to the user-selected level
+ * 
+ * - getSCStatusSelector - generate a selector for querying the applicable success criteria
  * 
  * - displaySuccessCriteria - show/hide success criteria for the specified wcag level (used to show both current level and optional criteria)
  * 
@@ -37,12 +39,6 @@
 
 var smartConformance = (function() {
 
-	// must add required EPUB success criteria ids here
-	var _EPUB_SC = ['epub-pagesrc', 'epub-pagelist', 'epub-pagebreaks'];
-					// following are not required to pass
-					// 'epub-mo-readorder', 'epub-mo-skip', 'epub-mo-esc', 'epub-mo-nav'
-					// rethink this if ever we move to having all SCs required
-	
 	var _SC_TYPE = new Object();
 		_SC_TYPE.img = ['sc-1.4.9'];
 		_SC_TYPE.audio = ['sc-1.4.2', 'sc-1.4.7'];
@@ -118,6 +114,7 @@ var smartConformance = (function() {
 	/* makes success criteria visible/hidden based on their class */
 	
 	function displaySuccessCriteria(options) {
+	
 		var success_criteria = document.getElementsByClassName(options.wcag_level);
 		
 		var hide = false;
@@ -129,7 +126,10 @@ var smartConformance = (function() {
 			var success_criteria = document.getElementsByClassName('w' + wcag_versions.options[i].value.replace('.',''));
 		
 			for (var j = 0; j < success_criteria.length; j++) {
-				if (hide) {
+			
+				var sc_num = success_criteria[j].id.replace('sc-','');
+			
+				if (hide || (options.hasOwnProperty('filter') && !options.filter.includes(sc_num))) {
 					success_criteria[j].classList.remove('visible');
 					success_criteria[j].classList.add('hidden');
 				}
@@ -161,7 +161,6 @@ var smartConformance = (function() {
 		
 			var id = sc_config['sc'][i].hasOwnProperty('id') ? sc_config['sc'][i].id : '';
 			var level = sc_config['sc'][i].hasOwnProperty('level') ? sc_config['sc'][i].level : '';
-			var version = sc_config['sc'][i].hasOwnProperty('version') ? sc_config['sc'][i].version : '2.0'
 			
 			var wcag_number = 0;
 			var match_wcag_number = id.match(/([1-4]\.[1-9]\.[0-9]+)/);
@@ -170,9 +169,11 @@ var smartConformance = (function() {
 				wcag_number = match_wcag_number[0];
 			}
 			
+			var css_class = sc_config['sc'][i].hasOwnProperty('version') ? 'w' + sc_config['sc'][i].version.replace('.','') : 'epub';
+			
 			/* create section for new success criterion */
 			
-			sc_nodes.push('<section id="' + id + '" class="w' + version.replace('.','') + ' ' + level + '">');
+			sc_nodes.push('<section id="' + id + '" class="' + css_class + ' ' + level + '">');
 			sc_nodes.push('<h3>');
 			sc_nodes.push('<span class="label">');
 			
@@ -198,28 +199,12 @@ var smartConformance = (function() {
 			/* add guidance - imports html embedded in json */
 			
 			if (sc_config['sc'][i].hasOwnProperty('guidance') && sc_config['sc'][i].guidance.hasOwnProperty(smart_lang)) {
+				
 				sc_nodes.push(sc_config['sc'][i].guidance[smart_lang]);
-				sc_nodes.push('<hr>');
-			}
-			
-			// checks whether to add another hr separator
-			var has_links = false;
-			
-			/* add kb links */
-			
-			if (sc_config['sc'][i].hasOwnProperty('kb') && sc_config['sc'][i].kb.hasOwnProperty(smart_lang) && Object.keys(sc_config['sc'][i].kb[smart_lang]).length > 0) {
-				sc_nodes.push(createSCLinkDetails('kb',sc_config['sc'][i].kb[smart_lang],''));
-				has_links = true;
-			}
-			
-			/* add documentation links */
-			
-			if (sc_config['sc'][i].hasOwnProperty('ref')) {
-				sc_nodes.push(createSCLinkDetails('doc', sc_config['sc'][i].ref, wcag_number));
-				has_links = true;
-			}
-			
-			if (has_links) {
+				
+				/* add link to kb explainer */
+				sc_nodes.push('<p>' + smart_ui.conformance.kb.linkPrelim[smart_lang] + ' <a href="https://kb.daisy.org/publishing/docs/html/wcag/' + sc_config['sc'][i].ref + '.html" target="_blank">' + smart_ui.conformance.kb.linkText[smart_lang] + '</a>.</p>');
+				
 				sc_nodes.push('<hr>');
 			}
 			
@@ -289,29 +274,79 @@ var smartConformance = (function() {
 		document.getElementById('sc-list').innerHTML = sc_nodes.join('');
 	}
 	
-	/*  */
-	function createSCLinkDetails(type, json, id) {
-		var details = '<details><summary>';
-			details += (type == 'kb') ? smart_ui.conformance.labels.kb[smart_lang] : smart_ui.conformance.labels.wcag[smart_lang];
-		details += '</summary>';
-		
-		details += '<ul>';
-		
-		if (type == 'doc') {
-			details += '<li><a href="https://www.w3.org/WAI/WCAG21/Understanding/' + json + '.html" target="_blank">Understanding Success Criterion ' + id + '</a></li>';
-			details += '<li><a href="https://www.w3.org/WAI/WCAG21/quickref/#' + json + '" target="_blank">How to meet Success Criterion' + id + '</a></li>';
-		}
-		
-		else {
-			for (var link in json) {
-				details += '<li><a href="' + json[link] + '" target="_blank">' + link + '</a></li>';
-			}
-		}
-		
-		details += '</ul></details>';
-		return details;
-	}
+	/* 
+	 * Filters the visible success criteria so that only those applicable to the
+	 * user-select content type are visible
+	 */
 	
+	
+	function filterSCByContent(type) {
+		
+		var sc_map = new Object();
+			
+			sc_map.audio = ['1.1.1', '1.2.1', '1.2.2', '1.2.3', '1.2.5', '1.2.6', '1.2.7', '1.2.8',
+							'1.4.2', '1.4.7'];
+			
+			sc_map.color = ['1.3.3', 
+							'1.4.1', '1.4.3', '1.4.6', '1.4.8', '1.4.11',
+							'2.4.7'];
+			
+			sc_map.controls = ['1.3.1', '1.3.2', '1.3.5', '1.3.6',
+								'1.4.1',
+								'2.1.1', '2.1.2', '2.1.3',
+								'2.2.1', '2.2.2', '2.2.3', '2.2.4', '2.2.6', '2.4.3', '2.4.7',
+								'2.5.1', '2.5.2', '2.5.3', '2.5.4', '2.5.5', '2.5.6',
+								'3.2.1', '3.2.2', '3.2.4', '3.2.5', '3.2.6',
+								'3.3.1', '3.3.2', '3.3.3'];
+			
+			sc_map.hd = ['1.3.1', '2.4.6', '2.4.10'];
+			
+			sc_map.img = ['1.1.1'];
+			
+			sc_map.imgtext = ['1.1.1', '1.4.3', '1.4.5', '1.4.6', '1.4.9']
+			
+			sc_map.input = ['1.3.1', '1.3.2', '1.3.5', '1.3.6',
+							'1.4.1', '1.4.3', '1.4.6',
+							'2.1.1', '2.1.2', '2.1.3',
+							'2.2.5',
+							'2.4.3', '2.4.6',
+							'2.5.3', '2.5.5',
+							'3.2.1', '3.2.2', '3.2.4', '3.2.5',
+							'3.3.1', '3.3.2', '3.3.3', '3.3.4', '3.3.5', '3.3.6'];
+			
+			sc_map.links = ['1.4.1', '2.1.1', '2.4.3', '2.4.4', '2.4.9'];
+			
+			sc_map.lang = ['3.1.1', '3.1.2'];
+			
+			sc_map.mo = ['epub-mo-readorder', 'epub-mo-skip', 'epub-mo-esc', 'epub-mo-nav'];
+			
+			sc_map.page = ['2.4.13', 'epub-pagesrc', 'epub-pagelist', 'epub-pagebreaks'];
+			
+			sc_map.readorder = ['1.3.2', '2.4.5'];
+			
+			sc_map.struct = ['1.3.1', '1.3.2', '4.1.1'];
+			
+			sc_map.text = ['1.4.1', '1.4.3', '1.4.4', '1.4.5', '1.4.6', '1.4.8', '1.4.10', '1.4.12',
+							'3.1.1', '3.1.2', '3.1.3', '3.1.4', '3.1.5', '3.1.6'];
+			
+			sc_map.titles = ['2.4.2'];
+			
+			sc_map.video = ['1.1.1',
+							'1.2.1', '1.2.2', '1.2.3', '1.2.5', '1.2.6', '1.2.7', '1.2.8',
+							'1.4.2', '1.4.7',
+							'2.2.2',
+							'2.3.1', '2.3.2'];
+		
+		var options = new Object();
+			options.wcag_level = smartWCAG.WCAGLevel();
+			options.display = true;
+		
+		if (type != 'all' && sc_map.hasOwnProperty(type)) {
+			options.filter = sc_map[type];
+		}
+		
+		displaySuccessCriteria(options);
+	}
 	
 	
 	/* shows/hides sets of content-specific tests */
@@ -362,13 +397,12 @@ var smartConformance = (function() {
 		var wcag_version = smartWCAG.WCAGVersion();
 		var epub_a11y = document.getElementById('epub-a11y').value;
 		
-		var wcag_class = 'w' + wcag_version.replace('.','');
-		
 		// make sure there aren't any unverified success criteria
-		var unverified = 'section.a.' + wcag_class + ' input[value="unverified"]:checked, section.epub input[value="unverified"]:checked';
-			unverified += smartWCAG.WCAGLevel() == 'aa' ? ', section.aa.' + wcag_class + ' input[value="unverified"]:checked' : '';
 		
-		var incomplete = document.querySelectorAll(unverified);
+		var a_unverified_selector = getSCStatusSelector({status: 'unverified', level: 'all', includeEPUB: true});
+		var aa_unverified_selector = getSCStatusSelector({status: 'unverified', level: 'all', includeEPUB: false});
+		
+		var incomplete = document.querySelectorAll(a_unverified_selector);
 		
 		if (incomplete.length > 0) {
 			status_label.textContent = smart_ui.conformance.status.incomplete[smart_lang];
@@ -379,16 +413,13 @@ var smartConformance = (function() {
 		var onix_a = document.getElementById('onix02');
 		var onix_aa = document.getElementById('onix03');
 		
-		var epub_norm = '';
+		var a_fail_selector = getSCStatusSelector({status: 'fail', level: 'a', includeEPUB: true});
+		var aa_fail_selector = getSCStatusSelector({status: 'fail', level: 'aa', includeEPUB: false});
 		
-		for (var z = 0; z < _EPUB_SC.length; z++) {
-			epub_norm += ', section#' + _EPUB_SC[z] + ' input[value="fail"]:checked]';
-		}
-		
-		var level_a_fail = document.querySelectorAll('section.a.' + wcag_class + ' input[value="fail"]:checked' + epub_norm);
+		var level_a_fail = document.querySelectorAll(a_fail_selector);
 		
 		var wcag_ver = 'wcag' + wcag_version.replace('.','');
-		var epub_ver = 'epub' + epub_ally.replace('.','');
+		var epub_ver = 'epub' + epub_a11y.replace('.','');
 		
 		// prep pass message
 		var conformance_status = smart_ui.conformance.status.pass[smart_lang] + ' - ';
@@ -399,9 +430,9 @@ var smartConformance = (function() {
 	
 		// checks that there aren't any failures if AA is specified
 		// or if showing optional AA success criteria and all have been checked
-		if (smartWCAG.WCAGLevel() == 'aa' || (show_aa && document.querySelectorAll('section.aa.' + wcag_class + ' input[value="unverified"]:checked').length == 0)) {
+		if (smartWCAG.WCAGLevel() == 'aa' || (show_aa && document.querySelectorAll(aa_unverified_selector).length == 0)) {
 			
-			if (level_a_fail.length == 0 && document.querySelectorAll('section.aa.' + wcag_class + ' input[value="fail"]:checked').length == 0) {
+			if (level_a_fail.length == 0 && document.querySelectorAll(aa_fail_selector).length == 0) {
 				
 				status_label.textContent = conformance_status + smart_ui.conformance.status.aa[smart_lang];
 				
@@ -431,6 +462,48 @@ var smartConformance = (function() {
 			if (onix_a.checked) { onix_a.click(); }
 		}
 	}
+	
+	
+	
+	function getSCStatusSelector(options) {
+		
+		/* 
+		 * options requires three properties:
+		 *
+		 * - options.status = one of pass/fail/unverified/na
+		 * - options.level = a or aa (wcag level) 
+		 * - options.includeEPUB = true/false (whether to include the EPUB SC)
+		 * 
+		 */
+		
+		var selector = '';
+		
+		var wcag_versions = document.getElementById('wcag-version');
+		
+		for (var i = 0; i < wcag_versions.length; i++) {
+		
+			var wcag_num = wcag_versions.options[i].value.replace('.','');
+			
+			if (options.level == 'all' || options.level == 'a') {
+				selector += 'section.w' + wcag_num + '.a input[value="' + options.status + '"]:checked, ';
+			}
+			
+			if (smartWCAG.WCAGLevel() != 'a' && (options.level == 'all' || options.level == 'aa')) {
+				selector += 'section.w' + wcag_num + '.aa input[value="' + options.status + '"]:checked, ';
+			}
+			
+			if (wcag_versions.options[i].value == smartWCAG.WCAGVersion()) {
+				break;
+			}
+		}
+		
+		if (options.includeEPUB) {
+			selector += 'section.epub.norm input[value="unverified"]:checked';
+		}
+		
+		return selector.replace(/, $/,'');
+	}
+	
 	
 	
 	function setSuccessCriteriaStatus(options) {
@@ -471,11 +544,15 @@ var smartConformance = (function() {
 			setWCAGVersion(version);
 		},
 		
+		filterSCByContent: function(type) {
+			filterSCByContent(type);
+		},
+		
 		setWCAGConformanceLevel: function(level) {
 			setWCAGConformanceLevel(level);
 		},
 		
-		addSuccessCriteriaReporting: function() {
+		addSuccessCriteria: function() {
 			addSuccessCriteria();
 		},
 		
@@ -560,6 +637,10 @@ var smartConformance = (function() {
 			for (var i = 0; i < details.length; i++) {
 				details[i].open = display;
 			}
+		},
+		
+		getSCStatusSelector: function(options) {
+			return getSCStatusSelector(options);
 		}
 	}
 

@@ -7,8 +7,8 @@
 	
 	window.onload = function() {
 	
-		/* add reporting fields to the conformance success criteria */
-		smartConformance.addSuccessCriteriaReporting();
+		/* add the conformance success criteria */
+		smartConformance.addSuccessCriteria();
 		
 		/* add next tab links */
 		var $js_tabs = $( ".js-tabcontent" );
@@ -37,6 +37,11 @@
 		/* watch for changes to wcag version */
 		$('select#wcag-version').change( function(){
 			smartConformance.setWCAGVersion(this.value);
+		});
+		
+		/* watch for changes to sc filter */
+		$('select#filterSC').change( function(){
+			smartConformance.filterSCByContent(this.value);
 		});
 		
 		/* watch for changes to success criteria status radio buttons */
