@@ -317,7 +317,7 @@ var smartConformance = (function() {
 		var onix_a = document.getElementById('onix02');
 		var onix_aa = document.getElementById('onix03');
 		
-		var level_a_fail = document.querySelectorAll('section.a input[value="fail"]:checked, section#eg-2 input[value="fail"]:checked');
+		var level_a_fail = document.querySelectorAll('section.a input[value="fail"]:checked, section#eg-1 input[value="fail"]:checked');
 		
 		// checks that there aren't any failures if AA is specified
 		// or if showing optional AA success criteria and all have been checked 
