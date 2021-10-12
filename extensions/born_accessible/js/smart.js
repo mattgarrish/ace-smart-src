@@ -107,7 +107,7 @@ smart_extensions['born_accessible'] = (function() {
 			
 			// verify the complexity has been set
 			
-			if (!document.querySelector('section#born_accessible fieldset#complexity-levels-section input[name="ba-complexity-level"]:checked')) {
+			if (!noDesignElements && !document.querySelector('section#born_accessible fieldset#complexity-levels-section input[name="ba-complexity-level"]:checked')) {
 					smartError.logError({tab_id: 'born_accessible', element_id: 'complexity-levels-section', severity: 'err', message: 'Born Accessible complexity level must be specified.'});
 					smartFormat.setFieldToError({id: 'complexity-levels-section', is_warning: false, highlight_parent: false});
 					is_valid = false;

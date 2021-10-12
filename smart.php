@@ -293,6 +293,29 @@ JS;
 							<li class="epub-trigger">Disabling the native controls on the audio and video elements by default to use triggers (fails SC 2.1.1. for lack of keyboard access)</li>
 						</ul>
 					</section>
+					<!-- filter SC by content type -->
+					<fieldset>
+						<span>Filter success criteria to check: </span>
+						<select id="filterSC">
+							<option value="all" selected="">All content</option>
+							<option value="audio">Audio</option>
+							<option value="color">Color</option>
+							<option value="hd">Headings</option>
+							<option value="img">Images</option>
+							<option value="imgtext">Images of text</option>
+							<option value="input">Input fields (textboxes, radio, checkboxes, etc.)</option>
+							<option value="links">Links</option>
+							<option value="lang">Language</option>
+							<option value="mo">Media Overlays</option>
+							<option value="page">Pagination</option>
+							<option value="readorder">Reading Order</option>
+							<option value="struct">Structure (tables, lists, etc.)</option> 
+							<option value="text">Text</option>
+							<option value="titles">Titles</option>
+							<option value="controls">User controls (buttons, etc.)</option>
+							<option value="video">Video</option>
+						</select>
+					</fieldset>
 					<!-- SC dynamically inserted -->
 					<div id="sc-list"></div>
 				</section>
