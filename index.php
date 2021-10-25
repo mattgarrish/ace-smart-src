@@ -102,7 +102,7 @@
 				<?php $eval->add_evaluation_form() ?>
 			</section>
 			
-			<section id="history">
+			<section id="history"<?php if ($user->data()->shared) { echo ' hidden=""'; } ?>>
 				<h3 class="welcome">Evaluation History</h3>
 				
 				<table id="evaluations" class="table table-striped table-bordered">

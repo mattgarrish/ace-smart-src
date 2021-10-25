@@ -159,15 +159,6 @@ HTML;
 		public function list_evaluations() {
 		
 			if ($this->shared) {
-				echo <<<HTML
-	<tr>
-		<td>Reload a previous report</td>
-		<td>-</td>
-		<td>-</td>
-		<td>-</td>
-		<td><input type="image" src="images/resume.svg" height="40" id="reload_0" alt="Resume" title="Resume"/>
-	</tr>
-HTML;
 				return;
 			}
 			
@@ -326,11 +317,32 @@ HTML;
 				// reset the action if the uploaded file is a saved evaluation
 				if ($this->action == 'load' && $json->{'category'} && $json->{'category'} == 'savedEvaluation') {
 					$this->action = 'reload';
-					if (!$json->{'id'}) {
-						$this->abort('noreloadid');
+					
+					if ($json->{'id'} !== null && $json->{'id'} == 0) {
+						// bug from shared accounts caused 0 ids - this re-adds an entry - can be removed in future
+						if (!$this->db->prepare("INSERT INTO evaluations (username, company, uid, title, created, modified, status, evaluation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+							$this->abort('evalins');
+						}
+						
+						if (!$this->db->bind_param("ssssssss", array($this->username, $this->company, $json->{'publicationInfo'}->{'identifier'}, $json->{'publicationInfo'}->{'title'}, $now, $modified, 'local', ''))) {
+							$this->abort('evalbind');
+						}
+						
+						if (!$this->db->execute()) {
+							$this->abort('evalexec');
+						}
+						
+						$this->eval_id = $this->db->insert_id();
 					}
-					$this->eval_id = $json->{'id'};
-					$this->verify_id();
+					
+					else {
+						if (!$json->{'id'}) {
+							$this->abort('noreloadid');
+						}
+						
+						$this->eval_id = $json->{'id'};
+						$this->verify_id();
+					}
 				}
 				
 				// verify that the uploaded json is an ace report using the @context (only checks the non-variable part of the url)
@@ -339,8 +351,7 @@ HTML;
 				}
 				
 				// verify that the uploaded json is a saved evaluation by checking the category property
-				// - 'savedReport' was used for saving in the original site, but was changed because it's the evaluation being saved not the output report - it can be removed after it becomes fully obsolete
-				else if ($this->action == 'reload' && (!$json->{'category'} || ($json->{'category'} != 'savedEvaluation' && $json->{'category'} != 'savedReport'))) {
+				else if ($this->action == 'reload' && (!$json->{'category'} || $json->{'category'} != 'savedEvaluation')) {
 					$this->abort('unknownreload');
 				}
 				
