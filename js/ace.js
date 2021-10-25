@@ -483,7 +483,7 @@ var smartAce = (function() {
 			
 			var assert = compileAssertions();
 			
-			if (assert['accesskeys']) { setSCStatus('sc-2.1.1', 'fail', assert['accesskeys']); }
+			if (assert['accesskeys']) { /* no handling of axe best practices */ }
 			if (assert['area-alt']) { setSCStatus('sc-1.1.1', 'fail', assert['area-alt']); }
 			if (assert['aria-allowed-attr']) { setSCStatus('sc-4.1.1', 'fail', assert['aria-allowed-attr']); setSCStatus('sc-4.1.2', 'fail', assert['aria-allowed-attr']); }
 			if (assert['aria-allowed-role']) { /* no handling of axe best practices */ }
@@ -499,6 +499,7 @@ var smartAce = (function() {
 			if (assert['aria-required-parent']) { setSCStatus('sc-1.3.1', 'fail', assert['aria-required-parent']); }
 			if (assert['aria-roledescription']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-roledescription']); }
 			if (assert['aria-roles']) { setSCStatus('sc-1.3.1', 'fail', assert['aria-roles']); setSCStatus('sc-4.1.1', 'fail', assert['aria-roles']); setSCStatus('sc-4.1.2', 'fail', assert['aria-roles']); }
+			if (assert['aria-text']) { /* no handling of axe best practices */ }
 			if (assert['aria-toggle-field-name']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-toggle-field-name']); }
 			if (assert['aria-tooltip-name']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-tooltip-name']); }
 			if (assert['aria-treeitem-name']) { /* no handling of axe best practices */ }
@@ -518,8 +519,10 @@ var smartAce = (function() {
 			if (assert['duplicate-id-active']) { setSCStatus('sc-4.1.1', 'fail', assert['duplicate-id-active']); }
 			if (assert['duplicate-id-aria']) { setSCStatus('sc-4.1.1', 'fail', assert['duplicate-id-aria']); }
 			if (assert['empty-heading']) { /* no handling of axe best practices */ }
+			if (assert['empty-table-header']) { setSCStatus('sc-1.3.1', 'fail', assert['empty-table-header']); }
 			if (assert['focus-order-semantics']) { /* no handling of axe experimental best practices */ }
 			if (assert['form-field-multiple-labels']) { setSCStatus('sc-3.3.2', 'fail', assert['form-field-multiple-labels']); }
+			if (assert['frame-focusable-content']) { setSCStatus('sc-2.1.1', 'fail', assert['frame-focusable-content']); }
 			if (assert['frame-tested']) { /* no handling of axe best practices */ }
 			if (assert['frame-title']) { setSCStatus('sc-2.4.1', 'fail', assert['frame-title']); }
 			if (assert['frame-title-unique']) { /* no handling of axe best practices */ }
@@ -560,6 +563,7 @@ var smartAce = (function() {
 			if (assert['meta-refresh']) { setSCStatus('sc-2.2.1', 'fail', assert['meta-refresh']); setSCStatus('sc-2.2.4', 'fail', assert['meta-refresh']); setSCStatus('sc-3.2.5', 'fail', assert['meta-refresh']); }
 			if (assert['meta-viewport']) { setSCStatus('sc-1.4.4', 'fail', assert['meta-viewport']); }
 			if (assert['meta-viewport-large']) { /* no handling of axe best practices */ }
+			if (assert['nested-interactive']) { setSCStatus('sc-4.1.2', 'fail', assert['nested-interactive']); }
 			if (assert['no-autoplay-audio']) { setSCStatus('sc-1.4.2', 'fail', assert['no-autoplay-audio']); }
 			if (assert['object-alt']) { setSCStatus('sc-1.1.1', 'fail', assert['object-alt']); }
 			if (assert['p-as-heading']) { setSCStatus('sc-1.3.1', 'fail', assert['p-as-heading']); }
