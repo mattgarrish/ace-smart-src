@@ -181,6 +181,9 @@ var smart_ui = {
 			"multiHazard": {
 				"en": "The publication contains content that may present the following hazards:"
 			}
+		},
+		"moreInfo": {
+			"en": "How to specify "
 		}
 	},
 	"conformance": {
@@ -248,15 +251,20 @@ var smart_ui = {
 			}
 		},
 		"kb": {
-			"linkPrelim": {
-				"en": "For more information, refer to the "
-			},
 			"linkText": {
-				"en": "knowledge base for this success criterion"
+				"en": "Explainer page for success criterion "
 			}
 		},
 		"changeSC": {
 			"en": "This action will change all current status fields and cannot be undone.\n\nPlease confirm to continue."
+		},
+		"toggleDesc": {
+			"hidden": {
+				"en": "Descriptions are now hidden."
+			},
+			"visible": {
+				"en": "Descriptions are now visible."
+			}
 		}
 	},
 	"reporting": {
@@ -274,7 +282,7 @@ var smart_ui = {
 				"en": "Conformance"
 			},
 			"addinfo": {
-				"en": "Additonal Info"
+				"en": "Additional Info"
 			}
 		},
 		"sections": {

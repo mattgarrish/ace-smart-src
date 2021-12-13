@@ -60,13 +60,13 @@
 .box
 {
 	font-size: 1.25rem; /* 20 */
-	background-color: rgb(240,248,255);
+	background-color: rgb(247,247,247);
 	position: relative;
 }
 .box.has-advanced-upload
 {
-	outline: 4px double rgb(100,149,237);
-	outline-offset: -10px;
+	outline: 0.3rem dashed rgb(120,120,120);
+	border-radius: 3rem;
 	-webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
 	transition: outline-offset .15s ease-in-out, background-color .15s linear;
 }
@@ -161,7 +161,8 @@ to		{ transform: translateY( -50% ) scale( 1 ); }
 	cursor: pointer;
 	display: inline-block;
 	overflow: hidden;
-	padding: 5rem 0;
+	padding: 6rem 0;
+	font-size: 132%;
 }
 .js .box__file + label:hover strong,
 .box__file:focus + label strong,
@@ -210,8 +211,8 @@ to		{ transform: translateY( -50% ) scale( 1 ); }
 }
 
 .new-eval {
-	text-align: left;
-	font-size: 90%;
-	margin-left: 0.5rem;
-	margin-top: 0;
+	margin-top: -55px;
+	padding-bottom: 5rem;
+	text-align: center;
+	font-size: 115%;
 }

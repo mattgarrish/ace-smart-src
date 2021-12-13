@@ -163,20 +163,19 @@ var smartDiscovery = (function() {
 			
 			var legend = document.createElement('legend');
 			
-			var doc_link = document.createElement('a');
-				doc_link.setAttribute('href', property.documentation[smart_lang]);
-				doc_link.setAttribute('target', '_blank');
-				doc_link.appendChild(document.createTextNode(property.name[smart_lang]));
+			var property_name = property.name[smart_lang];
+			
+			var field_name = document.createTextNode(property_name);
 			
 			if (property.type == 'textarea') {
 				// adds a label to tie the field name to the textarea
 				var label = document.createElement('label');
 					label.setAttribute('for', property.id);
-				label.appendChild(doc_link);
+				label.appendChild(field_name);
 				legend.appendChild(label);
 			}
 			else {
-				legend.appendChild(doc_link);
+				legend.appendChild(field_name);
 			}
 			
 			if (property.required) {
@@ -186,6 +185,24 @@ var smartDiscovery = (function() {
 				legend.appendChild(document.createTextNode(' '));
 				legend.appendChild(asterisk);
 			}
+			
+			// add link to techniques
+			var help_link = document.createElement('a');
+				help_link.setAttribute('href', property.documentation[smart_lang]);
+				help_link.setAttribute('target', '_blank');
+				help_link.setAttribute('class', 'usage');
+			
+			var help_img_alt = smart_ui.discovery.moreInfo[smart_lang] + property.name[smart_lang].toLowerCase();
+			
+			var help_img = document.createElement('img');
+				help_img.setAttribute('src', '/images/info.png');
+				help_img.setAttribute('height', '20px');
+				help_img.setAttribute('alt', help_img_alt);
+				help_img.setAttribute('title', help_img_alt);
+				
+				help_link.appendChild(help_img);
+			
+			legend.appendChild(help_link);
 			
 			fieldset.appendChild(legend);
 			

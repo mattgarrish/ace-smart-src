@@ -161,6 +161,15 @@
 			$(this).dialog('close');
 		};
 
+	/* options_dialog is used to show the additional conformance options */
+	options_dialog = $("#conformance-options").dialog({
+		autoOpen: false,
+		height: 360,
+		width: 600,
+		modal: true,
+		buttons: close_button
+	});
+	
 	/* discovery_dialog is used to show the generated discovery tab metadata (it is initialized in the smartDiscovery module) */
 	discovery_dialog = $("#discovery-meta").dialog({
 		autoOpen: false,
@@ -268,7 +277,7 @@
 	/* CONFORMANCE TAB */
 	
 	/* watch for wcag conformance level changes */
-	$('select#wcag-level').click( function(){
+	$('select#wcag-level').change( function(){
 		smartConformance.setWCAGConformanceLevel(this.value);
 	});
 	

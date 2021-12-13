@@ -135,6 +135,7 @@
 								<strong>Select an Ace report or locally-saved evaluation</strong>
 								<span class="box__dragndrop"> or drag one here</span>.<br/>
 							</label>
+							<p class="new-eval">Or <a id="new_eval" href="#new_eval">start a blank evaluation</a></p>
 							<button type="submit" class="box__button">Load</button>
 						</div>
 						
@@ -145,7 +146,6 @@
 						<input type="hidden" name="action" id="action" value="load"/>
 						<input type="hidden" name="title" id="title" value=""/>
 					</form>
-					<p class="new-eval">Or <a id="new_eval" href="#new_eval">start a blank evaluation</a></p>
 				</div>
 HTML;
 			}
