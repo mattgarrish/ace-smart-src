@@ -89,7 +89,7 @@ var smartConformance = (function() {
 		
 		else {
 			// unhandled version
-			console.log('Unhanled EPUB Accessibility version ' + version);
+			console.log('Unhandled EPUB Accessibility version ' + version);
 		}
 		
 		// recheck conformance
@@ -102,8 +102,8 @@ var smartConformance = (function() {
 		if (version == 2.2) {
 			alert('WCAG 2.2 is still under development and not fully supported by the SMART tool. Conformance claims to this standard are not recommended.');
 		}
-		adjustWCAGLevels(version);
 		smartWCAG.setWCAGVersion(version);
+		adjustWCAGLevels(version);
 		setWCAGConformanceLevel(smartWCAG.WCAGLevel());
 	}
 	
