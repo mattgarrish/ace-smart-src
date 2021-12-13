@@ -95,9 +95,7 @@
 
 #born_accessible details.ba-output-options {
 	font-size: 1.4rem;
-	background-color: rgb(240,248,255);
 	max-width: 39rem;
-	box-shadow: 0 0 0.3rem 0 lightgrey;
 	margin-left: 0.3rem;
 	padding-left: 0.3rem;
 }

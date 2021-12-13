@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.21",
+    "version": "1.22",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "07/01/2021, 09:00:00 AM",
+    "dct:date": "10/01/2021, 09:00:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -61,6 +61,7 @@ var gca = {
                         "itemScores": {
                             "N/A": "There were no Decorative images found.",
                             "0": "Decorative elements are described or has incorrect aria-role",
+                            "1": "role=\"presentation\" correct but missing alt=\"\"",
                             "3": "The alt text is correctly empty but no role=\"presentation\"",
                             "4": "All Decorative images were correctly identified and marked up correctly with alt=\"\" and role=\"presentation\""
                         }
@@ -71,6 +72,7 @@ var gca = {
                         "itemScores": {
                             "N/A": "There were no Context Break images found.",
                             "0": "Context Break images was missing <hr> semantic markup",
+                            "3": "using <hr> alongside <img role=\"presentation\" ...>",
                             "4": "All Context Break images were marked up using <hr> and CSS with .hr{background-image:url (link to image); background-repeat: no-repeat; ...}, or had alt=&quot;context change&quot;"
                         }
                     },
@@ -424,6 +426,15 @@ var gca = {
                             "0": "Image containing text does not meet color contrast requirements",
                             "4": "All Images with text passes color contrast requirements"
                         }
+                    },
+                    {
+                        "$itemId": "general-repeated-characters",
+                        "itemName" : "Repeated Characters",
+                        "itemScores": {
+                            "N/A": "No repeated characters present",
+                            "0": "Repeated characters are announced to Assistive Technology (AT)",
+                            "4": "Repeated characters are hidden to AT (eg. <span aria-hidden=\"true\">____________</span>)"
+                        }
                     }
                       
                 ]
@@ -447,6 +458,7 @@ var gca = {
                         "itemName" : "Declared in XHTML files",
                         "itemScores": {
                             "0": "Language declaration missing in XHTML files (ie: missing xml:lang=\"en\" lang=\"en\")",
+                            "2": "Language declared within XHTML files does not match language declared in OPF file",
                             "4": "Language declared correctly in XHTML files"
                         },
                         "wcagScoreFrom": ["sc-3.1.1"]
@@ -549,7 +561,16 @@ var gca = {
                             "3": "Page break labelled with just the page number (aria-label=\"123\" missing \"page\" text)",
                             "4": "Page breaks labelled with recommended format (aria-label=\"page 123\") [ie. \"page\" + space + #] or are visible."
                        }
-                    }                   
+                    } ,
+                    {
+                        "$itemId": "navigation-subtitles",
+                        "itemName" : "Subtitles",
+                        "itemScores": {
+                            "N/A": "No Subtitles present",
+                            "0": "Subtitles incorrectly coded using multiple headings",
+                            "4": "Subtitles marked using role=\"doc-subtitle\" within a <p> or <div>"
+                        }
+                    }                  
                 ]
             },
             {

@@ -310,7 +310,7 @@ var sc_config = {
 			},
 			"guidance": {
 				"en": "<p>If the publication has any forms that collect information about a user (e.g., their address, \
-telephone numer, etc.), check that each input a reading system can autocomplete from saved information \
+telephone number, etc.), check that each input a reading system can autocomplete from saved information \
 includes an <code>autocomplete</code> attribute with a <a href=\"https://www.w3.org/TR/WCAG21/#input-purposes\">value \
 from the WCAG input purpose list</a> (these are a subset of the list HTML allows).</p> \
 <p class=\"sc-note\">Note: Not every input requires an autocomplete value, only those collecting information for which \
@@ -327,7 +327,7 @@ there is a matching value.</p>"
 				"en": "Identify Purpose"
 			},
 			"guidance": {
-				"en": "<p>Ensure that DPUB-ARIA roles used to identify all applicable sections and regions of each content document.</p>"
+				"en": "<p>Ensure that DPUB-ARIA roles are used to identify all applicable sections and regions of each content document.</p>"
 			}
 		},
 	

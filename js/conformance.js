@@ -33,9 +33,9 @@
  * 
  * - showSCBody - toggles the visibility of a success criterion's body (explanation and help links)
  * 
- * - showSCHelpLinks - toggles open/closed the kb and wcag links within each success criterion
- * 
  */
+
+var options_dialog;
 
 var smartConformance = (function() {
 
@@ -53,33 +53,99 @@ var smartConformance = (function() {
 
 
 
+	/* WCAG mapping levels - starting with 2.2 levels have begun shifting up 
+	 * 
+	 * Each object in the map has two keys:
+	 *  - 'default' contains the initial level it started at
+	 *  - '##' is the two-digit version containing the level it changed to (e.g., for 2.2 the value is 22)
+	 * 
+	 */
+	
+	var _WCAG_MAP = {
+		'sc-2.4.7': {
+			'default': 'aa',
+			'change' : {
+				'in' : '22',
+				'to' : 'a'
+			}
+		}
+	}
+	
 	/* changes the form to match the epub accessibility version options */
 	
 	function setEPUBA11yVersion(version) {
 	
 		var wcag_ver = document.getElementById('wcag-version');
 		
-		if (version == "1.1") {
+		if (version == '1.1') {
 			wcag_ver.disabled = false;
 		}
 		
-		else if (version == "1.0") {
-			wcag_ver.value = "2.0";
+		else if (version == '1.0') {
+			wcag_ver.value = '2.0';
 			wcag_ver.disabled = true;
+			setWCAGVersion('2.0');
 		}
 		
 		else {
 			// unhandled version
-			console.log("Unhanled EPUB Accessibility version " + version);
+			console.log('Unhanled EPUB Accessibility version ' + version);
 		}
-
+		
+		// recheck conformance
+		setEvaluationResult();
 	}
 	
 	/* changes the visible success criteria based on the user setting */
 	
 	function setWCAGVersion(version) {
+		if (version == 2.2) {
+			alert('WCAG 2.2 is still under development and not fully supported by the SMART tool. Conformance claims to this standard are not recommended.');
+		}
+		adjustWCAGLevels(version);
 		smartWCAG.setWCAGVersion(version);
 		setWCAGConformanceLevel(smartWCAG.WCAGLevel());
+	}
+	
+	/* adjusts the conformance levels across versions */
+	
+	function adjustWCAGLevels(version) {
+		
+		var version_no = version.toString().replace('.','');
+		
+		for (var key in _WCAG_MAP) {
+		
+			var default_level = _WCAG_MAP[key]['default'];
+			var changed_level = _WCAG_MAP[key]['change']['to'];
+			var isChanged = false;
+			
+			var level = _WCAG_MAP[key]['default'];
+			
+			// check if the user is loading a version in which the level has changed
+			if (version_no >= _WCAG_MAP[key]['change']['in']) {
+				level = changed_level;
+				isChanged = true;
+			}
+			
+			// get the SC entry
+			var sc = document.getElementById(key);
+			
+			// make sure the wrong class list isn't present
+			if (isChanged) {
+				sc.classList.remove(default_level);
+			}
+			else {
+				sc.classList.remove(changed_level);
+			}
+			
+			// add the new class level if not present
+			sc.classList.add(level);
+			
+			// reset the level display label
+			var level_span = sc.querySelector('h3 > span:nth-child(2)');
+				level_span.setAttribute('class', level + '-label');
+				level_span.innerHTML = 'Level ' + level.toUpperCase();
+		} 
 	}
 	
 	/* changes the visible success criteria based on the user setting */
@@ -108,6 +174,9 @@ var smartConformance = (function() {
 		smartWCAG.setWCAGClassList();
 		
 		document.getElementById('show-aa').disabled = (level == 'aa') ? true : false;
+		
+		// recheck conformance
+		setEvaluationResult();
 	}
 	
 	
@@ -119,16 +188,24 @@ var smartConformance = (function() {
 		
 		var hide = false;
 		
+		// get the list of supported versions from the dropdown
+		
 		var wcag_versions = document.getElementById('wcag-version');
 		
 		for (var i = 0; i < wcag_versions.length; i++) {
 		
+			// get all the success criteria for the current version
 			var success_criteria = document.getElementsByClassName('w' + wcag_versions.options[i].value.replace('.',''));
 		
 			for (var j = 0; j < success_criteria.length; j++) {
 			
 				var sc_num = success_criteria[j].id.replace('sc-','');
-			
+				
+				/*  hide when:
+				 *   - from a version higher than the currently selected version
+				 *   - the SC is not in the list to filter by (i.e., the user-selected content filtering box is applied)
+				 */
+				
 				if (hide || (options.hasOwnProperty('filter') && !options.filter.includes(sc_num))) {
 					success_criteria[j].classList.remove('visible');
 					success_criteria[j].classList.add('hidden');
@@ -139,6 +216,7 @@ var smartConformance = (function() {
 				}
 			}
 			
+			// if this version of WCAG is the selected version, hide all higher versions
 			if (wcag_versions.options[i].value == smartWCAG.WCAGVersion()) {
 				hide = true;
 			}
@@ -192,6 +270,12 @@ var smartConformance = (function() {
 			sc_nodes.push('</span>');
 			sc_nodes.push('</h3>');
 			
+			/* add link to kb explainer */
+			if (wcag_number) {
+				var info_link_text = smart_ui.conformance.kb.linkText[smart_lang] + wcag_number;
+				sc_nodes.push('<p class="info"><a href="https://kb.daisy.org/publishing/docs/html/wcag/' + sc_config['sc'][i].ref + '.html" target="_blank"><img src="/images/info.png" alt="' + info_link_text + '" title="' + info_link_text + '"></a></p>');
+			}
+			
 			/* create body div for guidance and links */
 			
 			sc_nodes.push('<div class="sc-body">');
@@ -199,12 +283,7 @@ var smartConformance = (function() {
 			/* add guidance - imports html embedded in json */
 			
 			if (sc_config['sc'][i].hasOwnProperty('guidance') && sc_config['sc'][i].guidance.hasOwnProperty(smart_lang)) {
-				
 				sc_nodes.push(sc_config['sc'][i].guidance[smart_lang]);
-				
-				/* add link to kb explainer */
-				sc_nodes.push('<p>' + smart_ui.conformance.kb.linkPrelim[smart_lang] + ' <a href="https://kb.daisy.org/publishing/docs/html/wcag/' + sc_config['sc'][i].ref + '.html" target="_blank">' + smart_ui.conformance.kb.linkText[smart_lang] + '</a>.</p>');
-				
 				sc_nodes.push('<hr>');
 			}
 			
@@ -630,17 +709,22 @@ var smartConformance = (function() {
 					success_criteria[i].classList.add('hidden');
 				}
 			}
-		},
-		
-		showSCHelpLinks: function(display) {
-			var details = document.getElementById('conformance').querySelectorAll('section.a details, section.aa details, section.aaa details, section.epub details');
-			for (var i = 0; i < details.length; i++) {
-				details[i].open = display;
+			if (display) {
+				alert(smart_ui.conformance.toggleDesc.visible[smart_lang]);
+			}
+			else {
+				alert(smart_ui.conformance.toggleDesc.hidden[smart_lang]);
 			}
 		},
 		
 		getSCStatusSelector: function(options) {
 			return getSCStatusSelector(options);
+		},
+		
+		showOptions: function() {
+			if (options_dialog) {
+				options_dialog.dialog('open');
+			}
 		}
 	}
 

@@ -190,7 +190,7 @@ var a11y_meta = {
     			}
 			},
 			"documentation": {
-				"en": "http://www.idpf.org/epub/a11y/techniques/#meta-003"
+				"en": "https://www.w3.org/TR/epub-a11y-tech-11/#meta-003"
 			}
 		},
 		{
@@ -233,7 +233,7 @@ var a11y_meta = {
 				}
 			],
 			"documentation": {
-				"en": "http://www.idpf.org/epub/a11y/techniques/#meta-004"
+				"en": "https://www.w3.org/TR/epub-a11y-tech-11/#meta-004"
 			}
 		},
 		{
@@ -270,7 +270,7 @@ var a11y_meta = {
 				}
 			],
 			"documentation": {
-				"en": "http://www.idpf.org/epub/a11y/techniques/#meta-001"
+				"en": "https://www.w3.org/TR/epub-a11y-tech-11/#meta-001"
 			}
 		},
 		{
@@ -287,7 +287,7 @@ var a11y_meta = {
     			}
 			},
 			"documentation": {
-				"en": "http://www.idpf.org/epub/a11y/techniques/#meta-002"
+				"en": "https://www.w3.org/TR/epub-a11y-tech-11/#meta-002"
 			}
 		},
 		{
@@ -304,7 +304,7 @@ var a11y_meta = {
 				}
 			},
 			"documentation": {
-				"en": "http://www.idpf.org/epub/a11y/techniques/#meta-005"
+				"en": "https://www.w3.org/TR/epub-a11y-tech-11/#meta-005"
 			}
 		}
 	]

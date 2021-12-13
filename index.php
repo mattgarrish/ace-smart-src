@@ -132,9 +132,8 @@
 		</div>
 		
 		<footer>
-			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2017</span> <a target="_blank" href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a></p>
-			<p><small>Icons by <a href="https://www.iconfinder.com/flaticondesign">Icon Studio</a> used under <a href="https://creativecommons.org/licenses/by/3.0/">CC-By 3.0</small></a>
+			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2022</span> <a target="_blank" href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
+			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a> | <a target="_blank" href="attribution.html">Attribution</a></p>
 		</footer>
 		
 		<script src="js/drag-drop.js"></script>

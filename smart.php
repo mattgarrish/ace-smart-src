@@ -194,17 +194,17 @@ JS;
 					
 					<p class="help"><a href="user-guide/conformance.html" target="_blank">Need help?</a></p>
 					
-					<div class="form-data">
-						<fieldset class="flat">
-							<legend>EPUB Accessibility Version:</legend>
+					<div class="form-data conf-control">
+						<fieldset class="flat row">
+							<legend>EPUB Accessibility:</legend>
 							<select id="epub-a11y">
 								<option selected="">1.1</option>
 								<option>1.0</option>
 							</select>
 						</fieldset>
 						
-						<fieldset class="flat">
-							<legend>WCAG Version:</legend>
+						<fieldset class="flat row">
+							<legend>WCAG:</legend>
 							<select id="wcag-version">
 								<option selected="">2.0</option>
 								<option>2.1</option>
@@ -212,60 +212,58 @@ JS;
 							</select>
 						</fieldset>
 						
-						<fieldset class="flat">
-							<legend>WCAG Conformance:</legend>
+						<fieldset class="flat row">
+							<legend>Conformance:</legend>
 							<select id="wcag-level">
 								<option value="a" selected="">Level A</label>
 								<option value="aa">Level AA</label>
 							</select>
 						</fieldset>
 						
-						<fieldset id="exclusions" class="flat">
-							<legend>Exclude Tests For:</legend>
-							<label><input type="checkbox" id="excl-img" value="img" class="excl-test"/> Images</label>
-							<label><input type="checkbox" id="excl-audio" value="audio" class="excl-test"/> Audio</label>
-							<label><input type="checkbox" id="excl-video" value="video" class="excl-test"/> Video</label>
-							<label><input type="checkbox" id="excl-script" value="script" class="excl-test"/> Scripting</label>
-						</fieldset>
+						<div id="additional-opt">
+							<a href="#additional-opt" onclick="smartConformance.showOptions(); return false;">Additional Options</a>
+						</div>
 					</div>
 					
-					<details id="view-options">
-						<summary>Additional Options</summary>
-						
-						<fieldset class="flat">
-							<legend>Show Optional Criteria:</legend>
-							<label><input type="checkbox" id="show-aa" class="optional-criteria" disabled="disabled"/> Level AA</label>
-							<label><input type="checkbox" id="show-aaa" class="optional-criteria"/> Level AAA</label>
-						</fieldset>
-						
-						<fieldset class="flat">
-							<legend>Hide success criteria with status:</legend>
-							<label><input type="checkbox" class="hide_sc" value="unverified"/> Unverified</label>
-							<label><input type="checkbox" class="hide_sc" value="pass"/> Pass</label>
-							<label><input type="checkbox" class="hide_sc" value="fail"/> Fail</label>
-							<label><input type="checkbox" class="hide_sc" value="na"/> N/A</label>
-						</fieldset>
-						
-						<fieldset class="flat">
-							<legend>Set all success criteria to:</legend>
-							<a id="set-sc-unv" href="#set-sc-unv" onclick="smartConformance.setGlobalSCStatus('unverified'); return false">Unverified</a>
-							<a id="set-sc-pass" href="#set-sc-pass" onclick="smartConformance.setGlobalSCStatus('pass'); return false">Pass</a>
-							<a id="set-sc-fail" href="#set-sc-fail" onclick="smartConformance.setGlobalSCStatus('fail'); return false">Fail</a>
-							<a id="set-sc-na" href="#set-sc-na" onclick="smartConformance.setGlobalSCStatus('na'); return false">N/A</a>
-						</fieldset>
-						
-						<fieldset class="flat">
-							<legend>Success criteria descriptions:</legend>
-							<a id="set-desc-exp" href="#set-desc-exp" onclick="smartConformance.showSCBody(true); return false">Expand all</a>
-							<a id="set-desc-col" href="#set-desc-col" onclick="smartConformance.showSCBody(false); return false">Collapse all</a>
-						</fieldset>
-						
-						<fieldset class="flat">
-							<legend>Help links:</legend>
-							<a id="set-help-exp" href="#set-help-exp" onclick="smartConformance.showSCHelpLinks(true); return false">Expand all</a>
-							<a id="set-help-col" href="#set-help-col" onclick="smartConformance.showSCHelpLinks(false); return false">Collapse all</a>
-						</fieldset>
-					</details>
+					<section id="conformance-options" aria-label="Additional Options" title="Additional Options">
+						<div class="form-data conf-control">
+							<fieldset id="exclusions" class="flat row">
+								<legend>Exclude Tests For:</legend>
+								<label><input type="checkbox" id="excl-img" value="img" class="excl-test"/> Images</label>
+								<label><input type="checkbox" id="excl-audio" value="audio" class="excl-test"/> Audio</label>
+								<label><input type="checkbox" id="excl-video" value="video" class="excl-test"/> Video</label>
+								<label><input type="checkbox" id="excl-script" value="script" class="excl-test"/> Scripting</label>
+							</fieldset>
+							
+							<fieldset class="flat row">
+								<legend>Show Optional Criteria:</legend>
+								<label><input type="checkbox" id="show-aa" class="optional-criteria" disabled="disabled"/> Level AA</label>
+								<label><input type="checkbox" id="show-aaa" class="optional-criteria"/> Level AAA</label>
+							</fieldset>
+							
+							<fieldset class="flat row">
+								<legend>Hide success criteria with status:</legend>
+								<label><input type="checkbox" class="hide_sc" value="unverified"/> Unverified</label>
+								<label><input type="checkbox" class="hide_sc" value="pass"/> Pass</label>
+								<label><input type="checkbox" class="hide_sc" value="fail"/> Fail</label>
+								<label><input type="checkbox" class="hide_sc" value="na"/> N/A</label>
+							</fieldset>
+							
+							<fieldset class="flat row">
+								<legend>Set all success criteria to:</legend>
+								<a id="set-sc-unv" href="#set-sc-unv" onclick="smartConformance.setGlobalSCStatus('unverified'); return false">Unverified</a>
+								<a id="set-sc-pass" href="#set-sc-pass" onclick="smartConformance.setGlobalSCStatus('pass'); return false">Pass</a>
+								<a id="set-sc-fail" href="#set-sc-fail" onclick="smartConformance.setGlobalSCStatus('fail'); return false">Fail</a>
+								<a id="set-sc-na" href="#set-sc-na" onclick="smartConformance.setGlobalSCStatus('na'); return false">N/A</a>
+							</fieldset>
+							
+							<fieldset class="flat row">
+								<legend>Success criteria descriptions:</legend>
+								<a id="set-desc-exp" href="#set-desc-exp" onclick="smartConformance.showSCBody(true); return false">Expand all</a>
+								<a id="set-desc-col" href="#set-desc-col" onclick="smartConformance.showSCBody(false); return false">Collapse all</a>
+							</fieldset>
+						</div>
+					</section>
 					
 					<section id="fallbacks" class="warning">
 						<h3>Warning</h3>
@@ -293,8 +291,9 @@ JS;
 							<li class="epub-trigger">Disabling the native controls on the audio and video elements by default to use triggers (fails SC 2.1.1. for lack of keyboard access)</li>
 						</ul>
 					</section>
+					
 					<!-- filter SC by content type -->
-					<fieldset>
+					<fieldset class="filter">
 						<span>Filter success criteria to check: </span>
 						<select id="filterSC">
 							<option value="all" selected="">All content</option>
@@ -362,14 +361,14 @@ JS;
 					<p class="help"><a href="user-guide/evaluation.html" target="_blank">Need help?</a></p>
 					
 					<div class="conformance-result">
-						<strong>Conformance Result:</strong>
+						<span class="hd">Conformance Result:</strong>
 						<span id="conformance-result-status">Incomplete</span>
 						<input type="hidden" name="conformance-result" id="conformance-result" value="incomplete"/>
 					</div>
 					
 					<div id="extension-results"></div>
 					
-					<fieldset>
+					<fieldset id="eval-info">
 						<legend>Evaluation Info:</legend>
 						<label class="data"><span>Evaluator:<img src="/images/asterisk.png" alt="required"/></span> <input type="text" id="certifiedBy" aria-required="true"/></label>
 						<label class="data"><span>Link to report:</span> <input type="text" id="certifierReport"/></label>
@@ -433,8 +432,8 @@ JS;
 		</form>
 		
 		<footer>
-			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2017</span> <a target="_blank" href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2022</span> <a target="_blank" href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
+			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a> | <a target="_blank" href="attribution.html">Attribution</a></p>
 		</footer>
 		
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
