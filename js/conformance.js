@@ -155,6 +155,7 @@ var smartConformance = (function() {
 		smartWCAG.setWCAGLevel(level);
 		
 		if (!document.getElementById('show-aa').checked) {
+			// call the display function with whether to show/hide aa success criteria
 			displaySuccessCriteria({wcag_level: 'aa', display: (level == 'aa' ? true : false)});
 		}
 		
