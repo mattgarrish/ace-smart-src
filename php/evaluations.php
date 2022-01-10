@@ -204,6 +204,7 @@ HTML;
 								
 								case 'unsaved':
 									$status = 'Not Saved';
+									$option = '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
 								break;
 								
 								default:

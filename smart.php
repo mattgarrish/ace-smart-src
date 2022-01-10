@@ -207,8 +207,8 @@ JS;
 						<fieldset class="flat row">
 							<legend id="wspec-lbl">WCAG:</legend>
 							<select id="wcag-version" aria-labelledby="wspec-lbl">
-								<option selected="">2.0</option>
-								<option>2.1</option>
+								<option>2.0</option>
+								<option selected="">2.1</option>
 								<option>2.2</option>
 							</select>
 						</fieldset>
@@ -216,8 +216,8 @@ JS;
 						<fieldset class="flat row">
 							<legend id="conf-lbl">Conformance:</legend>
 							<select id="wcag-level" aria-labelledby="conf-lbl">
-								<option value="a" selected="">Level A</label>
-								<option value="aa">Level AA</label>
+								<option value="a">Level A</label>
+								<option value="aa" selected="">Level AA</label>
 							</select>
 						</fieldset>
 						
@@ -252,10 +252,10 @@ JS;
 							
 							<fieldset class="flat row">
 								<legend>Set all success criteria to:</legend>
-								<a id="set-sc-unv" href="#set-sc-unv" onclick="smartConformance.setGlobalSCStatus('unverified'); return false">Unverified</a>
-								<a id="set-sc-pass" href="#set-sc-pass" onclick="smartConformance.setGlobalSCStatus('pass'); return false">Pass</a>
-								<a id="set-sc-fail" href="#set-sc-fail" onclick="smartConformance.setGlobalSCStatus('fail'); return false">Fail</a>
-								<a id="set-sc-na" href="#set-sc-na" onclick="smartConformance.setGlobalSCStatus('na'); return false">N/A</a>
+								<a id="set-sc-unv" href="#set-sc-unv" onclick="smartConformance.setGlobalSCStatus('unverified',false); return false">Unverified</a>
+								<a id="set-sc-pass" href="#set-sc-pass" onclick="smartConformance.setGlobalSCStatus('pass',false); return false">Pass</a>
+								<a id="set-sc-fail" href="#set-sc-fail" onclick="smartConformance.setGlobalSCStatus('fail',false); return false">Fail</a>
+								<a id="set-sc-na" href="#set-sc-na" onclick="smartConformance.setGlobalSCStatus('na',false); return false">N/A</a>
 							</fieldset>
 							
 							<fieldset class="flat row">

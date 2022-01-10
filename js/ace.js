@@ -18,6 +18,11 @@
 
 var smartAce = (function() {
 
+	/* the default epub/wcag version + level to use for new evaluations */
+	var _EPUB_DEFAULT_VERSION = '1.1';
+	var _WCAG_DEFAULT_VERSION = '2.1';
+	var _WCAG_DEFAULT_LEVEL = 'aa';
+	
 	/* holds the ace report json */
 	var _aceReport = '';
 	
@@ -77,7 +82,7 @@ var smartAce = (function() {
 		}
 		
 		/* extract and set the conformance level if the publication already contains conformsTo metadata */
-		setWCAGConformanceLevel();
+		setWCAGConformance();
 		
 		/* iterate over the report metadata and set fields */
 		loadMetadata();
@@ -106,22 +111,62 @@ var smartAce = (function() {
 	 * the WCAG level if it matches the epub accessibility conformance URL
 	 */
 	
-	function setWCAGConformanceLevel() {
+	function setWCAGConformance() {
 		
 		var conformance_url = '';
 		
 		if (_aceReport['earl:testSubject'].hasOwnProperty('links') && _aceReport['earl:testSubject'].hasOwnProperty('dcterms:conformsTo')) {
 			conformance_url = _aceReport['earl:testSubject'].links['dcterms:conformsTo'];
-			smartConformance.setEvaluationResult();
 		}
 		
 		else if (_aceReport['earl:testSubject'].metadata.hasOwnProperty('dcterms:conformsTo')) {
 			conformance_url = _aceReport['earl:testSubject'].metadata['dcterms:conformsTo'];
-			smartConformance.setEvaluationResult();
 		}
 		
-		else {
-			return;
+		
+		if (conformance_url) {
+			
+			conformance_url = conformance_url.trim();
+			
+			var epub_version = _EPUB_DEFAULT_VERSION;
+			var wcag_version = _WCAG_DEFAULT_VERSION;
+			var wcag_level = _WCAG_DEFAULT_LEVEL;
+			
+			var re = new RegExp('^((http://www\.idpf\.org/epub/a11y/accessibility-(?<epub10>20170105)\.html#wcag-(?<wcag20>[a]+))|(EPUB-A11Y-(?<epubx>[0-9]+)_WCAG-(?<wcagx>[0-9]+)-(?<wcaglvlx>[A]+)))');
+			var is_match = conformance_url.match(re);
+			var setSC = false;
+			
+			if (is_match) {
+				
+				if (confirm(smart_ui.ace.load.hasConformsTo[smart_lang].replace('%%conformance_url%%', conformance_url))) {
+				
+					setSC = true;
+					
+					if (is_match.groups.epub10) {
+						epub_version = '1.0';
+						wcag_version = '2.0';
+						wcag_level = is_match.groups.wcag20;
+					}
+					else {
+						epub_version = is_match.groups.epubx.replace(/^(\d)/,'$1.');
+						wcag_version = is_match.groups.wcagx.replace(/^(\d)/,'$1.');
+						wcag_level = is_match.groups.wcaglvlx.toLowerCase();
+					}
+				}
+			}
+		}
+		
+		document.getElementById('epub-a11y').value = epub_version;
+		smartConformance.setEPUBA11yVersion(epub_version);
+		
+		document.getElementById('wcag-version').value = wcag_version;
+		smartConformance.setWCAGVersion(wcag_version);
+		
+		document.getElementById('wcag-level').value = wcag_level;
+		smartConformance.setWCAGConformanceLevel(wcag_level);
+		
+		if (setSC) {
+			smartConformance.setGlobalSCStatus('pass',true);
 		}
 	}
 	
@@ -448,14 +493,19 @@ var smartAce = (function() {
 		}
 		
 		if (!_aceReport['properties']['hasPageBreaks']) {
-			document.querySelector('input[name="eg-1"][value="na"]').click();
+			document.querySelector('input[name="epub-pagebreaks"][value="na"]').click();
+			document.querySelector('input[name="epub-pagelist"][value="na"]').click();
+			document.querySelector('input[name="epub-pagesrc"][value="na"]').click();
 			var li = document.createElement('li');
 				li.appendChild(document.createTextNode(smart_ui.ace.contentType.pagebreaks[smart_lang]))
 			alert_list.appendChild(li);
 		}
 		
 		if (!_aceReport['earl:testSubject']['metadata'].hasOwnProperty('media:duration')) {
-			document.querySelector('input[name="eg-2"][value="na"]').click();
+			document.querySelector('input[name="epub-mo-esc"][value="na"]').click();
+			document.querySelector('input[name="epub-mo-nav"][value="na"]').click();
+			document.querySelector('input[name="epub-mo-readorder"][value="na"]').click();
+			document.querySelector('input[name="epub-mo-skip"][value="na"]').click();
 			var li = document.createElement('li');
 				li.appendChild(document.createTextNode(smart_ui.ace.contentType.overlays[smart_lang]))
 			alert_list.appendChild(li);

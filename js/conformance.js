@@ -534,9 +534,11 @@ var smartConformance = (function() {
 			configureContentTypeTests(options);
 		},
 		
-		setGlobalSCStatus: function(status) {
-			if (!confirm(smart_ui.conformance.changeSC[smart_lang])) {
-				return;
+		setGlobalSCStatus: function(status,quiet) {
+			if (!quiet) {
+				if (!confirm(smart_ui.conformance.changeSC[smart_lang])) {
+					return;
+				}
 			}
 			
 			var success_criteria = document.querySelectorAll('.a, .aa, .aaa, .epub');
