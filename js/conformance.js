@@ -11,15 +11,11 @@
  * 
  * - setEvaluationResult - sets the result based on the epub/wcag versions conformed to 
  * 
- * - addSuccessCriteria - dynamically adds the success criteria
- * 
  * - setWCAGVersion - changes the success criteria to match the selected version of the standard
  * 
  * - setWCAGConformanceLevel - updates the displayed conformance tests to the user-selected level
  * 
  * - getSCStatusSelector - generate a selector for querying the applicable success criteria
- * 
- * - displaySuccessCriteria - show/hide success criteria for the specified wcag level (used to show both current level and optional criteria)
  * 
  * - configureContentTypeTests - show/hide success criteria based on the type of content in the publications (audio/video/etc.)
  * 
@@ -52,20 +48,80 @@ var smartConformance = (function() {
 							'sc-4.1.3' ];
 
 
+		/* 
+		 * Mapping used to filter SC by content type
+		 * (differs from _SC_TYPE in that not all these SC can be disabled if one media type isn't present)
+		 */
+		var _SC_MAP = new Object();
+			
+			_SC_MAP.audio = ['1.1.1', '1.2.1', '1.2.2', '1.2.3', '1.2.5', '1.2.6', '1.2.7', '1.2.8',
+							'1.4.2', '1.4.7'];
+			
+			_SC_MAP.color = ['1.3.3', 
+							'1.4.1', '1.4.3', '1.4.6', '1.4.8', '1.4.11',
+							'2.4.7'];
+			
+			_SC_MAP.controls = ['1.3.1', '1.3.2', '1.3.5', '1.3.6',
+								'1.4.1',
+								'2.1.1', '2.1.2', '2.1.3',
+								'2.2.1', '2.2.2', '2.2.3', '2.2.4', '2.2.6', '2.4.3', '2.4.7',
+								'2.5.1', '2.5.2', '2.5.3', '2.5.4', '2.5.5', '2.5.6',
+								'3.2.1', '3.2.2', '3.2.4', '3.2.5', '3.2.6',
+								'3.3.1', '3.3.2', '3.3.3'];
+			
+			_SC_MAP.hd = ['1.3.1', '2.4.6', '2.4.10'];
+			
+			_SC_MAP.img = ['1.1.1'];
+			
+			_SC_MAP.imgtext = ['1.1.1', '1.4.3', '1.4.5', '1.4.6', '1.4.9']
+			
+			_SC_MAP.input = ['1.3.1', '1.3.2', '1.3.5', '1.3.6',
+							'1.4.1', '1.4.3', '1.4.6',
+							'2.1.1', '2.1.2', '2.1.3',
+							'2.2.5',
+							'2.4.3', '2.4.6',
+							'2.5.3', '2.5.5',
+							'3.2.1', '3.2.2', '3.2.4', '3.2.5',
+							'3.3.1', '3.3.2', '3.3.3', '3.3.4', '3.3.5', '3.3.6'];
+			
+			_SC_MAP.links = ['1.4.1', '2.1.1', '2.4.3', '2.4.4', '2.4.9'];
+			
+			_SC_MAP.lang = ['3.1.1', '3.1.2'];
+			
+			_SC_MAP.mo = ['epub-mo-readorder', 'epub-mo-skip', 'epub-mo-esc', 'epub-mo-nav'];
+			
+			_SC_MAP.page = ['2.4.13', 'epub-pagesrc', 'epub-pagelist', 'epub-pagebreaks'];
+			
+			_SC_MAP.readorder = ['1.3.2', '2.4.5'];
+			
+			_SC_MAP.struct = ['1.3.1', '1.3.2', '4.1.1'];
+			
+			_SC_MAP.text = ['1.4.1', '1.4.3', '1.4.4', '1.4.5', '1.4.6', '1.4.8', '1.4.10', '1.4.12',
+							'3.1.1', '3.1.2', '3.1.3', '3.1.4', '3.1.5', '3.1.6'];
+			
+			_SC_MAP.titles = ['2.4.2'];
+			
+			_SC_MAP.video = ['1.1.1',
+							'1.2.1', '1.2.2', '1.2.3', '1.2.5', '1.2.6', '1.2.7', '1.2.8',
+							'1.4.2', '1.4.7',
+							'2.2.2',
+							'2.3.1', '2.3.2'];
+		
 
 	/* WCAG mapping levels - starting with 2.2 levels have begun shifting up 
 	 * 
 	 * Each object in the map has two keys:
 	 *  - 'default' contains the initial level it started at
-	 *  - '##' is the two-digit version containing the level it changed to (e.g., for 2.2 the value is 22)
-	 * 
+	 *  - 'change' identifies:
+	 *    - 'in' - which wcag version the change was made in
+	 *    - 'to' - what the new level is
 	 */
 	
 	var _WCAG_MAP = {
 		'sc-2.4.7': {
 			'default': 'aa',
 			'change' : {
-				'in' : '22',
+				'in' : 2.2,
 				'to' : 'a'
 			}
 		}
@@ -111,8 +167,6 @@ var smartConformance = (function() {
 	
 	function adjustWCAGLevels(version) {
 		
-		var version_no = version.toString().replace('.','');
-		
 		for (var key in _WCAG_MAP) {
 		
 			var default_level = _WCAG_MAP[key]['default'];
@@ -122,7 +176,7 @@ var smartConformance = (function() {
 			var level = _WCAG_MAP[key]['default'];
 			
 			// check if the user is loading a version in which the level has changed
-			if (version_no >= _WCAG_MAP[key]['change']['in']) {
+			if (version >= _WCAG_MAP[key]['change']['in']) {
 				level = changed_level;
 				isChanged = true;
 			}
@@ -154,13 +208,10 @@ var smartConformance = (function() {
 	
 		smartWCAG.setWCAGLevel(level);
 		
-		if (!document.getElementById('show-aa').checked) {
-			// call the display function with whether to show/hide aa success criteria
-			displaySuccessCriteria({wcag_level: 'aa', display: (level == 'aa' ? true : false)});
-		}
+		// call the display function to hide/show SC
+		displaySuccessCriteria();
 		
 		// show notes for success criteria that are superseded by a higher-level requirement
-		
 		var sup = document.getElementsByClassName('superseded-aa');
 		
 		for (var i = 0; i < sup.length; i++) {
@@ -183,11 +234,22 @@ var smartConformance = (function() {
 	
 	/* makes success criteria visible/hidden based on their class */
 	
-	function displaySuccessCriteria(options) {
+	function displaySuccessCriteria() {
 	
-		var success_criteria = document.getElementsByClassName(options.wcag_level);
+		// check if there is a content filter in place
+		var filter = null;
+		
+		var type = document.getElementById('filterSC').value;
+		
+		if (type != 'all' && _SC_MAP.hasOwnProperty(type)) {
+			filter = _SC_MAP[type];
+		}
+		
+		// check if user overrides are set to view aa and/or aaa SC
 		
 		var hide = false;
+		var show_aa = smartWCAG.WCAGLevel() == 'aa' || document.getElementById('show-aa').checked;
+		var show_aaa = document.getElementById('show-aaa').checked;
 		
 		// get the list of supported versions from the dropdown
 		
@@ -197,23 +259,39 @@ var smartConformance = (function() {
 		
 			// get all the success criteria for the current version
 			var success_criteria = document.getElementsByClassName('w' + wcag_versions.options[i].value.replace('.',''));
-		
+			
 			for (var j = 0; j < success_criteria.length; j++) {
 			
 				var sc_num = success_criteria[j].id.replace('sc-','');
+				var is_aa = success_criteria[j].classList.contains('aa');
+				var is_aaa = success_criteria[j].classList.contains('aaa');
 				
 				/*  hide when:
 				 *   - from a version higher than the currently selected version
+				 *   - the user wants the aa conformance level hidden
+				 *   - the user has not selected to show aaa criteria
 				 *   - the SC is not in the list to filter by (i.e., the user-selected content filtering box is applied)
 				 */
 				
-				if (hide || (options.hasOwnProperty('filter') && !options.filter.includes(sc_num))) {
+				if ( hide 
+					|| (is_aa && !show_aa)
+					|| (is_aaa && !show_aaa)) {
 					success_criteria[j].classList.remove('visible');
 					success_criteria[j].classList.add('hidden');
 				}
+				
 				else {
-					success_criteria[j].classList.remove('hidden');
-					success_criteria[j].classList.add('visible');
+				
+					if (filter !== null && !filter.includes(sc_num)) {
+						// check filtered criteria separately so inapplicable rules don't show up
+						success_criteria[j].classList.remove('visible');
+						success_criteria[j].classList.add('hidden');
+					}
+					
+					else {
+						success_criteria[j].classList.remove('hidden');
+						success_criteria[j].classList.add('visible');
+					}
 				}
 			}
 			
@@ -223,209 +301,24 @@ var smartConformance = (function() {
 			}
 		}
 		
+		// (un)filter the epub criteria
+
+		var epub_sc = document.getElementsByClassName('epub');
+		
+		for (var e = 0; e < epub_sc.length; e++) {
+		
+			if (filter != null && !filter.includes(epub_sc[e].id)) {
+				epub_sc[e].classList.remove('visible');
+				epub_sc[e].classList.add('hidden');
+			}
+			
+			else {
+				epub_sc[e].classList.remove('hidden');
+				epub_sc[e].classList.add('visible');
+			}
+		}
+
 		smartWCAG.setWCAGClassList();
-	}
-	
-	
-	/* 
-	 * Dynamically generates the status radio buttons and note fields for 
-	 * evaluating the success criteria
-	 */
-	
-	function addSuccessCriteria() {
-	
-		var sc_nodes = new Array();
-		
-		for (var i = 0; i < sc_config['sc'].length; i++) {
-		
-			var id = sc_config['sc'][i].hasOwnProperty('id') ? sc_config['sc'][i].id : '';
-			var level = sc_config['sc'][i].hasOwnProperty('level') ? sc_config['sc'][i].level : '';
-			
-			var wcag_number = 0;
-			var match_wcag_number = id.match(/([1-4]\.[1-9]\.[0-9]+)/);
-			
-			if (match_wcag_number) {
-				wcag_number = match_wcag_number[0];
-			}
-			
-			var css_class = sc_config['sc'][i].hasOwnProperty('version') ? 'w' + sc_config['sc'][i].version.replace('.','') : 'epub';
-			
-			/* create section for new success criterion */
-			
-			sc_nodes.push('<section id="' + id + '" class="' + css_class + ' ' + level + '">');
-			sc_nodes.push('<h3>');
-			sc_nodes.push('<span class="label">');
-			
-			if (wcag_number) {
-				sc_nodes.push(wcag_number + ' ');
-			}
-			
-			if (sc_config['sc'][i].hasOwnProperty('name') && sc_config['sc'][i].name.hasOwnProperty(smart_lang)) {
-				sc_nodes.push(sc_config['sc'][i].name[smart_lang]);
-			}
-			
-			sc_nodes.push('</span>');
-			
-			sc_nodes.push('<span class="' + (wcag_number ? level : 'epub') + '-label">');
-			sc_nodes.push((wcag_number ? smart_ui.conformance.level[smart_lang] + ' ' + level.toUpperCase() : 'EPUB'));
-			sc_nodes.push('</span>');
-			sc_nodes.push('</h3>');
-			
-			/* add link to kb explainer */
-			if (wcag_number) {
-				var info_link_text = smart_ui.conformance.kb.linkText[smart_lang] + wcag_number;
-				sc_nodes.push('<p class="info"><a href="https://kb.daisy.org/publishing/docs/html/wcag/' + sc_config['sc'][i].ref + '.html" target="_blank"><img src="/images/info.png" alt="' + info_link_text + '" title="' + info_link_text + '"></a></p>');
-			}
-			
-			/* create body div for guidance and links */
-			
-			sc_nodes.push('<div class="sc-body">');
-			
-			/* add guidance - imports html embedded in json */
-			
-			if (sc_config['sc'][i].hasOwnProperty('guidance') && sc_config['sc'][i].guidance.hasOwnProperty(smart_lang)) {
-				sc_nodes.push(sc_config['sc'][i].guidance[smart_lang]);
-				sc_nodes.push('<hr>');
-			}
-			
-			/* close sc-body div */
-			
-			sc_nodes.push('</div>');
-			
-			/* add wrapper div with reporting class for hiding later */
-			
-			sc_nodes.push('<div class="reporting">');
-			
-			/*  add the status radio buttons */
-			sc_nodes.push('<fieldset id="' + id + '-legend"' + 'class="flat status">');
-			
-			sc_nodes.push('<legend>');
-				sc_nodes.push(smart_ui.conformance.labels.status[smart_lang]);
-			sc_nodes.push('</legend>');
-			
-			for (var stat in smart_ui.conformance.result) {
-				sc_nodes.push('<label>');
-				sc_nodes.push('<input id="' + id + '-' + stat + '" type="radio" name="' + id + '" value="' + stat + '" class="sc_status" aria-labelledby="' + id + '-legend"');
-				
-				if (stat == 'unverified') {
-					sc_nodes.push(' checked="checked"');
-				}
-				
-				sc_nodes.push('>');
-				
-				sc_nodes.push(' ' + smart_ui.conformance.result[stat][smart_lang]);
-				sc_nodes.push('</label>');
-				sc_nodes.push(' ');
-			}
-			
-			/* add the failure textarea */
-			
-			sc_nodes.push('<div id="' + id + '-failnote" class="failure">');
-			sc_nodes.push('<p>');
-			sc_nodes.push('<label for="' + id + '-err">');
-				sc_nodes.push(smart_ui.conformance.labels.failure[smart_lang]);
-			sc_nodes.push('</label>');
-			sc_nodes.push('</p>');
-			
-			sc_nodes.push('<textarea id="' + id + '-err" rows="5" cols="80"></textarea>');
-			sc_nodes.push('</div>');
-			
-			/* close the radio button fieldset */
-			sc_nodes.push('</fieldset>');
-			
-			/* add the note checkbox and textarea */
-			
-			sc_nodes.push('<p>');
-			sc_nodes.push('<label>');
-			sc_nodes.push('<input type="checkbox" id="' + id + '-notebox" name="' + id + '-notebox" class="show-note">');
-			sc_nodes.push(' ' + smart_ui.conformance.labels.note[smart_lang]);
-			sc_nodes.push('</label>');
-			sc_nodes.push('</p>');
-			
-			sc_nodes.push('<div id="' + id + '-note" class="info">');
-			sc_nodes.push('<textarea id="' + id + '-info" rows="5" cols="80" aria-label="' + smart_ui.conformance.note[smart_lang] + '"></textarea>');
-			sc_nodes.push('</div>');
-			
-			sc_nodes.push('</div>');
-			sc_nodes.push('</section>');
-		}
-		
-		/* append all success criteria at once to avoid bottleneck */
-		document.getElementById('sc-list').innerHTML = sc_nodes.join('');
-	}
-	
-	/* 
-	 * Filters the visible success criteria so that only those applicable to the
-	 * user-select content type are visible
-	 */
-	
-	
-	function filterSCByContent(type) {
-		
-		var sc_map = new Object();
-			
-			sc_map.audio = ['1.1.1', '1.2.1', '1.2.2', '1.2.3', '1.2.5', '1.2.6', '1.2.7', '1.2.8',
-							'1.4.2', '1.4.7'];
-			
-			sc_map.color = ['1.3.3', 
-							'1.4.1', '1.4.3', '1.4.6', '1.4.8', '1.4.11',
-							'2.4.7'];
-			
-			sc_map.controls = ['1.3.1', '1.3.2', '1.3.5', '1.3.6',
-								'1.4.1',
-								'2.1.1', '2.1.2', '2.1.3',
-								'2.2.1', '2.2.2', '2.2.3', '2.2.4', '2.2.6', '2.4.3', '2.4.7',
-								'2.5.1', '2.5.2', '2.5.3', '2.5.4', '2.5.5', '2.5.6',
-								'3.2.1', '3.2.2', '3.2.4', '3.2.5', '3.2.6',
-								'3.3.1', '3.3.2', '3.3.3'];
-			
-			sc_map.hd = ['1.3.1', '2.4.6', '2.4.10'];
-			
-			sc_map.img = ['1.1.1'];
-			
-			sc_map.imgtext = ['1.1.1', '1.4.3', '1.4.5', '1.4.6', '1.4.9']
-			
-			sc_map.input = ['1.3.1', '1.3.2', '1.3.5', '1.3.6',
-							'1.4.1', '1.4.3', '1.4.6',
-							'2.1.1', '2.1.2', '2.1.3',
-							'2.2.5',
-							'2.4.3', '2.4.6',
-							'2.5.3', '2.5.5',
-							'3.2.1', '3.2.2', '3.2.4', '3.2.5',
-							'3.3.1', '3.3.2', '3.3.3', '3.3.4', '3.3.5', '3.3.6'];
-			
-			sc_map.links = ['1.4.1', '2.1.1', '2.4.3', '2.4.4', '2.4.9'];
-			
-			sc_map.lang = ['3.1.1', '3.1.2'];
-			
-			sc_map.mo = ['epub-mo-readorder', 'epub-mo-skip', 'epub-mo-esc', 'epub-mo-nav'];
-			
-			sc_map.page = ['2.4.13', 'epub-pagesrc', 'epub-pagelist', 'epub-pagebreaks'];
-			
-			sc_map.readorder = ['1.3.2', '2.4.5'];
-			
-			sc_map.struct = ['1.3.1', '1.3.2', '4.1.1'];
-			
-			sc_map.text = ['1.4.1', '1.4.3', '1.4.4', '1.4.5', '1.4.6', '1.4.8', '1.4.10', '1.4.12',
-							'3.1.1', '3.1.2', '3.1.3', '3.1.4', '3.1.5', '3.1.6'];
-			
-			sc_map.titles = ['2.4.2'];
-			
-			sc_map.video = ['1.1.1',
-							'1.2.1', '1.2.2', '1.2.3', '1.2.5', '1.2.6', '1.2.7', '1.2.8',
-							'1.4.2', '1.4.7',
-							'2.2.2',
-							'2.3.1', '2.3.2'];
-		
-		var options = new Object();
-			options.wcag_level = smartWCAG.WCAGLevel();
-			options.display = true;
-		
-		if (type != 'all' && sc_map.hasOwnProperty(type)) {
-			options.filter = sc_map[type];
-		}
-		
-		displaySuccessCriteria(options);
 	}
 	
 	
@@ -624,23 +517,12 @@ var smartConformance = (function() {
 			setWCAGVersion(version);
 		},
 		
-		filterSCByContent: function(type) {
-			filterSCByContent(type);
-		},
-		
 		setWCAGConformanceLevel: function(level) {
 			setWCAGConformanceLevel(level);
 		},
 		
-		addSuccessCriteria: function() {
-			addSuccessCriteria();
-		},
-		
-		displaySuccessCriteria: function(options) {
-			options = typeof(options) === 'object' ? options : {};
-			options.wcag_level = options.wcag_level ? options.wcag_level : 'aa';
-			options.display = options.hasOwnProperty('display') ? options.display : true;
-			displaySuccessCriteria(options);
+		displaySuccessCriteria: function() {
+			displaySuccessCriteria();
 		},
 		
 		configureContentTypeTests: function(options) {

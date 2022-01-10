@@ -151,6 +151,11 @@ HTML;
 			}
 		}
 		
+		public function allow_full_delete() {
+			if ($this->license == 'unlimited') {
+				echo '<input type="hidden" id="alert_full_delete" value="1"/>';
+			}
+		}
 		
 		/*
 		 * generates the evaluation history table
@@ -171,63 +176,54 @@ HTML;
 						$result = $this->db->get_results();
 						
 						foreach ($result as $row) {
-							echo '<tr>';
-							echo '<td>' . $row['title'] . '</td>';
-							echo '<td class="center">' . $row['created'] . '</td>';
-							echo '<td class="center">' .  $row['modified'] . '</td>';
 							
-							echo '<td class="center">';
+							$status = '';
+							$option = '';
 							
 							switch ($row['status']) { 
 								case 'remote':
-									echo 'Saved';
-									break;
-								case 'local':
-									echo 'Saved Locally';
-									break;
-								case 'deleted':
-									echo 'Deleted';
-									break;
-								case 'unsaved':
-									echo 'Not Saved';
-									break;
-							}
-							
-							echo '</td><td class="option">';
-							
-							switch ($row['status']) {
-								case 'remote':
-									echo '<input type="image" src="images/resume.svg" height="40" id="resume_' . $row['id'] . '" alt="Resume" title="Resume"/>';
-									echo '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
-									break;
+									$status = 'Saved';
+									$option = <<<HTML
+			<input type="image" src="images/resume.svg" height="40" id="resume_{$row['id']}" alt="Resume" title="Resume"/>
+			<input type="image" src="images/delete.svg" height="40" id="delete_{$row['id']}" alt="Delete" title="Delete"/>
+HTML;
+								break;
 								
 								case 'local':
-									echo '<input type="image" src="images/resume.svg" height="40" id="reload_' . $row['id'] . '" alt="Resume" title="Resume"/>';
-									echo '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
-									break;
-									
+									$status = 'Saved Locally';
+									$option = <<<HTML
+			<input type="image" src="images/resume.svg" height="40" id="reload_{$row['id']}" alt="Resume" title="Resume"/>
+			<input type="image" src="images/delete.svg" height="40" id="delete_{$row['id']}" alt="Delete" title="Delete"/>
+HTML;
+								break;
+								
 								case 'deleted':
-									echo '<input type="image" src="images/resume.svg" height="40" id="reload_' . $row['id'] . '" alt="Resume" title="Resume"/>';
-									break;
+									$status = 'Deleted';
+									$option = '<input type="image" src="images/resume.svg" height="40" id="reload_' . $row['id'] . '" alt="Resume" title="Resume"/>';
+								break;
 								
 								case 'unsaved':
-									if ($this->license == 'unlimited') {
-										echo '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
-									}
-									break;
+									$status = 'Not Saved';
+								break;
 								
 								default:
-									echo '<input type="image" src="images/resume.svg" height="40" id="resume_' . $row['id'] . '" alt="Resume" title="Resume"/>';
-									echo '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
-							
+									$option = <<<HTML
+			<input type="image" src="images/resume.svg" height="40" id="resume_{$row['id']}" alt="Resume" title="Resume"/>
+			<input type="image" src="images/delete.svg" height="40" id="delete_{$row['id']}" alt="Delete" title="Delete"/>
+HTML;
+
 							}
+
 							
-							if ($this->license == 'unlimited') {
-								echo '<input type="hidden" id="alert_full_delete" value="1"/>';
-							}
-							
-							echo '</td>';
-							echo '</tr>';
+							echo <<<HTML
+	<tr>
+		<td>{$row['title']}</td>
+		<td class="center">{$row['created']}</td>
+		<td class="center">{$row['modified']}</td>
+		<td class="center">{$status}</td>
+		<td class="option">{$option}</td>
+	</tr>
+HTML;
 						}
 						
 					    $this->db->close();
