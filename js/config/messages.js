@@ -99,6 +99,9 @@ var smart_ui = {
  			}
 		},
 		"load": {
+			"hasConformsTo": {
+				"en": "This publication already specifies the conformance string:\n\n%%conformance_url%%\n\nClick Ok to set the success criteria to pass this standard or Cancel to start a new evaluation."
+			},
 			"success": {
 				"en": "Ace report successfully imported!"
 			},
