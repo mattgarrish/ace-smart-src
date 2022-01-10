@@ -7,9 +7,6 @@
 	
 	window.onload = function() {
 	
-		/* add the conformance success criteria */
-		smartConformance.addSuccessCriteria();
-		
 		/* add next tab links */
 		var $js_tabs = $( ".js-tabcontent" );
 		for (var i = 0; i < $js_tabs.length - 1; i++) {
@@ -41,7 +38,7 @@
 		
 		/* watch for changes to sc filter */
 		$('select#filterSC').change( function(){
-			smartConformance.filterSCByContent(this.value);
+			smartConformance.displaySuccessCriteria();
 		});
 		
 		/* watch for changes to success criteria status radio buttons */
@@ -283,7 +280,7 @@
 	
 	/* watch for optional criteria display changes */
 	$('input.optional-criteria').click( function(){
-		smartConformance.displaySuccessCriteria({wcag_level: this.id.replace('show-',''), display: (this.checked ? true : false)});
+		smartConformance.displaySuccessCriteria();
 	});
 	
 	/* watch for filtering of success criteria by status */
@@ -344,6 +341,13 @@
 		smartReport.generateConformanceReport('report');
 	});
 	
+	
+	/* catch ctrl+m to view the message panel */
+	function OpenMsgPanel(e) {
+		var evtobj = window.event? event : e
+		if (evtobj.keyCode == 77 && evtobj.ctrlKey) { smartError.showErrorPane(); };
+	}
+	document.onkeydown = OpenMsgPanel;
 	
 	/* Save changes prompt */
 	

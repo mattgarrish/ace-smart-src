@@ -511,23 +511,11 @@ var smartManage = (function() {
 			smartConformance.setWCAGConformanceLevel(evaluationJSON.configuration.wcag.level);
 			
 			if ((evaluationJSON.configuration.wcag.show_aa && evaluationJSON.configuration.wcag.show_aa == 'true') && evaluationJSON.configuration.wcag.level != 'aa') {
-				
 				document.getElementById('show-aa').checked = true;
-				
-				smartConformance.displaySuccessCriteria({
-					wcag_level: 'aa',
-					display: true
-				});
 			}
 			
 			if (evaluationJSON.configuration.wcag.show_aaa && evaluationJSON.configuration.wcag.show_aaa == 'true') {
-				
 				document.getElementById('show-aaa').checked = true;
-				
-				smartConformance.displaySuccessCriteria({
-					wcag_level: 'aaa',
-					display: true
-				});
 			}
 			
 			// account for old epub_format property - delete when safely out of use

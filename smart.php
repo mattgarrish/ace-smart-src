@@ -31,6 +31,7 @@
 
 <?php require_once 'php/evaluations.php' ?>
 <?php require_once 'php/extensions.php' ?>
+<?php require_once 'sc/sc.php' ?>
 
 <?php
 	if (!$_POST['action'] && !$_POST['auto']) { header("Location: index.php"); die(); }
@@ -43,12 +44,13 @@
 		'title' => $_POST['title'],
 		'action' => $_POST['action'] ? $_POST['action'] : ($_POST['auto'] ? 'autoload' : ''),
 		'id' => $_POST['id'],
-		'pubid' => $_POST['pubid']
+		'pubid' => $_POST['pubid'] ? $_POST['pubid'] : ''
 	));
 	
 	$eval->check_license();
 	
 	$ext = new SMART_EXTENSIONS($user->data()->modules, $extension);
+	$sc = new SMART_SC_GENERATOR();
 ?>
 
 <!DOCTYPE html>
@@ -121,7 +123,7 @@ JS;
 		<header>
 			<div class="id">You are logged in as <code><a target="_blank" href="users/account.php"><?php echo $user->data()->username; ?></a></code> <a class="logout" href="users/logout.php">Log out</a></div>
 			
-			<h1><span property="dcterms:publisher"><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium"/></span> <span property="dcterms:title">Ace <span class="smart_hd">SMART</span></span></h1>
+			<h1><span property="dcterms:title">Ace <span class="smart_hd">SMART</span></span></h1>
 			
 			<nav class="menubar">
 				<a href="user-guide/" target="_blank">User Guide</a> 
@@ -165,9 +167,8 @@ JS;
 						
 					<div class="data form-data">
 						<fieldset class="flat">
-							<legend>Format:</legend>
-							<!-- <div><small>Note: This setting also controls the format of the discovery and conformance metadata.</small></div> -->
-							<select id="epub-format">
+							<legend id="format-lbl">Format:</legend>
+							<select id="epub-format" aria-labelledby="format-lbl">
 								<option value="3"> EPUB 3</option>
 								<option value="2"> EPUB 2</option>
 							</select>
@@ -194,18 +195,18 @@ JS;
 					
 					<p class="help"><a href="user-guide/conformance.html" target="_blank">Need help?</a></p>
 					
-					<div class="form-data conf-control">
+					<div class="form-data conf-control w85">
 						<fieldset class="flat row">
-							<legend>EPUB Accessibility:</legend>
-							<select id="epub-a11y">
+							<legend id="espec-lbl">EPUB Accessibility:</legend>
+							<select id="epub-a11y" aria-labelledby="espec-lbl">
 								<option selected="">1.1</option>
 								<option>1.0</option>
 							</select>
 						</fieldset>
 						
 						<fieldset class="flat row">
-							<legend>WCAG:</legend>
-							<select id="wcag-version">
+							<legend id="wspec-lbl">WCAG:</legend>
+							<select id="wcag-version" aria-labelledby="wspec-lbl">
 								<option selected="">2.0</option>
 								<option>2.1</option>
 								<option>2.2</option>
@@ -213,8 +214,8 @@ JS;
 						</fieldset>
 						
 						<fieldset class="flat row">
-							<legend>Conformance:</legend>
-							<select id="wcag-level">
+							<legend id="conf-lbl">Conformance:</legend>
+							<select id="wcag-level" aria-labelledby="conf-lbl">
 								<option value="a" selected="">Level A</label>
 								<option value="aa">Level AA</label>
 							</select>
@@ -228,7 +229,7 @@ JS;
 					<section id="conformance-options" aria-label="Additional Options" title="Additional Options">
 						<div class="form-data conf-control">
 							<fieldset id="exclusions" class="flat row">
-								<legend>Exclude Tests For:</legend>
+								<legend>Exclude tests for:</legend>
 								<label><input type="checkbox" id="excl-img" value="img" class="excl-test"/> Images</label>
 								<label><input type="checkbox" id="excl-audio" value="audio" class="excl-test"/> Audio</label>
 								<label><input type="checkbox" id="excl-video" value="video" class="excl-test"/> Video</label>
@@ -236,7 +237,7 @@ JS;
 							</fieldset>
 							
 							<fieldset class="flat row">
-								<legend>Show Optional Criteria:</legend>
+								<legend>Show optional criteria:</legend>
 								<label><input type="checkbox" id="show-aa" class="optional-criteria" disabled="disabled"/> Level AA</label>
 								<label><input type="checkbox" id="show-aaa" class="optional-criteria"/> Level AAA</label>
 							</fieldset>
@@ -294,8 +295,8 @@ JS;
 					
 					<!-- filter SC by content type -->
 					<fieldset class="filter">
-						<span>Filter success criteria to check: </span>
-						<select id="filterSC">
+						<label id="filter-lbl">Filter success criteria to check: </span>
+						<select id="filterSC" aria-labelledby="filter-lbl">
 							<option value="all" selected="">All content</option>
 							<option value="audio">Audio</option>
 							<option value="color">Color</option>
@@ -315,8 +316,9 @@ JS;
 							<option value="video">Video</option>
 						</select>
 					</fieldset>
+					
 					<!-- SC dynamically inserted -->
-					<div id="sc-list"></div>
+					<?php $sc->generate() ?>
 				</section>
 				
 				<?php $ext->add_tab_includes() ?>
@@ -389,17 +391,24 @@ JS;
 					
 					<p class="help"><a href="user-guide/generate.html" target="_blank">Need help?</a></p>
 					
-					<fieldset class="notes">
-						<legend>Notes</legend>
-						<br>
-						<label><input type="radio" name="show-notes" value="all" checked="checked"/> Include all</label>
-						<label><input type="radio" name="show-notes" value="failures"/> Only failure descriptions</label>
-						<label><input type="radio" name="show-notes" value="notes"/> Only notes</label>
-						<label><input type="radio" name="show-notes" value="none"/> None</label>
-					</fieldset>
+					<details>
+						<summary>Output Options</summary>
+						
+						<fieldset>
+							<legend>Conformance Notes</legend>
+							<label><input type="radio" name="show-notes" value="all" checked="checked"/> Include all</label>
+							<label><input type="radio" name="show-notes" value="failures"/> Only failure descriptions</label>
+							<label><input type="radio" name="show-notes" value="notes"/> Only notes</label>
+							<label><input type="radio" name="show-notes" value="none"/> None</label>
+						</fieldset>
+						
+						<?php $ext->add_output_options() ?>
+					</details>
 					
-					<p><input type="button" value="Preview" id="preview-report" class="button_hlt preview" aria-describedby="popup-instructions"/></p>
-					<p><input type="button" class="button_hlt" value="Create" id="generate-report" aria-describedby="gen"/></p>
+					<div class="buttons">
+						<input type="button" value="Preview" id="preview-report" class="button_hlt preview" aria-describedby="popup-instructions"/>
+						<input type="button" class="button_hlt" value="Create" id="generate-report" aria-describedby="gen"/>
+					</div>
 					
 					<div id="popup-instructions">
 						<p class="instr">Ensure that you do not have a pop-up blocker enabled when previewing content.</p>
@@ -432,7 +441,7 @@ JS;
 		</form>
 		
 		<footer>
-			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2022</span> <a target="_blank" href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
+			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2022</span> <a target="_blank" href="http://daisy.org"><span property="dcterms:publisher">DAISY</span> Consortium</a>. All Rights Reserved.</p>
 			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a> | <a target="_blank" href="attribution.html">Attribution</a></p>
 		</footer>
 		
@@ -449,5 +458,5 @@ JS;
 		<?php $ext->print_scripts(); ?>
 		
 		<script src="js/init-smart.js"></script>
-</body>
+	</body>
 </html>

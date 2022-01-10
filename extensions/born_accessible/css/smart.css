@@ -93,13 +93,6 @@
 	font-weight: bold;
 }
 
-#born_accessible details.ba-output-options {
-	font-size: 1.4rem;
-	max-width: 39rem;
-	margin-left: 0.3rem;
-	padding-left: 0.3rem;
-}
-
 #born_accessible div.not-applicable {
 	font-style: italic;
 	padding: 1rem;
