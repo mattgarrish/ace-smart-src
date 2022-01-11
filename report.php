@@ -1,6 +1,6 @@
 <?php
 
-	echo <<<HTML
+	$html = <<<HTML
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -49,7 +49,7 @@ HTML;
 </html>
 HTML;
 
-	if (!$_POST['preview']) {
+	if (!isset($_POST['preview']) || empty($_POST['preview'])) {
 		header('Content-Disposition: attachment; filename="ace-smart-report.html"');
 		header('Content-Type: text/html');
 		header('Content-Length: ' . strlen($html));
