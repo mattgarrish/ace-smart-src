@@ -1,7 +1,7 @@
 <?php require_once 'users/init.php' ?>
 
 <?php
-	if ($_POST['auto']) {
+	if (isset($_POST['auto']) && !empty($_POST['auto'])) {
 		$validate = new Validate();
 		$validation = $validate->check($_POST, array(
 			'username' => array('display' => 'Username','required' => true),
@@ -34,17 +34,17 @@
 <?php require_once 'sc/sc.php' ?>
 
 <?php
-	if (!$_POST['action'] && !$_POST['auto']) { header("Location: index.php"); die(); }
+	if ((!isset($_POST['action']) || empty($_POST['action'])) && (!isset($_POST['auto']) || empty($_POST['auto']))) { header("Location: index.php"); die(); }
 	
 	$eval = new SMART_EVALUATION(array(
 		'username' => $user->data()->username,
 		'company' => $user->data()->company,
 		'shared' => $user->data()->shared,
 		'license' => $user->data()->license,
-		'title' => $_POST['title'],
-		'action' => $_POST['action'] ? $_POST['action'] : ($_POST['auto'] ? 'autoload' : ''),
+		'title' => (isset($_POST['title']) && !empty($_POST['title'])) ? $_POST['title'] : 'Untitled',
+		'action' => (isset($_POST['action']) && !empty($_POST['action'])) ? $_POST['action'] : (isset($_POST['auto']) ? 'autoload' : ''),
 		'id' => $_POST['id'],
-		'pubid' => $_POST['pubid'] ? $_POST['pubid'] : ''
+		'pubid' => isset($_POST['pubid']) && !empty($_POST['pubid']) ? $_POST['pubid'] : ''
 	));
 	
 	$eval->check_license();

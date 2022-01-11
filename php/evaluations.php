@@ -312,7 +312,8 @@ HTML;
 				}
 				
 				// reset the action if the uploaded file is a saved evaluation
-				if ($this->action == 'load' && $json->{'category'} && $json->{'category'} == 'savedEvaluation') {
+				if ($this->action == 'load' && isset($json->{'category'}) && $json->{'category'} == 'savedEvaluation') {
+				
 					$this->action = 'reload';
 					
 					if ($json->{'id'} !== null && $json->{'id'} == 0) {
