@@ -887,7 +887,7 @@ HTML;
 					
 					$moreinfo_link = <<<HTML
 	<p class="info">
-		<a href="https://kb.daisy.org/publishing/docs/html/wcag/{$info['ref']}.html" target="_blank">
+		<a href="https://kb.daisy.org/publishing/docs/wcag/{$info['ref']}.html" target="_blank">
 			<img src="/images/info.png" alt="{$id}" title="{$id}">
 		</a>
 	</p>

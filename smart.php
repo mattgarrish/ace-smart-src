@@ -337,6 +337,7 @@ JS;
 					<section id="discovery-meta" aria-label="Discovery Metadata" title="Discovery Metadata">
 						<p>Copy and paste the following metadata to the EPUB package document.</p>
 						<textarea id="discovery-metadata" rows="15" aria-label="discovery metadata"></textarea>
+						<button id="discovery-copy">Copy</button>
 					</section>
 				</section>
 
@@ -354,6 +355,7 @@ JS;
 					<section id="distribution-meta" aria-label="ONIX Metadata" title="ONIX Metadata">
 						<p>Copy and paste the following metadata to the ONIX record.</p>
 						<textarea id="distribution-metadata" rows="15" aria-label="distribution metadata"></textarea>
+						<button id="distribution-copy">Copy</button>
 					</section>
 				</section>
 				
@@ -383,6 +385,7 @@ JS;
 					<section id="evaluation-meta" aria-label="Evaluation Metadata" title="Evaluation Metadata">
 						<p>Copy and paste the following metadata to the EPUB package document.</p>
 						<textarea id="evaluation-metadata" rows="6" aria-label="evaluation metadata"></textarea>
+						<button id="evaluation-copy">Copy</button>
 					</section>
 				</section>
 				

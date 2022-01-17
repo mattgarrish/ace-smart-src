@@ -778,6 +778,16 @@ div.instr {
 }
 
 
+/* buttons */
+
+section > button {
+	display: block;
+	min-width: 10rem;
+	border-radius: 0.5rem;
+	padding: 0.4rem 0.5rem;
+	margin-top: 1rem;
+}
+
 /* config options */
 
 section#config{
