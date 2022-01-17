@@ -558,21 +558,25 @@ var smartDiscovery = (function() {
 	
 	function generateAccessibilitySummary() {
 		
+		var summary_field = document.getElementById('accessibilitySummary');
 		var summary_text = '';
+		
 		var epub_version = document.getElementById('epub-a11y').value;
 		
 		// add the evaluation status
 		
+		var eval_status = document.getElementById('conformance-result').value;
+		
 		if (!eval_status || eval_status == 'incomplete') {
-			summary_text += smart_ui.discovery.generateSummary.incomplete[smart_lang].replace('%VER%', epub_version);
+			summary_text = smart_ui.discovery.generateSummary.incomplete[smart_lang].replace('%VER%', epub_version);
 		}
 		
 		else if (eval_status == 'fail') {
-			summary_text += smart_ui.discovery.generateSummary.fail[smart_lang].replace('%VER%', epub_version);
+			summary_text = smart_ui.discovery.generateSummary.fail[smart_lang].replace('%VER%', epub_version);
 		}
 		
 		else {
-			summary_text += smart_ui.discovery.generateSummary.pass[smart_lang].replace('%VER%', epub_version);
+			summary_text = smart_ui.discovery.generateSummary.pass[smart_lang].replace('%VER%', epub_version);
 			summary_text += ' ' + smart_ui.discovery.generateSummary.wcagLevel[smart_lang].replace('%VER%', smartWCAG.WCAGVersion()) + ' ' + smartWCAG.WCAGLevel().toUpperCase() + '.';
 		}
 		
@@ -664,8 +668,7 @@ var smartDiscovery = (function() {
 			}
 		}
 		
-		var summary_field = document.getElementById('accessibilitySummary');
-			summary_field.value = summary_text;
+		summary_field.value = summary_text;
 	}
 	
 	

@@ -303,6 +303,16 @@
 		smartDiscovery.generateDiscoveryMetadata();
 	});
 	
+	/* watch for click on button to copy evaluation metadata */
+	$('#discovery-copy').click( function(){
+		if (smartFormat.copyToClipboard('discovery-metadata')) {
+			alert('Text successfully copied.');
+		}
+		else {
+			alert('Failed to copy text.');
+		}
+	});
+	
 	
 	
 	
@@ -311,6 +321,16 @@
 	/* watch for click to generate discovery metadata */
 	$('#distribution_button').click( function(){
 		smartDistribution.generateONIXMetadata();
+	});
+	
+	/* watch for click on button to copy evaluation metadata */
+	$('#distribution-copy').click( function(){
+		if (smartFormat.copyToClipboard('distribution-metadata')) {
+			alert('Text successfully copied.');
+		}
+		else {
+			alert('Failed to copy text.');
+		}
 	});
 	
 	
@@ -322,6 +342,15 @@
 		smartEvaluation.generateEvaluationMetadata();
 	});
 	
+	/* watch for click on button to copy evaluation metadata */
+	$('#evaluation-copy').click( function(){
+		if (smartFormat.copyToClipboard('evaluation-metadata')) {
+			alert('Text successfully copied.');
+		}
+		else {
+			alert('Failed to copy text.');
+		}
+	});
 	
 	
 	/* REPORTING TAB */
