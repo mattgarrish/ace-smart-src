@@ -317,6 +317,18 @@ JS;
 						</select>
 					</fieldset>
 					
+					<aside id="stats">
+						<h4>Stats</h4>
+						
+						<ul>
+							<li><span class="statLabel">Pass:</span> <span id="passCount" class="statCount"></span></li>
+							<li><span class="statLabel">Fail:</span> <span id="failCount" class="statCount"></span></li>
+							<li><span class="statLabel">N/A:</span> <span id="naCount" class="statCount"></span></li>
+							<li><span class="statLabel">Unverified:</span> <span id="unverifiedCount" class="statCount"></span></li>
+							<!-- <li><span class="statLabel">Total:</span> <span id="totalCount" class="statCount"></span></li> -->
+						</ul>
+					</aside>
+					
 					<!-- SC dynamically inserted -->
 					<?php $sc->generate() ?>
 				</section>

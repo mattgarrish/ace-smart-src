@@ -385,6 +385,32 @@ hr {
 	border-color: rgb(240,245,255);
 }
 
+aside#stats {
+	position: fixed;
+	right: 14rem;
+	top: 16rem;
+	font-size: 90%;
+	padding: 1rem 1rem 0 3rem;
+	border-radius: 1rem;
+	min-width: 14rem;
+	background-color: rgb(248,248,248);
+	box-shadow: 0 0 0.1rem 0 black;
+}
+
+aside#stats h4 {
+	margin: 0;
+}
+
+aside#stats ul {
+	padding-left: 0;
+	list-style-type: none;
+}
+
+aside#stats ul > li > span.statLabel {
+	display: inline-block;
+	min-width: 8rem;
+}
+
 
 /* help links */
 
