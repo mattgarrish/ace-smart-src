@@ -229,6 +229,9 @@ var smartConformance = (function() {
 		
 		// recheck conformance
 		setEvaluationResult();
+		
+		// update the stats box
+		setSCStats();
 	}
 	
 	
@@ -501,8 +504,46 @@ var smartConformance = (function() {
 		}
 		
 		setEvaluationResult();
+		setSCStats();
 	}
+	
+	
+	function setSCStats() {
 		
+		var sc = document.querySelectorAll('section#conformance section.visible div.reporting input.sc_status:checked');
+		
+		var pass = 0;
+		var fail = 0;
+		var na = 0;
+		var unverified = 0;
+		
+		for (var i = 0; i < sc.length; i++) {
+			switch (sc[i].value) {
+				case 'pass':
+					pass += 1;
+					break;
+				
+				case 'fail':
+					fail += 1;
+					break;
+				
+				case 'na':
+					na += 1;
+					break;
+				
+				case 'unverified':
+					unverified += 1;
+					break;
+			}
+		}
+		
+		document.getElementById('passCount').innerHTML = pass;
+		document.getElementById('failCount').innerHTML = fail;
+		document.getElementById('naCount').innerHTML = na;
+		document.getElementById('unverifiedCount').innerHTML = unverified;
+		// document.getElementById('totalCount').innerHTML = sc.length;
+	}
+	
 	
 	return {
 		setEvaluationResult: function() {
