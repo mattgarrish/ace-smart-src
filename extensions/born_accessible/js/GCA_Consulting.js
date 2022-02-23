@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.22",
+    "version": "1.23",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "10/01/2021, 09:00:00 AM",
+    "dct:date": "02/01/2022, 09:00:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -120,12 +120,25 @@ var gca = {
                     },
                     {
                         "$itemId": "images-text",
-                        "itemName" : "Images with Text",
+                        "itemName" : "Images containing Text",
                         "itemScores": {
                             "N/A": "No images found containing text",
-                            "0": "Text found within an Image not fully described with alt text or extended description",
-                            "3": "Unnecessary use of text images, could be done without an image using live text and CSS styling",
+                            "0": "Text within an Image not fully described with alt text or extended description",
+                            "1": "Unnecessary use of images for binary, hexadecimal, morse code, etc.",
+                            "3": "Unnecessary use of images containing text, could be done without an image using text characters and CSS styling",
                             "4": "All images containing text are appropriate and fully described"
+                        }
+                    },
+                    {
+                        "$itemId": "images-poetry",
+                        "itemName" : "Poetry (Required Visual Styling)",
+                        "itemScores": {
+                            "N/A": "No images of poems",
+                            "0": "Visually styled poem image not described correctly: alt text should describe the visual significance with an extended description of the raw text of the poem. (E.g.: Poem of a tree where the words of the poem are laid out in the shape of a tree)",
+                            "1": "Visually styled poem image described correctly, however image was not an SVG to allow for unpixellated enlargement",
+                            "2": "Both stylistic and literal description was all included in the alt text, stylistic description should be in the alt text as a short overview where the extended description would have the raw literal text of the poem",
+                            "3": "Most poetry images were correctly described both stylistically and literally",
+                            "4": "All visually styled images of poems describe the visual significance of the poem, and an extended description containing the actual poem itself"
                         }
                     }
                 ] 
@@ -383,11 +396,12 @@ var gca = {
                     },
                     {
                         "$itemId": "general-dropcaps",
-                        "itemName" : "Drop Caps",
+                        "itemName" : "Embedded Visual Styling e.g.: Drop Caps",
                         "itemScores": {
-                            "N/A": "No Drop Caps present",
-                            "0": "Drop Caps are incorrectly marked up and cause screen readers to mispronounce the word (i.e. use of <spans> instead of CSS selectors)",
-                            "4": "All Drop Caps are correctly marked up with CSS and do not affect AT reading the entire word"
+                            "N/A": "No embedded visual styling e.g.: Drop Caps present",
+                            "0": "Use of <span>, <i>, <b> or other inline HTML elements within individual words causing screen readers to mispronounce the word.  Drop Caps are the usual culprit of this issue. (i.e., use of <spans> instead of CSS selectors)",
+                            "2": "Some embedded visual styling within individual words",
+                            "4": "Correct use of CSS Selectors to add visual styling to certain characters in a word and do not affect AT reading the entire word"
                         }
                     },
                     {
@@ -415,6 +429,7 @@ var gca = {
                         "itemScores": {
                             "N/A": "No visual formatting found using <br/>'s",
                             "0": "Extensive use of visual formatting using <br/>'s",
+                            "3": "Some limited use of visual formatting using <br/>'s",
                             "4": "Correct use of CSS block for visual formatting of text or <br>'s correctly used in visual patterned poetry, where pausing at end of line is appropriate"
                         }
                     },
@@ -532,6 +547,15 @@ var gca = {
                             "3": "Page breaks present but contained title attribute which is not recommended",
                             "4": "Page breaks contains (optional epub:type=pagebreak), role=doc-pagebreak and labelled correctly"
                        }
+                    } ,
+                    {
+                        "$itemId": "navigation-pagebreak-blank",
+                        "itemName" : "Blank Pages",
+                        "itemScores": {
+                            "N/A": "No blank page's present",
+                            "0": "Blank pages removed from EPUB but not disclosed in Accessibility Summary metadata",
+                            "4": "Blank pages present, or are removed with a notice of this fact in the Accessibility Summary"
+                       }
                     },
                     {
                         "$itemId": "navigation-pagelist",
@@ -561,7 +585,7 @@ var gca = {
                             "3": "Page break labelled with just the page number (aria-label=\"123\" missing \"page\" text)",
                             "4": "Page breaks labelled with recommended format (aria-label=\"page 123\") [ie. \"page\" + space + #] or are visible."
                        }
-                    } ,
+                    },
                     {
                         "$itemId": "navigation-subtitles",
                         "itemName" : "Subtitles",
