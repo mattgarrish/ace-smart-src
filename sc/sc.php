@@ -836,6 +836,13 @@
 				"name" => [
 					"en" => "Navigation Document"
 				]
+			],
+			
+			"epub-discovery" => [
+				"level" => "normative",
+				"name" => [
+					"en" => "Discovery Metadata"
+				]
 			]
 		];
 		

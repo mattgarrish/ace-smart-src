@@ -124,13 +124,13 @@ var smartAce = (function() {
 		}
 		
 		
+		var epub_version = _EPUB_DEFAULT_VERSION;
+		var wcag_version = _WCAG_DEFAULT_VERSION;
+		var wcag_level = _WCAG_DEFAULT_LEVEL;
+		
 		if (conformance_url) {
 			
 			conformance_url = conformance_url.trim();
-			
-			var epub_version = _EPUB_DEFAULT_VERSION;
-			var wcag_version = _WCAG_DEFAULT_VERSION;
-			var wcag_level = _WCAG_DEFAULT_LEVEL;
 			
 			var re = new RegExp('^((http://www\.idpf\.org/epub/a11y/accessibility-(?<epub10>20170105)\.html#wcag-(?<wcag20>[a]+))|(EPUB-A11Y-(?<epubx>[0-9]+)_WCAG-(?<wcagx>[0-9]+)-(?<wcaglvlx>[A]+)))');
 			var is_match = conformance_url.match(re);
@@ -385,6 +385,13 @@ var smartAce = (function() {
 			return '';
 		}
 		
+		else {
+			// check if the evaluator wants the metadata inferred
+			if (!confirm(smart_ui.ace.load.inferMetadata[smart_lang])) {
+				return '';
+			}
+		}
+		
 		var user_message = document.createElement('ul');
 		
 		// parse out a11y metadata values to set based on the report info
@@ -635,6 +642,30 @@ var smartAce = (function() {
 			if (assert['th-has-data-cells']) { setSCStatus('sc-1.3.1', 'fail', assert['td-has-data-cells']); }
 			if (assert['valid-lang']) { setSCStatus('sc-3.1.2', 'fail', assert['valid-lang']); }
 			if (assert['video-caption']) { setSCStatus('sc-1.2.2', 'fail', assert['video-caption']); setSCStatus('sc-1.2.3', 'fail', assert['video-caption']); }
+			
+			// check if the accessibility metadata is set
+			
+			var a11y_err = '';
+			
+			if (_aceReport['a11y-metadata'].missing.includes('schema:accessMode')) {
+				a11y_err += smart_ui.ace.error.accessMode[smart_lang] + '\n';
+			}
+			
+			if (_aceReport['a11y-metadata'].missing.includes('schema:accessibilityFeature')) {
+				a11y_err += smart_ui.ace.error.accessibilityFeature[smart_lang] + '\n';
+			}
+			
+			if (_aceReport['a11y-metadata'].missing.includes('schema:accessibilityHazard')) {
+				a11y_err += smart_ui.ace.error.accessibilityHazard[smart_lang] + '\n';
+			}
+			
+			if (_aceReport['a11y-metadata'].missing.includes('schema:accessibilitySummary')) {
+				a11y_err += smart_ui.ace.error.accessibilitySummary[smart_lang] + '\n';
+			}
+			
+			if (a11y_err) {
+				setSCStatus('epub-discovery', 'fail', a11y_err);
+			}
 		}
 	}
 	

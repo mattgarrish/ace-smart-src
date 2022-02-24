@@ -122,6 +122,23 @@ var smart_ui = {
 			},
 			"verifyFeatures": {
 				"en": "Verify these features are not typos or invalid."
+			},
+			"inferMetadata": {
+				"en": "This publication does not contain any accessibility metadata.\n\nWould you like the SMART tool to attempt to infer applicable metadata?"
+			}
+		},
+		"error": {
+			"accessMode": {
+				"en": "The schema:accessMode property is not set."
+			},
+			"accessibilityFeature": {
+				"en": "The schema:accessibilityFeature property is not set."
+			},
+			"accessibilityHazard": {
+				"en": "The schema:accessibilityHazard property is not set."
+			},
+			"accessibilitySummary": {
+				"en": "The schema:accessibilitySummary property is not set."
 			}
 		}
 	},
