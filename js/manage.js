@@ -155,14 +155,14 @@ var smartManage = (function() {
 		
 			evaluationJSON.distribution.onix = {};
 			evaluationJSON.distribution.onix['00'] = document.getElementById('onix00').value.trim();
-			for (var o = 10; o < 25; o++) {
+			for (var o = 10; o < 30; o++) {
 				var onix_id = o < 10 ? '0' + String(o) : o;
 				var onix_chkbox = document.getElementById('onix' + onix_id);
 				if (onix_chkbox) {
 					evaluationJSON.distribution.onix[onix_id] = onix_chkbox.checked;
 				}
 			}
-			for (var p = 94; p < 100; p++) {
+			for (var p = 93; p < 100; p++) {
 				evaluationJSON.distribution.onix[p] = document.getElementById('onix'+p).value.trim();
 			}
 		

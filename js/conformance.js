@@ -322,6 +322,9 @@ var smartConformance = (function() {
 		}
 
 		smartWCAG.setWCAGClassList();
+		
+		// update the stats box
+		setSCStats();
 	}
 	
 	

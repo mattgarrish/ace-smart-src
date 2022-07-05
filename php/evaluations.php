@@ -132,7 +132,7 @@
 						<div class="box__input">
 							<input type="file" name="ace-report" id="file" class="box__file"/>
 							<label class="dnd" for="file">
-								<strong>Select an Ace report or locally-saved evaluation</strong>
+								<strong>Select an Ace report or locally saved evaluation</strong>
 								<span class="box__dragndrop"> or drag one here</span>.<br/>
 							</label>
 							<p class="new-eval">Or <a id="new_eval" href="#new_eval">start a blank evaluation</a></p>
@@ -240,7 +240,7 @@ HTML;
 		 * - loading a new evaluation from an ace report
 		 * - clicking the load new blank evaluation link
 		 * - resuming an evaluation stored on the server
-		 * - resuming a locally-saved evaluation
+		 * - resuming a locally saved evaluation
 		 *
 		 */
 		
@@ -284,7 +284,7 @@ HTML;
 			
 			/* 
 			 * action=load occurs when an ace report is uploaded
-			 * action=reload occurs when the user uploads a locally-saved evaluation
+			 * action=reload occurs when the user uploads a locally saved evaluation
 			 */
 			
 			else if ( 

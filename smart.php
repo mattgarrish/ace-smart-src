@@ -199,17 +199,16 @@ JS;
 						<fieldset class="flat row">
 							<legend id="espec-lbl">EPUB Accessibility:</legend>
 							<select id="epub-a11y" aria-labelledby="espec-lbl">
-								<option selected="">1.1</option>
-								<option>1.0</option>
+								<option selected="">1.0</option>
+								<option>1.1</option>
 							</select>
 						</fieldset>
 						
 						<fieldset class="flat row">
 							<legend id="wspec-lbl">WCAG:</legend>
-							<select id="wcag-version" aria-labelledby="wspec-lbl">
-								<option>2.0</option>
-								<option selected="">2.1</option>
-								<option>2.2</option>
+							<select id="wcag-version" aria-labelledby="wspec-lbl" disabled="">
+								<option selected="">2.0</option>
+								<option>2.1</option>
 							</select>
 						</fieldset>
 						
@@ -406,19 +405,24 @@ JS;
 					
 					<p class="help"><a href="user-guide/generate.html" target="_blank">Need help?</a></p>
 					
-					<details>
-						<summary>Output Options</summary>
-						
-						<fieldset>
-							<legend>Conformance Notes</legend>
-							<label><input type="radio" name="show-notes" value="all" checked="checked"/> Include all</label>
-							<label><input type="radio" name="show-notes" value="failures"/> Only failure descriptions</label>
-							<label><input type="radio" name="show-notes" value="notes"/> Only notes</label>
-							<label><input type="radio" name="show-notes" value="none"/> None</label>
-						</fieldset>
-						
-						<?php $ext->add_output_options() ?>
-					</details>
+					<div id="output-opt">
+							<a href="#output-opt" onclick="smartReport.showOptions(); return false;">Output Options</a>
+						</div>
+					</div>
+					
+					<section id="output-options" aria-label="Output Options" title="Output Options">
+						<div class="form-data conf-control">
+							<fieldset>
+								<legend>Conformance Notes</legend>
+								<label class="data"><input type="radio" name="show-notes" value="all" checked="checked"/> Include all</label>
+								<label class="data"><input type="radio" name="show-notes" value="failures"/> Only failure descriptions</label>
+								<label class="data"><input type="radio" name="show-notes" value="notes"/> Only notes</label>
+								<label class="data"><input type="radio" name="show-notes" value="none"/> None</label>
+							</fieldset>
+							
+							<?php $ext->add_output_options() ?>
+						</div>
+					</section>
 					
 					<div class="buttons">
 						<input type="button" value="Preview" id="preview-report" class="button_hlt preview" aria-describedby="popup-instructions"/>

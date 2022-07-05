@@ -1167,6 +1167,14 @@ input[type='image'] {
 }
 
 
+/* output options */
+
+div#output-opt {
+	margin-left: 2rem;
+	margin-top: 2rem;
+	margin-bottom: -1rem;
+}
+
 /* display properties */
 
 

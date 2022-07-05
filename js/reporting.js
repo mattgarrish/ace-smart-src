@@ -19,6 +19,8 @@
  * 
  */
 
+var output_options_dialog;
+
 var smartReport = (function() {
 	
 	var _notesToDisplay = 'all';
@@ -944,6 +946,12 @@ var smartReport = (function() {
 		
 		addExtensionResult: function(options) {
 			addExtensionResult(options);
+		},
+		
+		showOptions: function() {
+			if (output_options_dialog) {
+				output_options_dialog.dialog('open');
+			}
 		}
 	}
 
