@@ -183,6 +183,15 @@
 		buttons: close_button
 	});
 	
+	/* output_options_dialog is used to show the additional conformance options */
+	output_options_dialog = $("#output-options").dialog({
+		autoOpen: false,
+		height: 425,
+		width: 600,
+		modal: true,
+		buttons: close_button
+	});
+	
 	/* evaluation_dialog is used to show the generated evaluation tab metadata (it is initialized in the smartEvaluation module) */
 	evaluation_dialog = $("#evaluation-meta").dialog({
 		autoOpen: false,

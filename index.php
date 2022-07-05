@@ -122,7 +122,7 @@
 			</section>
 		</main>
 		
-		<div id="import" aria-label="Resume from locally-saved file" title="Resume from locally-saved file">
+		<div id="import" aria-label="Resume from locally saved file" title="Resume from locally saved file">
 			<input type="file" name="local-eval" id="local-eval"/>
 		</div>
 		
