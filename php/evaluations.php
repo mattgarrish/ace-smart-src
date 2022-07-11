@@ -132,9 +132,10 @@
 						<div class="box__input">
 							<input type="file" name="ace-report" id="file" class="box__file"/>
 							<label class="dnd" for="file">
-								<strong>Select an Ace report or locally-saved evaluation</strong>
+								<strong>Select an Ace report or locally saved evaluation</strong>
 								<span class="box__dragndrop"> or drag one here</span>.<br/>
 							</label>
+							<p class="new-eval">Or <a id="new_eval" href="#new_eval">start a blank evaluation</a></p>
 							<button type="submit" class="box__button">Load</button>
 						</div>
 						
@@ -145,12 +146,16 @@
 						<input type="hidden" name="action" id="action" value="load"/>
 						<input type="hidden" name="title" id="title" value=""/>
 					</form>
-					<p class="new-eval">Or <a id="new_eval" href="#new_eval">start a blank evaluation</a></p>
 				</div>
 HTML;
 			}
 		}
 		
+		public function allow_full_delete() {
+			if ($this->license == 'unlimited') {
+				echo '<input type="hidden" id="alert_full_delete" value="1"/>';
+			}
+		}
 		
 		/*
 		 * generates the evaluation history table
@@ -159,15 +164,6 @@ HTML;
 		public function list_evaluations() {
 		
 			if ($this->shared) {
-				echo <<<HTML
-	<tr>
-		<td>Reload a previous report</td>
-		<td>-</td>
-		<td>-</td>
-		<td>-</td>
-		<td><input type="image" src="images/resume.svg" height="40" id="reload_0" alt="Resume" title="Resume"/>
-	</tr>
-HTML;
 				return;
 			}
 			
@@ -180,63 +176,55 @@ HTML;
 						$result = $this->db->get_results();
 						
 						foreach ($result as $row) {
-							echo '<tr>';
-							echo '<td>' . $row['title'] . '</td>';
-							echo '<td class="center">' . $row['created'] . '</td>';
-							echo '<td class="center">' .  $row['modified'] . '</td>';
 							
-							echo '<td class="center">';
+							$status = '';
+							$option = '';
 							
 							switch ($row['status']) { 
 								case 'remote':
-									echo 'Saved';
-									break;
-								case 'local':
-									echo 'Saved Locally';
-									break;
-								case 'deleted':
-									echo 'Deleted';
-									break;
-								case 'unsaved':
-									echo 'Not Saved';
-									break;
-							}
-							
-							echo '</td><td class="option">';
-							
-							switch ($row['status']) {
-								case 'remote':
-									echo '<input type="image" src="images/resume.svg" height="40" id="resume_' . $row['id'] . '" alt="Resume" title="Resume"/>';
-									echo '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
-									break;
+									$status = 'Saved';
+									$option = <<<HTML
+			<input type="image" src="images/resume.svg" height="40" id="resume_{$row['id']}" alt="Resume" title="Resume"/>
+			<input type="image" src="images/delete.svg" height="40" id="delete_{$row['id']}" alt="Delete" title="Delete"/>
+HTML;
+								break;
 								
 								case 'local':
-									echo '<input type="image" src="images/resume.svg" height="40" id="reload_' . $row['id'] . '" alt="Resume" title="Resume"/>';
-									echo '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
-									break;
-									
+									$status = 'Saved Locally';
+									$option = <<<HTML
+			<input type="image" src="images/resume.svg" height="40" id="reload_{$row['id']}" alt="Resume" title="Resume"/>
+			<input type="image" src="images/delete.svg" height="40" id="delete_{$row['id']}" alt="Delete" title="Delete"/>
+HTML;
+								break;
+								
 								case 'deleted':
-									echo '<input type="image" src="images/resume.svg" height="40" id="reload_' . $row['id'] . '" alt="Resume" title="Resume"/>';
-									break;
+									$status = 'Deleted';
+									$option = '<input type="image" src="images/resume.svg" height="40" id="reload_' . $row['id'] . '" alt="Resume" title="Resume"/>';
+								break;
 								
 								case 'unsaved':
-									if ($this->license == 'unlimited') {
-										echo '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
-									}
-									break;
+									$status = 'Not Saved';
+									$option = '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
+								break;
 								
 								default:
-									echo '<input type="image" src="images/resume.svg" height="40" id="resume_' . $row['id'] . '" alt="Resume" title="Resume"/>';
-									echo '<input type="image" src="images/delete.svg" height="40" id="delete_' . $row['id'] . '" alt="Delete" title="Delete"/>';
-							
+									$option = <<<HTML
+			<input type="image" src="images/resume.svg" height="40" id="resume_{$row['id']}" alt="Resume" title="Resume"/>
+			<input type="image" src="images/delete.svg" height="40" id="delete_{$row['id']}" alt="Delete" title="Delete"/>
+HTML;
+
 							}
+
 							
-							if ($this->license == 'unlimited') {
-								echo '<input type="hidden" id="alert_full_delete" value="1"/>';
-							}
-							
-							echo '</td>';
-							echo '</tr>';
+							echo <<<HTML
+	<tr>
+		<td>{$row['title']}</td>
+		<td class="center">{$row['created']}</td>
+		<td class="center">{$row['modified']}</td>
+		<td class="center">{$status}</td>
+		<td class="option">{$option}</td>
+	</tr>
+HTML;
 						}
 						
 					    $this->db->close();
@@ -252,7 +240,7 @@ HTML;
 		 * - loading a new evaluation from an ace report
 		 * - clicking the load new blank evaluation link
 		 * - resuming an evaluation stored on the server
-		 * - resuming a locally-saved evaluation
+		 * - resuming a locally saved evaluation
 		 *
 		 */
 		
@@ -296,7 +284,7 @@ HTML;
 			
 			/* 
 			 * action=load occurs when an ace report is uploaded
-			 * action=reload occurs when the user uploads a locally-saved evaluation
+			 * action=reload occurs when the user uploads a locally saved evaluation
 			 */
 			
 			else if ( 
@@ -324,13 +312,35 @@ HTML;
 				}
 				
 				// reset the action if the uploaded file is a saved evaluation
-				if ($this->action == 'load' && $json->{'category'} && $json->{'category'} == 'savedEvaluation') {
+				if ($this->action == 'load' && isset($json->{'category'}) && $json->{'category'} == 'savedEvaluation') {
+				
 					$this->action = 'reload';
-					if (!$json->{'id'}) {
-						$this->abort('noreloadid');
+					
+					if ($json->{'id'} !== null && $json->{'id'} == 0) {
+						// bug from shared accounts caused 0 ids - this re-adds an entry - can be removed in future
+						if (!$this->db->prepare("INSERT INTO evaluations (username, company, uid, title, created, modified, status, evaluation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+							$this->abort('evalins');
+						}
+						
+						if (!$this->db->bind_param("ssssssss", array($this->username, $this->company, $json->{'publicationInfo'}->{'identifier'}, $json->{'publicationInfo'}->{'title'}, $now, $modified, 'local', ''))) {
+							$this->abort('evalbind');
+						}
+						
+						if (!$this->db->execute()) {
+							$this->abort('evalexec');
+						}
+						
+						$this->eval_id = $this->db->insert_id();
 					}
-					$this->eval_id = $json->{'id'};
-					$this->verify_id();
+					
+					else {
+						if (!$json->{'id'}) {
+							$this->abort('noreloadid');
+						}
+						
+						$this->eval_id = $json->{'id'};
+						$this->verify_id();
+					}
 				}
 				
 				// verify that the uploaded json is an ace report using the @context (only checks the non-variable part of the url)
@@ -339,8 +349,7 @@ HTML;
 				}
 				
 				// verify that the uploaded json is a saved evaluation by checking the category property
-				// - 'savedReport' was used for saving in the original site, but was changed because it's the evaluation being saved not the output report - it can be removed after it becomes fully obsolete
-				else if ($this->action == 'reload' && (!$json->{'category'} || ($json->{'category'} != 'savedEvaluation' && $json->{'category'} != 'savedReport'))) {
+				else if ($this->action == 'reload' && (!$json->{'category'} || $json->{'category'} != 'savedEvaluation')) {
 					$this->abort('unknownreload');
 				}
 				

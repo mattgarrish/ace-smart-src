@@ -50,6 +50,16 @@
 			}
 		}
 		
+		public function add_output_options() {
+			if ($this->ext_module_access) {
+				foreach ($this->ext_module_access as $module) {
+					if ($this->extension[$module]['output_options']) {
+						include 'extensions/' . $module . '/includes/output_options.html';
+					}
+				}
+			}
+		}
+		
 		public function print_scripts() {
 			if ($this->ext_module_access) {
 				foreach ($this->ext_module_access as $module) {

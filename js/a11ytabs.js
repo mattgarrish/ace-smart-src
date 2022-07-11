@@ -188,6 +188,12 @@ $(document).ready( function() {
 				// setTimeout(function(){ history.pushState(null, null, location.pathname + location.search + '#' + $hash_to_update)}, 1000);
 
 				event.preventDefault();
+				
+				/* 
+				 * Ensure top of tab shows when changed - added Matt Garrish 2022-01-03
+				 */
+				
+				$('form.report').scrollTop(0);
 		} )
 		/* Key down in tabs */
 		.on( "keydown", ".js-tablist", function( event ) {

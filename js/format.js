@@ -158,6 +158,28 @@ var smartFormat = (function() {
 			else {
 				field.classList.remove(_BG.PASS,_BG.WARN,_BG.ERR);
 			}
+		},
+		
+		copyToClipboard: function(elemid) {
+		
+			var meta = document.getElementById(elemid);
+			
+			if (window.clipboardData && window.clipboardData.setData) {
+				return window.clipboardData.setData("Text", meta.value);
+			}
+			
+			else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+			
+				meta.select();
+				
+				try {
+					return document.execCommand("copy");
+				}
+				
+				catch (ex) {
+					return false;
+				}
+			}
 		}
 	}
 

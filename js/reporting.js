@@ -19,6 +19,8 @@
  * 
  */
 
+var output_options_dialog;
+
 var smartReport = (function() {
 	
 	var _notesToDisplay = 'all';
@@ -140,10 +142,10 @@ var smartReport = (function() {
 	 */
 	
 	function checkNoUnverifiedSC() {
-		var unverified_selector = 'section.a input[value="unverified"]:checked';
-			unverified_selector += smartWCAG.WCAGLevel() == 'a' ? '' : ', section.aa input[value="unverified"]:checked';
+	
+		var selector = smartConformance.getSCStatusSelector({status: 'unverified', level: 'all', includeEPUB: true});
 		
-		var unverified_success_criteria = document.querySelectorAll(unverified_selector);
+		var unverified_success_criteria = document.querySelectorAll(selector);
 		
 		if (unverified_success_criteria.length > 0) {
 			for (var i = 0; i < unverified_success_criteria.length; i++) {
@@ -416,19 +418,15 @@ var smartReport = (function() {
 		var summaryTable = document.createElement('div');
 			summaryTable.setAttribute('class', 'summaryTable');
 		
-		var wcag_conf = document.getElementById('conformance-result').value;
+		var conf = document.getElementById('conformance-result').value;
 		
-		var conf_class = [];
-			conf_class.incomplete = 'incomplete';
-			conf_class.a = 'pass';
-			conf_class.aa = 'pass';
-			conf_class.fail = 'fail';
+		var conf_class = (conf == 'Incomplete' ? 'incomplete' : ( conf == 'Failed' ? 'fail' : 'pass' ) );
 		
 		summaryTable.appendChild(formatPubInfoEntry({
 			id: 'conformance-result',
 			label: smart_ui.reporting.tabs.conformance[smart_lang],
-			value: smartConformance.STATUS[wcag_conf], property: 'dcterms:conformsTo',
-			value_bg_class: conf_class[wcag_conf]
+			value: document.getElementById('conformance-result-status').textContent, property: 'dcterms:conformsTo',
+			value_bg_class: conf_class
 		}));
 		
 		// add user extension propertiesk
@@ -700,7 +698,7 @@ var smartReport = (function() {
 		additionalInfo.appendChild(formatPubInfoEntry({
 			id: 'format',
 			label: smart_ui.reporting.addinfo.format[smart_lang],
-			value: 'EPUB ' + document.querySelector('input[name="epub-format"]:checked').value
+			value: 'EPUB ' + document.querySelector('select#epub-format').value
 		}));
 		
 		
@@ -948,6 +946,12 @@ var smartReport = (function() {
 		
 		addExtensionResult: function(options) {
 			addExtensionResult(options);
+		},
+		
+		showOptions: function() {
+			if (output_options_dialog) {
+				output_options_dialog.dialog('open');
+			}
 		}
 	}
 

@@ -99,6 +99,9 @@ var smart_ui = {
  			}
 		},
 		"load": {
+			"hasConformsTo": {
+				"en": "This publication already specifies the conformance string:\n\n%%conformance_url%%\n\nClick Ok to set the success criteria to pass this standard or Cancel to start a new evaluation."
+			},
 			"success": {
 				"en": "Ace report successfully imported!"
 			},
@@ -119,6 +122,23 @@ var smart_ui = {
 			},
 			"verifyFeatures": {
 				"en": "Verify these features are not typos or invalid."
+			},
+			"inferMetadata": {
+				"en": "This publication does not contain any accessibility metadata.\n\nWould you like the SMART tool to attempt to infer applicable metadata?"
+			}
+		},
+		"error": {
+			"accessMode": {
+				"en": "The schema:accessMode property is not set."
+			},
+			"accessibilityFeature": {
+				"en": "The schema:accessibilityFeature property is not set."
+			},
+			"accessibilityHazard": {
+				"en": "The schema:accessibilityHazard property is not set."
+			},
+			"accessibilitySummary": {
+				"en": "The schema:accessibilitySummary property is not set."
 			}
 		}
 	},
@@ -147,16 +167,16 @@ var smart_ui = {
 		},
 		"generateSummary": {
 			"incomplete": {
-				"en": "This EPUB Publication has not been fully evaluated against the EPUB Accessibility specification."
+				"en": "This EPUB Publication has not been fully evaluated against the EPUB Accessibility %VER% specification."
 			},
 			"fail": {
-				"en": "This EPUB Publication does not meet the requirements of the EPUB Accessibility specification."
+				"en": "This EPUB Publication does not meet the requirements of the EPUB Accessibility %VER% specification."
 			},
 			"pass": {
-				"en": "This EPUB Publication meets the requirements of the EPUB Accessibility specification"
+				"en": "This EPUB Publication meets the requirements of the EPUB Accessibility %VER% specification"
 			},
 			"wcagLevel": {
-				"en": "with conformance to WCAG 2.0 Level"
+				"en": "with conformance to WCAG %VER% Level"
 			},
 			"publication": {
 				"en": "The publication"
@@ -181,6 +201,9 @@ var smart_ui = {
 			"multiHazard": {
 				"en": "The publication contains content that may present the following hazards:"
 			}
+		},
+		"moreInfo": {
+			"en": "How to specify "
 		}
 	},
 	"conformance": {
@@ -191,11 +214,29 @@ var smart_ui = {
 			"fail": {
 				"en": "Failed"
 			},
+			"pass": {
+				"en": "Pass"
+			},
+			"epub10": {
+				"en": "EPUB Accessibility 1.0"
+			},
+			"epub11": {
+				"en": "EPUB Accessibility 1.1"
+			},
+			"wcag20": {
+				"en": "WCAG 2.0"
+			},
+			"wcag21": {
+				"en": "WCAG 2.1"
+			},
+			"wcag22": {
+				"en": "WCAG 2.2"
+			},
 			"a": {
-				"en": "Pass - EPUB + WCAG Level A"	
+				"en": "Level A"	
 			},
 			"aa": {
-				"en": "Pass - EPUB + WCAG Level AA"
+				"en": "Level AA"
 			}
 		},
 		"result": {
@@ -225,18 +266,25 @@ var smart_ui = {
 			"note": {
 				"en": "Add Note"
 			},
-			"kb": {
-				"en": "Knowledge Base and Techniques"
-			},
-			"wcag": {
-				"en": "WCAG Documentation"
-			},
 			"status": {
 				"en": "Status:"
 			}
 		},
+		"kb": {
+			"linkText": {
+				"en": "Explainer page for success criterion "
+			}
+		},
 		"changeSC": {
 			"en": "This action will change all current status fields and cannot be undone.\n\nPlease confirm to continue."
+		},
+		"toggleDesc": {
+			"hidden": {
+				"en": "Descriptions are now hidden."
+			},
+			"visible": {
+				"en": "Descriptions are now visible."
+			}
 		}
 	},
 	"reporting": {
@@ -254,7 +302,7 @@ var smart_ui = {
 				"en": "Conformance"
 			},
 			"addinfo": {
-				"en": "Additonal Info"
+				"en": "Additional Info"
 			}
 		},
 		"sections": {

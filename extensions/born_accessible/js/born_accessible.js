@@ -29,8 +29,7 @@ var bornAccessible = (function() {
 		2: 'alert',
 		3: 'alert',
 		4: 'pass',
-		'N/A': 'na',
-		'Unverified': ''
+		'N/A': 'na'
 	}
 	
 	
@@ -419,7 +418,9 @@ var bornAccessible = (function() {
 		setBackgroundStatus: function(test_input) {
 			var fieldset = test_input.closest('fieldset');
 				fieldset.classList.remove('na', 'err', 'alert', 'warn', 'pass');
-				fieldset.classList.add(_SCORE_TEXT_CSS[test_input.value]);
+				if (test_input.value != 'Unverified') {
+					fieldset.classList.add(_SCORE_TEXT_CSS[test_input.value]);
+				}
 		},
 		
 		updateResultScore: function() {
