@@ -90,6 +90,7 @@
 			<nav class="menubar">
 				<a href="user-guide/" target="_blank">User Guide</a> 
 				<a href="faq.html" target="_blank">FAQ</a>
+				<a href="new.html" target="_blank">What's New</a>
 			</nav>
 		</header>
 		
