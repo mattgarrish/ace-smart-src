@@ -6,7 +6,6 @@
 	font-style: normal;
 }
 
-
 @font-face{
 	font-family: 'Raleway';
 	src: url(../fonts/Raleway-Regular.ttf) format('truetype');
@@ -67,9 +66,9 @@ div.id a.logout:hover {
 
 h1{
 	font-family: 'Open Sans Light', Helvetica, Arial, sans-serif;
-	font-size: 2rem;
+	font-size: 2.5rem;
 	margin: 0;
-	padding: 0.4rem 0 0.2rem 1.5rem !important;
+	padding: 0.4rem 0 0.2rem 2rem !important;
 	background-color: rgb(27, 95, 161);
 	color: rgb(255, 255, 255);
 	min-height: 36px;
@@ -84,7 +83,7 @@ img.logo{
 }
 
 span.smart_hd {
-	color: rgb(127,255,0);
+	color: rgb(127,255,255);
 	font-style: italic;
 }
 
@@ -271,10 +270,22 @@ a#ace-review {
 	font-size: 85%;
 }
 
+/* pub info */
+
+section#start label,
+section#start fieldset legend {
+	color: rgb(0,0,120) !important;
+	font-size: 100%;
+}
+
 /* conformance guidelines */
 
-section.guideline{
-	margin-left: 3rem;
+div.reporting {
+	padding-top: 2rem;
+}
+
+div.reporting > fieldset > legend {
+	width: auto;
 }
 
 section.a,
@@ -284,9 +295,9 @@ section.epub{
 	margin-left: 1rem;
 	margin-top: 3rem;
 	padding: 2rem;
-	border-radius: 0.5rem;
+	border-radius: 1rem;
 	box-shadow: 0 0 0.2rem 0 gray;
-	border: 0.2rem solid rgb(255,255,120);
+	border: 0.1rem solid rgb(255,255,120);
 	background-color: rgb(253,253,253);
 }
 
@@ -298,11 +309,10 @@ span.a-label,
 span.aa-label,
 span.aaa-label,
 span.epub-label {
-	padding: 0rem 0.5rem;
-	margin-left: 1rem;
-	font-size: 1.5rem;
-	float: right;
-	margin-top: -0.5rem;
+	margin-top: 0.5rem;
+	color: rgb(0,0,0);
+	margin-left: 2rem;
+	font-size: 87%;
 }
 
 section.a > h3,
@@ -312,6 +322,11 @@ section.epub > h3,
 section.warning > h3 {
 	padding-top: 0;
 	margin-top: 0;
+}
+
+p.info {
+	float: right;
+	margin-top: -4.5rem;
 }
 
 p.sc-note{
@@ -370,6 +385,32 @@ hr {
 	border-color: rgb(240,245,255);
 }
 
+aside#stats {
+	position: fixed;
+	right: 14rem;
+	top: 16rem;
+	font-size: 90%;
+	padding: 1rem 1rem 0 3rem;
+	border-radius: 1rem;
+	min-width: 14rem;
+	background-color: rgb(248,248,248);
+	box-shadow: 0 0 0.1rem 0 black;
+}
+
+aside#stats h4 {
+	margin: 0;
+}
+
+aside#stats ul {
+	padding-left: 0;
+	list-style-type: none;
+}
+
+aside#stats ul > li > span.statLabel {
+	display: inline-block;
+	min-width: 8rem;
+}
+
 
 /* help links */
 
@@ -395,10 +436,40 @@ div.conformance-result {
 	margin-bottom: 1rem;
 }
 
+span.hd {
+	font-size: 110%;
+	color: rgb(0,0,120);
+}
+
 span#conformance-result-status {
 	padding-left: 4rem;
 }
 
+fieldset#eval-info legend {
+	margin-bottom: 2rem;
+}
+
+
+/* report generation */
+
+#generate details {
+	margin-top: 2rem;
+	margin-left: 1rem;
+}
+
+#generate fieldset {
+	box-shadow: none;
+	padding: 0;
+	border-radius: 0;
+	background-color: inherit;
+	margin-left: 2rem;
+	border-left: 0.3rem solid rgb(200,200,200);
+	padding-left: 2rem;
+}
+
+#generate fieldset:first-of-type {
+	margin-top: 2rem;
+}
 
 /* lists */
 
@@ -443,6 +514,7 @@ section.warning h3 {
 	font-weight: bold;
 }
 
+section#conformance-options,
 section.warning,
 li.manifest,
 li.bindings,
@@ -457,9 +529,10 @@ fieldset,
 div.conformance-result,
 div.onix {
 	border: none;
-	background-color: rgb(240,248,255);
+	background-color: rgb(247,247,247);
 	border-radius: 0.5rem;
 	box-shadow: 0 0 0.2rem 0 grey;
+	padding: 2rem;
 }
 
 div.onix,
@@ -471,18 +544,16 @@ fieldset {
 	margin-top: 4rem;
 }
 
-fieldset fieldset {
+fieldset#accessModeSufficient fieldset {
 	box-shadow: none !important;
 	border: none !important;
 	background-color: inherit !important;
 	margin-top: 1rem;
-}
-
-fieldset fieldset > legend {
-	padding-top: 0 !important;
+	padding: 0;
 }
 
 fieldset#accessModeSufficient fieldset > legend {
+	padding-top: 1rem !important;
 	font-size: small;
 }
 
@@ -495,9 +566,12 @@ legend + fieldset {
 }
 
 legend{
-	color: rgb(0, 0, 90);
-	font-weight: bold;
 	float: left;
+	margin-bottom: 0.4rem;
+	margin-left: -0.3rem;
+	width: 100%;
+	font-size: 110%;
+	color: rgb(0,0,120);
 }
 
 fieldset > .note{
@@ -523,7 +597,12 @@ fieldset.flat > legend {
 
 fieldset.status {
 	box-shadow: none !important;
-	background-color: inherit !important;
+	border: dotted 0.1rem rgb(0,0,0);
+	border-radius: 2rem;
+	background-color: rgb(255,255,255);
+	padding: 1rem;
+	margin-left: -1rem;
+	padding-left: 2rem;
 }
 
 fieldset.status > label {
@@ -544,8 +623,13 @@ section#verification > div.form-data > fieldset > label {
 	width: 7rem;
 }
 
+fieldset select {
+	margin-left: 0.4rem;
+	min-width: 11rem;
+}
+
 div.form-data {
-	background-color: rgb(240,248,255);
+	background-color: rgb(247,247,247);
 	padding: 0.3rem 0 0.3rem 1rem;
 	border-radius: 0.5rem;
 	box-shadow: 0 0 0.2rem 0 grey;
@@ -561,30 +645,69 @@ div.form-data > fieldset > legend {
 	padding-top: 0 !important;
 }
 
-#conformance div.form-data > fieldset > legend {
-	width: 20rem !important;
+p + fieldset {
+	margin-top: -2.5rem;
 }
 
-#conformance div.form-data > fieldset > label {
-	width: 10rem;
+#conformance fieldset > a {
 	display: inline-block;
+	margin-left: 2.4rem;
+	margin-right: 0;
 }
 
-details#view-options {
+div.conf-control {
+	background-color: inherit !important;
+	box-shadow: none;
+}
+
+div.w85 {
+	width: 85rem;
+}
+
+div.conf-control legend {
+	width: auto;
+}
+
+div#additional-opt {
+	margin-top: 1rem;
+	float: right;
+	font-size: 90%;
+}
+
+fieldset.row {
+	display: inline-block;
+	width: auto;
+	background-color: inherit;
+	border-radius: inherit;
+	box-shadow: none;
+}
+
+fieldset.row legend {
+	font-size: 100% !important;
+}
+
+#conformance-options fieldset.row {
+	display: block;
 	margin-top: 2rem;
 }
 
-details#view-options > fieldset {
-	margin: 1rem;
-	padding: 1rem;
+#conformance-options fieldset.row legend {
+	width: 22rem;
 }
 
-details#view-options > fieldset > legend {
-	width: 25rem;
+#conformance-options fieldset.row a {
+	color: rgb(0,0,220) !important;
+	padding-left: 1.5rem;
+	display: inline-block;
 }
 
-p + fieldset {
-	margin-top: -2.5rem;
+fieldset.filter {
+	box-shadow: 0 0 0.1rem 0 black;
+	border-radius: 2rem;
+	margin-left: 1rem;
+	margin-top: 2rem;
+	padding: 1rem 2rem;
+	max-width: 75rem;
 }
 
 /* discovery metadata */
@@ -604,6 +727,11 @@ section#discovery div.cols {
 section#discovery label{
 	display: inline-block;
 	width: 20rem;
+	margin-top: 1rem;
+}
+
+section#discovery legend label {
+	width: auto;
 }
 
 section#discovery input#gen{
@@ -624,6 +752,11 @@ div.autogen {
 	float: right;
 	margin-top: -2.7rem;
 	margin-right: 8rem;
+}
+
+a.usage {
+    display: inline-block;
+    float: right;
 }
 
 /* notes */
@@ -670,16 +803,15 @@ div.instr {
 	margin-bottom: 0.8rem;
 }
 
-fieldset.notes > legend {
-	margin-bottom: 1rem;
-}
 
-fieldset.notes > legend + * {
-	clear: both;
-}
+/* buttons */
 
-fieldset.notes > label {
-	margin-right: 1.7rem;
+section > button {
+	display: block;
+	min-width: 10rem;
+	border-radius: 0.5rem;
+	padding: 0.4rem 0.5rem;
+	margin-top: 1rem;
 }
 
 /* config options */
@@ -895,7 +1027,7 @@ label.pad-left{
 }
 .na{
 	border-color: rgb(200, 200, 200) !important;
-	background-color: rgb(245, 245, 245) !important;
+	background-color: rgb(250, 250, 250) !important;
 }
 .pass{
 	border-color: rgb(10, 255, 10) !important;
@@ -951,7 +1083,8 @@ nav[role = "doc-toc"] ol{
 figcaption{
 	font-size: 1.3rem;
 	font-style: italic;
-	max-width: 50rem;
+	text-align: center;
+	max-width: 55rem;
 	margin-bottom: 1rem;
 }
 
@@ -959,7 +1092,7 @@ figcaption{
 /* onix metadata fields */
 
 fieldset.onix > legend {
-	margin-bottom: 1rem;
+	margin-bottom: 2rem;
 }
 
 fieldset.onix > label {
@@ -969,8 +1102,16 @@ fieldset.onix > label {
 
 div.onix {
 	margin-top: 2rem;
-	padding: 1rem;
+	padding: 2rem;
 	font-weight: bold
+}
+
+div.onix > label {
+	padding-bottom: 1rem;
+	display: inline-block;
+	font-weight: normal;
+	font-size: 110%;
+	color: rgb(0,0,120);
 }
 
 div.onix input[type='text'],
@@ -999,14 +1140,12 @@ div.data > fieldset.flat > legend {
 
 /* management */
 
-h3.welcome {
-	font-size: 2rem;
-	padding-left: 0.5rem;
-}
-
-h3.welcome:before {
-	content: '§  ';
+h2.welcome {
+	color: rgb(0, 0, 0);
+	font-size: 1.7rem;
 	font-weight: bold;
+	margin-left: 2rem;
+	padding-left: 0.5rem;
 }
 
 section#load {
@@ -1014,7 +1153,7 @@ section#load {
 }
 
 section#history {
-	margin-top: 5rem;
+	margin-top: 8rem;
 }
 
 p.license {
@@ -1027,6 +1166,14 @@ input[type='image'] {
 	padding-left: 0.3rem;
 }
 
+
+/* output options */
+
+div#output-opt {
+	margin-left: 2rem;
+	margin-top: 2rem;
+	margin-bottom: -1rem;
+}
 
 /* display properties */
 

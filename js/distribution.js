@@ -146,7 +146,7 @@ var smartDistribution = (function() {
 		}
 		
 		/* add any checked fields */
-		for (var i = 1; i < 25; i++) {
+		for (var i = 1; i < 30; i++) {
 			var onix_id = (i < 10 ? '0'+String(i) : i);
 			var checkbox = document.getElementById('onix'+onix_id);
 			
@@ -156,7 +156,7 @@ var smartDistribution = (function() {
 		}
 		
 		/* add any text input fields */
-		for (var i = 94; i < 100; i++) {
+		for (var i = 93; i < 100; i++) {
 			var data_field = document.getElementById('onix'+i).value.trim();
 			if (data_field) {
 				onix_metadata += formatONIXEntry( {value: i, description: data_field } );

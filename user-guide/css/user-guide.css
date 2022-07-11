@@ -8,6 +8,7 @@ header {
 
 body.page > main {
 	margin-top: 1rem !important;
+	padding-bottom: 0;
 }
 
 footer > * {
@@ -27,7 +28,8 @@ section >  section > h3 {
 
 nav.user-links {
 	max-width: 80rem;
-	padding: 3rem 0 2rem 0;
+	padding: 3rem 0 4rem 0;
+	margin-left: 3rem;
 }
 
 div.prev-link {
@@ -64,6 +66,21 @@ div.caution > p {
 
 figure {
 	margin-left: 6rem !important;
+}
+
+figcaption {
+	margin: auto;
+}
+
+img {
+	display: block;
+	margin: auto;
+	margin-top: 1rem;
+}
+
+span.logo {
+	float: right;
+	margin-top: -1.1rem;
 }
 
 nav[role="doc-toc"] > ol {

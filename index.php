@@ -85,25 +85,24 @@
 		<header>
 			<div class="id">You are logged in as <code><a target="_blank" href="users/account.php"><?php echo $user->data()->username; ?></a></code> <a class="logout" href="users/logout.php">Log out</a></div>
 			
-			<h1><span property="dcterms:publisher"><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium"/></span> <span property="dcterms:title">Ace <span class="smart_hd">SMART</span></span></h1>
+			<h1><span property="dcterms:title">Ace <span class="smart_hd">SMART</span></span></h1>
 			
 			<nav class="menubar">
 				<a href="user-guide/" target="_blank">User Guide</a> 
 				<a href="faq.html" target="_blank">FAQ</a>
+				<a href="new.html" target="_blank">What's New</a>
 			</nav>
 		</header>
 		
 		<main class="js-tabs start">
-			<h2>Welcome to Ace SMART</h2>
-			
 			<section id="load">
-				<h3 class="welcome">Start an Evaluation</h3>
+				<h2 class="welcome">Start an Evaluation</h2>
 				
 				<?php $eval->add_evaluation_form() ?>
 			</section>
 			
-			<section id="history">
-				<h3 class="welcome">Evaluation History</h3>
+			<section id="history"<?php if ($user->data()->shared) { echo ' hidden=""'; } ?>>
+				<h2 class="welcome">Evaluation History</h2>
 				
 				<table id="evaluations" class="table table-striped table-bordered">
 					<thead>
@@ -119,11 +118,12 @@
 						<?php $eval->list_evaluations(); ?>
 					</tbody>
 				</table>
+				<?php $eval->allow_full_delete(); ?>
 				<p><small>All times are in UTC.</small><p>
 			</section>
 		</main>
 		
-		<div id="import" aria-label="Resume from locally-saved file" title="Resume from locally-saved file">
+		<div id="import" aria-label="Resume from locally saved file" title="Resume from locally saved file">
 			<input type="file" name="local-eval" id="local-eval"/>
 		</div>
 		
@@ -132,9 +132,8 @@
 		</div>
 		
 		<footer>
-			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2017</span> <a target="_blank" href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a></p>
-			<p><small>Icons by <a href="https://www.iconfinder.com/flaticondesign">Icon Studio</a> used under <a href="https://creativecommons.org/licenses/by/3.0/">CC-By 3.0</small></a>
+			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2022</span> <a target="_blank" href="http://daisy.org"><span property="dcterms:publisher">DAISY</span> Consortium</a>. All Rights Reserved.</p>
+			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a> | <a target="_blank" href="attribution.html">Attribution</a></p>
 		</footer>
 		
 		<script src="js/drag-drop.js"></script>

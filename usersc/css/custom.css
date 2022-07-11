@@ -1,8 +1,7 @@
 
 h1.ace_login_hd {
-	font-size: 140%;
+	font-size: 1.7rem;
 	color: rgb(255,255,255);
-	margin-left: 5rem;
 	margin-top: 0.5rem;
 }
 
@@ -16,7 +15,7 @@ img.logo{
 }
 
 span.smart_hd {
-	color: rgb(127,255,0);
+	color: rgb(127,255,255);
 	font-style: italic;
 }
 

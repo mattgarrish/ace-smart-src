@@ -125,12 +125,13 @@
 	
 	/* add a new blank evaluation */
 	
-	$('#new_eval').click( function(){
+	$('#new_eval').click( function() {
+	
 		event.preventDefault();
 		
 		var title = prompt(smart_ui.evalTitle[smart_lang]);
 		
-		title = title.trim();
+		title = title ? title.trim() : title;
 		
 		if (!title) {
 			alert(smart_errors.noEvalTitle[smart_lang]);

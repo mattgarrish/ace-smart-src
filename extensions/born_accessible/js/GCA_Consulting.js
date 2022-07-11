@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.20",
+    "version": "1.23",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "03/17/2021, 04:30:00 AM",
+    "dct:date": "02/01/2022, 09:00:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -61,6 +61,7 @@ var gca = {
                         "itemScores": {
                             "N/A": "There were no Decorative images found.",
                             "0": "Decorative elements are described or has incorrect aria-role",
+                            "1": "role=\"presentation\" correct but missing alt=\"\"",
                             "3": "The alt text is correctly empty but no role=\"presentation\"",
                             "4": "All Decorative images were correctly identified and marked up correctly with alt=\"\" and role=\"presentation\""
                         }
@@ -71,6 +72,7 @@ var gca = {
                         "itemScores": {
                             "N/A": "There were no Context Break images found.",
                             "0": "Context Break images was missing <hr> semantic markup",
+                            "3": "using <hr> alongside <img role=\"presentation\" ...>",
                             "4": "All Context Break images were marked up using <hr> and CSS with .hr{background-image:url (link to image); background-repeat: no-repeat; ...}, or had alt=&quot;context change&quot;"
                         }
                     },
@@ -114,6 +116,29 @@ var gca = {
                             "N/A": "No Cover Image provided",
                             "0": "A cover image is present but not declared in the manifest",
                             "4": "The cover image was correctly identified using the “cover-image” property in the manifest (with supporting <meta name=\"cover\" content=\"cover-image\"/> in the metadata for reading systems not fully upgraded to EPUB 3)"
+                        }
+                    },
+                    {
+                        "$itemId": "images-text",
+                        "itemName" : "Images containing Text",
+                        "itemScores": {
+                            "N/A": "No images found containing text",
+                            "0": "Text within an Image not fully described with alt text or extended description",
+                            "1": "Unnecessary use of images for binary, hexadecimal, morse code, etc.",
+                            "3": "Unnecessary use of images containing text, could be done without an image using text characters and CSS styling",
+                            "4": "All images containing text are appropriate and fully described"
+                        }
+                    },
+                    {
+                        "$itemId": "images-poetry",
+                        "itemName" : "Poetry (Required Visual Styling)",
+                        "itemScores": {
+                            "N/A": "No images of poems",
+                            "0": "Visually styled poem image not described correctly: alt text should describe the visual significance with an extended description of the raw text of the poem. (E.g.: Poem of a tree where the words of the poem are laid out in the shape of a tree)",
+                            "1": "Visually styled poem image described correctly, however image was not an SVG to allow for unpixellated enlargement",
+                            "2": "Both stylistic and literal description was all included in the alt text, stylistic description should be in the alt text as a short overview where the extended description would have the raw literal text of the poem",
+                            "3": "Most poetry images were correctly described both stylistically and literally",
+                            "4": "All visually styled images of poems describe the visual significance of the poem, and an extended description containing the actual poem itself"
                         }
                     }
                 ] 
@@ -250,15 +275,6 @@ var gca = {
                         }
                     },
                     {
-                        "$itemId": "general-book-metadata",
-                        "itemName" : "Basic Book Metadata",
-                        "itemScores": {
-                            "0": "missing metadata (ie. Title, subtitle, author, date, ISBN etc)",
-                            "2": "partial metadata",
-                            "4": "all Metadata required present and correct"
-                        }
-                    },
-                    {
                         "$itemId": "general-usability",
                         "itemName" : "Usability",
                         "itemScores": {
@@ -370,7 +386,7 @@ var gca = {
                     },
                     {
                         "$itemId": "general-section-labels",
-                        "itemName" : "Sections are correctly Labelled",
+                        "itemName" : "Sections are Correctly Labelled",
                         "itemScores": {
                             "N/A": "No Sections present",
                             "0": "None of the sections are labelled",
@@ -380,11 +396,59 @@ var gca = {
                     },
                     {
                         "$itemId": "general-dropcaps",
-                        "itemName" : "Drop Caps",
+                        "itemName" : "Embedded Visual Styling e.g.: Drop Caps",
                         "itemScores": {
-                            "N/A": "No Drop Caps present",
-                            "0": "Drop Caps are incorrectly marked up and cause screen readers to mispronounce the word (i.e. use of <spans> instead of CSS selectors).",
-                            "4": "All Drop Caps are correctly marked up with CSS and do not affect AT reading the entire word.  "
+                            "N/A": "No embedded visual styling e.g.: Drop Caps present",
+                            "0": "Use of <span>, <i>, <b> or other inline HTML elements within individual words causing screen readers to mispronounce the word.  Drop Caps are the usual culprit of this issue. (i.e., use of <spans> instead of CSS selectors)",
+                            "2": "Some embedded visual styling within individual words",
+                            "4": "Correct use of CSS Selectors to add visual styling to certain characters in a word and do not affect AT reading the entire word"
+                        }
+                    },
+                    {
+                        "$itemId": "general-allcaps",
+                        "itemName" : "All CAPS",
+                        "itemScores": {
+                            "N/A": "No words found written in all capital letters",
+                            "0": "Headings written entirely in capital letters",
+                            "1": "Many words or phrases written entirely in capital letters",
+                            "3": "Few words written entirely in capital letters"
+                        }
+                    },
+                    {
+                        "$itemId": "general-overuse-italics",
+                        "itemName" : "Overuse of Italicized Words",
+                        "itemScores": {
+                            "N/A": "No words found styled with italics",
+                            "0": "Many words or phrases styled entirely in italics",
+                            "4": "Only a few words styled with italics"
+                        }
+                    },
+                    {
+                        "$itemId": "general-body-multiline",
+                        "itemName" : "Multi-Line Visual Formatting of Body Text",
+                        "itemScores": {
+                            "N/A": "No visual formatting found using <br/>'s",
+                            "0": "Extensive use of visual formatting using <br/>'s",
+                            "3": "Some limited use of visual formatting using <br/>'s",
+                            "4": "Correct use of CSS block for visual formatting of text or <br>'s correctly used in visual patterned poetry, where pausing at end of line is appropriate"
+                        }
+                    },
+                    {
+                        "$itemId": "general-text-image-colorcontrast",
+                        "itemName" : "Color Contrast for Images with Text",
+                        "itemScores": {
+                            "N/A": "No images found containing text",
+                            "0": "Image containing text does not meet color contrast requirements",
+                            "4": "All Images with text passes color contrast requirements"
+                        }
+                    },
+                    {
+                        "$itemId": "general-repeated-characters",
+                        "itemName" : "Repeated Characters",
+                        "itemScores": {
+                            "N/A": "No repeated characters present",
+                            "0": "Repeated characters are announced to Assistive Technology (AT)",
+                            "4": "Repeated characters are hidden to AT (eg. <span aria-hidden=\"true\">____________</span>)"
                         }
                     }
                       
@@ -409,6 +473,7 @@ var gca = {
                         "itemName" : "Declared in XHTML files",
                         "itemScores": {
                             "0": "Language declaration missing in XHTML files (ie: missing xml:lang=\"en\" lang=\"en\")",
+                            "2": "Language declared within XHTML files does not match language declared in OPF file",
                             "4": "Language declared correctly in XHTML files"
                         },
                         "wcagScoreFrom": ["sc-3.1.1"]
@@ -482,6 +547,15 @@ var gca = {
                             "3": "Page breaks present but contained title attribute which is not recommended",
                             "4": "Page breaks contains (optional epub:type=pagebreak), role=doc-pagebreak and labelled correctly"
                        }
+                    } ,
+                    {
+                        "$itemId": "navigation-pagebreak-blank",
+                        "itemName" : "Blank Pages",
+                        "itemScores": {
+                            "N/A": "No blank page's present",
+                            "0": "Blank pages removed from EPUB but not disclosed in Accessibility Summary metadata",
+                            "4": "Blank pages present, or are removed with a notice of this fact in the Accessibility Summary"
+                       }
                     },
                     {
                         "$itemId": "navigation-pagelist",
@@ -511,7 +585,16 @@ var gca = {
                             "3": "Page break labelled with just the page number (aria-label=\"123\" missing \"page\" text)",
                             "4": "Page breaks labelled with recommended format (aria-label=\"page 123\") [ie. \"page\" + space + #] or are visible."
                        }
-                    }                   
+                    },
+                    {
+                        "$itemId": "navigation-subtitles",
+                        "itemName" : "Subtitles",
+                        "itemScores": {
+                            "N/A": "No Subtitles present",
+                            "0": "Subtitles incorrectly coded using multiple headings",
+                            "4": "Subtitles marked using role=\"doc-subtitle\" within a <p> or <div>"
+                        }
+                    }                  
                 ]
             },
             {
@@ -774,6 +857,7 @@ var gca = {
                         "itemScores": {
                             "0": "metadata missing",
                             "1": "metadata lacking, inaccurate, or too detailed",
+                            "3": "minor improvements needed",
                             "4": "metadata present and accurately summarizes the accessibility features and issues of this publication"
                         }
                     }
@@ -793,14 +877,23 @@ var gca = {
                         }
                     },
                      {
-                        "$itemId": "required-accessibility-metadata-certifierreport",
+                        "$itemId": "optional-accessibility-metadata-certifierreport",
                         "itemName" : "certifierReport",
                         "itemScores": {
                             "N/A": "Metadata not present",
                             "0": "Invalid link to an accessibility report",
                             "4": "Accredited Publisher: metadata URL links to an Accessibility Report"
                         }
-                    }
+                    },
+                     {
+                        "$itemId": "optional-accessibility-metadata-accessibilityAPI-Controls",
+                        "itemName" : "Use of accessibilityAPI or accessibilityControls (soon to be deprecated)",
+                        "itemScores": {
+                            "N/A": "Metadata not present",
+                            "0": "found accessibilityAPI or accessibilityControls in metadata"
+                        }
+                    } 
+                    
                 ]
             },
             {

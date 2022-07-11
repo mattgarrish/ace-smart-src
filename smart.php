@@ -1,7 +1,7 @@
 <?php require_once 'users/init.php' ?>
 
 <?php
-	if ($_POST['auto']) {
+	if (isset($_POST['auto']) && !empty($_POST['auto'])) {
 		$validate = new Validate();
 		$validation = $validate->check($_POST, array(
 			'username' => array('display' => 'Username','required' => true),
@@ -31,24 +31,26 @@
 
 <?php require_once 'php/evaluations.php' ?>
 <?php require_once 'php/extensions.php' ?>
+<?php require_once 'sc/sc.php' ?>
 
 <?php
-	if (!$_POST['action'] && !$_POST['auto']) { header("Location: index.php"); die(); }
+	if ((!isset($_POST['action']) || empty($_POST['action'])) && (!isset($_POST['auto']) || empty($_POST['auto']))) { header("Location: index.php"); die(); }
 	
 	$eval = new SMART_EVALUATION(array(
 		'username' => $user->data()->username,
 		'company' => $user->data()->company,
 		'shared' => $user->data()->shared,
 		'license' => $user->data()->license,
-		'title' => $_POST['title'],
-		'action' => $_POST['action'] ? $_POST['action'] : ($_POST['auto'] ? 'autoload' : ''),
+		'title' => (isset($_POST['title']) && !empty($_POST['title'])) ? $_POST['title'] : 'Untitled',
+		'action' => (isset($_POST['action']) && !empty($_POST['action'])) ? $_POST['action'] : (isset($_POST['auto']) ? 'autoload' : ''),
 		'id' => $_POST['id'],
-		'pubid' => $_POST['pubid']
+		'pubid' => isset($_POST['pubid']) && !empty($_POST['pubid']) ? $_POST['pubid'] : ''
 	));
 	
 	$eval->check_license();
 	
 	$ext = new SMART_EXTENSIONS($user->data()->modules, $extension);
+	$sc = new SMART_SC_GENERATOR();
 ?>
 
 <!DOCTYPE html>
@@ -121,11 +123,12 @@ JS;
 		<header>
 			<div class="id">You are logged in as <code><a target="_blank" href="users/account.php"><?php echo $user->data()->username; ?></a></code> <a class="logout" href="users/logout.php">Log out</a></div>
 			
-			<h1><span property="dcterms:publisher"><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium"/></span> <span property="dcterms:title">Ace <span class="smart_hd">SMART</span></span></h1>
+			<h1><span property="dcterms:title">Ace <span class="smart_hd">SMART</span></span></h1>
 			
 			<nav class="menubar">
 				<a href="user-guide/" target="_blank">User Guide</a> 
 				<a href="faq.html" target="_blank">FAQ</a>
+				<a href="new.html" target="_blank">What's New</a>
 				<a href="#" id="close-button">Close</a>
 				<a href="#" id="save-button">Save</a>
 				<a href="#" id="validate-button">Validate</a>
@@ -165,10 +168,11 @@ JS;
 						
 					<div class="data form-data">
 						<fieldset class="flat">
-							<legend>Format:</legend>
-							<!-- <div><small>Note: This setting also controls the format of the discovery and conformance metadata.</small></div> -->
-							<label><input type="radio" id="epub-format-3" name="epub-format" value="3" checked="checked"/> EPUB 3</label>
-							<label><input type="radio" id="epub-format-2" name="epub-format" value="2"/> EPUB 2</label>
+							<legend id="format-lbl">Format:</legend>
+							<select id="epub-format" aria-labelledby="format-lbl">
+								<option value="3"> EPUB 3</option>
+								<option value="2"> EPUB 2</option>
+							</select>
 						</fieldset>
 						
 						<label class="data"><span>Title:<img src="images/asterisk.png" alt="required"/></span> <input type="text" id="title" aria-required="true"/></label>
@@ -192,59 +196,75 @@ JS;
 					
 					<p class="help"><a href="user-guide/conformance.html" target="_blank">Need help?</a></p>
 					
-					<div class="form-data">
-						<fieldset class="flat">
-							<legend>WCAG Conformance:</legend>
-							<label><input type="radio" id="wcag-level-a" name="wcag-level" value="a"/> Level A</label>
-							<label><input type="radio" id="wcag-level-aa" name="wcag-level" value="aa" checked="checked"/> Level AA</label>
+					<div class="form-data conf-control w85">
+						<fieldset class="flat row">
+							<legend id="espec-lbl">EPUB Accessibility:</legend>
+							<select id="epub-a11y" aria-labelledby="espec-lbl">
+								<option selected="">1.0</option>
+								<option>1.1</option>
+							</select>
 						</fieldset>
 						
-						<fieldset id="exclusions" class="flat">
-							<legend>Exclude Tests For:</legend>
-							<label><input type="checkbox" id="excl-img" value="img" class="excl-test"/> Images</label>
-							<label><input type="checkbox" id="excl-audio" value="audio" class="excl-test"/> Audio</label>
-							<label><input type="checkbox" id="excl-video" value="video" class="excl-test"/> Video</label>
-							<label><input type="checkbox" id="excl-script" value="script" class="excl-test"/> Scripting</label>
+						<fieldset class="flat row">
+							<legend id="wspec-lbl">WCAG:</legend>
+							<select id="wcag-version" aria-labelledby="wspec-lbl" disabled="">
+								<option selected="">2.0</option>
+								<option>2.1</option>
+							</select>
 						</fieldset>
+						
+						<fieldset class="flat row">
+							<legend id="conf-lbl">Conformance:</legend>
+							<select id="wcag-level" aria-labelledby="conf-lbl">
+								<option value="a">Level A</label>
+								<option value="aa" selected="">Level AA</label>
+							</select>
+						</fieldset>
+						
+						<div id="additional-opt">
+							<a href="#additional-opt" onclick="smartConformance.showOptions(); return false;">Additional Options</a>
+						</div>
 					</div>
 					
-					<details id="view-options">
-						<summary>Additional Options</summary>
-						
-						<fieldset class="flat">
-							<legend>Show Optional Criteria:</legend>
-							<label><input type="checkbox" id="show-aa" class="optional-criteria" disabled="disabled"/> Level AA</label>
-							<label><input type="checkbox" id="show-aaa" class="optional-criteria"/> Level AAA</label>
-						</fieldset>
-						
-						<fieldset class="flat">
-							<legend>Hide success criteria with status:</legend>
-							<label><input type="checkbox" class="hide_sc" value="unverified"/> Unverified</label>
-							<label><input type="checkbox" class="hide_sc" value="pass"/> Pass</label>
-							<label><input type="checkbox" class="hide_sc" value="fail"/> Fail</label>
-							<label><input type="checkbox" class="hide_sc" value="na"/> N/A</label>
-						</fieldset>
-						
-						<fieldset class="flat">
-							<legend>Set all success criteria to:</legend>
-							<label><input type="radio" name="status" value="unverified" checked="checked"/> Unverified</label>
-							<label><input type="radio" name="status" value="pass"/> Pass</label>
-							<label><input type="radio" name="status" value="fail"/> Fail</label>
-							<label><input type="radio" name="status" value="na"/> N/A</label>
-						</fieldset>
-						
-						<fieldset class="flat">
-							<legend>Success criteria descriptions:</legend>
-							<label><input type="radio" name="sc-body" value="true" checked="checked"/> Expand all</label>
-							<label><input type="radio" name="sc-body" value="false"/> Collapse all</label>
-						</fieldset>
-						
-						<fieldset class="flat">
-							<legend>Help links:</legend>
-							<label><input type="radio" name="link-exp" value="false" checked="checked"/> Collapse all</label>
-							<label><input type="radio" name="link-exp" value="true"/> Expand all</label>
-						</fieldset>
-					</details>
+					<section id="conformance-options" aria-label="Additional Options" title="Additional Options">
+						<div class="form-data conf-control">
+							<fieldset id="exclusions" class="flat row">
+								<legend>Exclude tests for:</legend>
+								<label><input type="checkbox" id="excl-img" value="img" class="excl-test"/> Images</label>
+								<label><input type="checkbox" id="excl-audio" value="audio" class="excl-test"/> Audio</label>
+								<label><input type="checkbox" id="excl-video" value="video" class="excl-test"/> Video</label>
+								<label><input type="checkbox" id="excl-script" value="script" class="excl-test"/> Scripting</label>
+							</fieldset>
+							
+							<fieldset class="flat row">
+								<legend>Show optional criteria:</legend>
+								<label><input type="checkbox" id="show-aa" class="optional-criteria" disabled="disabled"/> Level AA</label>
+								<label><input type="checkbox" id="show-aaa" class="optional-criteria"/> Level AAA</label>
+							</fieldset>
+							
+							<fieldset class="flat row">
+								<legend>Hide success criteria with status:</legend>
+								<label><input type="checkbox" class="hide_sc" value="unverified"/> Unverified</label>
+								<label><input type="checkbox" class="hide_sc" value="pass"/> Pass</label>
+								<label><input type="checkbox" class="hide_sc" value="fail"/> Fail</label>
+								<label><input type="checkbox" class="hide_sc" value="na"/> N/A</label>
+							</fieldset>
+							
+							<fieldset class="flat row">
+								<legend>Set all success criteria to:</legend>
+								<a id="set-sc-unv" href="#set-sc-unv" onclick="smartConformance.setGlobalSCStatus('unverified',false); return false">Unverified</a>
+								<a id="set-sc-pass" href="#set-sc-pass" onclick="smartConformance.setGlobalSCStatus('pass',false); return false">Pass</a>
+								<a id="set-sc-fail" href="#set-sc-fail" onclick="smartConformance.setGlobalSCStatus('fail',false); return false">Fail</a>
+								<a id="set-sc-na" href="#set-sc-na" onclick="smartConformance.setGlobalSCStatus('na',false); return false">N/A</a>
+							</fieldset>
+							
+							<fieldset class="flat row">
+								<legend>Success criteria descriptions:</legend>
+								<a id="set-desc-exp" href="#set-desc-exp" onclick="smartConformance.showSCBody(true); return false">Expand all</a>
+								<a id="set-desc-col" href="#set-desc-col" onclick="smartConformance.showSCBody(false); return false">Collapse all</a>
+							</fieldset>
+						</div>
+					</section>
 					
 					<section id="fallbacks" class="warning">
 						<h3>Warning</h3>
@@ -272,8 +292,45 @@ JS;
 							<li class="epub-trigger">Disabling the native controls on the audio and video elements by default to use triggers (fails SC 2.1.1. for lack of keyboard access)</li>
 						</ul>
 					</section>
+					
+					<!-- filter SC by content type -->
+					<fieldset class="filter">
+						<label id="filter-lbl">Filter success criteria to check: </span>
+						<select id="filterSC" aria-labelledby="filter-lbl">
+							<option value="all" selected="">All content</option>
+							<option value="audio">Audio</option>
+							<option value="color">Color</option>
+							<option value="hd">Headings</option>
+							<option value="img">Images</option>
+							<option value="imgtext">Images of text</option>
+							<option value="input">Input fields (textboxes, radio, checkboxes, etc.)</option>
+							<option value="links">Links</option>
+							<option value="lang">Language</option>
+							<option value="mo">Media Overlays</option>
+							<option value="page">Pagination</option>
+							<option value="readorder">Reading Order</option>
+							<option value="struct">Structure (tables, lists, etc.)</option> 
+							<option value="text">Text</option>
+							<option value="titles">Titles</option>
+							<option value="controls">User controls (buttons, etc.)</option>
+							<option value="video">Video</option>
+						</select>
+					</fieldset>
+					
+					<aside id="stats">
+						<h4>Stats</h4>
+						
+						<ul>
+							<li><span class="statLabel">Pass:</span> <span id="passCount" class="statCount"></span></li>
+							<li><span class="statLabel">Fail:</span> <span id="failCount" class="statCount"></span></li>
+							<li><span class="statLabel">N/A:</span> <span id="naCount" class="statCount"></span></li>
+							<li><span class="statLabel">Unverified:</span> <span id="unverifiedCount" class="statCount"></span></li>
+							<!-- <li><span class="statLabel">Total:</span> <span id="totalCount" class="statCount"></span></li> -->
+						</ul>
+					</aside>
+					
 					<!-- SC dynamically inserted -->
-					<div id="sc-list"></div>
+					<?php $sc->generate() ?>
 				</section>
 				
 				<?php $ext->add_tab_includes() ?>
@@ -292,6 +349,7 @@ JS;
 					<section id="discovery-meta" aria-label="Discovery Metadata" title="Discovery Metadata">
 						<p>Copy and paste the following metadata to the EPUB package document.</p>
 						<textarea id="discovery-metadata" rows="15" aria-label="discovery metadata"></textarea>
+						<button id="discovery-copy">Copy</button>
 					</section>
 				</section>
 
@@ -309,6 +367,7 @@ JS;
 					<section id="distribution-meta" aria-label="ONIX Metadata" title="ONIX Metadata">
 						<p>Copy and paste the following metadata to the ONIX record.</p>
 						<textarea id="distribution-metadata" rows="15" aria-label="distribution metadata"></textarea>
+						<button id="distribution-copy">Copy</button>
 					</section>
 				</section>
 				
@@ -318,14 +377,14 @@ JS;
 					<p class="help"><a href="user-guide/evaluation.html" target="_blank">Need help?</a></p>
 					
 					<div class="conformance-result">
-						<strong>Conformance Result:</strong>
+						<span class="hd">Conformance Result:</strong>
 						<span id="conformance-result-status">Incomplete</span>
 						<input type="hidden" name="conformance-result" id="conformance-result" value="incomplete"/>
 					</div>
 					
 					<div id="extension-results"></div>
 					
-					<fieldset>
+					<fieldset id="eval-info">
 						<legend>Evaluation Info:</legend>
 						<label class="data"><span>Evaluator:<img src="/images/asterisk.png" alt="required"/></span> <input type="text" id="certifiedBy" aria-required="true"/></label>
 						<label class="data"><span>Link to report:</span> <input type="text" id="certifierReport"/></label>
@@ -338,6 +397,7 @@ JS;
 					<section id="evaluation-meta" aria-label="Evaluation Metadata" title="Evaluation Metadata">
 						<p>Copy and paste the following metadata to the EPUB package document.</p>
 						<textarea id="evaluation-metadata" rows="6" aria-label="evaluation metadata"></textarea>
+						<button id="evaluation-copy">Copy</button>
 					</section>
 				</section>
 				
@@ -346,17 +406,29 @@ JS;
 					
 					<p class="help"><a href="user-guide/generate.html" target="_blank">Need help?</a></p>
 					
-					<fieldset class="notes">
-						<legend>Notes</legend>
-						<br>
-						<label><input type="radio" name="show-notes" value="all" checked="checked"/> Include all</label>
-						<label><input type="radio" name="show-notes" value="failures"/> Only failure descriptions</label>
-						<label><input type="radio" name="show-notes" value="notes"/> Only notes</label>
-						<label><input type="radio" name="show-notes" value="none"/> None</label>
-					</fieldset>
+					<div id="output-opt">
+							<a href="#output-opt" onclick="smartReport.showOptions(); return false;">Output Options</a>
+						</div>
+					</div>
 					
-					<p><input type="button" value="Preview" id="preview-report" class="button_hlt preview" aria-describedby="popup-instructions"/></p>
-					<p><input type="button" class="button_hlt" value="Create" id="generate-report" aria-describedby="gen"/></p>
+					<section id="output-options" aria-label="Output Options" title="Output Options">
+						<div class="form-data conf-control">
+							<fieldset>
+								<legend>Conformance Notes</legend>
+								<label class="data"><input type="radio" name="show-notes" value="all" checked="checked"/> Include all</label>
+								<label class="data"><input type="radio" name="show-notes" value="failures"/> Only failure descriptions</label>
+								<label class="data"><input type="radio" name="show-notes" value="notes"/> Only notes</label>
+								<label class="data"><input type="radio" name="show-notes" value="none"/> None</label>
+							</fieldset>
+							
+							<?php $ext->add_output_options() ?>
+						</div>
+					</section>
+					
+					<div class="buttons">
+						<input type="button" value="Preview" id="preview-report" class="button_hlt preview" aria-describedby="popup-instructions"/>
+						<input type="button" class="button_hlt" value="Create" id="generate-report" aria-describedby="gen"/>
+					</div>
 					
 					<div id="popup-instructions">
 						<p class="instr">Ensure that you do not have a pop-up blocker enabled when previewing content.</p>
@@ -389,8 +461,8 @@ JS;
 		</form>
 		
 		<footer>
-			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2017</span> <a target="_blank" href="http://daisy.org">DAISY Consortium</a>. All Rights Reserved.</p>
-			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a></p>
+			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2022</span> <a target="_blank" href="http://daisy.org"><span property="dcterms:publisher">DAISY</span> Consortium</a>. All Rights Reserved.</p>
+			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a> | <a target="_blank" href="attribution.html">Attribution</a></p>
 		</footer>
 		
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
@@ -406,5 +478,5 @@ JS;
 		<?php $ext->print_scripts(); ?>
 		
 		<script src="js/init-smart.js"></script>
-</body>
+	</body>
 </html>

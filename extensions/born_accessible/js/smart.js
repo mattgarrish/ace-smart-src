@@ -107,7 +107,7 @@ smart_extensions['born_accessible'] = (function() {
 			
 			// verify the complexity has been set
 			
-			if (!document.querySelector('section#born_accessible fieldset#complexity-levels-section input[name="ba-complexity-level"]:checked')) {
+			if (!noDesignElements && !document.querySelector('section#born_accessible fieldset#complexity-levels-section input[name="ba-complexity-level"]:checked')) {
 					smartError.logError({tab_id: 'born_accessible', element_id: 'complexity-levels-section', severity: 'err', message: 'Born Accessible complexity level must be specified.'});
 					smartFormat.setFieldToError({id: 'complexity-levels-section', is_warning: false, highlight_parent: false});
 					is_valid = false;
@@ -576,26 +576,31 @@ smart_extensions['born_accessible'] = (function() {
 				if (savedJSON.born_accessible.hasOwnProperty('scores')) {
 					savedJSON.born_accessible.scores.forEach(function(test) {
 						var field = document.getElementById(test.id);
-						if (test.hasOwnProperty('score') && test.score != '') {
-							var score_input = field.querySelector('input[value="' + test.score + '"]');
-							if (score_input) {
-							    score_input.checked = true;
-							    bornAccessible.updateSectionScore(score_input);
-								bornAccessible.setBackgroundStatus(score_input);
-								bornAccessible.updateResultScore();
-
-							}
-							else {
-							    console.log('Failed to set score ' + test.score + ' for ' + test.id)
-							}
+						if (!field) {
+							console.log('Could not set born accessible field with ID: ' + test.id);
 						}
-						if (test.hasOwnProperty('note') && test.note != '') {
-							var note_field = field.querySelector('textarea');
-							if (note_field) {
-							    note_field.value = test.note
+						else {
+							if (test.hasOwnProperty('score') && test.score != '') {
+								var score_input = field.querySelector('input[value="' + test.score + '"]');
+								if (score_input) {
+								    score_input.checked = true;
+								    bornAccessible.updateSectionScore(score_input);
+									bornAccessible.setBackgroundStatus(score_input);
+									bornAccessible.updateResultScore();
+	
+								}
+								else {
+								    console.log('Failed to set score ' + test.score + ' for ' + test.id)
+								}
 							}
-							else {
-							    console.log('Failed to find note field for born accessible test ' + test.id);
+							if (test.hasOwnProperty('note') && test.note != '') {
+								var note_field = field.querySelector('textarea');
+								if (note_field) {
+								    note_field.value = test.note
+								}
+								else {
+								    console.log('Failed to find note field for born accessible test ' + test.id);
+								}
 							}
 						}
 					});

@@ -18,6 +18,11 @@
 
 var smartAce = (function() {
 
+	/* the default epub/wcag version + level to use for new evaluations */
+	var _EPUB_DEFAULT_VERSION = '1.0';
+	var _WCAG_DEFAULT_VERSION = '2.0';
+	var _WCAG_DEFAULT_LEVEL = 'aa';
+	
 	/* holds the ace report json */
 	var _aceReport = '';
 	
@@ -77,7 +82,7 @@ var smartAce = (function() {
 		}
 		
 		/* extract and set the conformance level if the publication already contains conformsTo metadata */
-		setWCAGConformanceLevel();
+		setWCAGConformance();
 		
 		/* iterate over the report metadata and set fields */
 		loadMetadata();
@@ -106,7 +111,7 @@ var smartAce = (function() {
 	 * the WCAG level if it matches the epub accessibility conformance URL
 	 */
 	
-	function setWCAGConformanceLevel() {
+	function setWCAGConformance() {
 		
 		var conformance_url = '';
 		
@@ -118,15 +123,50 @@ var smartAce = (function() {
 			conformance_url = _aceReport['earl:testSubject'].metadata['dcterms:conformsTo'];
 		}
 		
-		else {
-			return;
+		
+		var epub_version = _EPUB_DEFAULT_VERSION;
+		var wcag_version = _WCAG_DEFAULT_VERSION;
+		var wcag_level = _WCAG_DEFAULT_LEVEL;
+		
+		if (conformance_url) {
+			
+			conformance_url = conformance_url.trim();
+			
+			var re = new RegExp('^((http://www\.idpf\.org/epub/a11y/accessibility-(?<epub10>20170105)\.html#wcag-(?<wcag20>[a]+))|(EPUB-A11Y-(?<epubx>[0-9]+)_WCAG-(?<wcagx>[0-9]+)-(?<wcaglvlx>[A]+)))');
+			var is_match = conformance_url.match(re);
+			var setSC = false;
+			
+			if (is_match) {
+				
+				if (confirm(smart_ui.ace.load.hasConformsTo[smart_lang].replace('%%conformance_url%%', conformance_url))) {
+				
+					setSC = true;
+					
+					if (is_match.groups.epub10) {
+						epub_version = '1.0';
+						wcag_version = '2.0';
+						wcag_level = is_match.groups.wcag20;
+					}
+					else {
+						epub_version = is_match.groups.epubx.replace(/^(\d)/,'$1.');
+						wcag_version = is_match.groups.wcagx.replace(/^(\d)/,'$1.');
+						wcag_level = is_match.groups.wcaglvlx.toLowerCase();
+					}
+				}
+			}
 		}
 		
-		var conformance_level = conformance_url.match(/http\:\/\/www\.idpf\.org\/epub\/a11y\/accessibility\-[0-9]+\.html\#wcag-(aa?)/);
+		document.getElementById('epub-a11y').value = epub_version;
+		smartConformance.setEPUBA11yVersion(epub_version);
 		
-		if (conformance_level) {
-			document.getElementById('conformance-result-status').textContent = smartConformance.STATUS[conformance_level];
-			document.getElementById('conformance-result').value = conformance_level;
+		document.getElementById('wcag-version').value = wcag_version;
+		smartConformance.setWCAGVersion(wcag_version);
+		
+		document.getElementById('wcag-level').value = wcag_level;
+		smartConformance.setWCAGConformanceLevel(wcag_level);
+		
+		if (setSC) {
+			smartConformance.setGlobalSCStatus('pass',true);
 		}
 	}
 	
@@ -345,6 +385,13 @@ var smartAce = (function() {
 			return '';
 		}
 		
+		else {
+			// check if the evaluator wants the metadata inferred
+			if (!confirm(smart_ui.ace.load.inferMetadata[smart_lang])) {
+				return '';
+			}
+		}
+		
 		var user_message = document.createElement('ul');
 		
 		// parse out a11y metadata values to set based on the report info
@@ -453,14 +500,19 @@ var smartAce = (function() {
 		}
 		
 		if (!_aceReport['properties']['hasPageBreaks']) {
-			document.querySelector('input[name="eg-1"][value="na"]').click();
+			document.querySelector('input[name="epub-pagebreaks"][value="na"]').click();
+			document.querySelector('input[name="epub-pagelist"][value="na"]').click();
+			document.querySelector('input[name="epub-pagesrc"][value="na"]').click();
 			var li = document.createElement('li');
 				li.appendChild(document.createTextNode(smart_ui.ace.contentType.pagebreaks[smart_lang]))
 			alert_list.appendChild(li);
 		}
 		
 		if (!_aceReport['earl:testSubject']['metadata'].hasOwnProperty('media:duration')) {
-			document.querySelector('input[name="eg-2"][value="na"]').click();
+			document.querySelector('input[name="epub-mo-esc"][value="na"]').click();
+			document.querySelector('input[name="epub-mo-nav"][value="na"]').click();
+			document.querySelector('input[name="epub-mo-readorder"][value="na"]').click();
+			document.querySelector('input[name="epub-mo-skip"][value="na"]').click();
 			var li = document.createElement('li');
 				li.appendChild(document.createTextNode(smart_ui.ace.contentType.overlays[smart_lang]))
 			alert_list.appendChild(li);
@@ -488,7 +540,7 @@ var smartAce = (function() {
 			
 			var assert = compileAssertions();
 			
-			if (assert['accesskeys']) { setSCStatus('sc-2.1.1', 'fail', assert['accesskeys']); }
+			if (assert['accesskeys']) { /* no handling of axe best practices */ }
 			if (assert['area-alt']) { setSCStatus('sc-1.1.1', 'fail', assert['area-alt']); }
 			if (assert['aria-allowed-attr']) { setSCStatus('sc-4.1.1', 'fail', assert['aria-allowed-attr']); setSCStatus('sc-4.1.2', 'fail', assert['aria-allowed-attr']); }
 			if (assert['aria-allowed-role']) { /* no handling of axe best practices */ }
@@ -504,6 +556,7 @@ var smartAce = (function() {
 			if (assert['aria-required-parent']) { setSCStatus('sc-1.3.1', 'fail', assert['aria-required-parent']); }
 			if (assert['aria-roledescription']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-roledescription']); }
 			if (assert['aria-roles']) { setSCStatus('sc-1.3.1', 'fail', assert['aria-roles']); setSCStatus('sc-4.1.1', 'fail', assert['aria-roles']); setSCStatus('sc-4.1.2', 'fail', assert['aria-roles']); }
+			if (assert['aria-text']) { /* no handling of axe best practices */ }
 			if (assert['aria-toggle-field-name']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-toggle-field-name']); }
 			if (assert['aria-tooltip-name']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-tooltip-name']); }
 			if (assert['aria-treeitem-name']) { /* no handling of axe best practices */ }
@@ -523,8 +576,10 @@ var smartAce = (function() {
 			if (assert['duplicate-id-active']) { setSCStatus('sc-4.1.1', 'fail', assert['duplicate-id-active']); }
 			if (assert['duplicate-id-aria']) { setSCStatus('sc-4.1.1', 'fail', assert['duplicate-id-aria']); }
 			if (assert['empty-heading']) { /* no handling of axe best practices */ }
+			if (assert['empty-table-header']) { setSCStatus('sc-1.3.1', 'fail', assert['empty-table-header']); }
 			if (assert['focus-order-semantics']) { /* no handling of axe experimental best practices */ }
 			if (assert['form-field-multiple-labels']) { setSCStatus('sc-3.3.2', 'fail', assert['form-field-multiple-labels']); }
+			if (assert['frame-focusable-content']) { setSCStatus('sc-2.1.1', 'fail', assert['frame-focusable-content']); }
 			if (assert['frame-tested']) { /* no handling of axe best practices */ }
 			if (assert['frame-title']) { setSCStatus('sc-2.4.1', 'fail', assert['frame-title']); }
 			if (assert['frame-title-unique']) { /* no handling of axe best practices */ }
@@ -565,6 +620,7 @@ var smartAce = (function() {
 			if (assert['meta-refresh']) { setSCStatus('sc-2.2.1', 'fail', assert['meta-refresh']); setSCStatus('sc-2.2.4', 'fail', assert['meta-refresh']); setSCStatus('sc-3.2.5', 'fail', assert['meta-refresh']); }
 			if (assert['meta-viewport']) { setSCStatus('sc-1.4.4', 'fail', assert['meta-viewport']); }
 			if (assert['meta-viewport-large']) { /* no handling of axe best practices */ }
+			if (assert['nested-interactive']) { setSCStatus('sc-4.1.2', 'fail', assert['nested-interactive']); }
 			if (assert['no-autoplay-audio']) { setSCStatus('sc-1.4.2', 'fail', assert['no-autoplay-audio']); }
 			if (assert['object-alt']) { setSCStatus('sc-1.1.1', 'fail', assert['object-alt']); }
 			if (assert['p-as-heading']) { setSCStatus('sc-1.3.1', 'fail', assert['p-as-heading']); }
@@ -586,6 +642,30 @@ var smartAce = (function() {
 			if (assert['th-has-data-cells']) { setSCStatus('sc-1.3.1', 'fail', assert['td-has-data-cells']); }
 			if (assert['valid-lang']) { setSCStatus('sc-3.1.2', 'fail', assert['valid-lang']); }
 			if (assert['video-caption']) { setSCStatus('sc-1.2.2', 'fail', assert['video-caption']); setSCStatus('sc-1.2.3', 'fail', assert['video-caption']); }
+			
+			// check if the accessibility metadata is set
+			
+			var a11y_err = '';
+			
+			if (_aceReport['a11y-metadata'].missing.includes('schema:accessMode')) {
+				a11y_err += smart_ui.ace.error.accessMode[smart_lang] + '\n';
+			}
+			
+			if (_aceReport['a11y-metadata'].missing.includes('schema:accessibilityFeature')) {
+				a11y_err += smart_ui.ace.error.accessibilityFeature[smart_lang] + '\n';
+			}
+			
+			if (_aceReport['a11y-metadata'].missing.includes('schema:accessibilityHazard')) {
+				a11y_err += smart_ui.ace.error.accessibilityHazard[smart_lang] + '\n';
+			}
+			
+			if (_aceReport['a11y-metadata'].missing.includes('schema:accessibilitySummary')) {
+				a11y_err += smart_ui.ace.error.accessibilitySummary[smart_lang] + '\n';
+			}
+			
+			if (a11y_err) {
+				setSCStatus('epub-discovery', 'fail', a11y_err);
+			}
 		}
 	}
 	

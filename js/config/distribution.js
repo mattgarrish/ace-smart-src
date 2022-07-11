@@ -120,8 +120,45 @@ var onix_meta = {
 					"name": {
 						"en": "Dyslexia readability"
 					}
+				},
+				{
+					"id": "25",
+					"name": {
+						"en": "Use of color"
+					}
+				},
+				{
+					"id": "26",
+					"name": {
+						"en": "Use of contrast"
+					}
+				},
+				{
+					"id": "27",
+					"name": {
+						"en": "Use of audio"
+					}
+				},
+				{
+					"id": "28",
+					"name": {
+						"en": "Full alternative audio descriptions"
+					}
+				},
+				{
+					"id": "29",
+					"name": {
+						"en": "Next / Previous navigation"
+					}
 				}
 			]
+		},
+		{
+			"id": "93",
+			"type": "text",
+			"name": {
+				"en": "Compliance certification by"
+			}
 		},
 		{
 			"id": "94",
