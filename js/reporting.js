@@ -420,13 +420,11 @@ var smartReport = (function() {
 		
 		var conf = document.getElementById('conformance-result').value;
 		
-		var conf_class = (conf == 'Incomplete' ? 'incomplete' : ( conf == 'Failed' ? 'fail' : 'pass' ) );
-		
 		summaryTable.appendChild(formatPubInfoEntry({
 			id: 'conformance-result',
 			label: smart_ui.reporting.tabs.conformance[smart_lang],
 			value: document.getElementById('conformance-result-status').textContent, property: 'dcterms:conformsTo',
-			value_bg_class: conf_class
+			value_bg_class: conf
 		}));
 		
 		// add user extension propertiesk
@@ -564,6 +562,10 @@ var smartReport = (function() {
 		var criteria = document.querySelectorAll('.a, .aa, .aaa, .epub');
 		
 		for (var i = 0; i < criteria.length; i++) {
+			
+			if (criteria[i].classList.contains('hidden')) {
+				continue;
+			}
 			
 			var conf_level = criteria[i].classList.contains('a') ? 'a' : (criteria[i].classList.contains('aa') ? 'aa' : (criteria[i].classList.contains('aaa') ? 'aaa' : 'epub'));
 			
