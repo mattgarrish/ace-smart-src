@@ -401,9 +401,9 @@ var smartConformance = (function() {
 		var epub_ver = 'epub' + epub_a11y.replace('.','');
 		
 		// prep pass message
-		var conformance_status = smart_ui.conformance.status.pass[smart_lang] + ' - ';
+		var conformance_status = smart_ui.conformance.status.pass[smart_lang] + ': ';
 			conformance_status += smart_ui.conformance.status[epub_ver][smart_lang];
-			conformance_status += ' + ';
+			conformance_status += ' - ';
 			conformance_status += smart_ui.conformance.status[wcag_ver][smart_lang];
 			conformance_status += ' ';
 	

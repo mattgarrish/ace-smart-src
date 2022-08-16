@@ -1,4 +1,6 @@
 <?php require_once 'users/init.php' ?>
+<?php require_once 'php/version.php' ?>
+
 <?php if (!securePage($_SERVER['PHP_SELF'])) { die(); } ?>
 
 <?php include 'php/evaluations.php' ?>
@@ -21,10 +23,10 @@
 		<title>Ace SMART</title>
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />		
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
-		<link rel="stylesheet" type="text/css" href="css/a11y.css"/>
-		<link rel="stylesheet" type="text/css" href="css/tabs.css"/>
-		<link rel="stylesheet" type="text/css" href="css/drag-drop.css"/>
-    	<link rel="stylesheet" type="text/css" href="css/datatables.min.css"/>		
+		<link rel="stylesheet" type="text/css" href="css/a11y.css<?= '?v=' . $smart_version ?>"/>
+		<link rel="stylesheet" type="text/css" href="css/tabs.css<?= '?v=' . $smart_version ?>"/>
+		<link rel="stylesheet" type="text/css" href="css/drag-drop.css<?= '?v=' . $smart_version ?>"/>
+    	<link rel="stylesheet" type="text/css" href="css/datatables.min.css<?= '?v=' . $smart_version ?>"/>		
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		
 		<!-- DC metadata --> 
@@ -54,15 +56,15 @@
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		<script src="js/jquery.details.min.js"></script>
+		<script src="js/jquery.details.min.js<?= '?v=' . $smart_version ?>"></script>
 		
 		<!-- DataTables -->
-		<script type="text/javascript" src="js/datatables.min.js"></script>
-		<script type="text/javascript" src="js/init-datatables.js"></script>
-		<script type="text/javascript" src="js/js.cookie.js"></script>
+		<script type="text/javascript" src="js/datatables.min.js<?= '?v=' . $smart_version ?>"></script>
+		<script type="text/javascript" src="js/init-datatables.js<?= '?v=' . $smart_version ?>"></script>
+		<script type="text/javascript" src="js/js.cookie.js<?= '?v=' . $smart_version ?>"></script>
 		
 		<!-- messages -->
-		<script src="js/config/messages.js"></script>
+		<script src="js/config/messages.js<?= '?v=' . $smart_version ?>"></script>
 		
 		<?php
 			if (isset($_POST['action'])) {
@@ -136,7 +138,7 @@
 			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a> | <a target="_blank" href="attribution.html">Attribution</a></p>
 		</footer>
 		
-		<script src="js/drag-drop.js"></script>
-		<script src="js/init-index.js"></script>
+		<script src="js/drag-drop.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/init-index.js<?= '?v=' . $smart_version ?>"></script>
 	</body>
 </html>

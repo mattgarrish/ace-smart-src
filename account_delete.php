@@ -1,4 +1,5 @@
 <?php require_once 'users/init.php' ?>
+<?php require_once 'php/version.php' ?>
 <?php if (!securePage($_SERVER['PHP_SELF'])) { die(); } ?>
 
 <?php require_once 'php/db.php' ?>
@@ -13,8 +14,8 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>Account Delete Request - Ace SMART</title>
-	<link rel="stylesheet" type="text/css" href="css/a11y.css"/>
-	<link rel="stylesheet" type="text/css" href="css/tabs.css"/>
+	<link rel="stylesheet" type="text/css" href="css/a11y.css<?= '?v=' . $smart_version ?>"/>
+	<link rel="stylesheet" type="text/css" href="css/tabs.css<?= '?v=' . $smart_version ?>"/>
 	<style>
 		section {
 			padding: 2rem;
