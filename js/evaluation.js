@@ -79,7 +79,7 @@ var smartEvaluation = (function() {
 		}
 		
 		else {
-			conformance_url = 'EPUB-A11Y-' + epub_ver.replace('.','') + '_WCAG-' + smartWCAG.WCAGVersion().replace('.','') + '-' + smartWCAG.WCAGLevel().toUpperCase(); 
+			conformance_url = 'EPUB Accessibility ' + epub_ver + ' - WCAG ' + smartWCAG.WCAGVersion() + ' Level ' + smartWCAG.WCAGLevel().toUpperCase(); 
 		}
 		
 		var metadata = '';

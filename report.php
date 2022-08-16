@@ -1,3 +1,5 @@
+<?php require_once 'php/version.php' ?>
+
 <?php
 
 	$html = <<<HTML
@@ -8,17 +10,17 @@
 		<meta charset="utf-8"/>
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css"/>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"/>
-		<link rel="stylesheet" type="text/css" href="https://{$_SERVER["HTTP_HOST"]}/css/report.css"/>
+		<link rel="stylesheet" type="text/css" href="https://{$_SERVER["HTTP_HOST"]}/css/report.css?v={$smart_version}"/>
 HTML;
 
 	if ($_POST['modules']) {
 		foreach (explode(',', $_POST['modules']) as $module) {
-			$html .= '<link rel="stylesheet" type="text/css" href="https://' . $_SERVER["HTTP_HOST"] . '/extensions/' . $module . '/css/report.css"/>'; # . '?' . time() . '"/>\n';
+			$html .= '<link rel="stylesheet" type="text/css" href="https://' . $_SERVER["HTTP_HOST"] . '/extensions/' . $module . '/css/report.css?v=' . $smart_version . '"/>';
 		}
 	}
 	
 	$html .= <<<HTML
-		<link rel="stylesheet" type="text/css" href="https://{$_SERVER["HTTP_HOST"]}/css/tabs.css"/>
+		<link rel="stylesheet" type="text/css" href="https://{$_SERVER["HTTP_HOST"]}/css/tabs.css?v={$smart_version}"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	</head>
 	<body typeof="Book" vocab="https://schema.org">
@@ -44,7 +46,7 @@ HTML;
 				});
 			});
 		</script>
-		<script src="https://{$_SERVER["HTTP_HOST"]}/js/a11ytabs.js"></script>
+		<script src="https://{$_SERVER["HTTP_HOST"]}/js/a11ytabs.js?v={$smart_version}"></script>
 	</body>
 </html>
 HTML;

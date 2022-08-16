@@ -293,7 +293,7 @@ var a11y_meta = {
 		{
 			"id": "accessibilitySummary",
 			"type": "textarea",
-			"required": true,
+			"required": false,
 			"name": {
 				"en": "Accessibility Summary"
 			},

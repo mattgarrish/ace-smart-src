@@ -500,6 +500,8 @@ var smartManage = (function() {
 			
 			var wcag_version = evaluationJSON.configuration.wcag.version;
 			
+			if (!wcag_version) { wcag_version = '2.0'; }
+			
 			document.getElementById('wcag-version').value = wcag_version;
 			
 			smartConformance.setWCAGVersion(wcag_version);

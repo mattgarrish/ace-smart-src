@@ -1,4 +1,5 @@
 <?php require_once 'users/init.php' ?>
+<?php require_once 'php/version.php' ?>
 
 <?php
 	if (isset($_POST['auto']) && !empty($_POST['auto'])) {
@@ -59,8 +60,8 @@
 		<meta charset="utf-8"/>
 		<title>EPUB Evaluation - Ace SMART</title>
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
-		<link rel="stylesheet" type="text/css" href="css/a11y.css"/>
-		<link rel="stylesheet" type="text/css" href="css/tabs.css"/>
+		<link rel="stylesheet" type="text/css" href="css/a11y.css<?= '?v=' . $smart_version ?>"/>
+		<link rel="stylesheet" type="text/css" href="css/tabs.css<?= '?v=' . $smart_version ?>"/>
 		
 		<?php $ext->print_css(); ?>
 		
@@ -92,7 +93,7 @@
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		<script src="js/jquery.details.min.js"></script>
+		<script src="js/jquery.details.min.js<?= '?v=' . $smart_version ?>"></script>
 		<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
 		<?php echo <<<JS
 		<script>
@@ -110,13 +111,13 @@
 		</script>
 JS;
 ?>
-		<script src="js/config/messages.js"></script>
-		<script src="js/ace.js"></script>
-		<script src="js/manage.js"></script>
-		<script src="js/error.js"></script>
-		<script src="js/format.js"></script>
-		<script src="js/wcag.js"></script>
-		<script src="js/reporting.js"></script>
+		<script src="js/config/messages.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/ace.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/manage.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/error.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/format.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/wcag.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/reporting.js<?= '?v=' . $smart_version ?>"></script>
 	</head>
 	
 	<body class="tabs">
@@ -466,17 +467,17 @@ JS;
 		</footer>
 		
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-		<script src="js/a11ytabs.js"></script>
-		<script src="js/config/sc.js"></script>
-		<script src="js/conformance.js"></script>
-		<script src="js/config/discovery.js"></script>
-		<script src="js/discovery.js"></script>
-		<script src="js/config/distribution.js"></script>
-		<script src="js/distribution.js"></script>
-		<script src="js/evaluation.js"></script>
+		<script src="js/a11ytabs.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/config/sc.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/conformance.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/config/discovery.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/discovery.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/config/distribution.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/distribution.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/evaluation.js<?= '?v=' . $smart_version ?>"></script>
 		
 		<?php $ext->print_scripts(); ?>
 		
-		<script src="js/init-smart.js"></script>
+		<script src="js/init-smart.js<?= '?v=' . $smart_version ?>"></script>
 	</body>
 </html>
