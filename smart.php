@@ -79,6 +79,8 @@
 		<meta property="schema:accessModeSufficient" content="textual"/>
 		<meta property="schema:accessibilityHazard" content="none"/>
 		
+		<link rel="icon" type="image/x-icon" href="https://smart.daisy.org/favicon.ico" sizes="any"/>
+		
 		<script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-327448-4"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
