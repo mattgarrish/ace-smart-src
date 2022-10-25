@@ -132,6 +132,13 @@ if (!$res['success']) {
     }
     $token = Token::generate();
     ?>
+    
+	<nav class="menubar">
+		<a href="/user-guide/" target="_blank">User Guide</a> 
+		<a href="/faq.html" target="_blank">FAQ</a>
+		<a href="/new.html" target="_blank">What's New</a>
+	</nav>
+	
     <?php if (Input::get('auto')) { ?>
     <div id="page-wrapper" style="min-height: 30rem;">
     	<div class="container">
@@ -207,10 +214,10 @@ if (!$res['success']) {
 
         <?php require_once $abs_us_root.$us_url_root.'usersc/templates/'.$settings->template.'/container_close.php'; //custom template container ?>
 
-        <!-- footers -->
+        
         <?php require_once $abs_us_root.$us_url_root.'users/includes/page_footer.php'; // the final html footer copyright row + the external js calls ?>
 
-        <!-- Place any per-page javascript here -->
+        
 
         <?php   if($settings->recaptcha == 1){ ?>
           <script src="https://www.google.com/recaptcha/api.js" async defer></script>

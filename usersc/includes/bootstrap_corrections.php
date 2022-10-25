@@ -1,5 +1,5 @@
-<!-- Corrections for bootstrap issues.  -->
-<!-- Note that your stylesheets CAN override these if you wish. -->
+
+
 <style>
 .nounderline{text-decoration: none !important}
 
@@ -19,7 +19,7 @@ body {
 }
 }
 </style>
-<!-- End of bootstrap corrections -->
+
 <style>
 @media screen and (max-width: 767px) {
   body {

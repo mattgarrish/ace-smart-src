@@ -1,7 +1,7 @@
 <script src="<?=$us_url_root?>usersc/widgets/logins/Chart.bundle.js"></script>
   <div class="row">
-<!-- This is an example widget file.  It will be included on the statistics page of the Dashboard. -->
-<!-- Do any php that needs to happen. You already have access to the db -->
+
+
 <?php
 $date = date("Y-m-d H:i:s");
 $logins = '0,';
@@ -16,7 +16,7 @@ $c = $db->query("SELECT id FROM logs WHERE logdate > ? AND lognote = ?",array(da
 $logins .= $c.", ";
 
 ?>
-<!-- Create a div to hold your widget -->
+
 <div class="col-lg-6">
   <div class="card">
     <div class="card-body">
@@ -24,7 +24,7 @@ $logins .= $c.", ";
       <canvas id="logins-chart"></canvas>
     </div>
   </div>
-</div><!-- /# column -->
+</div>
 
 
 <?php
@@ -44,7 +44,7 @@ $newUsers .= $c;
 
 
 ?>
-<!-- Create a div to hold your widget -->
+
 
   <div class="col-lg-6">
     <div class="card">
@@ -53,9 +53,9 @@ $newUsers .= $c;
         <canvas id="new-users-chart"></canvas>
       </div>
     </div>
-  </div><!-- /# column -->
-</div> <!-- end widget section -->
-<!-- Put any javascript here -->
+  </div>
+</div> 
+
 <script type="text/javascript">
 $(document).ready(function() {
 var ctx = document.getElementById( "new-users-chart" );

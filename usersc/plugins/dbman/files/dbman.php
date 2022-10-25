@@ -993,30 +993,7 @@ function print_import(){
 <input type="submit" value=" Import " onclick="return ays()"><input type="button" value=" Cancel " onclick="window.location='<?php eo($self.'?'.$xurl.'&db='.ue($DB['db']))?>'">
 </div>
 <br><br><br>
-<!--
-<h3>Import one Table from CSV</h3>
-<div class="frm">
-.csv file (Excel style): <input type="file" name="file2" value="" size=40><br>
-<input type="checkbox" name="r1" value="1" checked> first row contain field names<br>
-<small>(note: for success, field names should be exactly the same as in DB)</small><br>
-Character set of the file: <select name="chset"><?php echo chset_select('utf8')?></select>
-<br><br>
-Import into:<br>
-<input type="radio" name="tt" value="1" checked="checked"> existing table:
- <select name="t">
- <option value=''>- select -</option>
- <?php echo sel(db_array('show tables',NULL,0,1), 0, ''); ?>
-</select>
-<div style="margin-left:20px">
- <input type="checkbox" name="ttr" value="1"> replace existing DB data<br>
- <input type="checkbox" name="tti" value="1"> ignore duplicate rows
-</div>
-<input type="radio" name="tt" value="2"> create new table with name <input type="text" name="tn" value="" size="20">
-<br><br>
-<input type="hidden" name="doimcsv" value="1">
-<input type="submit" value=" Upload and Import " onclick="return ays()"><input type="button" value=" Cancel " onclick="window.location='<?php eo($self)?>'">
-</div>
--->
+
 </center>
 <?php
  print_footer();

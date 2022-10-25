@@ -1,7 +1,7 @@
 
 <div class="row">
 
-  <!-- Logs -->
+  
   <div class="col-sm-12 mb-6">
     <div class="card col-md-12 no-padding ">
   <?php $logs = $db->query("SELECT * FROM logs ORDER BY id DESC LIMIT 10")->results(); ?>
@@ -40,5 +40,5 @@
     </div>
   </div>
 </div>
-  <!-- End Logs -->
-</div>  <!-- End Widget -->
+  
+</div>  

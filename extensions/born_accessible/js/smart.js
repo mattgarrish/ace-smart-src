@@ -508,13 +508,21 @@ smart_extensions['born_accessible'] = (function() {
 			
 			for (var i = 0; i < tests.length; i++) {
 				var score_info = {};
-				var checked_score = tests[i].querySelector('input:checked');
-				var score = checked_score ? checked_score.value : '';
-				var note = tests[i].querySelector('textarea').value;
+					score_info.id = tests[i].id;
 				
-				score_info.id = tests[i].id;
-				score_info.score = score;
-				score_info.note = note;
+				var checked_score = tests[i].querySelector('input:checked');
+				var score = '';
+				var score_id = '';
+				
+				if (checked_score) {
+					score_info.score = checked_score.value;
+					if (checked_score.id) {
+						score_info.score_id = checked_score.id;
+					}
+				}
+				
+				var note = tests[i].querySelector('textarea').value;
+					score_info.note = note;
 				
 				baJSON.scores.push(score_info);
 			}
@@ -581,7 +589,20 @@ smart_extensions['born_accessible'] = (function() {
 						}
 						else {
 							if (test.hasOwnProperty('score') && test.score != '') {
-								var score_input = field.querySelector('input[value="' + test.score + '"]');
+							
+								var selector = 'input';
+								
+								if (test.hasOwnProperty('score_id') && test.score_id != '') {
+									// tests with same score value have IDs
+									selector += '#' + test.score_id
+								}
+								
+								else {
+									// match by the value attribute
+									selector += ':not([id])[value="' + test.score + '"]';
+								}
+								
+								var score_input = field.querySelector(selector);
 								if (score_input) {
 								    score_input.checked = true;
 								    bornAccessible.updateSectionScore(score_input);

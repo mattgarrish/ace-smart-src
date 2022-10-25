@@ -1,7 +1,7 @@
-<!-- This is an example widget file.  It will be included on the statistics page of the Dashboard. -->
 
 
-<!-- Do any php that needs to happen. You already have access to the db -->
+
+
 <?php
 if(!empty($_POST)){
   if(!empty($_POST['emptySystem'])){
@@ -30,7 +30,7 @@ if(!empty($_POST)){
 }
 
 ?>
-<!-- Create a div to hold your widget -->
+
 
   <div class="row">
 
@@ -93,7 +93,7 @@ if(!empty($_POST)){
       </div>
     </div>
   </div>
-<!-- </div> -->
+
 
 <script type="text/javascript">
 $('.dbWidgetDelete').on('click',function(e){

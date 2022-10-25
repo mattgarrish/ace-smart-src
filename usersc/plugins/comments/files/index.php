@@ -49,7 +49,7 @@ $token = Token::generate();
 
 <div id="page-wrapper">
   <div class="container">
-    <!-- Page Heading -->
+    
     <div class="row">
       <div class="col-xs-12 col-md-6">
         <h1>Comment Moderation</h1>
@@ -95,11 +95,11 @@ $token = Token::generate();
   </div>
 
 
-  <!-- End of main content section -->
+  
 
   <?php require_once $abs_us_root.$us_url_root.'users/includes/page_footer.php'; // the final html footer copyright row + the external js calls ?>
 
-  <!-- Place any per-page javascript here -->
+  
   <script src="./../../../users/js/pagination/jquery.dataTables.js" type="text/javascript"></script>
   <script src="./../../../users/js/pagination/dataTables.js" type="text/javascript"></script>
   <script src="./../../../users/js/jwerty.js"></script>

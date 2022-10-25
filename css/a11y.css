@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 @font-face{
 	font-family: 'Open Sans Light';
@@ -33,57 +34,67 @@ header > *{
 /* user identification */
 
 div.id {
-	color: rgb(255,255,255);
+	color: rgb(0,0,0);
 	margin: 1.3rem 5rem 0 0;
 	float: right;
 }
 
 div.id code {
-	color: rgb(240,245,0);
 	font-size: 1.6rem;
 }
 
 div.id code > a {
 	font: inherit;
-	color: inherit;
+	color: rgb(0,0,220);
+}
+
+div.id code > a:hover {
+	font: inherit;
+	color: red;
 }
 
 div.id a.logout {
 	font-size: 1.1rem;
 	margin-left: 1rem;
-	color: rgb(255,255,255);
-	border: 0.1rem solid rgb(255,255,255);
-	padding: 0.4rem 1rem;
+	color: rgb(0,0,220);
+	border: 0.1rem solid rgb(0,0,220);
+	padding: 0.2rem 1.5rem;
 }
 
 div.id a.logout:hover {
 	text-decoration: none;
-	color: rgb(120,240,255);
-	border: 0.1rem solid rgb(120,240,255);
+	color: red;
+	border: 0.1rem solid red;
 }
 
 /* title and logo */
 
 h1{
-	font-family: 'Open Sans Light', Helvetica, Arial, sans-serif;
+	font-family: Roboto, 'Open Sans Light', Helvetica, Arial, sans-serif;
+	font-weight: normal;
 	font-size: 2.5rem;
 	margin: 0;
-	padding: 0.4rem 0 0.2rem 2rem !important;
-	background-color: rgb(27, 95, 161);
-	color: rgb(255, 255, 255);
-	min-height: 36px;
+	padding: 1rem 0 0.2rem 2rem !important;
+	background-color: rgb(255,255,255);
+	color: rgb(0,0,0);
+	min-height: 3.5rem;
 }
 
-h1 > span:first-child{
+h1 > span {
+	padding-left: 0.7rem;
+}
+
+h1 > span:first-child {
 	padding-right: 0.5rem;
 }
 
 img.logo{
-	vertical-align: middle;
+	vertical-align: bottom;
+	height: 30px;	
 }
 
 span.smart_hd {
-	color: rgb(127,255,255);
+	color: rgb(27,95,161);
 	font-style: italic;
 }
 
@@ -213,16 +224,22 @@ a:not([href]) {
 
 /* menubar */
 
-nav.menubar {
+nav.menubar,
+div.menubar {
 	margin: 0 0 0 -1rem;
 	padding: 0.5rem 0.5rem 0.5rem 2rem;
 	border-bottom: 0.1rem solid rgb(0, 0, 0);
-	background-color: rgb(245, 245, 245);
+	background-color: rgb(27,95,161);
+}
+
+div.menubar {
+	height: 0;
 }
 
 nav.menubar > a {
 	font-size: 90%;
 	padding-right: 2rem;
+	color: rgb(255,255,255);
 }
 
 nav.menubar > a:not([href]) {

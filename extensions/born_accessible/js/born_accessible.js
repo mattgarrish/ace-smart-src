@@ -158,7 +158,8 @@ var bornAccessible = (function() {
 				ba_tests.push(createRadioInput(
 					{
 						name: gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
-						value: 'Unverified',
+						score: 'Unverified',
+						score_id: '',
 						description: 'Unverified',
 						label: gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend',
 						checked: true
@@ -167,15 +168,33 @@ var bornAccessible = (function() {
 				
 				// add possible scores
 				
-				for (var score in gca.bornAccessibleScoring.sections[i].sectionItems[j].itemScores) {
-					ba_tests.push(createRadioInput(
+				var score_list = ['0','1','2','3','4','N/A'];
+				
+				for (var k = 0; k < score_list.length; k++) {
+				
+					var score_re = new RegExp('^' + score_list[k]);
+					
+					// get all score IDs that match (allows the same scores to be given to different issues)
+					var filteredScores = Object.keys(gca.bornAccessibleScoring.sections[i].sectionItems[j].itemScores).filter((name) => score_re.test(name));
+					
+					for (var m = 0; m < filteredScores.length; m++) {
+					
+						var score = filteredScores[m];
+						var id = '';
+						
+						if (score.indexOf(':') > -1) {
+							[score, id] = score.split(':');
+						}
+						
+						ba_tests.push(createRadioInput(
 						{
 							name: gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'],
-							value: score,
-							description: score + ' \u2014 ' + gca.bornAccessibleScoring.sections[i].sectionItems[j].itemScores[score],
+							score: score,
+							score_id: id,
+							description: score + ' \u2014 ' + gca.bornAccessibleScoring.sections[i].sectionItems[j].itemScores[filteredScores[m]],
 							label: gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend'
-						}
-					));
+						}));
+					}
 				}
 				
 				// add note field
@@ -245,7 +264,10 @@ var bornAccessible = (function() {
 	
 	
 	function createRadioInput(options) {
-		var input = '<div class="ba-label"><label><input type="radio" name="' + options.name + '" value="' + options.value + '" aria-labelledby="' + options.label + '" class="test-input"';
+	
+		var id = options.score_id ? ' id="' + options.name + '-' + options.score_id + '"' : '';
+		
+		var input = '<div class="ba-label"><label><input type="radio" name="' + options.name + '"' + id + ' value="' + options.score + '" aria-labelledby="' + options.label + '" class="test-input"';
 		
 		if (options.checked) {
 			input += ' checked="checked"';

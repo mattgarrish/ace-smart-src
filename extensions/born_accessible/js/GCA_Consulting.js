@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.23",
+    "version": "1.24",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "02/01/2022, 09:00:00 AM",
+    "dct:date": "10/01/2022, 09:00:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -127,6 +127,15 @@ var gca = {
                             "1": "Unnecessary use of images for binary, hexadecimal, morse code, etc.",
                             "3": "Unnecessary use of images containing text, could be done without an image using text characters and CSS styling",
                             "4": "All images containing text are appropriate and fully described"
+                        }
+                    },
+                    {
+                        "$itemId": "images-text-image-colorcontrast",
+                        "itemName" : "Color Contrast for Images with Text",
+                        "itemScores": {
+                            "N/A": "No images found containing text",
+                            "0": "Image containing text does not meet color contrast requirements",
+                            "4": "All Images with text passes color contrast requirements"
                         }
                     },
                     {
@@ -258,7 +267,7 @@ var gca = {
                     "itemName" : "Correct Reading Order",
                     "itemScores": {
                         "0": "The reading order does not follow the structure of the book",
-                        "1": "Small issues with reading order (ie. asides not defined correctly and read as part of the main)",
+                        "1": "Small issues with reading order (i.e. asides not defined correctly and read as part of the main)",
                         "4": "All content read in the correct order."
                     },
                     "wcagScoreFrom": ["sc-1.3.2","sc-2.4.3"]
@@ -314,7 +323,7 @@ var gca = {
                             "0": "<strong> and <em> are used incorrectly. Used for styling, not semantic emphasis",
                             "1": "<span class=”strong”> and <span class=”em”> used instead of correct tags",
                             "2": "Inconsistent mixture of use",
-                            "4": "Emphasis & Bolding done correctly (ie. <b> and <i> for visual styling, where <strong> and <em> are used to semantically stress the tagged content)"
+                            "4": "Emphasis & Bolding done correctly (i.e. <b> and <i> for visual styling, where <strong> and <em> are used to semantically stress the tagged content)"
                         }
                     },
                     {
@@ -434,21 +443,22 @@ var gca = {
                         }
                     },
                     {
-                        "$itemId": "general-text-image-colorcontrast",
-                        "itemName" : "Color Contrast for Images with Text",
-                        "itemScores": {
-                            "N/A": "No images found containing text",
-                            "0": "Image containing text does not meet color contrast requirements",
-                            "4": "All Images with text passes color contrast requirements"
-                        }
-                    },
-                    {
                         "$itemId": "general-repeated-characters",
                         "itemName" : "Repeated Characters",
                         "itemScores": {
                             "N/A": "No repeated characters present",
                             "0": "Repeated characters are announced to Assistive Technology (AT)",
-                            "4": "Repeated characters are hidden to AT (eg. <span aria-hidden=\"true\">____________</span>)"
+                            "3": "Repeated characters are hidden to AT (eg. <span aria-hidden=\"true\">____________</span>)",
+                            "4": "Repeated characters are meaningfully spoken by AT (eg. <span role=\"img\" aria-label=\"answer field\">____________</span>)"
+                        }
+                    },
+                    {
+                        "$itemId": "general-redacted-text",
+                        "itemName" : "Redacted Text",
+                        "itemScores": {
+                            "N/A": "No redacted text present",
+                            "0": "Redacted Text visual only",
+                            "4": "Redacted Text is meaningfully spoken by AT (eg. <span class=\"redacted\" role=\"img\" aria-label=\"redacted text\">███████████</span>)"
                         }
                     }
                       
@@ -460,21 +470,31 @@ var gca = {
                 "sectionItems": [
                     {
                         "$itemId": "language-decoloration-opf",
-                        "itemName" : "Declared in OPF",
+                        "itemName" : "EPUBs main Language Declared in OPF's Metadata",
                         "itemScores": {
-                            "0": "No languages are declared in the EPUB, (ie: missing <dc:language> metadata)",
-                            "1": "xml:lang attribute is missing in package element of OPF",
-                            "4": "Language declared correctly in the OPF file"
+                            "0": "No language is declared in the EPUB, (ie: missing <dc:language> metadata)",
+                            "1": "language metadata is inaccurate in OPF file",
+                            "4": "EPUB’s main Language declared correctly in the metadata of the OPF file"
                         },
                         "wcagScoreFrom": ["sc-3.1.1"]
                     },
                     {
-                        "$itemId": "language-decoloration-xhtml",
+                        "$itemId": "xmllanguage-decoloration-opf",
+                        "itemName" : "XML Language Declared in OPF File",
+                        "itemScores": {
+                            "0": "xml:lang attribute is missing or is incorrect in <package> element of the OPF file",
+                            "4": "xml:lang attribute language declared correctly in the <package> element of the OPF file"
+                        },
+                        "wcagScoreFrom": ["sc-3.1.1"]
+                    },
+                    {
+                        "$itemId": "language-declaration-xhtml",
                         "itemName" : "Declared in XHTML files",
                         "itemScores": {
-                            "0": "Language declaration missing in XHTML files (ie: missing xml:lang=\"en\" lang=\"en\")",
+                            "0": "Language declaration missing or incomplete in XHTML files (ie: missing xml:lang=\"en\" AND lang=\"en\")",
+                            "1": "Language declared within XHTML files placed on <body> instead of in <html> tag",
                             "2": "Language declared within XHTML files does not match language declared in OPF file",
-                            "4": "Language declared correctly in XHTML files"
+                            "4": "Language declared correctly in all XHTML files"
                         },
                         "wcagScoreFrom": ["sc-3.1.1"]
                     },
@@ -488,7 +508,7 @@ var gca = {
                             "4": "All language shifts throughout the publication were marked correctly. (Note: Common foreign words and phrases do not need a language shift)"
                         },
                         "wcagScoreFrom": ["sc-3.1.2"]
-                    }
+                    }                    
                 ]
             },
             {
@@ -525,6 +545,31 @@ var gca = {
                         }
                     },
                     {
+                        "$itemId": "navigation-subtitles",
+                        "itemName" : "Subtitles",
+                        "itemScores": {
+                            "N/A": "No Subtitles present",
+                            "0": "Subtitles incorrectly coded using multiple headings",
+                            "4": "Subtitles marked using role=\"doc-subtitle\" within a <p> or <div>"
+                        }
+                    },
+                    {
+                        "$itemId": "navigation-nonimage-context-breaks",
+                        "itemName" : "Non-image Context Breaks",
+                        "itemScores": {
+                            "N/A": "No context breaks present, or uses images as covered in Section 1.4",
+                            "0": "Context breaks visual only (i.e., uses CSS or html elements to insert extra visual space before or after a paragraph)",
+                            "1": "Context breaks use consistent character (i.e., * or *** or §)",
+                            "4": "Context break uses <hr/> and styled with CSS"
+                        }
+                    }                      
+                ]
+            },
+            {
+                "$sectionId": "section-pages",
+                "sectionName": "Page Navigation",
+                "sectionItems": [
+                    {
                         "$itemId": "navigation-dc-source",
                         "itemName" : "dc:Source (page metadata)",
                         "itemScores": {
@@ -547,7 +592,26 @@ var gca = {
                             "3": "Page breaks present but contained title attribute which is not recommended",
                             "4": "Page breaks contains (optional epub:type=pagebreak), role=doc-pagebreak and labelled correctly"
                        }
-                    } ,
+                    },
+                    {
+                        "$itemId": "navigation-pagebreak-roman-numeral",
+                        "itemName" : "Page Breaks - Roman Numerals",
+                        "itemScores": {
+                            "N/A": "No pages / no print equivalent / No Roman numerals",
+                            "0": "Roman numerals are written out i.e. aria-label=\"page Roman numeral 9\" but displayed as \"page IX\"",
+                            "4": "Roman numerals match the display and are left in letter form i.e. aria-label =\" Page IX. \""
+                       }
+                    },                   
+                    {
+                        "$itemId": "navigation-pagebreak-labels",
+                        "itemName" : "Page Break Labels",
+                        "itemScores": {
+                            "N/A": "No Page breaks present",
+                            "0": "Page breaks incorrectly labelled (i.e.: using title instead of label)",
+                            "3": "Page break labelled with just the page number (aria-label=\"123\" missing \"page\" text)",
+                            "4": "Page breaks labelled with recommended format (aria-label=\" page 123. \") [i.e., <space> + \"page\" + <space> + # + <period> + <space>] or are visible."
+                       }
+                    },
                     {
                         "$itemId": "navigation-pagebreak-blank",
                         "itemName" : "Blank Pages",
@@ -566,35 +630,7 @@ var gca = {
                             "2": "Page list present but incomplete or incorrectly marked up",
                              "4": "All Pages referenced correctly (with optional epub:type=page-list) in Nav document"
                        }
-                    },
-                    {
-                        "$itemId": "navigation-pagebreak-roman-numeral",
-                        "itemName" : "Page Breaks - Roman numerals",
-                        "itemScores": {
-                            "N/A": "No pages / no print equivalent / No Roman numerals",
-                            "0": "Roman numerals are written out i.e. aria-label=\"page Roman numeral 9\" but displayed as \"page IX\"",
-                            "4": "Roman numerals match the display and are left in letter form ie. aria-label =\"page IX\""
-                       }
-                    },                   
-                    {
-                        "$itemId": "navigation-pagebreak-labels",
-                        "itemName" : "Page Break Labels",
-                        "itemScores": {
-                            "N/A": "No Page breaks present",
-                            "0": "Page breaks incorrectly labelled (i.e. using title instead of label)",
-                            "3": "Page break labelled with just the page number (aria-label=\"123\" missing \"page\" text)",
-                            "4": "Page breaks labelled with recommended format (aria-label=\"page 123\") [ie. \"page\" + space + #] or are visible."
-                       }
-                    },
-                    {
-                        "$itemId": "navigation-subtitles",
-                        "itemName" : "Subtitles",
-                        "itemScores": {
-                            "N/A": "No Subtitles present",
-                            "0": "Subtitles incorrectly coded using multiple headings",
-                            "4": "Subtitles marked using role=\"doc-subtitle\" within a <p> or <div>"
-                        }
-                    }                  
+                    }                     
                 ]
             },
             {
@@ -609,7 +645,7 @@ var gca = {
                             "0": "Intra-text references are flat, URLs are not hyperlinked",
                             "1": "Live link is not described to assistive technology",
                             "3": "Only some of the intra-text references are live; unlinked flat print index repeated in the EPUB",
-                            "4": "All URLs and internal references worked"
+                            "4": "All URLs and internal references are live and have meaningful descriptions"
                         },
                         "wcagScoreFrom": ["sc-2.4.4"]
                     },
@@ -795,32 +831,32 @@ var gca = {
                         "$itemId": "required-accessibility-metadata-conformsto",
                         "itemName" : "conformsTo",
                         "itemScores": {
-                            "N/A": "Pending Accreditation (metadata not present)",
-                            "0": "Non-Accredited Publisher: metadata present",
-                            "1": "Accredited Publisher: metadata missing or incorrect",
-                            "4": "Accredited Publisher: metadata correctly matches WCAG compliance"
+                            "N/A": "Pending Certification (metadata not present)",
+                            "0": "Non-Certified Publisher: metadata present",
+                            "1": "Certified Publisher: metadata missing or incorrect",
+                            "4": "Certified Publisher: metadata correctly matches WCAG compliance"
                         }
                     },
                     {
                         "$itemId": "required-accessibility-metadata-certifiedby",
                         "itemName" : "certifiedBy",
                         "itemScores": {
-                            "N/A": "Pending Accreditation (metadata not present)",
-                            "0": "Non-Accredited Publisher: metadata present",
-                            "1": "Accredited Publisher: metadata missing where conformsTo is present",
-                            "2": "Accredited Publisher: metadata incorrect GCA Partner name present",
-                            "4": "Accredited Publisher: metadata correctly reports GCA certifying agency name"
+                            "N/A": "Pending Certification (metadata not present)",
+                            "0": "Non-Certified Publisher: metadata present",
+                            "1": "Certified Publisher: metadata missing where conformsTo is present",
+                            "2": "Certified Publisher: metadata incorrect GCA Partner name present",
+                            "4": "Certified Publisher: metadata correctly reports GCA certifying agency name"
                         }
                     },
                     {
                         "$itemId": "required-accessibility-metadata-certifiercredential",
                         "itemName" : "certifierCredential",
                         "itemScores": {
-                            "N/A": "Pending Accreditation (metadata not present)",
-                            "0": "Non-Accredited Publisher: metadata present",
-                            "1": "Accredited Publisher: metadata missing where certifiedBy is present",
-                            "2": "Accredited Publisher: metadata incorrect (not GCA URL)",
-                            "4": "Accredited Publisher: metadata correctly reports GCA URL"
+                            "N/A": "Pending Certification (metadata not present)",
+                            "0": "Non-Certified Publisher: metadata present",
+                            "1": "Certified Publisher: metadata missing where certifiedBy is present",
+                            "2": "Certified Publisher: metadata incorrect (not GCA URL)",
+                            "4": "Certified Publisher: metadata correctly reports GCA URL"
                         }
                     },
                     {
@@ -882,7 +918,7 @@ var gca = {
                         "itemScores": {
                             "N/A": "Metadata not present",
                             "0": "Invalid link to an accessibility report",
-                            "4": "Accredited Publisher: metadata URL links to an Accessibility Report"
+                            "4": "Certified Publisher: metadata URL links to an Accessibility Report"
                         }
                     },
                      {

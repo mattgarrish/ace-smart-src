@@ -1,6 +1,6 @@
 <script src="<?=$us_url_root?>usersc/widgets/permissions/Chart.bundle.js"></script>
 <div class="row">
-<!-- Do any php that needs to happen. You already have access to the db -->
+
 <?php
 $permsQ = $db->query("SELECT * FROM permissions");
 $permsC = $permsQ->count();
@@ -22,12 +22,12 @@ $userLevels = substr($userLevels,0, -1);
 // dump($userLevels);
 
 ?>
-<!-- Create a div to hold your widget -->
+
 <div class="col-lg-6">
     <div class="card">
         <div class="card-body">
             <h4 class="mb-3">Number of Users with a Permission</h4>
-            <!-- id should be unique -->
+            
             <canvas id="permission-chart"></canvas>
         </div>
     </div>
@@ -35,25 +35,25 @@ $userLevels = substr($userLevels,0, -1);
 
 
 
-<!-- Do any php that needs to happen. You already have access to the db -->
+
 <?php
 $private = $db->query("SELECT id FROM pages WHERE private = ?",array(1))->count();
 $public = $db->query("SELECT id FROM pages WHERE private = ?",array(0))->count();
 
 ?>
-<!-- Create a div to hold your widget -->
+
 <div class="col-lg-6">
     <div class="card">
         <div class="card-body">
             <h4 class="mb-3">Public vs Private Pages </h4>
-            <!-- id should be unique -->
+            
             <canvas id="pages-chart"></canvas>
         </div>
     </div>
 </div>
 
-</div> <!-- end of widget -->
-<!-- Put any javascript here -->
+</div> 
+
 <script type="text/javascript">
 $(document).ready(function() {
 var ctx = document.getElementById( "pages-chart" );

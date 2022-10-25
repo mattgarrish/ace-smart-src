@@ -72,17 +72,6 @@ figcaption {
 	margin: auto;
 }
 
-img {
-	display: block;
-	margin: auto;
-	margin-top: 1rem;
-}
-
-span.logo {
-	float: right;
-	margin-top: -1.1rem;
-}
-
 nav[role="doc-toc"] > ol {
 	list-style-type: decimal !important;
 }

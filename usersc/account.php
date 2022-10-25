@@ -92,9 +92,9 @@ $userdetails = fetchUserDetails(null, null, $get_info_id); //Fetch user details
 
 </div>
 	<?php languageSwitcher(); ?>
-</div> <!-- /container -->
+</div> 
 
-</div> <!-- /#page-wrapper -->
+</div> 
 
 <script>
 	$('input#delete_user_button').click( function(){
@@ -104,6 +104,6 @@ $userdetails = fetchUserDetails(null, null, $get_info_id); //Fetch user details
 	});
 </script>
 
-<!-- footers -->
+
 
 <?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>

@@ -349,9 +349,9 @@ if (!empty($_POST)) {
           </div>
 
 
-        </div> <!-- /container -->
+        </div> 
 
-      </div> <!-- /#page-wrapper -->
+      </div> 
 
 
       <?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>
