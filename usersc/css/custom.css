@@ -11,7 +11,34 @@ h1.ace_login_hd > span:first-child{
 }
 
 h2.form-signin-heading {
-	font-size: 1.6rem;
+	font-size: 1.2rem;
+}
+
+h2.login_intro {
+	font-size: 1.5rem;
+	color: rgb(27,95,161)
+}
+
+form.form-signin {
+	max-width: 40rem;
+}
+
+div.no-flex {
+	flex-wrap: unset !important;
+}
+
+div.fl-70 {
+	width: 70vw;
+	padding-top: 2rem;
+}
+
+div.fl-30 {
+	width: 30vw;
+	flex: unset !important;
+}
+
+.col-sm-6 {
+	max-width: 100% !important;
 }
 
 img.logo{
