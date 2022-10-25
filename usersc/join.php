@@ -311,7 +311,7 @@ includeHook($hooks, 'bottom');
 </div>
 </div>
 
-<!-- footers -->
+
 <?php require_once $abs_us_root.$us_url_root.'users/includes/page_footer.php'; // the final html footer copyright row + the external js calls?>
 
 <?php if ($settings->recaptcha > 0) { ?>

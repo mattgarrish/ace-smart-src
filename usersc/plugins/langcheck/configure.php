@@ -29,7 +29,7 @@ if(!empty($_POST['submitEnglish'])){
  			<div class="col-sm-12">
           <a href="<?=$us_url_root?>users/admin.php?view=plugins">Return to the Plugin Manager</a>
           <div class="row">
-            <!-- MISSING langauge keys -->
+            
               <div class="col-sm-6">
               <br>
               <h3 align="center">Check for MISSING language keys</h3>
@@ -49,7 +49,7 @@ if(!empty($_POST['submitEnglish'])){
               </form>
             </div>
 
-            <!-- UNTRANSLATED Language Keys -->
+            
             <div class="col-sm-6">
             <br>
             <h3 align="center">Check for UNTRANSLATED language keys</h3>
@@ -108,5 +108,5 @@ if(!empty($_POST['submitEnglish'])){
             }
           }
         ?>
- 			</div> <!-- /.col -->
- 		</div> <!-- /.row -->
+ 			</div> 
+ 		</div> 

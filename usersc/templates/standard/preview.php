@@ -14,16 +14,16 @@ $settings = $db->query("SELECT * FROM settings")->first();
 <?php require_once($abs_us_root.$us_url_root.'users/includes/template/header1_must_include.php'); ?>
 
 
-<!-- Bootstrap Core CSS -->
+
 <link rel="stylesheet" href="<?=$us_url_root?>usersc/templates/standard/assets/css/bootstrap.min.css">
 
-<!-- Table Sorting and Such -->
+
 <link href="<?=$us_url_root?>users/css/datatables.css" rel="stylesheet">
 
-<!-- Custom Fonts/Animation/Styling-->
+
 <link rel="stylesheet" href="<?=$us_url_root?>users/fonts/css/font-awesome.min.css">
 
-<!-- jQuery Fallback -->
+
 <script type="text/javascript">
 if (typeof jQuery == 'undefined') {
   document.write(unescape("%3Cscript src='<?=$us_url_root?>users/js/jquery.js' type='text/javascript'%3E%3C/script%3E"));
@@ -39,14 +39,14 @@ if(file_exists($abs_us_root.$us_url_root.'usersc/templates/'.$settings->template
 </head>
 <?php require_once($abs_us_root.$us_url_root.'users/includes/template/header3_must_include.php'); ?>
 
-<!-- Grab the initial menu work that UserSpice does for you -->
+
 <?php require_once($abs_us_root.$us_url_root.'users/includes/template/database_navigation_prep.php');?>
 
-<!-- This file is a way of allowing the end user to customize stuff -->
-<!-- without getting in the middle of the whole template itself -->
+
+
 <?php require_once($abs_us_root.$us_url_root.'usersc/templates/standard/assets/functions/style.php');?>
 
-<!-- Set your logo and the "header" of the navigation here -->
+
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
        <a href="<?=$us_url_root?>"><img src="<?=$us_url_root?>users/images/logo.png"></a>
        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,8 +56,8 @@ if(file_exists($abs_us_root.$us_url_root.'usersc/templates/'.$settings->template
        <div class="collapse navbar-collapse" id="navbarsExample03">
          <ul class="navbar-nav ml-auto">
 
-<!-- Here's where it gets tricky.  We need to concatenate together the html to make the menu. -->
-<!-- Basically you will be editing each function into the "style" of your menu -->
+
+
 <?php if($settings->navigation_type==0) {
     $query = $db->query("SELECT * FROM email");
 $results = $query->first();
@@ -82,7 +82,7 @@ require_once($abs_us_root.$us_url_root.'usersc/templates/standard/assets/functio
 } ?>
 
 
-<!-- Close everything out and leave the hooks so error and bold messages work on your template -->
+
 </ul>
 </div>
 </div>

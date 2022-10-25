@@ -1,8 +1,8 @@
-<!-- Grab the initial menu work that UserSpice does for you -->
+
 <?php require_once($abs_us_root . $us_url_root . 'users/includes/template/database_navigation_prep.php'); ?>
 
-<!-- This file is a way of allowing the end user to customize stuff -->
-<!-- without getting in the middle of the whole template itself -->
+
+
 <?php require_once($abs_us_root . $us_url_root . 'usersc/templates/' . $settings->template . '/assets/functions/style.php'); ?>
 <?php
 
@@ -14,7 +14,6 @@ if (file_exists($abs_us_root . $us_url_root . 'usersc/templates/' . $settings->t
 
 if ($navstyle == 'Default') {
   ?>
-  <!-- Set your logo and the "header" of the navigation here -->
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <h1 class="ace_login_hd">
     	<span><img src="<?= $us_url_root ?>images/daisy_logo.png" alt="DAISY"></span>
@@ -27,8 +26,6 @@ if ($navstyle == 'Default') {
     <div class="collapse navbar-collapse" id="navbarsExample03">
       <ul class="navbar-nav ml-auto">
 
-        <!-- Here's where it gets tricky.  We need to concatenate together the html to make the menu. -->
-        <!-- Basically you will be editing each function into the "style" of your menu -->
         <?php
         if ($settings->navigation_type == 0) {
           $query = $db->query("SELECT * FROM email");
@@ -56,8 +53,6 @@ if ($navstyle == 'Default') {
         }
         ?>
 
-
-        <!-- Close everything out and leave the hooks so error and bold messages work on your template -->
       </ul>
     </div>
   </div>

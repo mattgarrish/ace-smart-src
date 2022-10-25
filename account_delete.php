@@ -5,7 +5,6 @@
 <?php require_once 'php/db.php' ?>
 
 <?php
-	require_once("users/vendor/autoload.php");
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\Exception;
 ?>
@@ -42,7 +41,7 @@ if(!empty($_POST)) {
 		$db->connect();
 		$result = null;
 		
-		if ($db->prepare("SELECT smtp_server, useSMTPauth, email_login, email_pass, transport, from_email, from_name FROM email")) {
+		if ($db->prepare("SELECT smtp_server, smtp_port, useSMTPauth, email_login, email_pass, transport, from_email, from_name FROM email")) {
 		    $db->execute();
 			$result = $db->get_result();
 		}
@@ -55,6 +54,7 @@ if(!empty($_POST)) {
 			$mail->isSMTP();
 			$mail->SMTPDebug = false;
 			$mail->Host = $result['smtp_server'];
+			$mail->Port = $result['smtp_port'];
 			$mail->SMTPAuth = $result['useSMTPauth'];
 			$mail->Username = $result['email_login'];
 			$mail->Password = htmlspecialchars_decode($result['email_pass']);

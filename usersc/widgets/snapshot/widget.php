@@ -1,6 +1,6 @@
 <div class="row">
 
-<!-- Important Info -->
+
 <?php
 $top = $db->query("SELECT id, logins FROM users ORDER BY logins DESC LIMIT 5")->results();
 ?>
@@ -12,9 +12,7 @@ $top = $db->query("SELECT id, logins FROM users ORDER BY logins DESC LIMIT 5")->
           <div class="h1 text-light text-left mb-4">
             <i class="fa fa-camera"></i>
           </div>
-          <!-- <a href="#">
-          <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="images/admin.jpg">
-        </a> -->
+          
         <div class="media-body">
           <h2 align="center" class="text-light display-6">System Snapshot</h2>
         </div>
@@ -56,10 +54,10 @@ $top = $db->query("SELECT id, logins FROM users ORDER BY logins DESC LIMIT 5")->
   </section>
 </aside>
 </div>
-<!-- Important Info -->
 
 
-<!-- Support Info -->
+
+
 <div class="col-lg-4 col-md-6">
   <aside class="profile-nav alt">
     <section class="card">
@@ -68,9 +66,7 @@ $top = $db->query("SELECT id, logins FROM users ORDER BY logins DESC LIMIT 5")->
           <div class="h1 text-light text-left mb-4">
             <i class="fa fa-heart"></i>
           </div>
-          <!-- <a href="#">
-          <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="images/admin.jpg">
-        </a> -->
+          
         <div class="media-body">
           <h2 align="center" class="text-light display-6">Support Info</h2>
         </div>
@@ -99,10 +95,10 @@ $top = $db->query("SELECT id, logins FROM users ORDER BY logins DESC LIMIT 5")->
   </section>
 </aside>
 </div>
-<!-- Support Info -->
 
 
-<!-- Top Users -->
+
+
 <?php
 $top = $db->query("SELECT id, logins FROM users ORDER BY logins DESC LIMIT 4")->results();
 ?>
@@ -114,9 +110,7 @@ $top = $db->query("SELECT id, logins FROM users ORDER BY logins DESC LIMIT 4")->
           <div class="h1 text-light text-left mb-4">
             <i class="fa fa-trophy"></i>
           </div>
-          <!-- <a href="#">
-          <img class="align-self-center rounded-circle mr-3" style="width:85px; height:85px;" alt="" src="images/admin.jpg">
-        </a> -->
+          
         <div class="media-body">
           <h2 align="center" class="text-light display-6">Most Active Users</h2>
         </div>
@@ -141,5 +135,5 @@ $top = $db->query("SELECT id, logins FROM users ORDER BY logins DESC LIMIT 4")->
 </aside>
 </div>
 
-<!-- End Top Users -->
-</div> <!-- End Widget -->
+
+</div> 

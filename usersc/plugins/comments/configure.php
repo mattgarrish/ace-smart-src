@@ -56,7 +56,7 @@ if(!empty($_POST['plugin_comments'])){
           On any page that you want comments, simply put the tag <font color="red">commentsHere();</font> Note that this should be a protected page in the database because it relies on the page id.  If it is not in the database, you can supply your own id, but putting <font color="red">commentsHere(['id'=>3]);</font> Where 3 is the id you want to use. Just make sure that id will not be used in the pages table in the database.
 <br><br>
      The comment manager is at <a href="<?=$us_url_root?>usersc/plugins/comments/files/index.php">usersc/plugins/comments/files/index.php</a>
-   	</div> <!-- /.col -->
+   	</div> 
       <div class="col-sm-6">
         <h3>Comment Moderators</h3>
         Adding a user here allows you to give them comment moderator permission without making them an admin.<br><br>
@@ -103,4 +103,4 @@ if(!empty($_POST['plugin_comments'])){
 
 
       </div>
- 		</div> <!-- /.row -->
+ 		</div> 

@@ -1,9 +1,9 @@
 <div class="row">
 
-<!-- Tables Section -->
+
 <div class="col-sm-12 mb-6">
   <div class="card col-md-12 no-padding ">
-    <!-- Tomfoolery -->
+    
     <?php $logs = $db->query("SELECT * FROM audit ORDER BY id DESC LIMIT 10")->results(); ?>
     <div class="card">
       <div class="card-header">
@@ -49,6 +49,6 @@
       </div>
     </div>
   </div>
-  <!-- End Logs -->
+  
 </div>
 </div>

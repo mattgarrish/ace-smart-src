@@ -1,12 +1,17 @@
 
 h1.ace_login_hd {
 	font-size: 1.7rem;
-	color: rgb(255,255,255);
+	color: rgb(0,0,0);
 	margin-top: 0.5rem;
+	margin-left: 3.5rem;
 }
 
 h1.ace_login_hd > span:first-child{
 	padding-right: 0.5rem;
+}
+
+h2.form-signin-heading {
+	font-size: 1.6rem;
 }
 
 img.logo{
@@ -15,12 +20,20 @@ img.logo{
 }
 
 span.smart_hd {
-	color: rgb(127,255,255);
+	color: rgb(27,95,161);
 	font-style: italic;
 }
 
 nav.navbar {
-    background-color: rgb(27,95,161) !important;
+    background-color: rgb(255,255,255) !important;
+}
+
+ul.navbar-nav a {
+	color: #007bff !important;
+}
+
+ul.navbar-nav a:hover {
+	color: #0056b3 !important;
 }
 
 div#agreement {
@@ -34,3 +47,26 @@ div#agreement {
 div.col-sm-12 {
 	margin-top: 2rem;
 }
+
+
+/* menubar */
+
+nav.menubar,
+div.menubar {
+	margin: 0 -1rem 0 -1rem;
+	padding: 0.5rem 0.5rem 0.5rem 4.8rem;
+	border-bottom: 0.1rem solid rgb(0, 0, 0);
+	background-color: rgb(27,95,161);
+	line-height: 0.7rem;
+}
+
+div.menubar {
+	height: 0;
+}
+
+nav.menubar > a {
+	font-size: 90%;
+	padding-right: 2rem;
+	color: rgb(255,255,255);
+}
+

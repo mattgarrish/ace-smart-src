@@ -68,8 +68,7 @@ if($commentsC < 1){
               	       <div class="clearfix"></div>
               	        <p><?=$c->comment?></p>
               	        <p>
-              	            <!-- <a class="float-right btn btn-outline-primary ml-2"> <i class="fa fa-reply"></i> Reply</a>
-              	            <a class="float-right btn text-white btn-danger"> <i class="fa fa-heart"></i> Like</a> -->
+              	            
               	       </p>
               	    </div>
       	        </div>

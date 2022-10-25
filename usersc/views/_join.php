@@ -34,12 +34,8 @@ Special thanks to John Bovey for the password strenth feature.
 
       <h2 class="form-signin-heading"> <?=lang("SIGNUP_TEXT","");?></h2>
         
-        <p>Complete the following form to create an evaluation account for the DAISY Ace SMART application. This license is free
-        	for use by any interested party and provides full access to the application, but limits users to two evaluations per
-        	month.</p>
-        
-        <p>Unlimited access is available to <a href="http://www.daisy.org/joining">DAISY Consortium's full members and inclusive
-        	publishing partners</a>. Please have your primary representative contact the DAISY Consortium for access.</p>
+        <p>Complete the following form to create an account for the DAISY Ace SMART application. This license is free
+        	for use by any interested party and provides full access to the application.</p>
 
       <div class="form-group">
       <?php if($settings->auto_assign_un==0) {?><label id="username-label"><?=lang("GEN_UNAME");?>*</label><span id="usernameCheck" class="small"></span>

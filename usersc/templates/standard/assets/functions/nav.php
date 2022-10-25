@@ -1,7 +1,7 @@
 
 
 				<?php if($user->isLoggedIn()){ //anyone is logged in?>
-<li class="nav-item"><a class="nav-link" href="<?=$us_url_root?>users/account.php"><i class="fa fa-fw fa-user"></i> <?php echo echousername($user->data()->id);?></a></li> <!-- Common for Hamburger and Regular menus link -->
+<li class="nav-item"><a class="nav-link" href="<?=$us_url_root?>users/account.php"><i class="fa fa-fw fa-user"></i> <?php echo echousername($user->data()->id);?></a></li> 
 					<?php if($settings->notifications==1) {?>
             <?php /*<li><a href="portal/'.PAGE_PATH.'#" id="notificationsTrigger" data-toggle="modal" data-target="#notificationsModal"><i class="fa fa-bell"></i> <span id="notifCount" class="badge" style="margin-top: -5px"><?= (($notifications->getUnreadCount() > 0) ? $notifications->getUnreadCount() : ''); ?></span></a></li>*/?>
 
@@ -13,19 +13,19 @@
 
 <?php //require_once $abs_us_root.$us_url_root.'usersc/includes/navigation_right_side.php'; ?>
 
-					 <!-- Hamburger menu link -->
+					 
 
                                          <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
           <i class="fa fa-fw fa-cog"></i>
       </a>
-      <div class="dropdown-menu">  <!-- open tag for User dropdown menu -->
+      <div class="dropdown-menu">  
         <a class="dropdown-item" href="<?=$us_url_root?>"><i class="fa fa-fw fa-home"></i> Home</a>
         <a class="dropdown-item" href="<?=$us_url_root?>users/account.php"><i class="fa fa-fw fa-user"></i> Account</a>
         <div class='dropdown-divider'></div>
         <?php //require_once $abs_us_root.$us_url_root.'usersc/includes/navigation_dropdown.php'; ?>
 
-        <!-- regular user menu link -->
+        
 
           <?php if (checkMenu(2,$user->data()->id)){  //Links for permission level 2 (default admin) ?>
         <a class="dropdown-item" href="<?=$us_url_root?>users/admin.php"><i class="fa fa-fw fa-cogs"></i> Admin Dashboard</a>
@@ -37,7 +37,7 @@
           <?php } // is user an admin ?>
         <div class='dropdown-divider'></div>
         <a class="dropdown-item" href="<?=$us_url_root?>users/logout.php"><i class="fa fa-fw fa-sign-out"></i> Logout</a>
-      </div>  <!-- close tag for User dropdown menu -->
+      </div>  
     </li>
 
 				<?php }else{ // no one is logged in so display default items ?>

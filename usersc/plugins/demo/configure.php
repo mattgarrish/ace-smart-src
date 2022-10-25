@@ -22,5 +22,5 @@ if(!Token::check($token)){
             How awesome is this demo plugin?
             <button type="button" name="button" class="btn btn-primary">Pretty Awesome</button>
           </form>
- 			</div> <!-- /.col -->
- 		</div> <!-- /.row -->
+ 			</div> 
+ 		</div> 
