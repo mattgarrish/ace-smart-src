@@ -162,27 +162,21 @@ if (!$res['success']) {
     <div id="page-wrapper">
       <div class="container">
         <?=resultBlock($errors,$successes);?>
-        <div class="row">
-          <div class="col-sm-12">
-            <?php
-            includeHook($hooks,'body');
-            ?>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12">
+        
+        <div class="row no-flex">
+          <div class="col-sm-12 fl-30">
             <form name="login" id="login-form" class="form-signin" action="login.php" method="post">
-              <h2 class="form-signin-heading"></i> <?=lang("SIGNIN_TITLE","");?></h2>
+              <!-- <h2 class="form-signin-heading"><?=lang("SIGNIN_TITLE","");?></h2> -->
               <input type="hidden" name="dest" value="<?= $dest ?>" />
 
               <div class="form-group">
-                <label for="username" id="username-label" ><?=lang("SIGNIN_UORE")?></label>
-                <input  class="form-control" type="text" name="username" id="username" placeholder="<?=lang("SIGNIN_UORE")?>" required autofocus autocomplete="username">
+                <span id="username-label" hidden=""><?=lang("SIGNIN_UORE")?></span>
+                <input aria-labelledby="username-label" class="form-control" type="text" name="username" id="username" placeholder="<?=lang("SIGNIN_UORE")?>" required autofocus autocomplete="username">
               </div>
 
               <div class="form-group">
-                <label for="password" id="password-label"><?=lang("SIGNIN_PASS")?></label>
-                <input type="password" class="form-control"  name="password" id="password"  placeholder="<?=lang("SIGNIN_PASS")?>" required autocomplete="current-password">
+                <span id="password-label" hidden=""><?=lang("SIGNIN_PASS")?></span>
+                <input aria-labelledby="password-label" type="password" class="form-control"  name="password" id="password"  placeholder="<?=lang("SIGNIN_PASS")?>" required autocomplete="current-password">
               </div>
               <?php   includeHook($hooks,'form');?>
                 <input type="hidden" name="login_hook" value="1">
@@ -195,20 +189,32 @@ if (!$res['success']) {
                   <div class="g-recaptcha" data-sitekey="<?=$settings->recap_public; ?>" data-bind="next_button" data-callback="submitForm"></div>
                 <?php } ?>
               </form>
+	            <div class="col-sm-6"><br>
+	              <a class="pull-left" href='../users/forgot_password.php'><i class="fa fa-wrench"></i> <?=lang("SIGNIN_FORGOTPASS","");?></a>
+	              <br><br>
+	            </div>
+		          <div class="col-sm-6"><a href="<?=$us_url_root?>users/join.php" class=""><i class="fa fa-plus-square"></i> Create new account</a></div>
+              </div>
+	          <div class="fl-70">
+	          	<h2 class="form-signin-heading login_intro">Welcome to Ace SMART!</h2>
+	          	<p>Ace SMART is made available by the <a href="https://daisy.org">DAISY Consortium</a> to help publishers
+	          		fully evaluate their EPUB publications against the requirements of the
+	        		<a href="https://www.w3.org/TR/epub-a11y/">EPUB Accessibility specification</a>.</p>
+	        	  <p>It is intended as a complement to the <a href="https://daisy.org/activities/software/ace/">Ace by 
+	        	  	DAISY</a> validation checker, covering the aspects of accessibility conformance verification that
+	        	  	cannot be handled by machine alone.</p>
+	        	  <p>SMART provides publishers with the full list of WCAG and EPUB success criteria that must be met,
+	        	  	as well as guidance on how to evaluate each criterion. The ability to pass and fail each
+	        	  	criterion is also available, ultimately allowing publishers to generate a final report covering
+	        	  	their full evaluation. Publishers can also save their reports and return to them later.</p>
+	        	  <p>SMART also provides tools to help generate accessibility metadata for use both in the EPUB
+	        	  	publication and in ONIX records.</p>
+	        	  <p>To begin using SMART, simply <a href="<?=$us_url_root?>users/join.php">create a free
+	        	  	account</a>.</p>
+	          </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6"><br>
-              <a class="pull-left" href='../users/forgot_password.php'><i class="fa fa-wrench"></i> <?=lang("SIGNIN_FORGOTPASS","");?></a>
-              <br><br>
-            </div>
-            <?php if($settings->registration==1) {?>
-              <div class="col-sm-6"><br>
-                <a class="pull-right" href='../users/join.php'><i class="fa fa-plus-square"></i> <?=lang("SIGNUP_TEXT","");?></a><br><br>
-              </div><?php } ?>
               <?php   includeHook($hooks,'bottom');?>
                 <?php languageSwitcher();?>
-            </div>
           </div>
         </div>
 
