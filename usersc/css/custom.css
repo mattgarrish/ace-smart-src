@@ -21,6 +21,7 @@ h2.login_intro {
 
 form.form-signin {
 	max-width: 40rem;
+	margin-top: 1rem;
 }
 
 div.no-flex {
@@ -80,7 +81,7 @@ div.col-sm-12 {
 
 nav.menubar,
 div.menubar {
-	margin: 0 -1rem 0 -1rem;
+	margin: 0 -15px 0 -15px;
 	padding: 0.5rem 0.5rem 0.5rem 4.8rem;
 	border-bottom: 0.1rem solid rgb(0, 0, 0);
 	background-color: rgb(27,95,161);
@@ -97,3 +98,29 @@ nav.menubar > a {
 	color: rgb(255,255,255);
 }
 
+
+/* config dialog */
+
+.ui-widget-header {
+	background-color: rgb(232, 244, 248) !important;
+}
+
+
+@media screen and (max-width: 600px),
+@media only screen
+	and (max-device-width: 480px) {
+
+	
+	div.row {
+		display: block !important;
+	}
+	
+	div.fl-70 {
+		width: 100vw;
+	}
+	
+	div.fl-30 {
+		width: 100vw;
+	}
+
+}

@@ -56,10 +56,6 @@ li.js-tablist__item a:hover{
 		font-size: 1.2rem;
 	}
 
-	main.js-tabs{
-		margin-top: 9.5rem;
-	}
-
 	.js-tabcontent > h2{
 		border-top: 0.2rem solid black;
 		margin-top: 5rem;
@@ -67,10 +63,12 @@ li.js-tablist__item a:hover{
 	}
 
 	ul.js-tablist{
-		top: 0rem;
+		display: block;
 	}
-
-	li.js-tablist__item{
+	
+	li.js-tablist__item {
+		width: 100%;
+		display: block;
 		background-color: rgb(251, 251, 251);
 		border-radius: 0 0 0 0;
 	}

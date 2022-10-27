@@ -4,11 +4,6 @@
 
 <?php require_once 'php/db.php' ?>
 
-<?php
-	use PHPMailer\PHPMailer\PHPMailer;
-	use PHPMailer\PHPMailer\Exception;
-?>
-
 <html>
 <head>
 	<meta charset="utf-8"/>
@@ -23,8 +18,6 @@
 </head>
 <body>
 	<header>
-		<div class="id">You are logged in as <code><a target="_blank" href="users/account.php"><?php echo $user->data()->username; ?></a></code> <a class="logout" href="users/logout.php">Log out</a></div>
-		
 		<h1><span property="dcterms:publisher"><img class="logo" src="images/daisy_logo.png" alt="DAISY Consortium"/></span> <span property="dcterms:title">Ace <span class="smart_hd">SMART</span></span></h1>
 	</header>
 	
@@ -35,50 +28,44 @@
 if(!empty($_POST)) {
 	if(!empty($_POST['delete_user'])){
 	
-		$mail = new PHPMailer;
-		
 		$db = new SMART_DB();
-		$db->connect();
-		$result = null;
 		
-		if ($db->prepare("SELECT smtp_server, smtp_port, useSMTPauth, email_login, email_pass, transport, from_email, from_name FROM email")) {
-		    $db->execute();
-			$result = $db->get_result();
+		if (!$db->connect()) {
+			echo '<p>Account deleting is not currently available. Please try again later.</p>';
+			die();
 		}
 		
-		if ($result === null) {
-			echo '<p>An error occurred with your request. Please try again.</p>';
+		// first remove the evaluation history in case anything goes wrong deleting the account
+		
+		if (!$db->prepare("DELETE FROM evaluations WHERE username = ?")) {
+			echo '<p>An error occurred deleting your evaluation history. Please try again.</p>';
+			die();
 		}
 		
-		else {
-			$mail->isSMTP();
-			$mail->SMTPDebug = false;
-			$mail->Host = $result['smtp_server'];
-			$mail->Port = $result['smtp_port'];
-			$mail->SMTPAuth = $result['useSMTPauth'];
-			$mail->Username = $result['email_login'];
-			$mail->Password = htmlspecialchars_decode($result['email_pass']);
-			$mail->SMTPSecure = $result['transport'];
-			
-			$mail->From = $result['from_email'];
-			$mail->FromName = $result['from_name'];
-			$mail->addAddress('matt.garrish@gmail.com', 'Matt Garrish');
-			
-			$mail->isHTML(true);
-			
-			$mail->Subject = 'Ace SMART Account Deletion Request';
-			$mail->Body    = '<ul><li>Username: ' . $user->data()->username . '</li><li>User ID: ' . $user->data()->id . '</li><li>Email: ' . $user->data()->email . '</li></ul>';
-			
-			if(!$mail->send()) {
-				echo '<p>An error occurred sending your request. Please try again.</p>';
-				//echo '<p>' . $mail->ErrorInfo . '</p>';
-			}
-			else {
-				echo '<p>Your request to delete your Ace SMART account has been submitted.</p><p>Requests are typically processed within two weeks of submission.</p>';
-			}
+		
+		if (!$db->bind_param("s", array($user->data()->username))) {
+			echo '<p>An error occurred removing your evaluation history. Please try again. ' . $user->data()->username . '</p>';
+			die();
 		}
 		
+		$db->execute();
+		
+		// next remove the user account
+		
+		if (!$db->prepare("DELETE FROM users WHERE id = ?")) {
+			echo '<p>An error occurred deleting your account. Please try again.</p>';
+			die();
+		}
+		
+		if (!$db->bind_param("i", array($user->data()->id))) {
+			echo '<p>An error occurred removing your account. Please try again.</p>';
+			die();
+		}
+	    
+	    $db->execute();
 	    $db->close();
+
+		echo '<p>Your account has been successfully deleted. Thank you for trying Ace SMART!</p>';
 	}
 	
 	else {

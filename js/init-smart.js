@@ -111,15 +111,6 @@
 	
 	
 	/* 
-	 * POLYFILLS
-	 */
-	
-	// initialize details polyfill
-	$('details').details();
-	
-	
-	
-	/* 
 	 * DIALOG CONFIGURATION
 	 */
 

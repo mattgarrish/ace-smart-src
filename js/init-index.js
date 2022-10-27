@@ -49,11 +49,11 @@
 	
 	function setView() {
 		var options = {
-			"searchable": true,
-			"setDefaultSort": true,
-			"changeDefaultSort": false,
-			"tableType": ''
-		}
+			'searchable': true,
+			'setDefaultSort': true,
+			'changeDefaultSort': false,
+			'tableType': ''
+    }
 		dt.initialize(options);
 	}
 	

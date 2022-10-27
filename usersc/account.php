@@ -56,6 +56,8 @@ $signupdate = $raw['month'].'/'.$raw['day'].'/'.$raw['year'];
 $userdetails = fetchUserDetails(null, null, $get_info_id); //Fetch user details
 ?>
 
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+
 <div id="page-wrapper">
 <div class="container">
 <div class="well">
@@ -96,13 +98,50 @@ $userdetails = fetchUserDetails(null, null, $get_info_id); //Fetch user details
 
 </div> 
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<div id="acct_del" aria-label="Delete Account" title="Delete Account">
+	<p><strong style="color: rgb(190,0,0)">WARNING</strong>: You are about to delete your account and all data associated with it. <strong>This action cannot be undone.</strong><p>
+	<p>To confirm you wish to delete your account, please enter your username and click Ok.</p>
+	<div><input type="text" aria-label="username" id="acct_name"/></div>
+</div>
+
 <script>
-	$('input#delete_user_button').click( function(){
-		if(confirm('WARNING: You are about to delete your account and all data associated with it.\n\nClick Ok to confirm this action and proceed.')) {
+
+	var del_buttons = {};
+		del_buttons['Ok'] = function() {
+			deleteAccount(document.getElementById('acct_name').value);
+		};
+		del_buttons['Cancel'] = function() {
+			$(this).dialog('close');
+		};
+
+	var del_dialog = $("#acct_del").dialog({
+		autoOpen: false,
+		height: 350,
+		width: 550,
+		modal: true,
+		buttons: del_buttons
+	});
+	
+	function deleteAccount(acct_name) {
+		if (acct_name === '<?=echousername($user->data()->id); ?>') {
 			$('#delete_user_action').submit();
 		}
+		else {
+			alert('Incorrect username entered. Account will not be deleted.');
+			del_dialog.dialog('close');
+		}
+	}
+	
+	$('input#delete_user_button').click( function(){
+		del_dialog.dialog('open');
+		return false;
 	});
+
 </script>
+
 
 
 

@@ -427,7 +427,7 @@ var smartReport = (function() {
 			value_bg_class: conf
 		}));
 		
-		// add user extension propertiesk
+		// add user extension properties
 		if (Object.keys(smart_extensions).length > 0) {
 			for (var key in smart_extensions) {
 				var property = smart_extensions[key].addReportSummaryProperty();
@@ -539,11 +539,15 @@ var smartReport = (function() {
 		var showAAA = document.getElementById('show-aaa').checked;
 		
 		var resultTable = document.createElement('table');
+			resultTable.classList.add('responsive');
+			resultTable.id = 'epub_results';
+			
 		var resultThead = document.createElement('thead');
 		var resultTheadRow = document.createElement('tr');
 		
 		var resultTheadSC = document.createElement('th');
 			resultTheadSC.appendChild(document.createTextNode(smart_ui.reporting.table.headers.sc[smart_lang]));
+			resultTheadSC.setAttribute('data-priority', '1');
 		resultTheadRow.appendChild(resultTheadSC);
 		
 		var resultTheadLevel = document.createElement('th');
@@ -552,6 +556,7 @@ var smartReport = (function() {
 		
 		var resultTheadResult = document.createElement('th');
 			resultTheadResult.appendChild(document.createTextNode(smart_ui.reporting.table.headers.result[smart_lang]));
+			resultTheadResult.setAttribute('data-priority', '2');
 		resultTheadRow.appendChild(resultTheadResult);
 		
 		resultThead.appendChild(resultTheadRow);
