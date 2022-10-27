@@ -3,7 +3,7 @@
 
 <?php require_once($abs_us_root.$us_url_root.'usersc/templates/'.$settings->template.'/assets/fonts/glyphicons.php'); ?>
 
-
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 
 <link rel="stylesheet" href="<?=$us_url_root?>usersc/templates/<?=$settings->template?>/assets/css/bootstrap.min.css">
 

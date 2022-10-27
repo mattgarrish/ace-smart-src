@@ -1292,3 +1292,38 @@ _:-ms-lang(x), _:-webkit-full-screen, p + fieldset {
 		margin-left: 0.2rem;
 	}
 }
+
+
+@media only screen
+	and (max-device-width: 600px)
+	 and (orientation : portrait) {
+	
+	div.id,
+	a#save-button,
+	a#close-button,
+	a#validate-button {
+		float: none;
+	}
+	
+	main.start,
+	form.report {
+	    height: auto;
+	    overflow-y: auto;
+	    overflow-x: auto;
+	}
+	
+	section#load {
+		margin-top: 0;
+	}
+	
+	h2 {
+		margin-top: 1rem;
+	}
+	
+	aside#stats {
+		position: unset;
+		right: unset;
+		top: unset;
+		margin-top: 2rem;
+	}
+}

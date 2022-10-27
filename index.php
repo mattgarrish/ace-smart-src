@@ -26,7 +26,8 @@
 		<link rel="stylesheet" type="text/css" href="css/a11y.css<?= '?v=' . $smart_version ?>"/>
 		<link rel="stylesheet" type="text/css" href="css/tabs.css<?= '?v=' . $smart_version ?>"/>
 		<link rel="stylesheet" type="text/css" href="css/drag-drop.css<?= '?v=' . $smart_version ?>"/>
-    	<link rel="stylesheet" type="text/css" href="css/datatables.min.css<?= '?v=' . $smart_version ?>"/>		
+    	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"/>
+    	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		
 		<!-- DC metadata --> 
@@ -58,10 +59,10 @@
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		<script src="js/jquery.details.min.js<?= '?v=' . $smart_version ?>"></script>
 		
 		<!-- DataTables -->
-		<script type="text/javascript" src="js/datatables.min.js<?= '?v=' . $smart_version ?>"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
 		<script type="text/javascript" src="js/init-datatables.js<?= '?v=' . $smart_version ?>"></script>
 		<script type="text/javascript" src="js/js.cookie.js<?= '?v=' . $smart_version ?>"></script>
 		
@@ -98,7 +99,7 @@
 			</nav>
 		</header>
 		
-		<main class="js-tabs start">
+		<main class="start">
 			<section id="load">
 				<h2 class="welcome">Start an Evaluation</h2>
 				
@@ -108,14 +109,14 @@
 			<section id="history"<?php if ($user->data()->shared) { echo ' hidden=""'; } ?>>
 				<h2 class="welcome">Evaluation History</h2>
 				
-				<table id="evaluations" class="table table-striped table-bordered">
+				<table id="evaluations" class="table responsive table-striped table-bordered">
 					<thead>
 						<tr>
-							<th>Title</th>
+							<th data-priority="1">Title</th>
 							<th>Started</th>
-							<th>Last Saved</th>
-							<th>Status</th>
-							<th>Options</th>
+							<th data-priority="4">Last Saved</th>
+							<th data-priority="3">Status</th>
+							<th data-priority="2">Options</th>
 						</tr>
 					</thead>
 					<tbody>

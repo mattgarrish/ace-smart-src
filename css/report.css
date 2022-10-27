@@ -269,3 +269,44 @@ div.dataTables_wrapper div.dataTables_filter label {
 .unverified {
 	background-color: rgb(255, 255, 240);
 }
+
+
+@media only screen
+	and (max-device-width: 600px)
+	 and (orientation : portrait) {
+	
+
+	div.summaryTable > div > div {
+		display: block;
+	}
+	
+	.label {
+		width: unset;
+	}
+
+	.info > div > div:first-child {
+		float: unset;
+	}
+	
+	li.active {
+		height: auto !important;
+	}
+	
+	li.ba-score > span {
+		display: block !important;
+		float: unset !important;
+	}
+	
+	li.ba-score > span:nth-child(2),
+	div.ba-score-note ba-hlt {
+		margin-left: 4rem !important;
+	}
+	
+	div.ba-primary > span {
+		display: block;
+	}
+	
+	div.ba-primary > span:nth-child(2) {
+    	margin-left: 2rem;
+	}
+}
