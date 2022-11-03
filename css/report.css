@@ -46,10 +46,6 @@ li.js-tablist__item{
 	margin-left: 0 !important;
 }
 
-li.active {
-	height: 3rem !important;
-}
-
 section.js-tabcontent {
 	margin-top: 0rem !important;
 }
@@ -299,7 +295,7 @@ div.dataTables_wrapper div.dataTables_filter label {
 	
 	li.ba-score > span:nth-child(2),
 	div.ba-score-note ba-hlt {
-		margin-left: 4rem !important;
+		margin-left: 2rem !important;
 	}
 	
 	div.ba-primary > span {
