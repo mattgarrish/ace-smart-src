@@ -1255,48 +1255,74 @@ _:-ms-lang(x), _:-webkit-full-screen, p + fieldset {
 	}
 }
 
-/* optimizations for phone screens */
-@media only screen
- and (max-device-width : 480px)
- and (orientation : portrait){
 
-	h1{
-		font-size: 1.2rem;
-	}
-
-	.js-tabcontent > h2{
-		border-top: 0.2rem solid black;
-		margin-top: 5rem;
-		padding-top: 1rem;
-	}
-
-	fieldset.status span{
-		display: block;
-	}
-
-	section.a,
-	section.aa,
-	section.aaa,
-	section.epub{
-		margin-left: 0.2rem;
-	}
-}
+/* mini tablet */
 
 @media only screen
- and (max-device-width : 640px)
- and (orientation : landscape){
-	section.a,
-	section.aa,
-	section.aaa,
-	section.epub{
-		margin-left: 0.2rem;
-	}
-}
-
-
-@media only screen
-	and (max-device-width: 600px)
+	and (max-device-width: 1024px)
 	 and (orientation : portrait) {
+
+	main.start {
+		height: 75vh;
+	}
+	
+	main.start + footer {
+		height: 11vh;
+	}
+	
+	aside#stats {
+		position: unset;
+		right: unset;
+		top: unset;
+		margin-top: 2rem;
+	}
+	
+	form.report {
+		height: 68vh;
+	}
+}
+
+
+@media only screen
+	and (max-device-width: 1024px)
+	 and (orientation : landscape) {
+
+	main.start {
+		height: 70vh;
+	}
+	
+	main.start + footer {
+		height: 11vh;
+	}
+	
+	aside#stats {
+		right: 0.5rem;
+	}
+	
+	form.report {
+		height: 64vh;
+	}
+	
+	main.start + footer {
+		height: 11vh;
+	}
+
+}
+
+@media only screen
+ and (max-device-width : 800px)
+ and (orientation : landscape) {
+	section.a,
+	section.aa,
+	section.aaa,
+	section.epub{
+		margin-left: 0.2rem;
+	}
+}
+
+
+@media only screen
+	and (max-device-width: 800px) {
 	
 	div.id,
 	a#save-button,
@@ -1326,4 +1352,42 @@ _:-ms-lang(x), _:-webkit-full-screen, p + fieldset {
 		top: unset;
 		margin-top: 2rem;
 	}
+}
+
+/* optimizations for phone screens */
+@media only screen
+ and (max-device-width : 480px) {
+
+	h1{
+		font-size: 1.2rem;
+	}
+
+	.js-tabcontent > h2{
+		border-top: 0.2rem solid black;
+		margin-top: 5rem;
+		padding-top: 1rem;
+	}
+
+	fieldset.status span{
+		display: block;
+	}
+
+	section.a,
+	section.aa,
+	section.aaa,
+	section.epub{
+		margin-left: 0.2rem;
+	}
+	
+	nav.menubar a[target='_blank'] {
+		display: none;
+	}
+	
+	a#save-button, a#close-button, a#validate-button {
+		margin-right: 1rem;
+	}
+	
+	label.data > input[type = 'text'], div.combo > label > input[type='text'] {
+		width: 30rem;
+    }
 }

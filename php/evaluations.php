@@ -219,9 +219,9 @@ HTML;
 							echo <<<HTML
 	<tr>
 		<td>{$row['title']}</td>
-		<td class="center">{$row['created']}</td>
-		<td class="center">{$row['modified']}</td>
-		<td class="center">{$status}</td>
+		<td>{$row['created']}</td>
+		<td>{$row['modified']}</td>
+		<td>{$status}</td>
 		<td class="option">{$option}</td>
 	</tr>
 HTML;
