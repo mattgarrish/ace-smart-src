@@ -621,7 +621,8 @@ var smartConformance = (function() {
 					status_parent_section.classList.add('hidden');
 				}
 				else {
-					if (smartWCAG.WCAGClassList().indexOf('|'+status_parent_section.className+'|') !== -1) {
+					var wcag_level = status_parent_section.className.match(/\b(a+)\b/);
+					if (wcag_level === null || smartWCAG.WCAGClassList().indexOf('|'+wcag_level[0]+'|') !== -1) {
 						status_parent_section.classList.remove('hidden');
 					}
 				}
