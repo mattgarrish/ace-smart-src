@@ -86,6 +86,16 @@ var smartManage = (function() {
 				}
 			}
 			
+			/* sc to hide by status */
+			var sc_hide_status = document.querySelectorAll('#hide-status input[type="checkbox"]:checked');
+			evaluationJSON.configuration.hide_status = [];
+			
+			if (excluded_test_types) {
+				for (var i = 0; i < sc_hide_status.length; i++) {
+					evaluationJSON.configuration.hide_status.push(sc_hide_status[i].value);
+				}
+			}
+			
 			/* list of fallbacks */
 			var fallbacks = document.querySelectorAll('#fallbacks > ul#fallback-types > li.listitem');
 			
@@ -513,11 +523,11 @@ var smartManage = (function() {
 			smartConformance.setWCAGConformanceLevel(evaluationJSON.configuration.wcag.level);
 			
 			if ((evaluationJSON.configuration.wcag.show_aa && evaluationJSON.configuration.wcag.show_aa == 'true') && evaluationJSON.configuration.wcag.level != 'aa') {
-				document.getElementById('show-aa').checked = true;
+				document.getElementById('show-aa').click();
 			}
 			
 			if (evaluationJSON.configuration.wcag.show_aaa && evaluationJSON.configuration.wcag.show_aaa == 'true') {
-				document.getElementById('show-aaa').checked = true;
+				document.getElementById('show-aaa').click();
 			}
 			
 			// account for old epub_format property - delete when safely out of use
@@ -527,6 +537,7 @@ var smartManage = (function() {
 			
 			smartFormat.setEPUBVersion(epub_format);
 			
+			// reset excluded test status - only need to check not click as the n/a setting will already be saved for each sc
 			if (evaluationJSON.configuration.hasOwnProperty('exclusions') && evaluationJSON.configuration.exclusions) {
 				evaluationJSON.configuration.exclusions.forEach(function(value) {
 					document.getElementById('excl-' + value).checked = true;
@@ -534,6 +545,13 @@ var smartManage = (function() {
 						type: value,
 						exclude: true
 					});
+				});
+			}
+			
+			// hide sc by status - need to click to re-hide
+			if (evaluationJSON.configuration.hasOwnProperty('hide_status') && evaluationJSON.configuration.hide_status) {
+				evaluationJSON.configuration.hide_status.forEach(function(value) {
+					document.querySelector('#hide-status input[value="' + value + '"]').click();
 				});
 			}
 			
