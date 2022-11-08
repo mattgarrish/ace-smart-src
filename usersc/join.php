@@ -73,7 +73,14 @@ if (Input::exists()) {
 
     $fname = Input::get('fname');
     $lname = Input::get('lname');
+    
+    if ($fname == $lname) {
+		header("Location: https://smart.daisy.org");
+		die();
+    }
+    
     $email = Input::get('email');
+    
     if ($settings->auto_assign_un == 1) {
         $username = username_helper($fname, $lname, $email);
         if (!$username) {
