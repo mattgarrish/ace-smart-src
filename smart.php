@@ -244,7 +244,7 @@ JS;
 								<label><input type="checkbox" id="show-aaa" class="optional-criteria"/> Level AAA</label>
 							</fieldset>
 							
-							<fieldset class="flat row">
+							<fieldset id="hide-status" class="flat row">
 								<legend>Hide success criteria with status:</legend>
 								<label><input type="checkbox" class="hide_sc" value="unverified"/> Unverified</label>
 								<label><input type="checkbox" class="hide_sc" value="pass"/> Pass</label>
