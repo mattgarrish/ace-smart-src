@@ -566,6 +566,18 @@ var smartReport = (function() {
 		
 		var criteria = document.querySelectorAll('.a, .aa, .aaa, .epub');
 		
+		
+		// have to display SC the user has set the option to hide before generating otherwise they won't appear in the report
+		var is_hidden = [];
+		var hidden_types = document.querySelectorAll('fieldset#hide-status input:checked');
+		
+		if (hidden_types) {
+			for (var i = 0; i < hidden_types.length; i++) {
+				hidden_types[i].click();
+				is_hidden.push(hidden_types[i].value);
+			}
+		}
+		
 		for (var i = 0; i < criteria.length; i++) {
 			
 			if (criteria[i].classList.contains('hidden')) {
@@ -680,6 +692,14 @@ var smartReport = (function() {
 		
 		resultTable.appendChild(resultTbody);
 		result.content.appendChild(resultTable);
+		
+		// re-hide any SC previously forced to make visible
+		if (is_hidden.length > 0) {
+			is_hidden.forEach(function(status) {
+				var hide_chkbox = document.querySelector('fieldset#hide-status input.hide_sc[value="' + status + '"]');
+				hide_chkbox.click();
+			});
+		}
 		
 		return result;
 	}
