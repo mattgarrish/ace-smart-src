@@ -475,29 +475,29 @@
 			],
 			
 			"sc-2.4.11" => [
-				"ref" => "focus-appearance-minimum",
+				"ref" => "focus-appearance",
 				"version" => "2.2",
 				"level" => "aa",
 		        "name" => [
-					"en" => "Focus Appearance (Minimum)"
+					"en" => "Focus Appearance"
 				]
 			],
 			
 			"sc-2.4.12" => [
-				"ref" => "focus-appearance-enhanced",
+				"ref" => "focus-not-obscured-minimum",
 				"version" => "2.2",
-				"level" => "aaa",
+				"level" => "aa",
 		        "name" => [
-					"en" => "Focus Appearance (Enhanced)"
+					"en" => "Focus Not Obscured (Minimum)"
 				]
 			],
 			
 			"sc-2.4.13" => [
-				"ref" => "page-break-navigation",
+				"ref" => "focus-not-obscured-enhanced",
 				"version" => "2.2",
-				"level" => "aa",
+				"level" => "aaa",
 		        "name" => [
-					"en" => "Page Break Navigation"
+					"en" => "Focus Not Obscured (Enhanced)"
 				]
 			],
 			
@@ -681,15 +681,6 @@
 				]
 			],
 			
-			"sc-3.2.7" => [
-				"ref" => "visible-controls",
-				"version" => "2.2",
-				"level" => "aa",
-		        "name" => [
-					"en" => "Visible Controls"
-				]
-			],
-			
 			"sc-3.3.1" => [
 				"ref" => "error-identification",
 				"version" => "2.0",
@@ -747,13 +738,22 @@
 			"sc-3.3.7" => [
 				"ref" => "accessible-authentication",
 				"version" => "2.2",
-				"level" => "a",
+				"level" => "aa",
 		        "name" => [
 					"en" => "Accessible Authentication"
 				]
 			],
 			
 			"sc-3.3.8" => [
+				"ref" => "accessible-authentication-no-exception",
+				"version" => "2.2",
+				"level" => "aaa",
+		        "name" => [
+					"en" => "Accessible Authentication (No Exception)"
+				]
+			],
+			
+			"sc-3.3.9" => [
 				"ref" => "redundant-entry",
 				"version" => "2.2",
 				"level" => "a",
@@ -891,11 +891,14 @@ HTML;
 					$level = 'Level ' . strtoupper($info['level']);
 					$level_class = $info['level'];
 					$display_id = str_replace('sc-', '', $id) . ' ';
+					$alt = 'Additional help with success criterion ' . $display_id;
 					
 					$moreinfo_link = <<<HTML
 	<p class="info">
 		<a href="https://kb.daisy.org/publishing/docs/wcag/{$info['ref']}.html" target="_blank">
-			<img src="/images/info.png" alt="{$id}" title="{$id}">
+			<img src="/images/info.png" alt="{$alt}" title="{$alt}"
+				onmouseover="this.src='/images/info_hover.png'"
+				onmouseout="this.src='/images/info.png'">
 		</a>
 	</p>
 HTML;
