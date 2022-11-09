@@ -199,6 +199,8 @@ var smartDiscovery = (function() {
 				help_img.setAttribute('height', '20px');
 				help_img.setAttribute('alt', help_img_alt);
 				help_img.setAttribute('title', help_img_alt);
+				help_img.setAttribute('onmouseover', "this.src='/images/info_hover.png'");
+				help_img.setAttribute('onmouseout', "this.src='/images/info.png'");
 				
 				help_link.appendChild(help_img);
 			
