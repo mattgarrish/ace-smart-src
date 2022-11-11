@@ -212,6 +212,7 @@ JS;
 							<select id="wcag-version" aria-labelledby="wspec-lbl" disabled="">
 								<option selected="">2.0</option>
 								<option>2.1</option>
+								<option>2.2</option>
 							</select>
 						</fieldset>
 						
