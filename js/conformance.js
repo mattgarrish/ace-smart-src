@@ -119,10 +119,21 @@ var smartConformance = (function() {
 	
 	var _WCAG_MAP = {
 		'sc-2.4.7': {
-			'default': 'aa',
-			'change' : {
-				'in' : 2.2,
-				'to' : 'a'
+			'level' : {
+				'default': 'aa',
+				'change' : {
+					'in' : 2.2,
+					'to' : 'a'
+				}
+			}
+		},
+		'sc-2.5.5': {
+			'name' : {
+				'default': 'Target Size',
+				'change' : {
+					'in' : 2.2,
+					'to' : 'Target Size (Enhanced)'
+				}
 			}
 		}
 	}
@@ -140,7 +151,7 @@ var smartConformance = (function() {
 		else if (version == '1.0') {
 			wcag_ver.value = '2.0';
 			wcag_ver.disabled = true;
-			setWCAGVersion('2.0');
+			setWCAGVersion('2.0',false);
 		}
 		
 		else {
@@ -154,52 +165,85 @@ var smartConformance = (function() {
 	
 	/* changes the visible success criteria based on the user setting */
 	
-	function setWCAGVersion(version) {
-		if (version == 2.2) {
-			alert('WCAG 2.2 is still under development and not fully supported by the SMART tool. Conformance claims to this standard are not recommended.');
+	function setWCAGVersion(version, displayAlert) {
+		if (version == 2.2 && displayAlert) {
+			alert('WCAG 2.2 is still under development. Conformance claims to this standard are not recommended.');
 		}
 		smartWCAG.setWCAGVersion(version);
-		adjustWCAGLevels(version);
+		adjustWCAGSC(version);
 		setWCAGConformanceLevel(smartWCAG.WCAGLevel());
 	}
 	
 	/* adjusts the conformance levels across versions */
 	
-	function adjustWCAGLevels(version) {
+	function adjustWCAGSC(version) {
 		
 		for (var key in _WCAG_MAP) {
 		
-			var default_level = _WCAG_MAP[key]['default'];
-			var changed_level = _WCAG_MAP[key]['change']['to'];
-			var isChanged = false;
-			
-			var level = _WCAG_MAP[key]['default'];
-			
-			// check if the user is loading a version in which the level has changed
-			if (version >= _WCAG_MAP[key]['change']['in']) {
-				level = changed_level;
-				isChanged = true;
+			if (_WCAG_MAP[key].hasOwnProperty('level')) {
+				changeSCLevel(key,version);
 			}
 			
-			// get the SC entry
-			var sc = document.getElementById(key);
-			
-			// make sure the wrong class list isn't present
-			if (isChanged) {
-				sc.classList.remove(default_level);
+			else if (_WCAG_MAP[key].hasOwnProperty('name')) {
+				changeSCName(key,version);
 			}
-			else {
-				sc.classList.remove(changed_level);
-			}
-			
-			// add the new class level if not present
-			sc.classList.add(level);
-			
-			// reset the level display label
-			var level_span = sc.querySelector('h3 > span:nth-child(2)');
-				level_span.setAttribute('class', level + '-label');
-				level_span.innerHTML = 'Level ' + level.toUpperCase();
 		} 
+	}
+	
+	
+	/* updates the WCAG level for an SC to account for changes by version */
+	
+	function changeSCLevel(key,version) {
+	
+		var default_level = _WCAG_MAP[key].level.default;
+		var changed_level = _WCAG_MAP[key].level.change.to;
+		var isChanged = false;
+		
+		var level = _WCAG_MAP[key].level.default;
+		
+		// check if the user is loading a version in which the level has changed
+		if (version >= _WCAG_MAP[key].level.change.in) {
+			level = changed_level;
+			isChanged = true;
+		}
+		
+		// get the SC entry
+		var sc = document.getElementById(key);
+		
+		// make sure the wrong class list isn't present
+		if (isChanged) {
+			sc.classList.remove(default_level);
+		}
+		else {
+			sc.classList.remove(changed_level);
+		}
+		
+		// add the new class level if not present
+		sc.classList.add(level);
+		
+		// reset the level display label
+		var level_span = sc.querySelector('h3 > span:nth-child(2)');
+			level_span.setAttribute('class', level + '-label');
+			level_span.innerHTML = 'Level ' + level.toUpperCase();
+	}
+	
+	/* updates an SC name to account for changes by WCAG version */
+	
+	function changeSCName(key,version) {
+	
+		// get the name that applies to this version
+		var name = (version >= _WCAG_MAP[key].name.change.in) ? _WCAG_MAP[key].name.change.to : _WCAG_MAP[key].name.default;
+		
+		// get the SC entry
+		var sc = document.getElementById(key);
+		
+		// get the SC number
+		var sc_num = key.replace('sc-','');
+		
+		// set the SC name
+		var name_span = sc.querySelector('h3 > span.label');
+			name_span.innerHTML = sc_num + ' ' + name;
+	
 	}
 	
 	/* changes the visible success criteria based on the user setting */
@@ -557,8 +601,8 @@ var smartConformance = (function() {
 			setEPUBA11yVersion(version);
 		},
 		
-		setWCAGVersion: function(version) {
-			setWCAGVersion(version);
+		setWCAGVersion: function(version,alert) {
+			setWCAGVersion(version,alert);
 		},
 		
 		setWCAGConformanceLevel: function(level) {

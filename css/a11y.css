@@ -101,7 +101,7 @@ span.smart_hd {
 /* scrolling tabs */
 
 form.report {
-	height: 64vh;
+	height: 76vh;
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
@@ -132,7 +132,7 @@ body.faq main {
 }
 
 main.start {
-	height: 65vh;
+	height: 70vh;
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
@@ -159,7 +159,7 @@ footer{
 }
 
 main.start + footer {
-	height: 15vh;
+	height: 10vh;
 }
 
 footer img{

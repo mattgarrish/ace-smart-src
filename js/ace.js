@@ -160,7 +160,7 @@ var smartAce = (function() {
 		smartConformance.setEPUBA11yVersion(epub_version);
 		
 		document.getElementById('wcag-version').value = wcag_version;
-		smartConformance.setWCAGVersion(wcag_version);
+		smartConformance.setWCAGVersion(wcag_version,false);
 		
 		document.getElementById('wcag-level').value = wcag_level;
 		smartConformance.setWCAGConformanceLevel(wcag_level);
@@ -542,15 +542,12 @@ var smartAce = (function() {
 			
 			var noWarn = true; // does nothing but avoid warnings of suspicious code when minifying
 			
-			// current to axe ruleset 4.4
+			// current to axe ruleset 4.5
+			// excludes experimental rules and best practices
 			
-			if (assert['accesskeys']) { noWarn = true; /* no handling of axe best practices */ }
 			if (assert['area-alt']) { setSCStatus('sc-1.1.1', 'fail', assert['area-alt']); }
 			if (assert['aria-allowed-attr']) { setSCStatus('sc-4.1.1', 'fail', assert['aria-allowed-attr']); setSCStatus('sc-4.1.2', 'fail', assert['aria-allowed-attr']); }
-			if (assert['aria-allowed-role']) { noWarn = true; /* no handling of axe best practices */ }
 			if (assert['aria-command-name']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-command-name']); }
-			if (assert['aria-dialog-name']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['aria-dpub-role-fallback']) { noWarn = true; /* invalid error for publications */}
 			if (assert['aria-hidden-body']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-hidden-body']); }
 			if (assert['aria-hidden-focus']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-hidden-focus']); }
 			if (assert['aria-input-field-name']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-input-field-name']); }
@@ -561,10 +558,8 @@ var smartAce = (function() {
 			if (assert['aria-required-parent']) { setSCStatus('sc-1.3.1', 'fail', assert['aria-required-parent']); }
 			if (assert['aria-roledescription']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-roledescription']); }
 			if (assert['aria-roles']) { setSCStatus('sc-1.3.1', 'fail', assert['aria-roles']); setSCStatus('sc-4.1.1', 'fail', assert['aria-roles']); setSCStatus('sc-4.1.2', 'fail', assert['aria-roles']); }
-			if (assert['aria-text']) { noWarn = true; /* no handling of axe best practices */ }
 			if (assert['aria-toggle-field-name']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-toggle-field-name']); }
 			if (assert['aria-tooltip-name']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-tooltip-name']); }
-			if (assert['aria-treeitem-name']) { noWarn = true; /* no handling of axe best practices */ }
 			if (assert['aria-valid-attr']) { setSCStatus('sc-4.1.1', 'fail', assert['aria-valid-attr']); }
 			if (assert['aria-valid-attr-value']) { setSCStatus('sc-1.3.1', 'fail', assert['aria-valid-attr-value']); setSCStatus('sc-4.1.1', 'fail', assert['aria-valid-attr-value']); setSCStatus('sc-4.1.2', 'fail', assert['aria-valid-attr-value']); }
 			if (assert['audio-caption']) {setSCStatus('sc-1.2.1', 'fail', assert['audio-caption']); }
@@ -573,27 +568,18 @@ var smartAce = (function() {
 			if (assert['blink']) { setSCStatus('sc-2.2.2', 'fail', assert['blink']); }
 			if (assert['button-name']) { setSCStatus('sc-4.1.2', 'fail', assert['button-name']); }
 			if (assert['bypass']) { setSCStatus('sc-2.4.1', 'fail', assert['bypass']); }
-			if (assert['checkboxgroup']) { noWarn = true; /* no handling of axe best practices */ }
 			if (assert['color-contrast']) { setSCStatus('sc-1.4.3', 'fail', assert['color-contrast']); }
 			if (assert['color-contrast-enhanced']) { setSCStatus('sc-1.4.6', 'fail', assert['color-contrast-enhanced']); }
-			if (assert['css-orientation-lock']) { setSCStatus('sc.1.3.4', 'fail', assert['css-orientation-lock']); }
 			if (assert['definition-list']) { setSCStatus('sc-1.3.1', 'fail', assert['definition-list']); }
 			if (assert['dlitem']) { setSCStatus('sc-1.3.1', 'fail', assert['dlitem']); }
 			if (assert['document-title']) { setSCStatus('sc-2.4.2', 'fail', assert['document-title']); }
 			if (assert['duplicate-id']) { setSCStatus('sc-4.1.1', 'fail', assert['duplicate-id']); }
 			if (assert['duplicate-id-active']) { setSCStatus('sc-4.1.1', 'fail', assert['duplicate-id-active']); }
 			if (assert['duplicate-id-aria']) { setSCStatus('sc-4.1.1', 'fail', assert['duplicate-id-aria']); }
-			if (assert['empty-heading']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['empty-table-header']) { setSCStatus('sc-1.3.1', 'fail', assert['empty-table-header']); }
-			if (assert['focus-order-semantics']) { noWarn = true; /* no handling of axe experimental best practices */ }
 			if (assert['form-field-multiple-labels']) { setSCStatus('sc-3.3.2', 'fail', assert['form-field-multiple-labels']); }
 			if (assert['frame-focusable-content']) { setSCStatus('sc-2.1.1', 'fail', assert['frame-focusable-content']); }
-			if (assert['frame-tested']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['frame-title']) { setSCStatus('sc-2.4.1', 'fail', assert['frame-title']); }
-			if (assert['frame-title-unique']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['heading-order']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['hidden-content']) { noWarn = true; /* no handling of axe experimental best practices */ }
-			if (assert['href-no-hash']) { noWarn = true; /* no handling of axe best practices */ }
+			if (assert['frame-title']) { setSCStatus('sc-4.1.2', 'fail', assert['frame-title']); }
+			if (assert['frame-title-unique']) { setSCStatus('sc-4.1.2', 'fail', assert['frame-title-unique']); }
 
 			if (!assert['html-has-lang'] && !assert['html-lang-valid'] && !assert['html-xml-lang-mismatch']) {
 				setSCStatus('sc-3.1.1', 'pass', '');
@@ -606,54 +592,31 @@ var smartAce = (function() {
 			
 			if (assert['identical-links-same-purpose']) { setSCStatus('sc-2.4.9', 'fail', assert['identical-links-same-purpose']); }
 			if (assert['image-alt']) { setSCStatus('sc-1.1.1', 'fail', assert['image-alt']); }
-			if (assert['image-redundant-alt']) { noWarn = true; /* no handling of axe best practices */ }
 			if (assert['input-button-name']) { setSCStatus('sc-4.1.2', 'fail', assert['input-button-name']); }
 			if (assert['input-image-alt']) { setSCStatus('sc-1.1.1', 'fail', assert['input-image-alt']); }
 			if (assert['label']) { setSCStatus('sc-1.3.1', 'fail'); setSCStatus('sc-3.3.2', 'fail', assert['label']); }
-			if (assert['label-content-name-mismatch']) { noWarn = true; /* no handling of axe experimental rules */ }
-			if (assert['label-title-only']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['landmark-banner-is-top-level']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['landmark-complementary-is-top-level']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['landmark-contentinfo-is-top-level']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['landmark-main-is-top-level']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['landmark-no-duplicate-banner']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['landmark-no-duplicate-contentinfo']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['landmark-no-duplicate-main']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['landmark-one-main']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['landmark-unique']) { noWarn = true; /* no handling of axe best practices */ }
 			if (assert['layout-table']) { setSCStatus('sc-1.3.1', 'fail', assert['layout-table']); }
 			if (assert['link-in-text-block']) { setSCStatus('sc-1.4.1', 'fail', assert['link-in-text-block']); }
 			if (assert['link-name']) { setSCStatus('sc-1.1.1', 'fail', assert['link-name']); setSCStatus('sc-2.4.4', 'fail', assert['link-name']); setSCStatus('sc-4.1.2', 'fail', assert['link-name']); }
 			if (assert['list']) { setSCStatus('sc-1.3.1', 'fail', assert['list']); }
 			if (assert['listitem']) { setSCStatus('sc-1.3.1', 'fail', assert['list-item']); }
 			if (assert['marquee']) { setSCStatus('sc-2.2.2', 'fail', assert['marquee']); }
-			if (assert['meta-refresh']) { setSCStatus('sc-2.2.1', 'fail', assert['meta-refresh']); setSCStatus('sc-2.2.4', 'fail', assert['meta-refresh']); setSCStatus('sc-3.2.5', 'fail', assert['meta-refresh']); }
+			if (assert['meta-refresh']) { setSCStatus('sc-2.2.1', 'fail', assert['meta-refresh']); }
+			if (assert['meta-refresh-no-exceptions']) { setSCStatus('sc-2.2.4', 'fail', assert['meta-refresh-no-exceptions']); setSCStatus('sc-3.2.5', 'fail', assert['meta-refresh-no-exceptions']); }
 			if (assert['meta-viewport']) { setSCStatus('sc-1.4.4', 'fail', assert['meta-viewport']); }
-			if (assert['meta-viewport-large']) { noWarn = true; /* no handling of axe best practices */ }
 			if (assert['nested-interactive']) { setSCStatus('sc-4.1.2', 'fail', assert['nested-interactive']); }
 			if (assert['no-autoplay-audio']) { setSCStatus('sc-1.4.2', 'fail', assert['no-autoplay-audio']); }
 			if (assert['object-alt']) { setSCStatus('sc-1.1.1', 'fail', assert['object-alt']); }
-			if (assert['p-as-heading']) { setSCStatus('sc-1.3.1', 'fail', assert['p-as-heading']); }
-			if (assert['page-has-heading-one']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['presentation-role-conflict']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['radiogroup']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['region']) { noWarn = true; /* no handling of axe best practices */ }
 			if (assert['role-image-alt']) { setSCStatus('sc-1.1.1', 'fail', assert['role-img-alt']); }
-			if (assert['scope-attr-valid']) { noWarn = true; /* no handling of axe best practices */ }
 			if (assert['scrollable-region-focusable']) { setSCStatus('sc-2.1.1', 'fail', assert['scrollable-region-focusable']); }
 			if (assert['select-name']) { setSCStatus('sc-4.1.2', 'fail', assert['select-name']); }
 			if (assert['server-side-image-map']) { setSCStatus('sc-2.1.1', 'fail', assert['server-side-image-map']); }
-			if (assert['skip-link']) { noWarn = true; /* no handling of axe best practices */ }
 			if (assert['svg-img-alt']) { setSCStatus('sc-1.1.1', 'fail', assert['svg-img-alt']); }
-			if (assert['tabindex']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['table-duplicate-name']) { noWarn = true; /* no handling of axe best practices */ }
-			if (assert['table-fake-caption']) { setSCStatus('sc-1.3.1', 'fail', assert['table-has-header']); }
-			if (assert['td-has-header']) { setSCStatus('sc-1.3.1', 'fail', assert['td-has-header']); }
+			if (assert['target-size']) { setSCStatus('sc-2.5.8', 'fail', assert['target-size']); }
 			if (assert['td-headers-attr']) { setSCStatus('sc-1.3.1', 'fail', assert['td-headers-attr']); }
 			if (assert['th-has-data-cells']) { setSCStatus('sc-1.3.1', 'fail', assert['td-has-data-cells']); }
 			if (assert['valid-lang']) { setSCStatus('sc-3.1.2', 'fail', assert['valid-lang']); }
 			if (assert['video-caption']) { setSCStatus('sc-1.2.2', 'fail', assert['video-caption']); setSCStatus('sc-1.2.3', 'fail', assert['video-caption']); }
-			if (assert['video-description']) { noWarn = true; /* no handling of axe best practices */ }
 			
 			// check if the accessibility metadata is set
 			

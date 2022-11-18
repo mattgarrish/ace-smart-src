@@ -542,7 +542,7 @@
 				"version" => "2.1",
 				"level" => "aaa",
 		        "name" => [
-					"en" => "Target Size"
+					"en" => "Target Size (Enhanced)"
 				]
 			],
 			

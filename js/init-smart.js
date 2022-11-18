@@ -33,7 +33,7 @@
 		
 		/* watch for changes to wcag version */
 		$('select#wcag-version').change( function(){
-			smartConformance.setWCAGVersion(this.value);
+			smartConformance.setWCAGVersion(this.value, true);
 		});
 		
 		/* watch for changes to sc filter */
