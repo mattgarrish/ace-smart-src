@@ -514,7 +514,7 @@ var smartManage = (function() {
 			
 			document.getElementById('wcag-version').value = wcag_version;
 			
-			smartConformance.setWCAGVersion(wcag_version);
+			smartConformance.setWCAGVersion(wcag_version, false);
 			
 			// set the wcag level being tested
 			

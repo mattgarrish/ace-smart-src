@@ -119,6 +119,19 @@ JS;
 		<script src="js/format.js<?= '?v=' . $smart_version ?>"></script>
 		<script src="js/wcag.js<?= '?v=' . $smart_version ?>"></script>
 		<script src="js/reporting.js<?= '?v=' . $smart_version ?>"></script>
+		
+		<script src="js/a11ytabs.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/config/sc.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/conformance.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/config/discovery.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/discovery.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/config/distribution.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/distribution.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/evaluation.js<?= '?v=' . $smart_version ?>" defer></script>
+		
+		<?php $ext->print_scripts(); ?>
+		
+		<script src="js/init-smart.js<?= '?v=' . $smart_version ?>" defer></script>
 	</head>
 	
 	<body class="tabs">
@@ -462,24 +475,5 @@ JS;
 				</div>
 			</section>
 		</form>
-		
-		<footer>
-			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2022</span> <a target="_blank" href="http://daisy.org"><span property="dcterms:publisher">DAISY</span> Consortium</a>. All Rights Reserved.</p>
-			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a> | <a target="_blank" href="attribution.html">Attribution</a></p>
-		</footer>
-		
-		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-		<script src="js/a11ytabs.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/config/sc.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/conformance.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/config/discovery.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/discovery.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/config/distribution.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/distribution.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/evaluation.js<?= '?v=' . $smart_version ?>"></script>
-		
-		<?php $ext->print_scripts(); ?>
-		
-		<script src="js/init-smart.js<?= '?v=' . $smart_version ?>"></script>
 	</body>
 </html>

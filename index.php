@@ -84,6 +84,9 @@
 				}
 			}
 		?>
+		
+		<script src="js/drag-drop.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/init-index.js<?= '?v=' . $smart_version ?>" defer></script>
 	</head>
 	
 	<body>
@@ -140,8 +143,5 @@
 			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2022</span> <a target="_blank" href="http://daisy.org"><span property="dcterms:publisher">DAISY</span> Consortium</a>. All Rights Reserved.</p>
 			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a> | <a target="_blank" href="attribution.html">Attribution</a></p>
 		</footer>
-		
-		<script src="js/drag-drop.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/init-index.js<?= '?v=' . $smart_version ?>"></script>
 	</body>
 </html>
