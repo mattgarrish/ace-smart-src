@@ -248,12 +248,12 @@
 	});
 	
 	/* watch for close button click */
-	$('#close-button').click( function(){
+	$('#close-button').click( function() {
 		document.location.href = 'index.php';
 	});
 	
 	/* watch for error pane close click */
-	$('#error-pane-close').click( function(){
+	$('#error-pane-close').click( function() {
 		smartError.hideErrorPane();
 	});
 	
@@ -261,12 +261,12 @@
 	/* START TAB */
 	
 	/* watch for EPUB format changes */
-	$('select#epub-format').change( function(){
+	$('select#epub-format').change( function() {
 		smartFormat.setEPUBVersion(this.value);
 	});
 	
 	/* watch for timestamp add */
-	$('#add-timestamp').click( function(){
+	$('#add-timestamp').click( function() {
 		document.getElementById('modified').value = smartFormat.convertUTCDateToString(Date.now());
 	});
 	

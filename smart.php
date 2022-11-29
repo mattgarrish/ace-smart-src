@@ -119,21 +119,29 @@ JS;
 		<script src="js/format.js<?= '?v=' . $smart_version ?>"></script>
 		<script src="js/wcag.js<?= '?v=' . $smart_version ?>"></script>
 		<script src="js/reporting.js<?= '?v=' . $smart_version ?>"></script>
+		
+		<script src="js/a11ytabs.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/config/sc.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/conformance.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/config/discovery.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/discovery.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/config/distribution.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/distribution.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/evaluation.js<?= '?v=' . $smart_version ?>" defer></script>
+		<script src="js/init-smart.js<?= '?v=' . $smart_version ?>" defer></script>
+		<style>
+			h1 { font-size: 2rem; }
+		</style>
 	</head>
 	
 	<body class="tabs">
 		<header>
-			<div class="id">You are logged in as <code><a target="_blank" href="users/account.php"><?php echo $user->data()->username; ?></a></code> <a class="logout" href="users/logout.php">Log out</a></div>
+			<h1><img src="images/daisy_logo.png" class="logo" alt="DAISY"/> <span property="dcterms:title">Ace <span class="smart_hd">SMART</span> &#8212; Evaluation</span></h1>
 			
-			<h1><img src="images/daisy_logo.png" class="logo" alt="DAISY"/> <span property="dcterms:title">Ace <span class="smart_hd">SMART</span></span></h1>
-			
-			<nav class="menubar">
-				<a href="user-guide/" target="_blank">User Guide</a> 
-				<a href="faq.html" target="_blank">FAQ</a>
-				<a href="new.html" target="_blank">What's New</a>
-				<a href="#" id="close-button">Close</a>
-				<a href="#" id="save-button">Save</a>
-				<a href="#" id="validate-button">Validate</a>
+			<nav class="appmenu" aria-label="application menu">
+				<a href="#" id="validate-button"><img src="images/validate.png" alt="validate" title="Validate"/></a>
+				<a href="#" id="save-button"><img src="images/save.png" alt="save" title="Save"/></a>
+				<a href="#" id="close-button"><img src="images/close_app.png" alt="close" title="Close"/></a>
 			</nav>
 		</header>
 		
@@ -462,23 +470,6 @@ JS;
 			</section>
 		</form>
 		
-		<footer>
-			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2022</span> <a target="_blank" href="http://daisy.org"><span property="dcterms:publisher">DAISY</span> Consortium</a>. All Rights Reserved.</p>
-			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a> | <a target="_blank" href="attribution.html">Attribution</a></p>
-		</footer>
-		
-		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-		<script src="js/a11ytabs.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/config/sc.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/conformance.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/config/discovery.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/discovery.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/config/distribution.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/distribution.js<?= '?v=' . $smart_version ?>"></script>
-		<script src="js/evaluation.js<?= '?v=' . $smart_version ?>"></script>
-		
 		<?php $ext->print_scripts(); ?>
-		
-		<script src="js/init-smart.js<?= '?v=' . $smart_version ?>"></script>
 	</body>
 </html>
