@@ -216,7 +216,7 @@ smart_extensions['born_accessible'] = (function() {
 					// add the test label
 					
 					var score_label_li = document.createElement('span');
-						score_label_li.appendChild(document.createTextNode(tests[j].querySelector('legend').textContent.replace(/^[0-9.]+ /, '')+':'));
+						score_label_li.appendChild(document.createTextNode(tests[j].querySelector('legend').textContent + ':'));
 					score_li.appendChild(score_label_li);
 					
 					// add the score
@@ -295,7 +295,7 @@ smart_extensions['born_accessible'] = (function() {
 					ba_score_li.setAttribute('class','ba-score');
 				
 				var ba_score_label = document.createElement('span');
-					ba_score_label.appendChild(document.createTextNode(test_sections[i].querySelector('h4').textContent.replace(/^[0-9.]+ /, '')+':'));
+					ba_score_label.appendChild(document.createTextNode(test_sections[i].querySelector('h4').textContent + ':'));
 				ba_score_li.appendChild(ba_score_label);
 				
 				var section_score = (section_unverified || max_section_score == 0) ? 'N/A' : (Math.round((actual_section_score / max_section_score) * 100) + '%');
