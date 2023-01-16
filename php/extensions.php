@@ -64,7 +64,7 @@
 			if ($this->ext_module_access) {
 				foreach ($this->ext_module_access as $module) {
 					if ($this->extension[$module]) {
-						echo '<script src="extensions/' . $module . '/js/smart.js"></script>';
+						echo '<script src="extensions/' . $module . '/js/smart.js" defer></script>';
 					}
 				}
 				if ($this->ace_extension_tabs) {
