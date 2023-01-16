@@ -27,7 +27,11 @@ body{
 	color: rgb(0, 0, 0);
 }
 
-header > *{
+header {
+	border-bottom: 0.1rem solid lightgrey;
+}
+
+header > * {
 	padding-left: 3rem !important;
 }
 
@@ -35,7 +39,7 @@ header > *{
 
 div.id {
 	color: rgb(0,0,0);
-	margin: 1.3rem 5rem 0 0;
+	margin: 1rem 5rem 0 0;
 	float: right;
 }
 
@@ -56,15 +60,16 @@ div.id code > a:hover {
 div.id a.logout {
 	font-size: 1.1rem;
 	margin-left: 1rem;
-	color: rgb(0,0,220);
-	border: 0.1rem solid rgb(0,0,220);
-	padding: 0.2rem 1.5rem;
 }
 
-div.id a.logout:hover {
-	text-decoration: none;
-	color: red;
-	border: 0.1rem solid red;
+a.logout img {
+	height: 3rem;
+	vertical-align: bottom;
+	padding-top: 0rem;
+}
+
+span.super {
+	vertical-align: super;
 }
 
 /* title and logo */
@@ -101,7 +106,7 @@ span.smart_hd {
 /* scrolling tabs */
 
 form.report {
-	height: 76vh;
+	height: 84vh;
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
@@ -114,10 +119,9 @@ footer{
 	margin: 0 0.3rem;
 }
 
-main{
+main {
 	font-size: 1.6rem;
-	padding-bottom: 2rem;
-	background-color: rgb(251, 251, 251);
+	background-color: rgb(255,255,255);
 	margin-top: 0.5rem;
 	padding-left: 3rem;
 }
@@ -132,7 +136,7 @@ body.faq main {
 }
 
 main.start {
-	height: 70vh;
+	height: 73.5vh;
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
@@ -175,7 +179,7 @@ h2{
 	font-size: 2.4rem;
 	font-weight: normal;
 	color: rgb(0, 0, 180);
-	margin-top: 4rem;
+	margin-top: 1rem;
 }
 
 h3{
@@ -247,30 +251,22 @@ nav.menubar > a:not([href]) {
 	text-decoration: none;
 }
 
-a#save-button,
-a#close-button,
-a#validate-button {
-	font-size: 1.1rem !important;
+nav.appmenu {
 	float: right;
-	background-color: rgb(248,248,255);
-	color: rgb(0,0,220);
-	border: 0.1rem solid rgb(0,0,220);
-	padding: 0.2rem 1.6rem !important;
-	margin-top: -0.2rem;
-	margin-right: 4.5rem;
+	margin-right: 0;
+	margin-top: -4.8rem;
+	padding: 1.5rem 4rem 0.5rem 4rem !important;
 }
 
 a#save-button,
 a#validate-button {
-	margin-right: 1rem;
+	margin-right: 2rem;
 }
 
 a#save-button:hover,
 a#close-button:hover,
 a#validate-button:hover {
-	color: rgb(220,0,0);
-	border-color: rgb(220,0,0);
-	text-decoration: none;
+	border-bottom: 0.3rem solid rgb(220,0,0);
 }
 
 /* report loading */
@@ -291,7 +287,6 @@ a#ace-review {
 
 section#start label,
 section#start fieldset legend {
-	color: rgb(0,0,120) !important;
 	font-size: 100%;
 }
 
@@ -546,7 +541,7 @@ fieldset,
 div.conformance-result,
 div.onix {
 	border: none;
-	background-color: rgb(247,247,247);
+	background-color: rgb(251,251,251);
 	border-radius: 0.5rem;
 	box-shadow: 0 0 0.2rem 0 grey;
 	padding: 2rem;
@@ -646,7 +641,7 @@ fieldset select {
 }
 
 div.form-data {
-	background-color: rgb(247,247,247);
+	background-color: rgb(251,251,251);
 	padding: 0.3rem 0 0.3rem 1rem;
 	border-radius: 0.5rem;
 	box-shadow: 0 0 0.2rem 0 grey;
@@ -1220,41 +1215,6 @@ div#output-opt {
 }
 
 
-/* fieldset/details hacks for IE 10+ */
-
-details {
-	display: block;
-}
-
-_:-ms-lang(x), _:-webkit-full-screen, legend {
-		padding-top: 0rem;
-	}
-	
-_:-ms-lang(x), _:-webkit-full-screen, fieldset {
-		margin-top: 2rem;
-	}
-	
-_:-ms-lang(x), _:-webkit-full-screen, h2 + fieldset,
-_:-ms-lang(x), _:-webkit-full-screen, p + fieldset {
-		margin-top: 0rem;
-	}
-
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-	
-	legend {
-		padding-top: 0rem;
-	}
-	
-	fieldset {
-		margin-top: 2rem;
-	}
-	
-	h2 + fieldset,
-	p + fieldset {
-		margin-top: 0rem;
-	}
-}
-
 
 /* mini tablet */
 
@@ -1263,7 +1223,7 @@ _:-ms-lang(x), _:-webkit-full-screen, p + fieldset {
 	 and (orientation : portrait) {
 
 	main.start {
-		height: 75vh;
+		height: 78.5vh;
 	}
 	
 	main.start + footer {
@@ -1278,7 +1238,7 @@ _:-ms-lang(x), _:-webkit-full-screen, p + fieldset {
 	}
 	
 	form.report {
-		height: 68vh;
+		height: 76vh;
 	}
 }
 
@@ -1288,7 +1248,7 @@ _:-ms-lang(x), _:-webkit-full-screen, p + fieldset {
 	 and (orientation : landscape) {
 
 	main.start {
-		height: 70vh;
+		height: 78.5vh;
 	}
 	
 	main.start + footer {
@@ -1300,7 +1260,7 @@ _:-ms-lang(x), _:-webkit-full-screen, p + fieldset {
 	}
 	
 	form.report {
-		height: 64vh;
+		height: 86vh;
 	}
 	
 	main.start + footer {
@@ -1323,13 +1283,6 @@ _:-ms-lang(x), _:-webkit-full-screen, p + fieldset {
 
 @media only screen
 	and (max-device-width: 800px) {
-	
-	div.id,
-	a#save-button,
-	a#close-button,
-	a#validate-button {
-		float: none;
-	}
 	
 	main.start,
 	form.report {
