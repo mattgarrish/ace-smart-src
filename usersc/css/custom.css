@@ -99,6 +99,24 @@ nav.menubar > a {
 }
 
 
+h2.form-signin-heading {
+	font-size: 1.5rem;
+}
+
+h3.terms-cond {
+	font-size: 1.2rem;
+	margin-top: 4rem
+}
+
+div.gca-pad {
+	margin-top: 2rem;
+}
+
+input.gca-radio {
+	margin-left: 1rem;
+}
+
+
 /* config dialog */
 
 .ui-widget-header {

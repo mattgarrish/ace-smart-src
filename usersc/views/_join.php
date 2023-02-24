@@ -59,8 +59,7 @@ Special thanks to John Bovey for the password strenth feature.
 
       <div class="form-group">
         <?php
-        $character_range = lang("GEN_MIN")." ".$settings->min_pw . " ". lang("GEN_AND") ." ". $settings->max_pw . " " .lang("GEN_MAX")." ".lang("GEN_CHAR");
-        $character_statement = '<span id="character_range" class="gray_out_text">' . $character_range . ' </span>';
+        $character_statement = '<span id="character_range" class="gray_out_text">at least 8 characters long </span>';
 
         if ($settings->req_cap == 1){
           $num_caps = '1'; //Password must have at least 1 capital
@@ -78,7 +77,7 @@ Special thanks to John Bovey for the password strenth feature.
 
           $num_numbers_statement = '<span id="number" class="gray_out_text">'.lang("JOIN_HAVE") . $num_numbers . " " . lang("GEN_NUMBER") .'</span>';
         }
-        $password_match_statement = '<span id="password_match" class="gray_out_text">'.lang("JOIN_TWICE").'</span>';
+        $password_match_statement = '<span id="password_match" class="gray_out_text">typed correctly twice</span>';
 
 
         //2.) Apply default class to gray out green check icon
@@ -158,7 +157,7 @@ Special thanks to John Bovey for the password strenth feature.
           <input  type="password" id="confirm" name="confirm" class="form-control" placeholder="<?=lang("PW_CONF");?>" required autocomplete="password" >
         </div>
         <div style="display: inline-block; padding-left: 20px">
-          <strong><?=lang("PW_SHOULD");?></strong><br>
+          <strong>Passwords should be</strong><br>
           <span id="character_range_icon" class="fa fa-thumbs-o-up gray_out_icon" style="color: green"></span>&nbsp;&nbsp;<?php echo $character_statement;?>
           <br>
           <?php
@@ -176,6 +175,15 @@ Special thanks to John Bovey for the password strenth feature.
           <a class="nounderline" id="password_view_control"><span class="fa fa-eye"></span> <?=lang("PW_SHOWS");?></a>
         </div>
       </div>
+
+      <div class="form-group gca-pad" role="radiogroup" aria-labelledby="gca-label">
+        <label id="gca-label">Are you a member of Benetech's <strong>Global Certified Accessible</strong> program?</label>
+        <div>
+	        <input class="gca-radio" type="radio" name="gca" id="gca-yes" value="yes"> Yes
+    	    <input class="gca-radio" type="radio" name="gca" id="gca-no" value="no" checked> No
+    	</div>
+      </div>
+      
       <?php
       includeHook($hooks,'form');
       include($abs_us_root.$us_url_root.'usersc/scripts/additional_join_form_fields.php'); ?>
