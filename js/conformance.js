@@ -440,7 +440,11 @@ var smartConformance = (function() {
 		var aa_fail_selector = getSCStatusSelector({status: 'fail', level: 'aa', includeEPUB: false});
 		
 		var level_a_fail = document.querySelectorAll(a_fail_selector);
+
+		var epub_fail = document.querySelectorAll('input#epub-discovery-fail:checked');
 		
+		var level_a_pass = (level_a_fail.length == 0 && epub_fail.length == 0) ? true : false; 
+
 		var wcag_ver = 'wcag' + wcag_version.replace('.','');
 		var epub_ver = 'epub' + epub_a11y.replace('.','');
 		
@@ -450,12 +454,12 @@ var smartConformance = (function() {
 			conformance_status += ' - ';
 			conformance_status += smart_ui.conformance.status[wcag_ver][smart_lang];
 			conformance_status += ' ';
-	
+		
 		// checks that there aren't any failures if AA is specified
 		// or if showing optional AA success criteria and all have been checked
 		if (smartWCAG.WCAGLevel() == 'aa' || (show_aa && document.querySelectorAll(aa_unverified_selector).length == 0)) {
 			
-			if (level_a_fail.length == 0 && document.querySelectorAll(aa_fail_selector).length == 0) {
+			if (level_a_pass && document.querySelectorAll(aa_fail_selector).length == 0) {
 				
 				status_label.textContent = conformance_status + smart_ui.conformance.status.aa[smart_lang];
 				
@@ -468,7 +472,7 @@ var smartConformance = (function() {
 		}
 		
 		// otherwise not having an else if here allows verification to fall through to A, even if testing AA
-		if (level_a_fail.length == 0) {
+		if (level_a_pass) {
 			
 			status_label.textContent = conformance_status + smart_ui.conformance.status.a[smart_lang];
 			
