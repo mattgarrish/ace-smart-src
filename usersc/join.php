@@ -244,6 +244,17 @@ if (Input::exists()) {
                 email($to, $subject, $body);
                 $vericode_expiry = date('Y-m-d H:i:s', strtotime("+$settings->join_vericode_expiry hours", strtotime(date('Y-m-d H:i:s'))));
             }
+            
+            if ($_POST['gca'] == "yes") {
+            	// send the email to benetech to allow the user to access the born_accessible tab 
+            	$gca_recipient = "charlesl@benetech.org";
+            	$gca_subject = "Verify new GCA Smart user";
+            	$gca_esc_email = urlencode(Input::get('email'));
+            	$gca_access_link = 'https://' . $_SERVER['HTTP_HOST'] . "/verify_gca.php?email=" . $gca_esc_email . "&gcaUser=true";
+            	$gca_body = "<p>The following user has indicated they belong to the GCA program:</p><p>".ucfirst(Input::get('fname')) . " " . ucfirst(Input::get('lname')) . " : " . Input::get('email') . "</p><p>Click the following link or paste it in a browser to verify this user access to the born accessible tab:<br><a href='" . $gca_access_link . "'>" . $gca_access_link . "</a></p>";
+            	email ($gca_recipient, $gca_subject, $gca_body);
+            }
+            
             try {
                 // echo "Trying to create user";
                 if(isset($_SESSION['us_lang'])){
