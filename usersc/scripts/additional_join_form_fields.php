@@ -1,5 +1,5 @@
 <?php if($settings->show_tos == 1){ ?>
-  <label for="confirm"> <?=lang("JOIN_TC");?></label>
+  <h3 class="terms-cond"><label for="confirm"> <?=lang("JOIN_TC");?></label></h3>
     <?php
     if(!isset($_SESSION['us_lang']) || $_SESSION['us_lang'] == 'en-US' || $_SESSION['us_lang'] == '' ){
     require $abs_us_root.$us_url_root.'usersc/includes/user_agreement.php';
