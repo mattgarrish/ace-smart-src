@@ -247,10 +247,10 @@ if (Input::exists()) {
             
             if ($_POST['gca'] == "yes") {
             	// send the email to benetech to allow the user to access the born_accessible tab 
-            	$gca_recipient = "matt.garrish@gmail.com"; // "charlesl@benetech.org";
+            	$gca_recipient = "charlesl@benetech.org";
             	$gca_subject = "Verify new GCA Smart user";
             	$gca_esc_email = urlencode(Input::get('email'));
-            	$gca_access_link = "https://dev.smart.daisy.org/verify_gca.php?email=" . $gca_esc_email . "&gcaUser=true";
+            	$gca_access_link = 'https://' . $_SERVER['HTTP_HOST'] . "/verify_gca.php?email=" . $gca_esc_email . "&gcaUser=true";
             	$gca_body = "<p>The following user has indicated they belong to the GCA program:</p><p>".ucfirst(Input::get('fname')) . " " . ucfirst(Input::get('lname')) . " : " . Input::get('email') . "</p><p>Click the following link or paste it in a browser to verify this user access to the born accessible tab:<br><a href='" . $gca_access_link . "'>" . $gca_access_link . "</a></p>";
             	email ($gca_recipient, $gca_subject, $gca_body);
             }

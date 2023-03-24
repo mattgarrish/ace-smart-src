@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.24",
+    "version": "1.25",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "10/01/2022, 09:00:00 AM",
+    "dct:date": "03/01/2023, 09:00:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -93,7 +93,7 @@ var gca = {
                         "itemName" : "Includes Extended Descriptions",
                         "itemScores": {
                             "N/A": "There were no Images, or the surrounding text adequately described the images.",
-                            "0": "Many complex images that would benefit from longer descriptions but there are none",
+                            "0": "Complex images would benefit from longer descriptions but there are none",
                             "1": "Long description included for a few select images, despite presence of many complex images",
                             "2": "Long description for the majority of images",
                             "3": "Longer description present in every case but has problematic code.",
@@ -458,7 +458,17 @@ var gca = {
                         "itemScores": {
                             "N/A": "No redacted text present",
                             "0": "Redacted Text visual only",
-                            "4": "Redacted Text is meaningfully spoken by AT (eg. <span class=\"redacted\" role=\"img\" aria-label=\"redacted text\">███████████</span>)"
+                            "3": "Redacted Text is spoken by AT (eg. <span role=\"img\" aria-label=\"redacted text\">███████████</span>). However, no information was provided about the number of words, sentences, paragraphs that were redacted.",
+                            "4": "Redacted Text is meaningfully spoken by AT (eg. <span role=\"img\" aria-label=\"redacted 3 words\">███ ██ ██████</span>)"
+                        }
+                    },
+                    {
+                        "$itemId": "general-blockquote",
+                        "itemName" : "Blockquote",
+                        "itemScores": {
+                            "N/A": "No blockquotes present",
+                            "0": "all blockquote's not correctly identified such as marked using <p> instead of <blockquote>",
+                            "4": "All blockquote's correctly identified using <bloackquote>"
                         }
                     }
                       
@@ -679,6 +689,24 @@ var gca = {
                             "1": "Multiple forward referencing links to a (figure, list, table, footnote, etc.) with no return link",
                             "4": "All internal links have a 1:1 link to backlink relationship"
                         }
+                    },
+                    {
+                        "$itemId": "links-fake-urls",
+                        "itemName" : "Fake / Example Links",
+                        "itemScores": {
+                            "N/A": "No fake or example links were found, (e.g., www.examplesite.com)",
+                            "0": "Fake links were encoded as active links",
+                            "1": "Fake links were styled as links (i.e., underlined and set as blue text)",
+                            "4": "All fake / example links were encoded as text only and not styled to look like a real link"
+                        }
+                    },
+                    {
+                        "$itemId": "links-dead",
+                        "itemName" : "Dead Links",
+                        "itemScores": {
+                            "N/A": "No dead links were found",
+                            "0": "Dead links were found and should be updated or removed"
+                           }
                     }
                 ]
             },
