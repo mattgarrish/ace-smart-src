@@ -247,7 +247,7 @@ if (Input::exists()) {
             
             if ($_POST['gca'] == "yes") {
             	// send the email to benetech to allow the user to access the born_accessible tab 
-            	$gca_recipient = "charlesl@benetech.org";
+            	$gca_recipient = "gca@benetech.org";
             	$gca_subject = "Verify new GCA Smart user";
             	$gca_esc_email = urlencode(Input::get('email'));
             	$gca_access_link = 'https://' . $_SERVER['HTTP_HOST'] . "/verify_gca.php?email=" . $gca_esc_email . "&gcaUser=true";

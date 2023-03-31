@@ -1,5 +1,8 @@
-
+<?php require_once 'users/init.php' ?>
 <?php require_once 'php/db.php' ?>
+
+<?php if (!securePage($_SERVER['PHP_SELF'])) { die(); } ?>
+
 <?php
 	
 	$err = "";
