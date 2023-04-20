@@ -54,11 +54,20 @@
 		/* add discovery metadata fields */
 		smartDiscovery.addDiscoveryMetadata();
 		
-		/* add discovery metadata fields */
+		/* add distribution metadata fields */
 		smartDistribution.addDistributionMetadata();
 		
 		/* configure and populate the evaluation */
 		evaluationSetup();
+		
+		/* pass and disable SC 4.1.1 */
+		
+		document.getElementById('sc-4.1.1-pass').click();
+		
+		var sc411_inputs = document.querySelectorAll('fieldset#sc-4\\.1\\.1-legend input');
+		for (var i = 0; i < sc411_inputs.length; i++) {
+			sc411_inputs[i].disabled = true;
+		}
 		
 		/* 
 		 * reset saveChanges after configuring the evaluation,
