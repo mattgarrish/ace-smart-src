@@ -81,12 +81,12 @@
 		
 		<link rel="icon" type="image/x-icon" href="https://smart.daisy.org/favicon.ico" sizes="any"/>
 		
-		<script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-327448-4"></script>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-MPVGJVDGL8"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){dataLayer.push(arguments);}
 			gtag('js', new Date());
-			gtag('config', 'UA-327448-4');
+			gtag('config', 'G-MPVGJVDGL8');
 		</script>
 		
 		<script id="report_data" type="application/json">
