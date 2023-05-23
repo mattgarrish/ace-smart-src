@@ -398,6 +398,7 @@ JS;
 					<fieldset id="eval-info">
 						<legend>Evaluation Info:</legend>
 						<label class="data"><span>Evaluator:<img src="/images/asterisk.png" alt="required"/></span> <input type="text" id="certifiedBy" aria-required="true"/></label>
+						<label class="data"><span>Credential:</span> <input type="text" id="certifierCredential"/></label>
 						<label class="data"><span>Link to report:</span> <input type="text" id="certifierReport"/></label>
 					</fieldset>
 					

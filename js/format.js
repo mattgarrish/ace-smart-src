@@ -60,14 +60,16 @@ var smartFormat = (function() {
 			options.type = options.type ? options.type : 'meta';
 			options.property = options.property ? options.property : '';
 			options.value = options.value ? options.value : '';
+			options.id = options.id ? options.id : '';
+			options.refines = options.refines ? options.refines : '';
 			
 			if (options.value.trim() != '') {
 				if (_epubVersion == 3) {
 					if (options.type == 'meta') {
-						return '<meta property="' + options.property + '">' + this.elementValueEscape(options.value) + '</meta>\n';
+						return '<meta property="' + options.property + '"' + (options.id ? ' id="' + options.id + '"' : '') + (options.refines ? ' refines="#' + options.refines + '"' : '') + '>' + this.elementValueEscape(options.value) + '</meta>\n';
 					}
 					else {
-						return '<link rel="' + options.property + '" href="' + this.attributeValueEscape(options.value) + '"/>\n';
+						return '<link rel="' + options.property + '" href="' + this.attributeValueEscape(options.value) + '"' + (options.id ? ' id="' + options.id + '"' : '') + (options.refines ? ' refines="#' + options.refines + '"' : '') + '/>\n';
 					}
 				}
 				else {
