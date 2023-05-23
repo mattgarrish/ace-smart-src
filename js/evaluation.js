@@ -88,15 +88,23 @@ var smartEvaluation = (function() {
 		
 		if (conformance_result && conformance_result.value != "fail" && conformance_result.value != "incomplete") {
 			if (epub_ver == '1.0') {
-				metadata += smartFormat.createMetaTag({type: 'link', property: 'dcterms:conformsTo', value: conformance_url});
+				metadata += smartFormat.createMetaTag({type: 'link', property: 'dcterms:conformsTo', value: conformance_url, id: 'epub-conformance'});
 			}
 			else {
-				metadata += smartFormat.createMetaTag({type: 'meta', property: 'dcterms:conformsTo', value: conformance_url});
+				metadata += smartFormat.createMetaTag({type: 'meta', property: 'dcterms:conformsTo', value: conformance_url, id: 'epub-conformance'});
 			}
+			
+			// add the certifier and reference the conformance statement
+			metadata += smartFormat.createMetaTag({type: 'meta', property: 'a11y:certifiedBy', value: document.getElementById('certifiedBy').value.trim(), id: 'certifier', refines: 'epub-conformance'});
 		}
 		
-		metadata += smartFormat.createMetaTag({type: 'meta', property: 'a11y:certifiedBy', value: document.getElementById('certifiedBy').value.trim()});
-		metadata += smartFormat.createMetaTag({type: 'link', property: 'a11y:certifierReport', value: document.getElementById('certifierReport').value});
+		else {
+			// add the certifier without reference to the conformance statement
+			metadata += smartFormat.createMetaTag({type: 'meta', property: 'a11y:certifiedBy', value: document.getElementById('certifiedBy').value.trim(), id: 'certifier'});
+		}
+		
+		metadata += smartFormat.createMetaTag({type: 'meta', property: 'a11y:certifiedCredential', value: document.getElementById('certifierCredential').value.trim(), refines: 'certifier'});
+		metadata += smartFormat.createMetaTag({type: 'link', property: 'a11y:certifierReport', value: document.getElementById('certifierReport').value, refines: 'certifier'});
 		
 		if (metadata == '') {
 			alert(smart_errors.validation.evaluation.noMetadata[smart_lang]);

@@ -321,7 +321,7 @@ smart_extensions['born_accessible'] = (function() {
 			}
 			
 			else {
-				_baReportScore  = (max_score == 0) ? 'N/A' : (Math.round((actual_score / max_score) * 100) + '%');
+				_baReportScore  = (max_score == 0) ? 'N/A' : (Math.floor((actual_score / max_score) * 100) + '%');
 			}
 			
 			var ba_total_score_div  = document.createElement('div');

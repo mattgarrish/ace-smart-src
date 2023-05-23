@@ -115,7 +115,7 @@ var smartAce = (function() {
 		
 		var conformance_url = '';
 		
-		if (_aceReport['earl:testSubject'].hasOwnProperty('links') && _aceReport['earl:testSubject'].hasOwnProperty('dcterms:conformsTo')) {
+		if (_aceReport['earl:testSubject'].hasOwnProperty('links') && _aceReport['earl:testSubject'].links.hasOwnProperty('dcterms:conformsTo')) {
 			conformance_url = _aceReport['earl:testSubject'].links['dcterms:conformsTo'];
 		}
 		
@@ -130,27 +130,35 @@ var smartAce = (function() {
 		
 		if (conformance_url) {
 			
-			conformance_url = conformance_url.trim();
+			conformance_url = Array.isArray(conformance_url) ? conformance_url : [conformance_url];
 			
-			var re = new RegExp('^((http://www\.idpf\.org/epub/a11y/accessibility-(?<epub10>20170105)\.html#wcag-(?<wcag20>[a]+))|(EPUB\s+Accessibility\s+(?<epubx>1.[1-9])\s+-\s+WCAG\s+(?<wcagx>2.[0-9])\s+Level\s+(?<wcaglvlx>[A]+)))');
-			var is_match = conformance_url.match(re);
-			var setSC = false;
-			
-			if (is_match) {
+			for (var i = 0; i < conformance_url.length; i++) {
 				
-				if (confirm(smart_ui.ace.load.hasConformsTo[smart_lang].replace('%%conformance_url%%', conformance_url))) {
+				var conf_url = conformance_url[i].trim();
 				
-					setSC = true;
+				var re = new RegExp('^((http://www\.idpf\.org/epub/a11y/accessibility-(?<epub10>20170105)\.html#wcag-(?<wcag20>[a]+))|(EPUB\s+Accessibility\s+(?<epubx>1.[1-9])\s+-\s+WCAG\s+(?<wcagx>2.[0-9])\s+Level\s+(?<wcaglvlx>[A]+)))');
+				var is_match = conf_url.match(re);
+				var setSC = false;
+				
+				if (is_match) {
 					
-					if (is_match.groups.epub10) {
-						epub_version = '1.0';
-						wcag_version = '2.0';
-						wcag_level = is_match.groups.wcag20;
-					}
-					else {
-						epub_version = is_match.groups.epubx.replace(/^(\d)/,'$1.');
-						wcag_version = is_match.groups.wcagx.replace(/^(\d)/,'$1.');
-						wcag_level = is_match.groups.wcaglvlx.toLowerCase();
+					if (confirm(smart_ui.ace.load.hasConformsTo[smart_lang].replace('%%conformance_url%%', conf_url))) {
+					
+						setSC = true;
+						
+						if (is_match.groups.epub10) {
+							epub_version = '1.0';
+							wcag_version = '2.0';
+							wcag_level = is_match.groups.wcag20;
+						}
+						
+						else {
+							epub_version = is_match.groups.epubx.replace(/^(\d)/,'$1.');
+							wcag_version = is_match.groups.wcagx.replace(/^(\d)/,'$1.');
+							wcag_level = is_match.groups.wcaglvlx.toLowerCase();
+						}
+						
+						break;
 					}
 				}
 			}
