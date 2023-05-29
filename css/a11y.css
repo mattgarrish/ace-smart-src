@@ -1035,17 +1035,21 @@ label.pad-left{
 /* status colours */
 
 .err{
-	border-color: rgb(255, 100, 100) !important;
+	border: 0.2rem solid rgb(255, 100, 100) !important;
 }
+
 .na{
-	border-color: rgb(200, 200, 200) !important;
+	border: 0.2rem solid rgb(200, 200, 200) !important;
 	background-color: rgb(250, 250, 250) !important;
 }
+
 .pass{
-	border-color: rgb(10, 255, 10) !important;
+	border: 0.2rem solid rgb(10, 255, 10) !important;
 }
+
+
 .warn{
-	border-color: rgb(255, 140, 0) !important;
+	border: 0.2rem solid rgb(255, 140, 0) !important;
 }
 
 .alert {

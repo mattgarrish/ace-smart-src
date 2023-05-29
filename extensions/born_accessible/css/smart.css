@@ -128,3 +128,9 @@ span#ba_final_score_status {
 #born_accessible span#ba-epp-num {
 	color: rgb(180,0,0);
 }
+
+#ba-info .err {
+	border: none !important;
+	border-left: 0.3rem solid rgb(255, 100, 100) !important;
+	padding-left: 2rem;
+}

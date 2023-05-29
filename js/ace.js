@@ -30,7 +30,10 @@ var smartAce = (function() {
 	var _loadMessages = {
 			inferred: '',
 			reporting: '',
-			features: []
+			features: [],
+			obs: {
+				features: []
+			}
 	};
 	
 	/* used to process incoming a11y metadata case-insensitively */
@@ -38,11 +41,13 @@ var smartAce = (function() {
 		accessibilityFeature: {
 			alternativetext: 'alternativeText',
 			annotations: 'annotations',
+			aria: 'ARIA',
 			audiodescription: 'audioDescription',
 			bookmarks: 'bookmarks',
 			braille: 'braille',
 			captions: 'captions',
 			chemml: 'ChemML',
+			closedcaptions: 'closedCaptions',
 			describedmath: 'describedMath',
 			displaytransformability: 'displayTransformability',
 			highcontrastaudio: 'highContrastAudio',
@@ -53,6 +58,9 @@ var smartAce = (function() {
 			longdescription: 'longDescription',
 			mathml: 'MathML',
 			none: 'none',
+			opencaptions: 'openCaptions',
+			pagebreakmarkers: 'pageBreakMarkers',
+			pagenavigation: 'pageNavigation',
 			printpagenumbers: 'printPageNumbers',
 			readingorder: 'readingOrder',
 			rubyannotations: 'rubyAnnotations',
@@ -64,7 +72,8 @@ var smartAce = (function() {
 			tactileobject: 'tactileObject',
 			timingcontrol: 'timingControl',
 			transcript: 'transcript',
-			ttsMarkup: 'ttsmarkup'
+			ttsMarkup: 'ttsmarkup',
+			unknown: 'unknown'
 		}
 	};
 	
@@ -321,6 +330,20 @@ var smartAce = (function() {
 			
 			var value = (_SCHEMA_MAP.hasOwnProperty(id) && _SCHEMA_MAP[id].hasOwnProperty(report_property[i])) ? _SCHEMA_MAP[id][report_property[i].toLowerCase()] : report_property[i];
 			
+			// remap old features
+			
+			switch (value) {
+				case 'captions':
+					value = 'closedCaptions';
+					_loadMessages.obs.features.push(report_property[i] + ' (closedCaptions)');
+					break;
+				
+				case 'printPageNumbers':
+					value = 'pageBreakMarkers';
+					_loadMessages.obs.features.push(report_property[i] + ' (pageBreakMarkers)');
+					break;
+			}
+			
 			var checkbox = document.querySelector('#' + id + ' input[value="' + value + '"]');
 			
 			if (id == 'accessibilityFeature' && checkbox === null) {
@@ -421,7 +444,7 @@ var smartAce = (function() {
 		}
 		
 		if (_aceReport['properties']['hasPageBreaks']) {
-			user_message.appendChild(setCheckbox('accessibilityFeature','printPageNumbers'));
+			user_message.appendChild(setCheckbox('accessibilityFeature','pageBreakMarkers'));
 		}
 		
 		/* can typically be assumed that every epub has a reading order */
@@ -841,6 +864,24 @@ var smartAce = (function() {
 			var verify_features = document.createElement('p');
 				verify_features.appendChild(document.createTextNode(smart_ui.ace.load.verifyFeatures[smart_lang]));
 			import_result.appendChild(verify_features);
+		}
+		
+		// alert the user if there are obsolete accessibility features
+		
+		if (_loadMessages.obs.features.length > 0) {
+			var feature_metadata = document.createElement('p');
+				feature_metadata.appendChild(document.createTextNode(smart_ui.ace.load.obsoleteFeatures[smart_lang]));
+			import_result.appendChild(feature_metadata);
+			
+			var feature_ul = document.createElement('ul');
+			
+			_loadMessages.obs.features.forEach(function(feature) {
+				var feature_li = document.createElement('li');
+					feature_li.appendChild(document.createTextNode(feature));
+				feature_ul.appendChild(feature_li);
+			});
+			
+			import_result.appendChild(feature_ul);
 		}
 		
 		import_dialog.dialog('open');

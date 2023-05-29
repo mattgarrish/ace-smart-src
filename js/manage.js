@@ -578,8 +578,25 @@ var smartManage = (function() {
 	/* generic function that clicks a checkbox for a metadata field */
 	
 	function setDiscoveryMetaCheckbox(id,obj) {
+	
 		for (var i = 0; i < obj.length; i++) {
-			var checkbox = document.querySelector('#' + id + ' input[value="' + obj[i] + '"]');
+			
+			var obj_value = obj[i];
+			
+			// OVERRIDES - change deprecated values to replacements
+			
+			switch (obj_value) {
+				case 'captions':
+					obj_value = 'closedCaptions';
+					break;
+				
+				case 'printPageMarkers':
+					obj_value = 'pageBreakMarkers';
+					break;
+			}
+			
+			var checkbox = document.querySelector('#' + id + ' input[value="' + obj_value + '"]');
+			
 			if (checkbox === null) {
 				/* ignore except for accessibilityFeature, as indicates a user-defined feature */
 				if (id == 'accessibilityFeature') {

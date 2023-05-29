@@ -120,6 +120,9 @@ var smart_ui = {
 			"unknownFeatures": {
 				"en": "The following accessibiity features were found in the metadata but do not match known values:"
 			},
+			"obsoleteFeatures": {
+				"en": "The following accessibiity features are no longer recommended (the values in parentheses have been used instead):"
+			},
 			"verifyFeatures": {
 				"en": "Verify these features are not typos or invalid."
 			},
@@ -500,14 +503,32 @@ var smart_errors = {
 			"accessibilityFeature": {
 				"en": "At least one accessibility feature must be specified."
 			},
+			"accessibilityFeature_invalid": {
+				"en": "The feature values 'unknown' and 'none' cannot be set when the Discovery Metadata success criterion passes."
+			},
+			"accessibilityFeature_none": {
+				"en": "The 'none' and 'unknown' values cannot be used together or when other features are selected."
+			},
 			"accessibilityHazard": {
 				"en": "A hazard indication is required. If uncertain whether there are hazards in the content, select the 'unknown' value."
+			},
+			"accessibilityHazard_none": {
+				"en": "The 'none' and 'unknown' values cannot be used together or when other hazards are selected."
+			},
+			"accessibilityHazard_flashing": {
+				"en": "The 'flashing' and 'no flashing hazard' values cannot both be selected."
+			},
+			"accessibilityHazard_motion": {
+				"en": "The 'motion simulation' and 'no motion simulation hazard' values cannot both be selected."
+			},
+			"accessibilityHazard_sound": {
+				"en": "The 'sound' and 'no sound hazard' values cannot both be selected."
 			},
 			"accessMode": {
 				"en": "At least one access mode must be selected."
 			},
 			"accessibilitySummary": {
-				"en": "An accessibility summary is required. The summary must not be empty or contain only white space."
+				"en": "An accessibility summary is recommended."
 			},
 			"accessModeSufficient_missing": {
 				"en": "Sufficient access mode '%%val%%' checked but is not listed as an access mode. It is not common for a publication to have a sufficient access mode that is not also an access mode."
