@@ -26,16 +26,22 @@ var smartDiscovery = (function() {
 	var _PROP_ERROR = { accessibilityFeature: {}, accessibilityHazard: {}, accessMode: {}, accessibilitySummary: {}, accessModeSufficient: {} };
 		
 		_PROP_ERROR.accessibilityFeature.msg = smart_errors.validation.discovery.accessibilityFeature[smart_lang];
+		_PROP_ERROR.accessibilityFeature.invalid = smart_errors.validation.discovery.accessibilityFeature_invalid[smart_lang];
+		_PROP_ERROR.accessibilityFeature.none_unknown = smart_errors.validation.discovery.accessibilityFeature_none[smart_lang];
 		_PROP_ERROR.accessibilityFeature.warn = false;
 		
 		_PROP_ERROR.accessibilityHazard.msg = smart_errors.validation.discovery.accessibilityHazard[smart_lang];
+		_PROP_ERROR.accessibilityHazard.none_unknown = smart_errors.validation.discovery.accessibilityHazard_none[smart_lang];
+		_PROP_ERROR.accessibilityHazard.flashing = smart_errors.validation.discovery.accessibilityHazard_flashing[smart_lang];
+		_PROP_ERROR.accessibilityHazard.motion = smart_errors.validation.discovery.accessibilityHazard_motion[smart_lang];
+		_PROP_ERROR.accessibilityHazard.sound = smart_errors.validation.discovery.accessibilityHazard_sound[smart_lang];
 		_PROP_ERROR.accessibilityHazard.warn = false;
 		
 		_PROP_ERROR.accessMode.msg = smart_errors.validation.discovery.accessMode[smart_lang];
 		_PROP_ERROR.accessMode.warn = false;
 		
 		_PROP_ERROR.accessibilitySummary.msg = smart_errors.validation.discovery.accessibilitySummary[smart_lang];
-		_PROP_ERROR.accessibilitySummary.warn = false;
+		_PROP_ERROR.accessibilitySummary.warn = true;
 		
 		_PROP_ERROR.accessModeSufficient = { missing: {}, none: {}, duplicate: {} };
 		
@@ -61,7 +67,7 @@ var smartDiscovery = (function() {
 		is_valid = verifyOneItemChecked('accessibilityFeature');
 		
 		if (document.getElementById('accessibilitySummary').value.replace(/\s/g,'') == '') {
-			smartError.logError({tab_id: 'discovery', element_id: 'accessibilitySummary-field', severity: 'err', message: _PROP_ERROR['accessibilitySummary'].msg});
+			smartError.logError({tab_id: 'discovery', element_id: 'accessibilitySummary-field', severity: 'warn', message: _PROP_ERROR['accessibilitySummary'].msg});
 			smartFormat.setFieldToError({id: 'accessibilitySummary-field', is_warning: _PROP_ERROR['accessibilitySummary'].warn, highlight_parent: false});
 			is_valid = false;
 		}
@@ -86,14 +92,112 @@ var smartDiscovery = (function() {
 		var checked_items = document.querySelectorAll('fieldset#' + id + ' input:checked')
 		
 		if (checked_items.length > 0) {
-			smartFormat.setFieldToPass({id: id, highlight_parent: false});
-			return true;
+			
+			if (id === 'accessibilityFeature') {
+				return checkFeatureConflicts(id, checked_items);
+			}
+			
+			else if (id === 'accessibilityHazard') {
+				return checkHazardConflicts(id, checked_items);
+			}
+			
+			else {
+				smartFormat.setFieldToPass({id: id, highlight_parent: false});
+				return true;
+			}
 		}
 		
 		else {
 			smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].msg});
 			smartFormat.setFieldToError({id: id, is_warning: _PROP_ERROR[id].warn, highlight_parent: false});
 			return false;
+		}
+	}
+	
+	
+	
+	// check that unknown and none feature values are only set for non-conforming publications
+	function checkFeatureConflicts(id, checked_items) {
+		
+		var is_valid = true;
+		var is_invalid = ['none','unknown']
+		
+		for (var i = 0; i < checked_items.length; i++) {
+			if (is_invalid.includes(checked_items[i].value)) {
+				is_valid = false;
+				break;
+			}
+		}
+		
+		if (is_valid) {
+			smartFormat.setFieldToPass({id: id, highlight_parent: false});
+			return true;
+		}
+		
+		else {
+			if (document.getElementById('epub-discovery-pass').checked) {
+				// none and unknown cannot be set when the discovery metadata criterion is passed
+				smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].invalid});
+				smartFormat.setFieldToError({id: id, is_warning: _PROP_ERROR[id], highlight_parent: false});
+				return false;
+			}
+			
+			else if (checked_items.length > 1) {
+				// none and unknown cannot be set with other features
+				smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].none_unknown});
+				smartFormat.setFieldToError({id: id, is_warning: _PROP_ERROR[id], highlight_parent: false});
+				return false;
+			}
+			
+			else {
+				// if no conformance claim then it's okay to specify these values
+				smartFormat.setFieldToPass({id: id, highlight_parent: false});
+				return true;
+			}
+		}
+	}
+	
+	
+	// check that positive and negative hazard values are not set together
+	function checkHazardConflicts(id, checked_items) {
+		
+		if (checked_items.length < 2) {
+			return true;
+		}
+		
+		var hazards = [];
+		
+		for (var i = 0; i < checked_items.length; i++) {
+			hazards.push(checked_items[i].value);
+		}
+		
+		if (hazards.includes('none') || hazards.includes('unknown')) {
+			smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].none_unknown});
+			smartFormat.setFieldToError({id: id, is_warning: _PROP_ERROR[id], highlight_parent: false});
+			return false;
+		}
+		
+		else if (hazards.includes('flashing') && hazards.includes('noFlashingHazard')) {
+			smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].flashing});
+			smartFormat.setFieldToError({id: id, is_warning: _PROP_ERROR[id], highlight_parent: false});
+			return false;
+		}
+		
+		else if (hazards.includes('motionSimulation') && hazards.includes('noMotionSimulationHazard')) {
+			smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].motion});
+			smartFormat.setFieldToError({id: id, is_warning: _PROP_ERROR[id], highlight_parent: false});
+			return false;
+		}
+		
+		else if (hazards.includes('sound') && hazards.includes('noSoundHazard')) {
+			smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].sound});
+			smartFormat.setFieldToError({id: id, is_warning: _PROP_ERROR[id], highlight_parent: false});
+			return false;
+		}
+		
+		else {
+			smartFormat.setFieldToPass({id: id, highlight_parent: false});
+			return true;
 		}
 	}
 	
@@ -523,6 +627,7 @@ var smartDiscovery = (function() {
 			"index": "onix12",
 			"longDescription": "onix15",
 			"MathML": "onix17",
+			"pageBreakMarkers": "onix19",
 			"printPageNumbers": "onix19",
 			"readingOrder": "onix13",
 			"synchronizedAudioText": "onix20",

@@ -21,15 +21,15 @@ var a11y_meta = {
 					}
 				},
 				{
-					"id": "audioDescription",
+					"id": "ARIA",
 					"label": {
-						"en": "audio descriptions"
+						"en": "ARIA roles"
 					}
 				},
 				{
-					"id": "bookmarks",
+					"id": "audioDescription",
 					"label": {
-						"en": "bookmarks"
+						"en": "audio descriptions"
 					}
 				},
 				{
@@ -39,15 +39,15 @@ var a11y_meta = {
 					}
 				},
 				{
-					"id": "captions",
-					"label": {
-						"en": "captions"
-					}
-				},
-				{
 					"id": "ChemML",
 					"label": {
 						"en": "ChemML"
+					}
+				},
+				{
+					"id": "closedCaptions",
+					"label": {
+						"en": "closed captions"
 					}
 				},
 				{
@@ -111,9 +111,21 @@ var a11y_meta = {
 					}
 				},
 				{
-					"id": "printPageNumbers",
+					"id": "openCaptions",
 					"label": {
-						"en": "print page numbers"
+						"en": "open captions"
+					}
+				},
+				{
+					"id": "pageBreakMarkers",
+					"label": {
+						"en": "page break markers"
+					}
+				},
+				{
+					"id": "pageNavigation",
+					"label": {
+						"en": "page navigation"
 					}
 				},
 				{
@@ -179,7 +191,19 @@ var a11y_meta = {
 				{
 					"id": "ttsMarkup",
 					"label": {
-						"en": "tts markup"
+						"en": "text-to-speech markup"
+					}
+				},
+				{
+					"id": "unknown",
+					"label": {
+						"en": "unknown"
+					}
+				},
+				{
+					"id": "unlocked",
+					"label": {
+						"en": "unlocked"
 					}
 				}
 			],
@@ -217,6 +241,24 @@ var a11y_meta = {
 					"id": "sound",
 					"label": {
 						"en": "sound"
+					}
+				},
+				{
+					"id": "noFlashingHazard",
+					"label": {
+						"en": "no flashing hazard"
+					}
+				},
+				{
+					"id": "noMotionSimulationHazard",
+					"label": {
+						"en": "no motion hazard"
+					}
+				},
+				{
+					"id": "noSoundHazard",
+					"label": {
+						"en": "no sound hazard"
 					}
 				},
 				{
