@@ -68,7 +68,10 @@
 		for (var i = 0; i < sc411_inputs.length; i++) {
 			sc411_inputs[i].disabled = true;
 		}
-		
+    	
+    	// call data mods for extensions that have to occur after the data has loaded
+    	extension_scripts();
+    	
 		/* 
 		 * reset saveChanges after configuring the evaluation,
 		 * otherwise users are always alerted to save changes to their 

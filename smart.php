@@ -119,6 +119,7 @@ JS;
 		<script src="js/format.js<?= '?v=' . $smart_version ?>"></script>
 		<script src="js/wcag.js<?= '?v=' . $smart_version ?>"></script>
 		<script src="js/reporting.js<?= '?v=' . $smart_version ?>"></script>
+		<script src="js/extensions.js<?= '?v=' . $smart_version ?>"></script>
 		
 		<script src="js/a11ytabs.js<?= '?v=' . $smart_version ?>" defer></script>
 		<script src="js/config/sc.js<?= '?v=' . $smart_version ?>" defer></script>
