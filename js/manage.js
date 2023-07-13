@@ -184,6 +184,8 @@ var smartManage = (function() {
 			
 			evaluationJSON.evaluation.certifiedBy = document.getElementById('certifiedBy').value;
 			
+			evaluationJSON.evaluation.certifierCredential = document.getElementById('certifierCredential').value;
+			
 			evaluationJSON.evaluation.certifierReport = document.getElementById('certifierReport').value;
 		
 		/* add extension data */
@@ -459,7 +461,7 @@ var smartManage = (function() {
 			if (evaluationJSON.distribution.hasOwnProperty('onix')) {
 				for (var onix_id in evaluationJSON.distribution.onix) {
 					if (onix_id == 0 || onix_id > 90) {
-						document.getElementById('onix' + onix_id).value = evaluationJSON.distribution.onix[onix_id];
+						document.getElementById('onix' + onix_id).value = evaluationJSON.distribution.onix.hasOwnProperty(onix_id) ? evaluationJSON.distribution.onix[onix_id] : '';
 					}
 					else {
 						if (evaluationJSON.distribution.onix[onix_id]) {
@@ -479,13 +481,15 @@ var smartManage = (function() {
 		
 		var text_fields = {
 			publicationInfo: ['title', 'creator', 'identifier', 'modified', 'publisher', 'description', 'date', 'subject', 'optional-meta'],
-			evaluation: ['certifiedBy','certifierReport']
+			evaluation: ['certifiedBy','certifierCredential','certifierReport']
 		};
 		
 		for (var key in text_fields) {
 			if (evaluationJSON.hasOwnProperty(key)) {
 				text_fields[key].forEach(function(id) {
-					document.getElementById(id).value = evaluationJSON[key][id];
+					if (evaluationJSON[key].hasOwnProperty(id)) {
+						document.getElementById(id).value = evaluationJSON[key][id];
+					}
 				});
 			}
 		}

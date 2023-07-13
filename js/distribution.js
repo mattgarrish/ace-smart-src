@@ -39,7 +39,7 @@ var smartDistribution = (function() {
 		} 
 		
 		/* check that any URLs begin with http(s):// */
-		for (var i = 94; i < 97; i++) {
+		for (var i = 93; i < 97; i++) {
 			var url = document.getElementById('onix'+i).value;
 			if (url) {
 				if (!url.match(/^https?:\/\//i)) {

@@ -447,6 +447,22 @@ var bornAccessible = (function() {
 		
 		updateResultScore: function() {
 			updateResultScore();
+		},
+		
+		setGCACredential: function() {
+    		var gca_credential = 'https://bornaccessible.org/certification/gca-credential/';
+    		
+    		var epub_cert = document.getElementById('certifierCredential');
+    		
+    		if (!epub_cert.value) {
+    			epub_cert.value = gca_credential;
+    		}
+    		
+    		var onix_cert = document.getElementById('onix93');
+    		
+    		if (!onix_cert.value) {
+    			onix_cert.value = gca_credential;
+    		}
 		}
 	}
 
