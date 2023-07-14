@@ -52,8 +52,6 @@
 	
 	$ext = new SMART_EXTENSIONS($user->data()->modules, $extension);
 	$sc = new SMART_SC_GENERATOR();
-	
-	$gca_user = preg_match('/\bborn_accessible\b/', $user->data()->modules) ? 1 : 0;
 ?>
 
 <!DOCTYPE html>
@@ -108,7 +106,6 @@
 			var ACE_USER_CO = '{$user->data()->company}';
 			var ACE_ACTION = '{$eval->get_action()}';
 			var ACE_ID = '{$eval->get_eval_id()}';
-			var GCA_USER = {$gca_user};
 			var saveChanges = false;
 			var firstSave = {$eval->need_to_save()};
 			var noDesignElements = {$user->data()->baDesignElementsOff};
