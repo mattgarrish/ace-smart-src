@@ -150,7 +150,7 @@ var bornAccessible = (function() {
 				ba_tests.push('<fieldset id="' + gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'] + '" class="test">');
 				
 				ba_tests.push('<legend id="' + gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId']+'-legend' + '">');
-					ba_tests.push(section_number + (j+1) + ' ' + gca.bornAccessibleScoring.sections[i].sectionItems[j].itemName);
+					ba_tests.push(section_number + (j+1) + ' ' + gca.bornAccessibleScoring.sections[i].sectionItems[j].itemName.replace(/</g,'&lt;'));
 				ba_tests.push('</legend>');
 				
 				// add default unverified value
@@ -205,7 +205,7 @@ var bornAccessible = (function() {
 				
 				if (gca.bornAccessibleScoring.sections[i].sectionItems[j].hasOwnProperty('wcagScoreFrom')) {
 					for (var k = 0; k < gca.bornAccessibleScoring.sections[i].sectionItems[j]['wcagScoreFrom'].length; k++) {
-						setWCAGEventHandler(gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'], gca.bornAccessibleScoring.sections[i].sectionItems[j]['wcagScoreFrom'][k], gca.bornAccessibleScoring.sections[i].sectionItems[j]['itemName']);
+						setWCAGEventHandler(gca.bornAccessibleScoring.sections[i].sectionItems[j]['$itemId'], gca.bornAccessibleScoring.sections[i].sectionItems[j]['wcagScoreFrom'][k], gca.bornAccessibleScoring.sections[i].sectionItems[j]['itemName'].replace(/</g,'&lt;'));
 					}
 				}
 			}
