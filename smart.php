@@ -122,7 +122,6 @@ JS;
 		<script src="js/extensions.js<?= '?v=' . $smart_version ?>"></script>
 		
 		<script src="js/a11ytabs.js<?= '?v=' . $smart_version ?>" defer></script>
-		<script src="js/config/sc.js<?= '?v=' . $smart_version ?>" defer></script>
 		<script src="js/conformance.js<?= '?v=' . $smart_version ?>" defer></script>
 		<script src="js/config/discovery.js<?= '?v=' . $smart_version ?>" defer></script>
 		<script src="js/discovery.js<?= '?v=' . $smart_version ?>" defer></script>

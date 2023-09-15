@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.25",
+    "version": "1.26",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "03/01/2023, 09:00:00 AM",
+    "dct:date": "07/01/2023, 09:00:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -80,11 +80,11 @@ var gca = {
                         "$itemId": "images-alt-text",
                         "itemName" : "Includes Alt Text",
                         "itemScores": {
-                            "N/A": "There were no Images, or the surrounding text adequately described the images.  Note: If there is an extended description, 99% of the time there can be a very short summary in the alt text, unless it is what is in the Fig Caption.",
+                            "N/A": "There were no images, or the surrounding text adequately described the images.  Note: If there is an extended description, 99% of the time there can be a very short summary in the alt text, unless it is what is in the Fig Caption.",
                             "0": "There is no alt text present for any image, or has meaningless text such as \"image\"",
                             "1": "Alt text included for a small percentage of images",
                             "2": "Alt text present in the majority of images",
-                            "3": "Alt text is present in all cases but is problematic; too long,  repeats the caption, incorrect/incomplete, etc.",
+                            "3": "Alt text is present in all cases but is problematic; repeats the caption, incorrect/incomplete, etc.",
                             "4": "All images found were described appropriately with alt text"
                         }
                     },
@@ -92,7 +92,7 @@ var gca = {
                         "$itemId": "images-extended-descriptions",
                         "itemName" : "Includes Extended Descriptions",
                         "itemScores": {
-                            "N/A": "There were no Images, or the surrounding text adequately described the images.",
+                            "N/A": "There were no images, or the surrounding text adequately described the images.",
                             "0": "Complex images would benefit from longer descriptions but there are none",
                             "1": "Long description included for a few select images, despite presence of many complex images",
                             "2": "Long description for the majority of images",
@@ -148,6 +148,16 @@ var gca = {
                             "2": "Both stylistic and literal description was all included in the alt text, stylistic description should be in the alt text as a short overview where the extended description would have the raw literal text of the poem",
                             "3": "Most poetry images were correctly described both stylistically and literally",
                             "4": "All visually styled images of poems describe the visual significance of the poem, and an extended description containing the actual poem itself"
+                        }
+                    },
+                    {
+                        "$itemId": "images-alt-text-length",
+                        "itemName" : "Image Alt Text Length",
+                        "itemScores": {
+                            "N/A": "There were no images, or the surrounding text adequately described the images.",
+                            "0": "Most of the image alt text descriptions were too long. Ideally alt text image descriptions are under 200 characters in length.",
+                            "2": "Some of the image alt text descriptions were too long. Ideally alt text image descriptions are under 200 characters in length.",
+                            "4": "All Image alt text descriptions were of adequate length, i.e., short meaningful descriptions that does not repeat the surrounding text."
                         }
                     }
                 ] 
@@ -296,13 +306,23 @@ var gca = {
                     },
                     {
                         "$itemId": "general-landmarks",
-                        "itemName" : "Landmarks",
+                        "itemName" : "Landmarks - Navigation Document (Nav Doc)",
                         "itemScores": {
                             "0": "No landmarks provided in Nav Doc",
+                            "1": "Some landmarks specified, but missing the minimal set and others listing in the Nav Doc. The start of content should be marked in the Nav Doc",
+                            "2": "Only the minimal set of landmarks (toc and bodymatter) are provided when more are available",
+                            "3": "Content would benefit from additional lists (figure, tables, maps)",
+                            "4": "Robust use of landmarks in the Nav Doc"
+                        }
+                    },
+                    {
+                        "$itemId": "general-landmarks-content",
+                        "itemName" : "Landmarks (Per Page)",
+                        "itemScores": {
+                            "0": "No landmarks were found in content",
                             "1": "Landmarks are marked up incorrectly or landmarks missing unique aria labels",
-                            "2": "Only a basic set of landmarks are used",
-                            "3": "Full set of landmarks in markup but meagre landmarks listing in the navigation. Content would benefit from further, separate lists (figure, tables, maps) Or – The start of content should be marked in the nav",
-                            "4": "Full set of landmarks, robust use of landmarks in the navigation"
+                            "2": "Excessive use of landmarks found (>5 landmarks were found per page)",
+                            "4": "Full set of landmarks found"
                         }
                     },
                     {
@@ -405,22 +425,24 @@ var gca = {
                     },
                     {
                         "$itemId": "general-dropcaps",
-                        "itemName" : "Embedded Visual Styling e.g.: Drop Caps",
+                        "itemName" : "Embedded Visual Styling e.g.: Drop Caps, smallCap, etc.",
                         "itemScores": {
-                            "N/A": "No embedded visual styling e.g.: Drop Caps present",
-                            "0": "Use of <span>, <i>, <b> or other inline HTML elements within individual words causing screen readers to mispronounce the word.  Drop Caps are the usual culprit of this issue. (i.e., use of <spans> instead of CSS selectors)",
+                            "N/A": "No embedded visual styling e.g.: Drop Cap, smallcaps, etc.",
+                            "0": "Use of <span>, <i>, <b> or other inline HTML elements within individual words causing screen readers to mispronounce the word.  Drop Caps / smallcaps are the usual culprit of this issue. (i.e., use of <spans> instead of CSS selectors)",
                             "2": "Some embedded visual styling within individual words",
-                            "4": "Correct use of CSS Selectors to add visual styling to certain characters in a word and do not affect AT reading the entire word"
+                            "4": "Correct use of CSS Selectors to add visual styling to certain characters in a word and do not affect Assistive Technology reading the entire word"
                         }
                     },
                     {
                         "$itemId": "general-allcaps",
                         "itemName" : "All CAPS",
                         "itemScores": {
-                            "N/A": "No words found written in all capital letters",
+                            "N/A": "No words found written in all capital letters, or are acronyms which don't apply",
                             "0": "Headings written entirely in capital letters",
                             "1": "Many words or phrases written entirely in capital letters",
-                            "3": "Few words written entirely in capital letters"
+                            "3": "Few words written entirely in capital letters",
+                            "4": "Correct CSS styling used for all capitalized words"
+                            
                         }
                     },
                     {
@@ -467,8 +489,8 @@ var gca = {
                         "itemName" : "Blockquote",
                         "itemScores": {
                             "N/A": "No blockquotes present",
-                            "0": "all blockquote's not correctly identified such as marked using <p> instead of <blockquote>",
-                            "4": "All blockquote's correctly identified using <bloackquote>"
+                            "0": "all blockquotes not correctly identified such as marked using <p> instead of <blockquote>",
+                            "4": "All blockquotes correctly identified using <blockquote>"
                         }
                     }
                       
@@ -732,14 +754,36 @@ var gca = {
                 "sectionName": "Tables",
                 "sectionItems": [
                     {
+                        "$itemId": "tables-headings-simple",
+                        "itemName" : "Simple Tables - Headings",
+                        "itemScores": {
+                            "N/A": "No simple tables present",
+                            "0": "None of the tables had table headings (i.e.: missing <th>)",
+                            "1": "Some of the tables had correct table headings identified (i.e.: <th>)",
+                            "3": "Most tables had correct table headers identified (i.e.: <th>)",
+                            "4": "All Table headings were correctly encoded (i.e. initial column headers were marked using <th>, and any row headers if necessary were identified as <th>'s)"
+                        }
+                    },
+                   {
                         "$itemId": "tables-headings",
-                        "itemName" : "Table Headings",
+                        "itemName" : "Complex Tables - Headings",
+                        "itemScores": {
+                            "N/A": "No complex tables present",
+                            "0": "None of the complex tables had table headings (i.e.: missing scope=\"col/row/colgroup/rowgroup\" and/or heading id's headers=\"...\")",
+                            "1": "Some of the complex tables had correct table headings identified (i.e.: missing scope=\"col/row/colgroup/rowgroup\" and/or heading id's headers=\"...\")",
+                            "3": "- Most complex tables had correct table headers (i.e.: missing  scope=\"col/row/colgroup/rowgroup\" and/or heading id's headers=\"...\")",
+                            "4": "Complex Table headings present where correctly encoded by either the use of scope=\"col/row/colgroup/rowgroup\" or referring to heading id's i.e. headers=\"...\"."
+                        }
+                    },
+                    {
+                        "$itemId": "tables-headings-thead-tbody",
+                        "itemName" : "Tables - <thead>/<tbody>",
                         "itemScores": {
                             "N/A": "No tables present",
-                            "0": "None of the complex tables had table headings (i.e.: missing scope=\"col/row\")",
-                            "1": "Some of the complex tables had correct table headings",
-                            "3": "Most tables had table headers",
-                            "4": "Table headings were present where appropriate (i.e. Column or Row headers may not always be required)"
+                            "0": "None of the tables had table heading/body semantics (i.e.: missing <thead>, and <tbody>)",
+                            "1": "Some of the tables had correct table heading/body identified (i.e.: <thead>, and <tbody>)",
+                            "3": "Most tables had correct table headers identified (i.e.: <thead>, and <tbody>)",
+                            "4": "All Table headings were correctly encoded (i.e. initial column headers were inside a <thead> , and any row data cells were identified inside the <tbody> section)"
                         }
                     },
                     {
@@ -770,6 +814,15 @@ var gca = {
                             "0": "No enhanced description for complex table, or simple table coded as an image instead of a real HTML table",
                             "2": "Complex table image described in text instead of as an HTML table where the actual data is relevant",
                             "4": "Complex table images have an enhanced description that are real HTML tables"
+                        }
+                    },
+                    {
+                        "$itemId": "tables-structure-visual-layout",
+                        "itemName" : "Table Structure (in the table tag) must Match the Visual Table Layout",
+                        "itemScores": {
+                            "N/A": "No tables present",
+                            "0": "cell spans more than one column or row are missing",
+                            "4": "all cells are spanned correctly"
                         }
                     }
                   ]

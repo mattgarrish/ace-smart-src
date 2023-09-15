@@ -475,15 +475,6 @@
 			],
 			
 			"sc-2.4.11" => [
-				"ref" => "focus-appearance",
-				"version" => "2.2",
-				"level" => "aa",
-		        "name" => [
-					"en" => "Focus Appearance"
-				]
-			],
-			
-			"sc-2.4.12" => [
 				"ref" => "focus-not-obscured-minimum",
 				"version" => "2.2",
 				"level" => "aa",
@@ -492,12 +483,21 @@
 				]
 			],
 			
-			"sc-2.4.13" => [
+			"sc-2.4.12" => [
 				"ref" => "focus-not-obscured-enhanced",
 				"version" => "2.2",
 				"level" => "aaa",
 		        "name" => [
 					"en" => "Focus Not Obscured (Enhanced)"
+				]
+			],
+			
+			"sc-2.4.13" => [
+				"ref" => "focus-appearance",
+				"version" => "2.2",
+				"level" => "aaa",
+		        "name" => [
+					"en" => "Focus Appearance"
 				]
 			],
 			
