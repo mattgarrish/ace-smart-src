@@ -573,27 +573,29 @@ var smartAce = (function() {
 			
 			var noWarn = true; // does nothing but avoid warnings of suspicious code when minifying
 			
-			// current to axe ruleset 4.7.0
+			// current to axe ruleset 4.8.2
 			// excludes experimental rules and best practices
 			
 			if (assert['area-alt']) { setSCStatus('sc-1.1.1', 'fail', assert['area-alt']); }
 			if (assert['aria-allowed-attr']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-allowed-attr']); }
+			if (assert['aria-braille-equivalent']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-allowed-attr']); }
 			if (assert['aria-command-name']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-command-name']); }
+			if (assert['aria-conditional-attr']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-command-name']); }
+			if (assert['aria-deprecated-role']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-command-name']); }
 			if (assert['aria-hidden-body']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-hidden-body']); }
 			if (assert['aria-hidden-focus']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-hidden-focus']); }
 			if (assert['aria-input-field-name']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-input-field-name']); }
 			if (assert['aria-meter-name']) { setSCStatus('sc-1.1.1', 'fail', assert['aria-meter-name']); }
 			if (assert['aria-progressbar-name']) { setSCStatus('sc-1.1.1', 'fail', assert['aria-progressbar-name']); }
+			if (assert['aria-prohibited-attr']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-required-attr']); }
 			if (assert['aria-required-attr']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-required-attr']); }
 			if (assert['aria-required-children']) { setSCStatus('sc-1.3.1', 'fail', assert['aria-required-children']); }
 			if (assert['aria-required-parent']) { setSCStatus('sc-1.3.1', 'fail', assert['aria-required-parent']); }
-			if (assert['aria-roledescription']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-roledescription']); }
 			if (assert['aria-roles']) { setSCStatus('sc-1.3.1', 'fail', assert['aria-roles']); setSCStatus('sc-4.1.2', 'fail', assert['aria-roles']); }
 			if (assert['aria-toggle-field-name']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-toggle-field-name']); }
 			if (assert['aria-tooltip-name']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-tooltip-name']); }
 			if (assert['aria-valid-attr']) { setSCStatus('sc-4.1.2', 'fail', assert['aria-valid-attr']); }
 			if (assert['aria-valid-attr-value']) { setSCStatus('sc-1.3.1', 'fail', assert['aria-valid-attr-value']); setSCStatus('sc-4.1.2', 'fail', assert['aria-valid-attr-value']); }
-			if (assert['audio-caption']) {setSCStatus('sc-1.2.1', 'fail', assert['audio-caption']); }
 			if (assert['autocomplete-valid']) { setSCStatus('sc-1.3.5', 'fail', assert['autocomplete-valid']); }
 			if (assert['avoid-inline-spacing']) { setSCStatus('sc-1.4.12', 'fail', assert['avoid-inline-spacing']); }
 			if (assert['blink']) { setSCStatus('sc-2.2.2', 'fail', assert['blink']); }
@@ -604,7 +606,6 @@ var smartAce = (function() {
 			if (assert['definition-list']) { setSCStatus('sc-1.3.1', 'fail', assert['definition-list']); }
 			if (assert['dlitem']) { setSCStatus('sc-1.3.1', 'fail', assert['dlitem']); }
 			if (assert['document-title']) { setSCStatus('sc-2.4.2', 'fail', assert['document-title']); }
-			if (assert['duplicate-id-active']) { setSCStatus('sc-1.3.1', 'fail', assert['duplicate-id-active']); }
 			if (assert['duplicate-id-aria']) { setSCStatus('sc-4.1.2', 'fail', assert['duplicate-id-aria']); }
 			if (assert['form-field-multiple-labels']) { setSCStatus('sc-3.3.2', 'fail', assert['form-field-multiple-labels']); }
 			if (assert['frame-focusable-content']) { setSCStatus('sc-2.1.1', 'fail', assert['frame-focusable-content']); }

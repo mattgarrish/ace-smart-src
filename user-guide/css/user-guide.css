@@ -75,3 +75,23 @@ figcaption {
 nav[role="doc-toc"] > ol {
 	list-style-type: decimal !important;
 }
+
+/* menubar */
+
+nav.menubar {
+	margin: 0 0 0 -1rem;
+	padding: 0.5rem 0.5rem 0.5rem 2rem;
+	border-bottom: 0.1rem solid lightgrey;
+	background-color: rgb(27,95,161);
+}
+
+nav.menubar > a {
+	font-size: 90%;
+	padding-right: 2rem;
+	color: rgb(255,255,255);
+}
+
+nav.menubar > a:not([href]) {
+	color: rgb(60, 60, 60);
+	text-decoration: none;
+}

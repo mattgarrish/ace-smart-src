@@ -76,29 +76,6 @@ div.col-sm-12 {
 	margin-top: 2rem;
 }
 
-
-/* menubar */
-
-nav.menubar,
-div.menubar {
-	margin: 0 -15px 0 -15px;
-	padding: 0.5rem 0.5rem 0.5rem 4.8rem;
-	border-bottom: 0.1rem solid rgb(0, 0, 0);
-	background-color: rgb(27,95,161);
-	line-height: 0.7rem;
-}
-
-div.menubar {
-	height: 0;
-}
-
-nav.menubar > a {
-	font-size: 90%;
-	padding-right: 2rem;
-	color: rgb(255,255,255);
-}
-
-
 h2.form-signin-heading {
 	font-size: 1.5rem;
 }
@@ -116,6 +93,22 @@ input.gca-radio {
 	margin-left: 1rem;
 }
 
+footer {
+	text-align: center;
+}
+
+/* menubar */
+
+div.menubar {
+	padding-top: 0.2rem;
+	border-bottom: 0.1rem solid lightgrey;
+	background-color: rgb(27,95,161);
+}
+
+div.container-fluid {
+	padding-left: 0;
+	padding-right: 0;
+}
 
 /* config dialog */
 

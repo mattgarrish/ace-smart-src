@@ -143,11 +143,7 @@ if (!$res['success']) {
     $token = Token::generate();
     ?>
     
-	<nav class="menubar">
-		<a href="/user-guide/" target="_blank">User Guide</a> 
-		<a href="/faq.html" target="_blank">FAQ</a>
-		<a href="/new.html" target="_blank">What's New</a>
-	</nav>
+	<div class="menubar"></div>
 	
     <?php if (Input::get('auto')) { ?>
     <div id="page-wrapper" style="min-height: 30rem;">

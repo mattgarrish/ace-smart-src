@@ -24,17 +24,93 @@ var smartDistribution = (function() {
 		
 		var is_valid = true;
 		
+		var lia = document.getElementById('onix01').checked;
+		var epub10_a = document.getElementById('onix02').checked;
+		var epub10_aa = document.getElementById('onix03').checked;
+		var epub11 = document.getElementById('onix04').checked;
+		var unknown = document.getElementById('onix08').checked;
+		var inaccess = document.getElementById('onix09').checked;
+		var micro = document.getElementById('onix75').checked;
+		var burden = document.getElementById('onix76').checked;
+		var mod = document.getElementById('onix77').checked;
+		var wcag20 = document.getElementById('onix80').checked;
+		var wcag21 = document.getElementById('onix81').checked;
+		var wcag22 = document.getElementById('onix82').checked;
+		var levela = document.getElementById('onix84').checked;
+		var levelaa = document.getElementById('onix85').checked;
+		var levelaaa = document.getElementById('onix86').checked;
+		
 		/* check that the publication is not marked as conforming to the epub spec and also inaccessible */
-		if ((document.getElementById('onix01').checked || document.getElementById('onix02').checked || document.getElementById('onix03').checked) && document.getElementById('onix09').checked) {
+		if ((lia || epub10_a || epub10_aa || epub11) && unknown) {
+			smartError.logError({tab_id: 'distribution', element_id: 'onix08', severity: 'err', message: smart_errors.validation.distribution.a11yConflict[smart_lang]});
+			smartFormat.setFieldToError({id: 'onix08', is_warning: false, highlight_parent: true});
+			is_valid = false;
+		} 
+		if ((lia || epub10_a || epub10_aa || epub11) && inaccess) {
 			smartError.logError({tab_id: 'distribution', element_id: 'onix09', severity: 'err', message: smart_errors.validation.distribution.a11yConflict[smart_lang]});
 			smartFormat.setFieldToError({id: 'onix09', is_warning: false, highlight_parent: true});
 			is_valid = false;
 		} 
 		
-		/* check that the publication is not marked as conforming to multiple levels of wcag */
-		if (document.getElementById('onix02').checked && document.getElementById('onix03').checked) {
+		/* check that the publication is not marked as conforming to multiple epub 1.0 spec versions */
+		if (epub10_a && epub10_aa) {
 			smartError.logError({tab_id: 'distribution', element_id: 'onix02', severity: 'err', message: smart_errors.validation.distribution.a11yDuplication[smart_lang]});
 			smartFormat.setFieldToError({id: 'onix02', is_warning: false, highlight_parent: true});
+			is_valid = false;
+		}
+		
+		/* check that the wcag version is set when specifying a11y 1.1 conformance */
+		if (epub11 && !(wcag20 || wcag21 || wcag22)) {
+			smartError.logError({tab_id: 'distribution', element_id: 'onix04', severity: 'err', message: smart_errors.validation.distribution.a11yNoWCAG[smart_lang]});
+			smartFormat.setFieldToError({id: 'onix04', is_warning: false, highlight_parent: true});
+			is_valid = false;
+		}
+		
+		/* check that multiple wcag versions are not specified */
+		if (wcag20 && (wcag21 || wcag22)) {
+			smartError.logError({tab_id: 'distribution', element_id: 'onix80', severity: 'err', message: smart_errors.validation.distribution.a11yMultipleWCAG[smart_lang]});
+			smartFormat.setFieldToError({id: 'onix80', is_warning: false, highlight_parent: true});
+			is_valid = false;
+		}
+		if (wcag21 && wcag22) {
+			smartError.logError({tab_id: 'distribution', element_id: 'onix81', severity: 'err', message: smart_errors.validation.distribution.a11yMultipleWCAG[smart_lang]});
+			smartFormat.setFieldToError({id: 'onix81', is_warning: false, highlight_parent: true});
+			is_valid = false;
+		}
+		
+		/* check that the wcag level is set when specifying a11y 1.1 conformance */
+		if (epub11 && !(levela || levelaa || levelaaa)) {
+			smartError.logError({tab_id: 'distribution', element_id: 'onix04', severity: 'err', message: smart_errors.validation.distribution.a11yNoLevel[smart_lang]});
+			smartFormat.setFieldToError({id: 'onix04', is_warning: false, highlight_parent: true});
+			is_valid = false;
+		}
+		
+		/* check that multiple wcag levels are not specified */
+		if (levela && (levelaa || levelaaa)) {
+			smartError.logError({tab_id: 'distribution', element_id: 'onix83', severity: 'err', message: smart_errors.validation.distribution.a11yMultipleLevel[smart_lang]});
+			smartFormat.setFieldToError({id: 'onix83', is_warning: false, highlight_parent: true});
+			is_valid = false;
+		}
+		if (levelaa && levelaaa) {
+			smartError.logError({tab_id: 'distribution', element_id: 'onix84', severity: 'err', message: smart_errors.validation.distribution.a11yMultipleLevel[smart_lang]});
+			smartFormat.setFieldToError({id: 'onix84', is_warning: false, highlight_parent: true});
+			is_valid = false;
+		}
+		
+		/* check that exemptions are not selected with conformance */
+		if ((lia || epub10_a || epub10_aa || epub11) && (micro)) {
+			smartError.logError({tab_id: 'distribution', element_id: 'onix75', severity: 'warn', message: smart_errors.validation.distribution.eaaConflict[smart_lang]});
+			smartFormat.setFieldToError({id: 'onix75', is_warning: true, highlight_parent: true});
+			is_valid = false;
+		} 
+		if ((lia || epub10_a || epub10_aa || epub11) && (burden)) {
+			smartError.logError({tab_id: 'distribution', element_id: 'onix76', severity: 'warn', message: smart_errors.validation.distribution.eaaConflict[smart_lang]});
+			smartFormat.setFieldToError({id: 'onix76', is_warning: true, highlight_parent: true});
+			is_valid = false;
+		} 
+		if ((lia || epub10_a || epub10_aa || epub11) && (mod)) {
+			smartError.logError({tab_id: 'distribution', element_id: 'onix77', severity: 'warn', message: smart_errors.validation.distribution.eaaConflict[smart_lang]});
+			smartFormat.setFieldToError({id: 'onix77', is_warning: true, highlight_parent: true});
 			is_valid = false;
 		} 
 		
@@ -146,7 +222,7 @@ var smartDistribution = (function() {
 		}
 		
 		/* add any checked fields */
-		for (var i = 1; i < 30; i++) {
+		for (var i = 1; i < 93; i++) {
 			var onix_id = (i < 10 ? '0'+String(i) : i);
 			var checkbox = document.getElementById('onix'+onix_id);
 			

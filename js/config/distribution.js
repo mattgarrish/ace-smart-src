@@ -16,31 +16,43 @@ var onix_meta = {
 				{
 					"id": "01",
 					"name": {
-						"en": "LIA Compliance"
+						"en": "LIA Compliance Scheme"
 					}
 				},
 				{
 					"id": "02",
 					"name": {
-						"en": "Accessibility Specification 1.0 A"
+						"en": "EPUB Accessibility Specification 1.0 A"
 					}
 				},
 				{
 					"id": "03",
 					"name": {
-						"en": "Accessibility Specification 1.0 AA"
+						"en": "EPUB Accessibility Specification 1.0 AA"
+					}
+				},
+				{
+					"id": "04",
+					"name": {
+						"en": "EPUB Accessibility Specification 1.1"
+					}
+				},
+				{
+					"id": "08",
+					"name": {
+						"en": "Unknown accessibility"
 					}
 				},
 				{
 					"id": "09",
 					"name": {
-						"en": "Inaccessible"
+						"en": "Inaccessible, or known limited accessibility"
 					}
 				},
 				{
 					"id": "10",
 					"name": {
-						"en": "No reading system accessibility options disabled (except)"
+						"en": "No reading system accessibility options actively disabled (except)"
 					}
 				},
 				{
@@ -58,19 +70,19 @@ var onix_meta = {
 				{
 					"id": "13",
 					"name": {
-						"en": "Reading order"
+						"en": "Single logical reading order"
 					}
 				},
 				{
 					"id": "14",
 					"name": {
-						"en": "Short alternative descriptions"
+						"en": "Short alternative textual descriptions"
 					}
 				},
 				{
 					"id": "15",
 					"name": {
-						"en": "Full alternative descriptions"
+						"en": "Full alternative textual descriptions"
 					}
 				},
 				{
@@ -82,13 +94,13 @@ var onix_meta = {
 				{
 					"id": "17",
 					"name": {
-						"en": "Accessible math content"
+						"en": "Accessible math content as MathML"
 					}
 				},
 				{
 					"id": "18",
 					"name": {
-						"en": "Accessible chem content"
+						"en": "Accessible chemistry content as ChemML"
 					}
 				},
 				{
@@ -124,19 +136,19 @@ var onix_meta = {
 				{
 					"id": "25",
 					"name": {
-						"en": "Use of color"
+						"en": "Use of color is not sole means of conveying information"
 					}
 				},
 				{
 					"id": "26",
 					"name": {
-						"en": "Use of contrast"
+						"en": "Use of high contrast between text and background color"
 					}
 				},
 				{
 					"id": "27",
 					"name": {
-						"en": "Use of audio"
+						"en": "Use of high contrast between foreground and background audio"
 					}
 				},
 				{
@@ -148,7 +160,127 @@ var onix_meta = {
 				{
 					"id": "29",
 					"name": {
-						"en": "Next / Previous navigation"
+						"en": "Next / Previous structural navigation"
+					}
+				},
+				{
+					"id": "30",
+					"name": {
+						"en": "ARIA roles provided"
+					}
+				},
+				{
+					"id": "31",
+					"name": {
+						"en": "Accessible controls provided"
+					}
+				},
+				{
+					"id": "32",
+					"name": {
+						"en": "Landmark navigation"
+					}
+				},
+				{
+					"id": "34",
+					"name": {
+						"en": "Accessible chemistry content (as MathML)"
+					}
+				},
+				{
+					"id": "35",
+					"name": {
+						"en": "Accessible math content (as LaTeX)"
+					}
+				},
+				{
+					"id": "36",
+					"name": {
+						"en": "All textual content can be modified"
+					}
+				},
+				{
+					"id": "37",
+					"name": {
+						"en": "Use of ultra-high contrast between text foreground and background"
+					}
+				},
+				{
+					"id": "38",
+					"name": {
+						"en": "Unusual words or abbreviations explained"
+					}
+				},
+				{
+					"id": "39",
+					"name": {
+						"en": "Supplementary material to an audiobook is accessible"
+					}
+				},
+				{
+					"id": "40",
+					"name": {
+						"en": "Link purposes clear"
+					}
+				},
+				{
+					"id": "52",
+					"name": {
+						"en": "All non-decorative content supports reading without sight"
+					}
+				},
+				{
+					"id": "75",
+					"name": {
+						"en": "EEA Exception1 – Micro-enterprises"
+					}
+				},
+				{
+					"id": "76",
+					"name": {
+						"en": "EAA exception 2 – Disproportionate burden"
+					}
+				},
+				{
+					"id": "77",
+					"name": {
+						"en": "EAA exception 3 – Fundamental modification"
+					}
+				},
+				{
+					"id": "80",
+					"name": {
+						"en": "WCAG v2.0"
+					}
+				},
+				{
+					"id": "81",
+					"name": {
+						"en": "WCAG v2.1"
+					}
+				},
+				{
+					"id": "82",
+					"name": {
+						"en": "WCAG v2.2"
+					}
+				},
+				{
+					"id": "84",
+					"name": {
+						"en": "WCAG level A"
+					}
+				},
+				{
+					"id": "85",
+					"name": {
+						"en": "WCAG level AA"
+					}
+				},
+				{
+					"id": "86",
+					"name": {
+						"en": "WCAG level AAA"
 					}
 				}
 			]

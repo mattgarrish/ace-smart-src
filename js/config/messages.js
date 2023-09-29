@@ -542,10 +542,25 @@ var smart_errors = {
 		},
 		"distribution": {
 			"a11yConflict": {
-				"en": "Publication cannot be marked both as conforming to accessibility standard(s) and as inaccessible."
+				"en": "Publication cannot be marked both as conforming to accessibility standard(s) (values 01, 02, 03, or 04) and as inaccessible (09) or having an unknown accessibility status (08)."
 			},
 			"a11yDuplication": {
-				"en": "Publication cannot be marked both as conforming to both Level A and AA of the EPUB Accessibility specification."
+				"en": "Publication cannot be marked both as conforming to both Level A and AA of the EPUB Accessibility 1.0 specification."
+			},
+			"a11yMultipleLevel": {
+				"en": "Multiple WCAG conformance levels specified."
+			},
+			"a11yMultipleWCAG": {
+				"en": "Multiple WCAG conformance versions specified."
+			},
+			"a11yNoLevel": {
+				"en": "When claiming conformance to EPUB Accessibility 1.1, the WCAG level must also be specified (code 84, 85, or 86)."
+			},
+			"a11yNoWCAG": {
+				"en": "When claiming conformance to EPUB Accessibility 1.1, the version of WCAG must also be specified (code 80, 81, or 82)."
+			},
+			"eaaConflict": {
+				"en": "Exemption to the European Accessibility Act should not be specified when also making an accessibility conformance claim."
 			},
 			"nonURL": {
 				"en": "ONIX Field %%val%% must be a URL that starts with http:// or https://"
