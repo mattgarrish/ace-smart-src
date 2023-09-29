@@ -95,11 +95,7 @@
 			
 			<h1><img src="images/daisy_logo.png" class="logo" alt="DAISY"/> <span property="dcterms:title">Ace <span class="smart_hd">SMART</span></span></h1>
 			
-			<nav class="menubar">
-				<a href="user-guide/" target="_blank">User Guide</a> 
-				<a href="faq.html" target="_blank">FAQ</a>
-				<a href="new.html" target="_blank">What's New</a>
-			</nav>
+			<div class="menubar"></div>
 		</header>
 		
 		<main class="start">
@@ -140,8 +136,13 @@
 		</div>
 		
 		<footer>
+			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | 
+				<a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a> | 
+				<a target="_blank" href="attribution.html">Attribution</a> | 
+				<a href="user-guide/" target="_blank">User Guide</a> | 
+				<a href="faq.html" target="_blank">FAQ</a> | 
+				<a href="new.html" target="_blank">What's New</a></p>
 			<p>Copyright &#169; <span property="dcterms:dateCopyrighted">2022</span> <a target="_blank" href="http://daisy.org"><span property="dcterms:publisher">DAISY</span> Consortium</a>. All Rights Reserved.</p>
-			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | <a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a> | <a target="_blank" href="attribution.html">Attribution</a></p>
 		</footer>
 	</body>
 </html>

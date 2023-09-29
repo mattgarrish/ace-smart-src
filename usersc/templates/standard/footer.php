@@ -22,6 +22,11 @@ $hamburger.on("click", function(e) {
 </script>
 
 <footer>
-<p align="center">&copy; <?php echo date('Y'); ?> <?=$settings->copyright; ?></p>
+<p>
+	<a href="/user-guide/" target="_blank">User Guide</a> | 
+	<a href="/faq.html" target="_blank">FAQ</a> | 
+	<a href="/new.html" target="_blank">What's New</a>
+</p>
+<p>&copy; <?php echo date('Y'); ?> <?=$settings->copyright; ?></p>
 </footer>
 <?php require_once $abs_us_root.$us_url_root.'users/includes/html_footer.php'; ?>

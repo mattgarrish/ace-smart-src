@@ -47,8 +47,15 @@ DT.prototype.makeDynamic = function(tblID) {
                 "sSearch": this.srchLabel,
                 "sSearchPlaceholder": this.srchPlaceholder,
 				"sEmptyTable": smart_ui.historyTable.emptyTable[smart_lang]
-            }
-        });
+            },
+			responsive: {
+				details: {
+					display: DataTable.Responsive.display.childRowImmediate,
+					target: '',
+					type: 'none'
+				}
+			}
+    });
 }
 
 DT.prototype.changeSort = function(tblID) {

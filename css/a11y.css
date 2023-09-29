@@ -136,7 +136,7 @@ body.faq main {
 }
 
 main.start {
-	height: 73.5vh;
+	height: 77vh;
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
@@ -228,27 +228,10 @@ a:not([href]) {
 
 /* menubar */
 
-nav.menubar,
 div.menubar {
-	margin: 0 0 0 -1rem;
-	padding: 0.5rem 0.5rem 0.5rem 2rem;
+	padding-top: 0.2rem;
 	border-bottom: 0.1rem solid rgb(0, 0, 0);
 	background-color: rgb(27,95,161);
-}
-
-div.menubar {
-	height: 0;
-}
-
-nav.menubar > a {
-	font-size: 90%;
-	padding-right: 2rem;
-	color: rgb(255,255,255);
-}
-
-nav.menubar > a:not([href]) {
-	color: rgb(60, 60, 60);
-	text-decoration: none;
 }
 
 nav.appmenu {
