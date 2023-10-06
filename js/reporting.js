@@ -566,7 +566,6 @@ var smartReport = (function() {
 		
 		var criteria = document.querySelectorAll('.a, .aa, .aaa, .epub');
 		
-		
 		// have to display SC the user has set the option to hide before generating otherwise they won't appear in the report
 		var is_hidden = [];
 		var hidden_types = document.querySelectorAll('fieldset#hide-status input:checked');
@@ -663,7 +662,7 @@ var smartReport = (function() {
 				resultColStatusLabel.appendChild(document.createTextNode(smart_ui.reporting.table.results.obsolete[smart_lang]));
 				resultColStatus.appendChild(resultColStatusLabel);
 				if (log) {
-					result.count.oboslete += 1;
+					result.count.obsolete += 1;
 				}
 			}
 			
