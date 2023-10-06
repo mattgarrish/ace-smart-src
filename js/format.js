@@ -41,6 +41,7 @@ var smartFormat = (function() {
 		"ERR": 'err',
 		"FAIL": 'err',
 		"NA": 'na',
+		"OBSOLETE": 'obsolete',
 		"PASS": 'pass',
 		"WARN": 'warn'
 	};

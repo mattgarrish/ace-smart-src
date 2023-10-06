@@ -510,21 +510,19 @@ var smartManage = (function() {
 			
 			smartConformance.setEPUBA11yVersion(a11y_version);
 			
-			// set the version of wcag being tested
+			// set the version and level of wcag being tested
+			
+			document.getElementById('wcag-level').value = evaluationJSON.configuration.wcag.level;
+			
+			smartWCAG.setWCAGLevel(evaluationJSON.configuration.wcag.level);
 			
 			var wcag_version = evaluationJSON.configuration.wcag.version;
 			
-			if (!wcag_version) { wcag_version = '2.0'; }
+			if (!wcag_version) { wcag_version = '2.1'; }
 			
 			document.getElementById('wcag-version').value = wcag_version;
 			
 			smartConformance.setWCAGVersion(wcag_version, false);
-			
-			// set the wcag level being tested
-			
-			document.getElementById('wcag-level').value = evaluationJSON.configuration.wcag.level;
-			
-			smartConformance.setWCAGConformanceLevel(evaluationJSON.configuration.wcag.level);
 			
 			if ((evaluationJSON.configuration.wcag.show_aa && evaluationJSON.configuration.wcag.show_aa == 'true') && evaluationJSON.configuration.wcag.level != 'aa') {
 				document.getElementById('show-aa').click();

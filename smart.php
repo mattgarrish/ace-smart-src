@@ -210,16 +210,16 @@ JS;
 						<fieldset class="flat row">
 							<legend id="espec-lbl">EPUB Accessibility:</legend>
 							<select id="epub-a11y" aria-labelledby="espec-lbl">
-								<option selected="">1.0</option>
-								<option>1.1</option>
+								<option>1.0</option>
+								<option selected="">1.1</option>
 							</select>
 						</fieldset>
 						
 						<fieldset class="flat row">
 							<legend id="wspec-lbl">WCAG:</legend>
-							<select id="wcag-version" aria-labelledby="wspec-lbl" disabled="">
-								<option selected="">2.0</option>
-								<option>2.1</option>
+							<select id="wcag-version" aria-labelledby="wspec-lbl">
+								<option>2.0</option>
+								<option selected="">2.1</option>
 								<option>2.2</option>
 							</select>
 						</fieldset>
@@ -330,13 +330,12 @@ JS;
 					
 					<aside id="stats">
 						<h4>Stats</h4>
-						
 						<ul>
 							<li><span class="statLabel">Pass:</span> <span id="passCount" class="statCount"></span></li>
 							<li><span class="statLabel">Fail:</span> <span id="failCount" class="statCount"></span></li>
 							<li><span class="statLabel">N/A:</span> <span id="naCount" class="statCount"></span></li>
 							<li><span class="statLabel">Unverified:</span> <span id="unverifiedCount" class="statCount"></span></li>
-							<!-- <li><span class="statLabel">Total:</span> <span id="totalCount" class="statCount"></span></li> -->
+							<li><span class="statLabel">Obsolete:</span> <span id="obsCount" class="statCount"></span></li>
 						</ul>
 					</aside>
 					

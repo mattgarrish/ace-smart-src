@@ -24,7 +24,7 @@
  */
 
 var smartWCAG = (function() {
-	var _version = '2.0';
+	var _version = '2.1';
 	var _level = 'aa';
 	var _classList = '|a|aa|';
 	
