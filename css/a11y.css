@@ -1021,7 +1021,7 @@ label.pad-left{
 	border: 0.2rem solid rgb(255, 100, 100) !important;
 }
 
-.na{
+.na, .obsolete {
 	border: 0.2rem solid rgb(200, 200, 200) !important;
 	background-color: rgb(250, 250, 250) !important;
 }
@@ -1045,7 +1045,8 @@ label.pad-left{
 
 .pass .sc-body,
 .err .sc-body,
-.unverified .sc-body {
+.unverified .sc-body,
+.obsolete .sc-body {
 	display: block;
 }
 

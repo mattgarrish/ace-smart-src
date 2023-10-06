@@ -60,10 +60,7 @@
 		/* configure and populate the evaluation */
 		evaluationSetup();
 		
-		/* pass and disable SC 4.1.1 */
-		
-		document.getElementById('sc-4.1.1-pass').click();
-		
+		/* disable SC 4.1.1 */
 		var sc411_inputs = document.querySelectorAll('fieldset#sc-4\\.1\\.1-legend input');
 		for (var i = 0; i < sc411_inputs.length; i++) {
 			sc411_inputs[i].disabled = true;

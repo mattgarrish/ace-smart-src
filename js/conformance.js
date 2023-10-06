@@ -94,7 +94,7 @@ var smartConformance = (function() {
 			
 			_SC_MAP.readorder = ['1.3.2', '2.4.5'];
 			
-			_SC_MAP.struct = ['1.3.1', '1.3.2', '4.1.1'];
+			_SC_MAP.struct = ['1.3.1', '1.3.2'];
 			
 			_SC_MAP.text = ['1.4.1', '1.4.3', '1.4.4', '1.4.5', '1.4.6', '1.4.8', '1.4.10', '1.4.12',
 							'3.1.1', '3.1.2', '3.1.3', '3.1.4', '3.1.5', '3.1.6'];
@@ -135,6 +135,9 @@ var smartConformance = (function() {
 					'to' : 'Target Size (Enhanced)'
 				}
 			}
+		},
+		'sc-4.1.1': {
+			'obsolete' : 2.2
 		}
 	}
 	
@@ -166,9 +169,6 @@ var smartConformance = (function() {
 	/* changes the visible success criteria based on the user setting */
 	
 	function setWCAGVersion(version, displayAlert) {
-		if (version == 2.2 && displayAlert) {
-			alert('WCAG 2.2 is still under development. Conformance claims to this standard are not recommended.');
-		}
 		smartWCAG.setWCAGVersion(version);
 		adjustWCAGSC(version);
 		setWCAGConformanceLevel(smartWCAG.WCAGLevel());
@@ -184,8 +184,12 @@ var smartConformance = (function() {
 				changeSCLevel(key,version);
 			}
 			
-			else if (_WCAG_MAP[key].hasOwnProperty('name')) {
+			if (_WCAG_MAP[key].hasOwnProperty('name')) {
 				changeSCName(key,version);
+			}
+			
+			if (_WCAG_MAP[key].hasOwnProperty('obsolete')) {
+				changeObsoleteSC(key,version);
 			}
 		} 
 	}
@@ -244,6 +248,22 @@ var smartConformance = (function() {
 		var name_span = sc.querySelector('h3 > span.label');
 			name_span.innerHTML = sc_num + ' ' + name;
 	
+	}
+	
+	/* changes an SC status to/from obsolete */
+	
+	function changeObsoleteSC(key,version) {
+	
+		var isObs = version >= _WCAG_MAP[key].obsolete;
+		var status = isObs ? 'obsolete' : 'pass';
+		var scID = key + '-' + status;
+		
+		var sc = document.getElementById(scID);
+			sc.disabled = false;
+			sc.checked = true;
+			sc.disabled = true;
+		
+		setSuccessCriteriaStatus({name: key, value: status});
 	}
 	
 	/* changes the visible success criteria based on the user setting */
@@ -537,21 +557,23 @@ var smartConformance = (function() {
 		var sc_parent_section = document.getElementById(options.name); 
 		
 		/* reset the background */
-		sc_parent_section.classList.remove(smartFormat.BG.PASS,smartFormat.BG.FAIL,smartFormat.BG.NA);
+		sc_parent_section.classList.remove(smartFormat.BG.PASS,smartFormat.BG.FAIL,smartFormat.BG.NA,smartFormat.BG.OBSOLETE);
 		
 		/* set background to new status */
 		if (options.value != 'unverified') {
 			sc_parent_section.classList.add(smartFormat.BG[options.value.toUpperCase()]);
 		}
 		
-		/* show/hide the failure message field */
+		/* show/hide the failure message field - not present for obsolete SC */
 		var failure_message = document.getElementById(options.name + '-failnote');
 		
-		if (options.value == 'fail') {
-			failure_message.classList.add('visible');
-		}
-		else {
-			failure_message.classList.remove('visible');
+		if (failure_message) {
+			if (options.value == 'fail') {
+				failure_message.classList.add('visible');
+			}
+			else {
+				failure_message.classList.remove('visible');
+			}
 		}
 		
 		setEvaluationResult();
@@ -567,6 +589,7 @@ var smartConformance = (function() {
 		var fail = 0;
 		var na = 0;
 		var unverified = 0;
+		var obsolete = 0;
 		
 		for (var i = 0; i < sc.length; i++) {
 			switch (sc[i].value) {
@@ -585,6 +608,10 @@ var smartConformance = (function() {
 				case 'unverified':
 					unverified += 1;
 					break;
+				
+				case 'obsolete':
+					obsolete += 1;
+					break;
 			}
 		}
 		
@@ -592,7 +619,7 @@ var smartConformance = (function() {
 		document.getElementById('failCount').innerHTML = fail;
 		document.getElementById('naCount').innerHTML = na;
 		document.getElementById('unverifiedCount').innerHTML = unverified;
-		// document.getElementById('totalCount').innerHTML = sc.length;
+		document.getElementById('obsCount').innerHTML = obsolete;
 	}
 	
 	

@@ -533,7 +533,7 @@ var smartReport = (function() {
 		
 		result.content.appendChild(resultHD);
 		
-		result.count = { pass: 0, fail: 0, na: 0, unverified: 0 };
+		result.count = { pass: 0, fail: 0, na: 0, unverified: 0, obsolete: 0 };
 		
 		var showAA = document.getElementById('show-aa').checked;
 		var showAAA = document.getElementById('show-aaa').checked;
@@ -656,6 +656,14 @@ var smartReport = (function() {
 				resultColStatus.appendChild(resultColStatusLabel);
 				if (log) {
 					result.count.na += 1;
+				}
+			}
+			
+			else if (status == 'obsolete') {
+				resultColStatusLabel.appendChild(document.createTextNode(smart_ui.reporting.table.results.obsolete[smart_lang]));
+				resultColStatus.appendChild(resultColStatusLabel);
+				if (log) {
+					result.count.oboslete += 1;
 				}
 			}
 			
@@ -785,17 +793,19 @@ var smartReport = (function() {
 	/* get the count of pass/fail/na/unverified SCs */
 	
 	function createReportStats(count) {
-		var stats = '';
-		
+		var stats = count.pass + ' ' + smart_ui.conformance.result.pass[smart_lang];
+
 		if (count.fail) {
-			stats += count.fail + ' ' + smart_ui.conformance.result.fail[smart_lang] + ', ';
+			stats += ', ' + count.fail + ' ' + smart_ui.conformance.result.fail[smart_lang];
+		}
+		
+		if (count.obsolete) {
+			stats += ', ' + count.obsolete + ' ' + smart_ui.conformance.result.obsolete[smart_lang]; 
 		}
 		
 		if (count.unverified) {
-			stats += count.unverified + ' ' + smart_ui.conformance.result.unverified[smart_lang] + ', '; 
+			stats += ', ' + count.unverified + ' ' + smart_ui.conformance.result.unverified[smart_lang]; 
 		}
-		
-		stats += count.pass + ' ' + smart_ui.conformance.result.pass[smart_lang];
 		
 		if (count.na) {
 			stats += ', ' + count.na + ' ' + smart_ui.conformance.result.na[smart_lang];

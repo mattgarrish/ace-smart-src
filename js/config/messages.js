@@ -254,6 +254,9 @@ var smart_ui = {
 			},
 			"na": {
 				"en": "N/A"
+			},
+			"obsolete": {
+				"en": "Obsolete"
 			}
 		},
 		"level": {
@@ -340,6 +343,9 @@ var smart_ui = {
 				},
 				"unchecked": {
 					"en": "Not Checked"
+				},
+				"obsolete": {
+					"en": "Obsolete"
 				}
 			}
 		},

@@ -768,7 +768,8 @@
 				"level" => "a",
 		        "name" => [
 					"en" => "Parsing"
-				]
+				],
+				"obsolete" => true
 			],
 			
 			"sc-4.1.2" => [
@@ -854,6 +855,7 @@
 			<label><input id="%%id%%-pass" type="radio" name="%%id%%" value="pass" class="sc_status" aria-labelledby="%%id%%-legend"> Pass</label>
 			<label><input id="%%id%%-fail" type="radio" name="%%id%%" value="fail" class="sc_status" aria-labelledby="%%id%%-legend"> Fail</label>
 			<label><input id="%%id%%-na" type="radio" name="%%id%%" value="na" class="sc_status" aria-labelledby="%%id%%-legend"> N/A</label>
+			%%obsolete%%
 		</fieldset>
 		<div id="%%id%%-failnote" class="failure">
 			<p><label for="%%id%%-err">Describe failure(s):</label></p>
@@ -879,6 +881,14 @@ HTML;
 				$moreinfo_link = '';
 				$body = file_get_contents('sc/en/' . $id . '.html');
 				$reporting = str_replace('%%id%%', $id, $this->reporting);
+				
+				if ($info['obsolete']) {
+					$obs_value = '<label><input id="' . $id . '-obsolete" type="radio" name="' . $id . '" value="obsolete" class="sc_status" aria-labelledby="' . $id . '-legend"> Obsolete</label>';
+					$reporting = str_replace('%%obsolete%%', $obs_value, $reporting);
+				}
+				else {
+					$reporting = str_replace('%%obsolete%%', '', $reporting);
+				}
 				
 				if (strpos($id, 'epub-') !== false) {
 					$class = 'epub';
