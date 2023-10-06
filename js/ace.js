@@ -19,8 +19,8 @@
 var smartAce = (function() {
 
 	/* the default epub/wcag version + level to use for new evaluations */
-	var _EPUB_DEFAULT_VERSION = '1.0';
-	var _WCAG_DEFAULT_VERSION = '2.0';
+	var _EPUB_DEFAULT_VERSION = '1.1';
+	var _WCAG_DEFAULT_VERSION = '2.1';
 	var _WCAG_DEFAULT_LEVEL = 'aa';
 	
 	/* holds the ace report json */
