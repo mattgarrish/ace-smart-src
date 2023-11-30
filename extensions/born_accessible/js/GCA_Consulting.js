@@ -1,8 +1,8 @@
 var gca = {
-    "version": "1.26",
+    "version": "1.27",
     "dct:title": "GCA Consulting",
     "dct:description": "Tab in SMART tool for GCA Members to use for EPUB Accessibility Certification",
-    "dct:date": "07/01/2023, 09:00:00 AM",
+    "dct:date": "012/01/2023, 09:00:00 AM",
     "dct:publisher": "Benetech",
     "epubComplexity" : {
         "$complexityId": "complexity-levels-section",
@@ -80,7 +80,7 @@ var gca = {
                         "$itemId": "images-alt-text",
                         "itemName" : "Includes Alt Text",
                         "itemScores": {
-                            "N/A": "There were no images, or the surrounding text adequately described the images.  Note: If there is an extended description, 99% of the time there can be a very short summary in the alt text, unless it is what is in the Fig Caption.",
+                            "N/A": "There were no content images.  Note: Even when there is an extended description or the images has a Fig Caption a simple alt text description is required.",
                             "0": "There is no alt text present for any image, or has meaningless text such as \"image\"",
                             "1": "Alt text included for a small percentage of images",
                             "2": "Alt text present in the majority of images",
@@ -92,7 +92,7 @@ var gca = {
                         "$itemId": "images-extended-descriptions",
                         "itemName" : "Includes Extended Descriptions",
                         "itemScores": {
-                            "N/A": "There were no images, or the surrounding text adequately described the images.",
+                            "N/A": "There were no complex images requiring an extended description.",
                             "0": "Complex images would benefit from longer descriptions but there are none",
                             "1": "Long description included for a few select images, despite presence of many complex images",
                             "2": "Long description for the majority of images",
@@ -154,11 +154,30 @@ var gca = {
                         "$itemId": "images-alt-text-length",
                         "itemName" : "Image Alt Text Length",
                         "itemScores": {
-                            "N/A": "There were no images, or the surrounding text adequately described the images.",
+                            "N/A": "There were no content images.",
                             "0": "Most of the image alt text descriptions were too long. Ideally alt text image descriptions are under 200 characters in length.",
                             "2": "Some of the image alt text descriptions were too long. Ideally alt text image descriptions are under 200 characters in length.",
                             "4": "All Image alt text descriptions were of adequate length, i.e., short meaningful descriptions that does not repeat the surrounding text."
                         }
+                    },
+                    {
+                        "$itemId": "images-described-surrounding-text",
+                        "itemName" : "Alt Text for Images Described in the Surrounding Text",
+                        "itemScores": {
+                            "N/A": "There were no content images that were described in the surrounding text.",
+                            "0": "Missing simple alt text description for images described in the surrounding text, repeated the caption, or had alt='described in surrounding text'.",
+                            "4": "All content images that were described in the surrounding text had a short meaningful alt text description included."
+                        }    
+                    },
+                    {
+                        "$itemId": "images-logos-icons-photos",
+                        "itemName" : "Alt Text prefix for Logos, Icons, and Photos",
+                        "itemScores": {
+                            "N/A": "There were no logos, icons or photograph images.",
+                            "0": "Missing prefix alt text description for logo, icon, or photos.",
+                            "3": "Alt text description contained the information but not presented first.",
+                            "4": "All logos, icons, and photos, contained the correct prefix, ie. 'logo: Company's Name', 'icon: Warning', 'headshot: Person's Name'"
+                        }    
                     }
                 ] 
             },
@@ -823,6 +842,15 @@ var gca = {
                             "N/A": "No tables present",
                             "0": "cell spans more than one column or row are missing",
                             "4": "all cells are spanned correctly"
+                        }
+                    },
+                    {
+                        "$itemId": "tables-structure-empty-header-cells",
+                        "itemName" : "Empty Table Header Cells",
+                        "itemScores": {
+                            "N/A": "No tables present",
+                            "0": "Incorrect use of Empty Table Header Cells Present <th></th>",
+                            "4": "Preferred use of Empty Table Data <td></td> used for an emtpy header column or row."
                         }
                     }
                   ]
