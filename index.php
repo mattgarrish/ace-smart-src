@@ -96,6 +96,8 @@
 			<h1><img src="images/daisy_logo.png" class="logo" alt="DAISY"/> <span property="dcterms:title">Ace <span class="smart_hd">SMART</span></span></h1>
 			
 			<div class="menubar"></div>
+			
+			<!-- <?php include 'php/sponsor.php' ?> -->
 		</header>
 		
 		<main class="start">
@@ -136,7 +138,7 @@
 		</div>
 		
 		<footer>
-			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart/issues">Report a problem</a> | 
+			<p><a target="_blank" href="http://www.github.com/DAISY/ace-smart-src/issues">Report a problem</a> | 
 				<a target="_blank" href="http://www.daisy.org/terms-use">Terms of Use</a> | 
 				<a target="_blank" href="attribution.html">Attribution</a> | 
 				<a href="user-guide/" target="_blank">User Guide</a> | 
