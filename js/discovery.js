@@ -35,6 +35,9 @@ var smartDiscovery = (function() {
 		_PROP_ERROR.accessibilityHazard.flashing = smart_errors.validation.discovery.accessibilityHazard_flashing[smart_lang];
 		_PROP_ERROR.accessibilityHazard.motion = smart_errors.validation.discovery.accessibilityHazard_motion[smart_lang];
 		_PROP_ERROR.accessibilityHazard.sound = smart_errors.validation.discovery.accessibilityHazard_sound[smart_lang];
+		_PROP_ERROR.accessibilityHazard.flashing_neg = smart_errors.validation.discovery.accessibilityHazard_flashingneg[smart_lang];
+		_PROP_ERROR.accessibilityHazard.motion_neg = smart_errors.validation.discovery.accessibilityHazard_motionneg[smart_lang];
+		_PROP_ERROR.accessibilityHazard.sound_neg = smart_errors.validation.discovery.accessibilityHazard_soundneg[smart_lang];
 		_PROP_ERROR.accessibilityHazard.warn = false;
 		
 		_PROP_ERROR.accessMode.msg = smart_errors.validation.discovery.accessMode[smart_lang];
@@ -177,20 +180,38 @@ var smartDiscovery = (function() {
 			return false;
 		}
 		
-		else if (hazards.includes('flashing') && hazards.includes('noFlashingHazard')) {
+		else if (hazards.includes('flashing') && (hazards.includes('noFlashingHazard') || hazards.includes('unknownFlashingHazard'))) {
 			smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].flashing});
 			smartFormat.setFieldToError({id: id, is_warning: _PROP_ERROR[id], highlight_parent: false});
 			return false;
 		}
 		
-		else if (hazards.includes('motionSimulation') && hazards.includes('noMotionSimulationHazard')) {
+		else if (hazards.includes('motionSimulation') && (hazards.includes('noMotionSimulationHazard') || hazards.includes('unknownMotionSimulationHazard'))) {
 			smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].motion});
 			smartFormat.setFieldToError({id: id, is_warning: _PROP_ERROR[id], highlight_parent: false});
 			return false;
 		}
 		
-		else if (hazards.includes('sound') && hazards.includes('noSoundHazard')) {
+		else if (hazards.includes('sound') && (hazards.includes('noSoundHazard') || hazards.includes('unknownSoundHazard'))) {
 			smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].sound});
+			smartFormat.setFieldToError({id: id, is_warning: _PROP_ERROR[id], highlight_parent: false});
+			return false;
+		}
+		
+		else if (hazards.includes('noFlashingHazard') && hazards.includes('unknownFlashingHazard')) {
+			smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].flashing_neg});
+			smartFormat.setFieldToError({id: id, is_warning: _PROP_ERROR[id], highlight_parent: false});
+			return false;
+		}
+		
+		else if (hazards.includes('noMotionSimulationHazard') && hazards.includes('unknownMotionSimulationHazard')) {
+			smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].motion_neg});
+			smartFormat.setFieldToError({id: id, is_warning: _PROP_ERROR[id], highlight_parent: false});
+			return false;
+		}
+		
+		else if (hazards.includes('noSoundHazard') && hazards.includes('unknownSoundHazard')) {
+			smartError.logError({tab_id: 'discovery', element_id: id, severity: 'err', message: _PROP_ERROR[id].sound_neg});
 			smartFormat.setFieldToError({id: id, is_warning: _PROP_ERROR[id], highlight_parent: false});
 			return false;
 		}

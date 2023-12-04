@@ -232,9 +232,45 @@ var a11y_meta = {
 					}
 				},
 				{
+					"id": "noFlashingHazard",
+					"label": {
+						"en": "no flashing risk"
+					}
+				},
+				{
+					"id": "unknownFlashingHazard",
+					"label": {
+						"en": "flashing risk unknown"
+					}
+				},
+				{
+					"id": "none",
+					"label": {
+						"en": "no hazards"
+					}
+				},
+				{
 					"id": "motionSimulation",
 					"label": {
 						"en": "motion simulation"
+					}
+				},
+				{
+					"id": "noMotionSimulationHazard",
+					"label": {
+						"en": "no motion risk"
+					}
+				},
+				{
+					"id": "unknownMotionSimulationHazard",
+					"label": {
+						"en": "motion risk unknown"
+					}
+				},
+				{
+					"id": "unknown",
+					"label": {
+						"en": "hazards not known"
 					}
 				},
 				{
@@ -244,33 +280,15 @@ var a11y_meta = {
 					}
 				},
 				{
-					"id": "noFlashingHazard",
-					"label": {
-						"en": "no flashing hazard"
-					}
-				},
-				{
-					"id": "noMotionSimulationHazard",
-					"label": {
-						"en": "no motion hazard"
-					}
-				},
-				{
 					"id": "noSoundHazard",
 					"label": {
-						"en": "no sound hazard"
+						"en": "no sound risk"
 					}
 				},
 				{
-					"id": "none",
+					"id": "unknownSoundHazard",
 					"label": {
-						"en": "none"
-					}
-				},
-				{
-					"id": "unknown",
-					"label": {
-						"en": "unknown"
+						"en": "sound risk unknown"
 					}
 				}
 			],
@@ -293,7 +311,7 @@ var a11y_meta = {
 					}
 				},
 				{
-					"id": "auditory",
+					"id": "tactile",
 					"label": {
 						"en": "tactile"
 					}

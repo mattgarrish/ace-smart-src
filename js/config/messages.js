@@ -522,13 +522,22 @@ var smart_errors = {
 				"en": "The 'none' and 'unknown' values cannot be used together or when other hazards are selected."
 			},
 			"accessibilityHazard_flashing": {
-				"en": "The 'flashing' and 'no flashing hazard' values cannot both be selected."
+				"en": "The 'flashing' hazard cannot be set when 'no flashing risk' or 'unknown flashing risk' is selected."
 			},
 			"accessibilityHazard_motion": {
-				"en": "The 'motion simulation' and 'no motion simulation hazard' values cannot both be selected."
+				"en": "The 'motion simulation' hazard cannot be set when 'no motion risk' or 'unknown motion risk' is selected."
 			},
 			"accessibilityHazard_sound": {
-				"en": "The 'sound' and 'no sound hazard' values cannot both be selected."
+				"en": "The 'sound' hazard cannot be set when 'no sound risk' or 'unknown sound risk' is selected."
+			},
+			"accessibilityHazard_flashingneg": {
+				"en": "The 'no flashing risk' value cannot be set when 'flashing risk unknown' is selected."
+			},
+			"accessibilityHazard_motionneg": {
+				"en": "The 'no motion risk' value cannot be set when 'motion risk unknown' is selected."
+			},
+			"accessibilityHazard_soundneg": {
+				"en": "The 'no sound risk' value cannot be set when 'sound risk unknown' is selected."
 			},
 			"accessMode": {
 				"en": "At least one access mode must be selected."
